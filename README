@@ -1,0 +1,19 @@
+OPTIMISATION MORE INFO:
+
+The current optimisation is greedy and therefore not exactly stellar.
+For example, this optimises well:
+           4 -> 2
+___          ->  ___ ___ ___
+        ___  ->      _______
+    _______  ->
+    ___      ->
+
+
+But a slightly different map doesn't (a human can easily reduce this to 2):
+           4 -> 3
+___          ->  ___     ___
+        ___  ->      _______
+    _______  ->    _____
+  _____      ->  
+
+Sorting by start date (see config options) might help a bit.

@@ -1,0 +1,19 @@
+TODO: stuff
+
+connectors different start/end time? -> painful but useful for parseDir symlinks
+
+external (translatable) strings for errors and messages ?
+GRAMPS file format parser
+GEDCOM file format parser
+CSV generator (generateCSV)
+
+implement only-lower-subtree mode
+          and both-subtree optimise at creation time
+
+parseDIR (depth based and then time pased)
+
+add ability to override options in CSV? (with X flag) -> easy to implement
+
+base GUI on csveditor (java)?
+
+scrap GCT

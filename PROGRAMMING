@@ -1,0 +1,96 @@
+Bug reports and patches are always welcome!
+What's even more welcome are new parsers and generators!
+
+Here's a little documentation if you wish to hack gnuclad.
+
+You have these utility functions...
+
+.. TODO.. paste all functions from gnuclad.h
+
+
+
+
+Things to do when adding a parser/generator:
+    gnuclad.cpp:
+        include header file
+        update inFormats/outFormats
+        add choser
+
+
+
+If you want to write a parser/generator, I recommend first looking thoroughly
+at the existing code.
+
+
+
+HOW TO WRITE A PARSER:
+
+Your parser is called only by this function:
+  parser->parseData(Cladogram * clad, std::ifstream * fp)
+
+The file pointer is a correctly opened file with the desired file name
+extension, though you have to check whether the file structure/format is valid
+yourself. The file pointer starts at the file's second line, since the first is
+used as the gnuclad "file header". The cladogram pointer is an empty Cladogram
+object that you have to fill.
+The parser essentially defines the input file format.
+You should try to fill as much of the cladogram as possible in order to increase
+the information pool for the output generator. Note that not all generators will
+make use of every piece of data, and additionally it all depends on the options
+the user has set, but the more info to start with the better.
+If you cannot fill a field, leave it empty and the generators will ignore it.
+All measures (height, thickness, ...) are "generic units".
+
+Let's break down the functions available for accomplishing this task,
+starting with the relevant properties of a single Node:
+
+  std::string name
+  std::string parentName
+  Date start
+  Date stop
+  Color color
+  Icon icon
+
+With the following classes used:
+
+  Date::Date(int year, int month)
+  Color::Color(int red, int green, int blue)
+  Icon::Icon(std::string filename)
+
+These are the two functions you will use the most:
+
+  Node * addNode(std::string tname);
+  Node * addNode(std::string tname, Color tcolor, Date tstart, Date tstop, std::string parentName);
+
+For example this:
+
+  Node * node = clad->addNode("Debian");
+  node->parentName = "";
+  node->start =  Date(1993,8);
+  node->stop = Date(0,0);
+  node->color = Color(191,18,56);
+
+Is equivalent to this:
+
+  Node * node = clad->addNode("Debian", Color(191,18,56), Date(1993,8), Date(0,0), "");
+
+The color can be specified either with red/green/blue values or a hex string:
+
+  Node * node = clad->addNode("Debian", Color("BF1238"), Date(1993,8), Date(0,0), "");
+
+And Date(0,0) will be replaced by the date gnuclad is run at (or a user option).
+
+
+
+
+  addNameChange(std::string name, Date when);
+
+
+
+
+
+
+
+HOW TO WRITE A GENERATOR:
+
+
