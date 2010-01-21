@@ -203,8 +203,8 @@ void GeneratorSVG::writeData(Cladogram * clad, ofstream * fp) {
   // Labels
   *fp << "\n<g inkscape:label='Labels' inkscape:groupmode='layer' id='layer_labels'\n"
       << " style='font-size:" << clad->labelFontSize << "px;stroke:none;fill:#" << clad->labelFontColor.hex << ";font-family:" << clad->labelFont << ";-inkscape-font-specification:" << clad->labelFont << ";' >\n";
-  int dirty_hack_em = clad->labelFontSize / 2;
-  int dirty_hack_ex = clad->labelFontSize / 1.675;
+  int dirty_hack_em = int(clad->labelFontSize / 2);
+  int dirty_hack_ex = int(clad->labelFontSize / 1.675);
   for(int i = 0; i < (int)clad->nodes.size(); ++i) {
     n = clad->nodes.at(i);
     string href = "", hrefend = "";
@@ -232,7 +232,7 @@ void GeneratorSVG::writeData(Cladogram * clad, ofstream * fp) {
   *fp << "\n<g inkscape:label='Yearlines' inkscape:groupmode='layer' id='layer_yearlines'\n"
       << " style='stroke:none;fill:url(#__yearline);' >\n";
   yrlinePX -= 3 * oPX / 2;  // remove small margin
-  dirty_hack_ex = clad->yearLineFontSize / 1.675;  // CSS ex unit Inkscape is supposed to support but doesn't
+  dirty_hack_ex = int(clad->yearLineFontSize / 1.675);  // CSS ex unit Inkscape is supposed to support but doesn't
   if(yrlinePX > 0) {
 
     *fp << "  <rect x='0' y='0' rx='5' ry='5' width='" << width << "' height='" << yrlinePX << "' />\n"
@@ -247,8 +247,8 @@ void GeneratorSVG::writeData(Cladogram * clad, ofstream * fp) {
   *fp << "</g>\n";
 
   // The infobox
-  dirty_hack_ex = clad->infoBoxTitleSize / 1.675;
-  int dirty_hack_ex2 = clad->infoBoxTextSize / 1.675;
+  dirty_hack_ex = int(clad->infoBoxTitleSize / 1.675);
+  int dirty_hack_ex2 = int(clad->infoBoxTextSize / 1.675);
   vector<string> textv;
   explode(clad->infoBoxText, '|', &textv);
   *fp << "\n<g inkscape:label='Infobox' inkscape:groupmode='layer' id='layer_infobox'\n"

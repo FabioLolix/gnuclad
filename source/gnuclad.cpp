@@ -94,7 +94,8 @@ int main(int argc, char ** argv) {
   }
 
   // Declare resources
-  Cladogram * clad = new Cladogram();
+  Cladogram * clad = NULL;
+  clad = new Cladogram();  // some compilers throw error if init at declare
   ifstream * infile = NULL;
   ofstream * outfile = NULL;
   int exitval = EXIT_SUCCESS;
