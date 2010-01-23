@@ -28,6 +28,7 @@
 #include <vector>
 #include <fstream>
 #include <sstream>
+#include <deque>
 
 
 
@@ -143,12 +144,17 @@ class Cladogram {
 
   private:
   void debug_cladogram_compute();
+
+  void compute_subtreeBoth(std::deque<Node *> &tree, int pos, Node * n);
+  void compute_subtreeLower(std::deque<Node *> &tree, int pos, Node * n);
+
   bool fitsInto(const int offset, Node * node);
   void moveOffsetsHigherThan(const int offset, const int move);
   void moveTo(int offset, Node * node, std::vector<Node *> &v);
 
   void optimise_injectSingleRootAt(int i, int upTo);
   void optimise_nextTree(int first, int last);
+  void optimise_pullTree(int first, int last);
 
   public:
   std::vector<Node *> nodes;
@@ -173,6 +179,7 @@ class Cladogram {
   int infoBoxWidth;
   int infoBoxHeight;
 
+  int treeMode;
   int sortKey;
   int optimise;
   int treeSpacing;
@@ -269,7 +276,7 @@ int str2int(const std::string s);
 std::string int2str(const int n);
 Date currentDate();
 int datePX(Date d, const Cladogram * clad);
-std::string ckhexcol(const std::string color);
+std::string checkHexCol(const std::string color);
 
 
 
@@ -285,6 +292,9 @@ struct compareDate : public std::binary_function<Node *,Node *,bool> {
 		if(n1->start.year < n2->start.year)
       return true;
     if(n1->start.year == n2->start.year && n1->start.month < n2->start.month)
+      return true;
+    if(n1->start.year == n2->start.year && n1->start.month == n2->start.month &&
+       n1->start.day < n2->start.day)
       return true;
     return false;
 	}

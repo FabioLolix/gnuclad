@@ -29,7 +29,6 @@
 #include "generatorPNG.h"
 
 #include <iostream>
-#include <deque>
 #include <algorithm>
 //~ #include <cstdlib>
 //~ #include <cstring>
@@ -168,7 +167,7 @@ Color::Color(int tred, int tgreen, int tblue) {
 //TODO: hex = ...
 }
 Color::Color(string thex) {
-  hex = ckhexcol(thex);
+  hex = checkHexCol(thex);
   hex = hex.substr(1);
 //TODO: rgb = ...
 }
@@ -274,6 +273,7 @@ Cladogram::Cladogram() {
   infoBoxWidth = 50;
   infoBoxHeight = 50;
 
+  treeMode = 0;
   sortKey = 0;
   optimise = 99;
   treeSpacing = 1;
@@ -379,6 +379,7 @@ void Cladogram::parseOptions(const string filename) {
       else if(opt == "infoBoxY") infoBoxY = str2int(val);
       else if(opt == "infoBoxWidth") infoBoxWidth = str2int(val);
       else if(opt == "infoBoxHeight") infoBoxHeight = str2int(val);
+      else if(opt == "treeMode") treeMode = str2int(val);
       else if(opt == "sortKey") sortKey = str2int(val);
       else if(opt == "optimise") optimise = str2int(val);
       else if(opt == "treeSpacing") treeSpacing = str2int(val);
@@ -461,7 +462,7 @@ Connector * Cladogram::addConnector() {
 
 // Returns the date with resolved overflow
 // Use only if really needed (for comparisons), because you usually don't want
-// to change 2000.1.31 to 2000.2.1 even if your daysInMonth is 30
+// to equalise 2000.1.31 with 2000.2.1 if your daysInMonth is 30
 Date Cladogram::rOf(Date d) {
   while(d.day > daysInMonth) {
     d.month += 1;
@@ -650,16 +651,12 @@ void Cladogram::compute() {
       n->offset = -1;
 
       stable_sort(n->children.begin(), n->children.end(), compareDate());
-      int childCount = (int)n->children.size();
 
-      // Insert the upper subtree before current node
-      for(int j = 1; j < childCount; j += 2)
-        nodeTree.insert(nodeTree.begin() + treeOffset + j/2, n->children.at(j));
+      if(treeMode == 0)
+        compute_subtreeBoth(nodeTree, treeOffset, n);
+      else if(treeMode == 1)
+        compute_subtreeLower(nodeTree, treeOffset, n);
 
-      // Insert the lower subtree after current node in reverse order
-      for(int j = 0; j < childCount; j += 2)
-        nodeTree.insert( nodeTree.begin() + treeOffset + (childCount/2)+1,
-                         n->children.at(j) );
     }
 
     if(r->size != (int)nodeTree.size())
@@ -714,9 +711,12 @@ void Cladogram::compute() {
       optimise_nextTree(first, last);
       //~ if(optimise%10 > 5) {
         //~ optimise_interleaveTree(first, last);                                <= pseudocode
-        //~ if(optimise%10 > 8) optimise_interleaveAllRoots(first, last);
+        //~ if(optimise%10 > 8)
+          //~ optimise_interleaveAllRoots(first, last);
       //~ }
-      //~ optimise_pullTree(first, last);
+
+      if(optimise%10 > 3)
+        optimise_pullTree(first, last);
 
     }
   }
@@ -803,18 +803,45 @@ void Cladogram::debug_cladogram_compute() {
 
 }
 
+void Cladogram::compute_subtreeBoth(std::deque<Node *> &tree,
+                                    int pos, Node * n) {
+
+  int childCount = (int)n->children.size();
+                                                                                        /// OPTIMISE HERE
+  // optimise: if i node (has no children? and) ends before i+1 node starts, but them on same side
+
+
+  // Insert the upper subtree before current node
+  for(int i = 1; i < childCount; i += 2)
+    tree.insert(tree.begin() + pos + i/2, n->children.at(i));
+
+  // Insert the lower subtree after current node in reverse order
+  for(int i = 0; i < childCount; i += 2)
+    tree.insert(tree.begin() + pos + (childCount/2) + 1, n->children.at(i));
+
+}
+
+void Cladogram::compute_subtreeLower(std::deque<Node *> &tree,
+                                    int pos, Node * n) {
+
+  // Insert all child nodes after current node in reverse order
+  for(int i = 0; i < (int)n->children.size(); ++i)
+    tree.insert( tree.begin() + pos + 1, n->children.at(i) );
+
+}
+
 // Returns true if specified node fits into given offset
 // without overlapping other nodes in that offset.
 // False otherwise.
 bool Cladogram::fitsInto(const int offset, Node * node) {
 
-static int MinY; MinY = monthsInYear;
-static int DinM; DinM = daysInMonth;
-
   vector<Node *> tmp;
   for(int i = 0; i < (int)nodes.size(); ++i)
     if(nodes.at(i)->offset == offset)
       tmp.push_back(nodes.at(i));
+
+  if(offset == node->offset) return false;
+  if(tmp.size() == 0) return true;
 
   sort(tmp.begin(), tmp.end(), compareDate());
 
@@ -871,23 +898,30 @@ void Cladogram::optimise_injectSingleRootAt(int pos, int upTo) {
 
 }
 
-// Pull nodes as near as possible to their parents.
-// Queue nodes with same parent if possible.
-//~ void Cladogram::optimise_pullTree(int first, int last) {
-  // check for children when pulling                                              <= pseudocode
-//~ }
-
 // Fill gaps within tree lines, interleave subtrees (only by 1 offset)
 void Cladogram::optimise_nextTree(int first, int last) {
   Node * a;
   Node * b = nodes.at(first);
-  for(int j = first; j < last - 1; ++j) {
+  for(int i = first; i < last - 1; ++i) {
 
     a = b;
-    b = nodes.at(j+1);
-    if(fitsInto(a->offset,b))
+    b = nodes.at(i + 1);
+    if(fitsInto(a->offset, b))
       moveOffsetsHigherThan(b->offset - 1, -1);
 
   }
+}
 
+// Pull nodes as near as possible to their parents.
+// Queue nodes with same parent if possible.
+void Cladogram::optimise_pullTree(int first, int last) {
+  Node * n;
+  int sign = 0;
+  for(int i = first; i < last; ++i) {
+    n = nodes.at(i);
+    if(n->parent == NULL) continue;
+    if(n->offset < n->parent->offset) sign = 1;
+    else sign = -1;
+    while(fitsInto(n->offset + sign, n)) n->offset += sign;
+  }
 }

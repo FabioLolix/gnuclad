@@ -168,7 +168,7 @@ void GeneratorSVG::writeData(Cladogram * clad, ofstream * fp) {
     int startX = datePX(n->start, clad) + xPX;
     int stopX = datePX(n->stop, clad) + xPX;
     int posY = n->offset * oPX + yrlinePX;
-    *fp << "  <path id='"<< ws2underscore(n->name) <<"' d='M ";
+    *fp << "  <path id='line_"<< ws2underscore(n->name) <<"' d='M ";
     if(n->parent != NULL) {
       if(clad->derivType == 0) *fp << startX << " " << n->parent->offset * oPX + yrlinePX + lPX/2 << " L ";
       else *fp << datePX(n->parent->start, clad) + xPX << " " << n->parent->offset * oPX + yrlinePX + lPX/2 << " L ";
@@ -190,30 +190,31 @@ void GeneratorSVG::writeData(Cladogram * clad, ofstream * fp) {
     n = clad->nodes.at(i);
     int posX = datePX(n->start, clad) + xPX;
     int posY = n->offset * oPX + yrlinePX;
-    *fp << "  <circle cx='" << posX << "' cy='" << posY << "' r='" << clad->dotRadius << "' fill='#" << n->color.hex << "' stroke='none' />\n";
+    *fp << "  <circle id='dot_" << ws2underscore(n->name) << "' cx='" << posX << "' cy='" << posY
+        << "' r='" << clad->dotRadius << "' fill='#" << n->color.hex << "' stroke='none' />\n";
 
     for(int j = 0; j < (int)n->nameChanges.size(); ++j) {
       posX = datePX(n->nameChanges.at(j).date, clad) + xPX;
-      *fp << "  <circle cx='" << posX << "' cy='" << posY << "' r='" << clad->smallDotRadius << "' fill='#" << n->color.hex << "' stroke='none' />\n";
+      *fp << "    <circle cx='" << posX << "' cy='" << posY << "' r='" << clad->smallDotRadius << "' fill='#" << n->color.hex << "' stroke='none' />\n";
     }
 
   }
   *fp << "</g>\n";
 
   // Labels
-  *fp << "\n<g inkscape:label='Labels' inkscape:groupmode='layer' id='layer_labels'\n"
+  *fp << "\n<g inkscape:label='Labels' inkscape:groupmode='layer' id='layer_labels' xlink:type='simple'\n"
       << " style='font-size:" << clad->labelFontSize << "px;stroke:none;fill:#" << clad->labelFontColor.hex << ";font-family:" << clad->labelFont << ";-inkscape-font-specification:" << clad->labelFont << ";' >\n";
-  int dirty_hack_em = int(clad->labelFontSize / 2);
+  int dirty_hack_em = int(clad->labelFontSize / 1.675);
   int dirty_hack_ex = int(clad->labelFontSize / 1.675);
   for(int i = 0; i < (int)clad->nodes.size(); ++i) {
     n = clad->nodes.at(i);
     string href = "", hrefend = "";
     if(clad->descriptionIsHyperLink == 1) {
-      href = "<a xlink:href='" + n->description + "' xlink:type='simple'>";
+      href = "<a xlink:href='" + n->description + "'>";
       hrefend = "</a>";
     }
     int posX = datePX(n->start, clad) + xPX + clad->dotRadius;
-    int posY = n->offset * oPX + yrlinePX - (oPX/4);  // last value is experimental
+    int posY = n->offset * oPX + yrlinePX - (oPX/5);  // last value is experimental
     int posXwName = posX + n->name.size() * dirty_hack_em;
     if(clad->labelBackground == 1)
       *fp << "  <rect x='" << posX - dirty_hack_em/3 << "' y='" << posY - dirty_hack_ex *4/3 << "' width='" << n->name.size() * dirty_hack_em << "' height='" << dirty_hack_ex *5/3 << "' fill='#" << clad->mainBackground.hex << "' opacity='0.8'  rx='5' ry='5' />\n";//filter='url(#__label_background)' />\n";

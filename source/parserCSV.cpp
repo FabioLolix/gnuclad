@@ -29,7 +29,9 @@ void ParserCSV::parseData(Cladogram * clad, ifstream * fp) {
 
   string line;
   int count = 1;
-  int fixedFields = 8;
+  int fixedFieldsNode = 8;
+  int fixedFieldsConnector = 6;
+  int fixedFieldsDomain = 4;
 
   while( !fp->eof() && fp->good() ) {
 
@@ -45,7 +47,7 @@ void ParserCSV::parseData(Cladogram * clad, ifstream * fp) {
       string * e = &entry.at(i);
       if(e->size() == 0) continue;
       if(e->at(0) == '"') *e = e->substr(1, e->size() - 1);
-      if(e->at(e->size() - 1) == '"') *e = e->substr(0,e->size() - 1);
+      if(e->at(e->size() - 1) == '"') *e = e->substr(0, e->size() - 1);
     }
 
     if(entry.size() == 0) continue;
@@ -58,27 +60,27 @@ void ParserCSV::parseData(Cladogram * clad, ifstream * fp) {
     try {
       if(entry.at(0) == "N") {  // add a node
 
-          if((int)entry.size() < fixedFields) throw 0;
+        if((int)entry.size() < fixedFieldsNode) throw 0;
 
-          Node * node = clad->addNode(entry.at(1));
-          node->color = Color(entry.at(2));
-          if(entry.at(3) != "-" && entry.at(3) != "0")
-            node->parentName = entry.at(3);
-          node->start = Date(entry.at(4));
-          node->stop = Date(entry.at(5));
-          if(entry.at(6) != "-")
-            node->icon = entry.at(6);
-          if(entry.at(7) != "-")
-            node->description = entry.at(7);
+        Node * node = clad->addNode(entry.at(1));
+        node->color = Color(entry.at(2));
+        if(entry.at(3) != "-" && entry.at(3) != "0")
+          node->parentName = entry.at(3);
+        node->start = Date(entry.at(4));
+        node->stop = Date(entry.at(5));
+        if(entry.at(6) != "-")
+          node->icon = entry.at(6);
+        if(entry.at(7) != "-")
+          node->description = entry.at(7);
 
-          // get the name changes
-          for(int i = fixedFields; i < (int)entry.size()-1; i += 2)
-            if(entry.at(i) != "")
-              node->addNameChange(entry.at(i), Date(entry.at(i+1)) );
+        // get the name changes
+        for(int i = fixedFieldsNode; i < (int)entry.size()-1; i += 2)
+          if(entry.at(i) != "")
+            node->addNameChange(entry.at(i), Date(entry.at(i+1)) );
 
       } else if(entry.at(0) == "C") {  // add a connector
 
-        if((int)entry.size() < 6) throw 0;
+        if((int)entry.size() < fixedFieldsConnector) throw 0;
 
         Connector * c = clad->addConnector();
         c->when = Date(entry.at(1));
@@ -89,7 +91,7 @@ void ParserCSV::parseData(Cladogram * clad, ifstream * fp) {
 
       } else if(entry.at(0) == "D") {  // add a domain
 
-        if((int)entry.size() < 4) throw 0;
+        if((int)entry.size() < fixedFieldsDomain) throw 0;
 
         Domain * domain = clad->addDomain(entry.at(1));
         domain->color = Color(entry.at(2));

@@ -185,7 +185,7 @@ int datePX(Date d, const Cladogram * clad) {
 }
 
 // Returns the supplied color string if it is in a valid hex color format
-std::string ckhexcol(const std::string color) {
+std::string checkHexCol(const std::string color) {
   if(color[0] != '#' ||
     (color != "none" && color.size() != 4 && color.size() != 7 )) {
       cout << "\nError: Color is expected to have either "
