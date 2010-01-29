@@ -57,7 +57,7 @@ void ParserGCT::parseData(Cladogram * clad, ifstream * fp) {
         // get the name changes
         if( ((int)entry.size() - reqFields) % 2 != 0) throw 0;
         for(int i = reqFields; i < (int)entry.size(); i += 2)
-          node->addNameChange(entry.at(i), Date(entry.at(i+1)) );
+          node->addNameChange(entry.at(i), Date(entry.at(i+1)), entry.at(i+2));
 
       } catch (...) {
         throw "invalid entry at line " + int2str(count)

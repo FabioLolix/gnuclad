@@ -74,9 +74,9 @@ void ParserCSV::parseData(Cladogram * clad, ifstream * fp) {
           node->description = entry.at(7);
 
         // get the name changes
-        for(int i = fixedFieldsNode; i < (int)entry.size()-1; i += 2)
-          if(entry.at(i) != "")
-            node->addNameChange(entry.at(i), Date(entry.at(i+1)) );
+        for(int i = fixedFieldsNode; i < (int)entry.size()-1; i += 3)
+          if(entry.at(i) != "" && entry.at(i+1) != "")
+            node->addNameChange(entry.at(i), Date(entry.at(i+1)),entry.at(i+2));
 
       } else if(entry.at(0) == "C") {  // add a connector
 

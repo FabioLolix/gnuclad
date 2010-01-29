@@ -200,9 +200,11 @@ Date Date::operator+(const Date d) {
 }
 
 NameChange::NameChange() {}
-NameChange::NameChange(std::string tnewName, Date tdate) {
+NameChange::NameChange(std::string tnewName, Date tdate,
+                       std::string tdescription) {
   newName = tnewName;
   date = tdate;
+  description = tdescription;
 }
 
 Icon::Icon() {}
@@ -221,8 +223,9 @@ Node::Node() {
   parent = NULL;
 }
 
-void Node::addNameChange(std::string newName, Date date) {
-  nameChanges.push_back( NameChange(newName, date) );
+void Node::addNameChange(std::string newName, Date date,
+                         std::string description) {
+  nameChanges.push_back( NameChange(newName, date, description) );
 }
 
 Node * Node::root() {
@@ -277,6 +280,7 @@ Cladogram::Cladogram() {
   sortKey = 0;
   optimise = 99;
   treeSpacing = 1;
+  treeSpacingBiggerThan = 5;
 
   mainBackground = Color("#fff");
   rulerWidth = 2;
@@ -299,6 +303,7 @@ Cladogram::Cladogram() {
   dotRadius = 10;
   smallDotRadius = 5;
 
+  connectorDots = 1;
   connectorsDashed = 1;
 
   yearLinePX = 40;
@@ -383,6 +388,7 @@ void Cladogram::parseOptions(const string filename) {
       else if(opt == "sortKey") sortKey = str2int(val);
       else if(opt == "optimise") optimise = str2int(val);
       else if(opt == "treeSpacing") treeSpacing = str2int(val);
+      else if(opt == "treeSpacingBiggerThan")treeSpacingBiggerThan=str2int(val);
       else if(opt == "mainBackground") mainBackground = Color(val);
       else if(opt == "rulerWidth") rulerWidth = str2int(val);
       else if(opt == "rulerColor") rulerColor = Color(val);
@@ -400,6 +406,7 @@ void Cladogram::parseOptions(const string filename) {
       else if(opt == "derivType") derivType = str2int(val);
       else if(opt == "dotRadius") dotRadius = str2int(val);
       else if(opt == "smallDotRadius") smallDotRadius = str2int(val);
+      else if(opt == "connectorDots") connectorDots = str2int(val);
       else if(opt == "connectorsDashed") connectorsDashed = str2int(val);
       else if(opt == "yearLinePX") yearLinePX = str2int(val);
       else if(opt == "yearLineColor1") yearLineColor1 = Color(val);
@@ -489,10 +496,10 @@ void Cladogram::compute() {
   else if(sortKey == 1) stable_sort(nodes.begin(), nodes.end(), compareName());
   else if(sortKey == 2) stable_sort(nodes.begin(), nodes.end(), compareDate());
 
-  Node * n;
-  Node * r;
-  Domain * d;
-  Connector * c;
+  Node * n = NULL;
+  Node * r = NULL;
+  Domain * d = NULL;
+  Connector * c = NULL;
 
   // Basics
   // Juggle dates, warn for duplicates and assing parent pointers
@@ -657,6 +664,8 @@ void Cladogram::compute() {
       else if(treeMode == 1)
         compute_subtreeLower(nodeTree, treeOffset, n);
 
+      //TODO: maybe optimise here with both-rest-subtree swapping
+
     }
 
     if(r->size != (int)nodeTree.size())
@@ -683,24 +692,30 @@ void Cladogram::compute() {
   for(int i = 0; i < rCount; ++i) {
 
     if(optimise == 0) break;
+    r = roots.at(i);
 
-    r = roots.at(i);  // scheduled for deletion?
+    if(r->size == 1) {  // Single root
 
-    if(roots.at(i)->size == 1) {  // single root
+      int opt = optimise/10;
 
-      if(optimise/10 > 2) {
+      // Don't reach behind trees of certain size
+      int upTo = rCount;
+      int j = i+1;
+      while(j < rCount) {
+        if(opt <= 1) { ++j; break; }  // look only at next root
+        if(opt <= 2 && roots.at(j)->size > 1) break;
+        if(opt <= 5 && roots.at(j)->size > 5) break;
+        if(opt <= 6 && roots.at(j)->size > 10) break;
+        if(opt <= 7 && roots.at(j)->size > 20) break;
+        ++j;
+      }
+      upTo = j;
 
-        int upTo = rCount;
-        if(optimise/10 < 5) {  // don't reach behind trees
-          int j = i+1;
-          while(j < rCount && roots.at(j)->size > 1) ++j;
-          upTo = j;
-        }
-        optimise_injectSingleRootAt(i, upTo);
+      optimise_injectSingleRootAt(i, upTo);
 
-      } //else optimise_nextSingleRootAt(i);
+    } else {  // Tree root
 
-    } else {  // tree root
+      int opt = optimise%10;
 
       // Get first and last node positions of current continuous root tree block
       int first = 0;
@@ -709,13 +724,13 @@ void Cladogram::compute() {
       while(last < nCount && nodes.at(last)->root() == r) ++last;
 
       optimise_nextTree(first, last);
-      //~ if(optimise%10 > 5) {
+      //~ if(opt >= 5) {
         //~ optimise_interleaveTree(first, last);                                <= pseudocode
-        //~ if(optimise%10 > 8)
+        //~ if(opt >= 8)
           //~ optimise_interleaveAllRoots(first, last);
       //~ }
 
-      if(optimise%10 > 3)
+      if(opt >= 3)
         optimise_pullTree(first, last);
 
     }
@@ -723,12 +738,14 @@ void Cladogram::compute() {
 
   // Insert spacing at tree edges
   for(int i = 0; i < nCount - 1; ++i) {
-    if( nodes.at(i)->root() != nodes.at(i+1)->root() )  // not in same tree
-      if( nodes.at(i)->parent != NULL ||
-          nodes.at(i+1)->parent != NULL ||
-          nodes.at(i)->children.size() > 0 ||
-          nodes.at(i+1)->children.size() > 0 )
-        moveOffsetsHigherThan(nodes.at(i)->offset, treeSpacing);
+    Node * a = nodes.at(i);
+    Node * b = nodes.at(i+1);
+    if( a->root() != b->root() )  // if not in same tree
+      if(a->parent != NULL || b->parent != NULL ||  // if not root nodes
+         a->children.size() > 0 || b->children.size() > 0)  // or have children
+        if(a->root()->size > treeSpacingBiggerThan ||  // honor option
+           b->root()->size > treeSpacingBiggerThan)
+          moveOffsetsHigherThan(a->offset, treeSpacing);
   }
 
   // Set domain offsets
@@ -758,8 +775,8 @@ void Cladogram::compute() {
     c = connectors.at(i);
     c->offsetA = c->from->offset;
     c->offsetB = c->to->offset;
-    if(c->offsetA > c->offsetB)
-      swap(c->offsetA, c->offsetB);
+    //~ if(c->offsetA > c->offsetB)  // this look bad with dashed connectors
+      //~ swap(c->offsetA, c->offsetB);
   }
 
   // Get total size (the maximum offset + 1)
@@ -913,7 +930,6 @@ void Cladogram::optimise_nextTree(int first, int last) {
 }
 
 // Pull nodes as near as possible to their parents.
-// Queue nodes with same parent if possible.
 void Cladogram::optimise_pullTree(int first, int last) {
   Node * n;
   int sign = 0;

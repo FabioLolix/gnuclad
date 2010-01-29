@@ -67,9 +67,10 @@ class NameChange {
   public:
   std::string newName;
   Date date;
+  std::string description;
 
   NameChange();
-  NameChange(std::string tnewName, Date tdate);
+  NameChange(std::string tnewName, Date tdate, std::string description);
 };
 
 class Icon {
@@ -98,7 +99,7 @@ class Node {
   int offset;
 
   Node();
-  void addNameChange(std::string newName, Date date);
+  void addNameChange(std::string newName, Date date, std::string description);
   Node * root();
   bool derivesFrom(Node * p);
 };
@@ -183,6 +184,7 @@ class Cladogram {
   int sortKey;
   int optimise;
   int treeSpacing;
+  int treeSpacingBiggerThan;
 
   Color mainBackground;
   int rulerWidth;
@@ -205,6 +207,7 @@ class Cladogram {
   int dotRadius;
   int smallDotRadius;
 
+  int connectorDots;
   int connectorsDashed;
 
   int yearLinePX;

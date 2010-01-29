@@ -61,10 +61,7 @@ void GeneratorSVG::writeData(Cladogram * clad, ofstream * fp) {
       << "  <linearGradient id='__yearline' x1='0' y1='0' x2='1' y2='0' stroke='none'>\n"
       << "    <stop stop-color='#" << clad->yearLineColor1.hex << "' offset='0' stop-opacity='1' />\n"
       << "    <stop stop-color='#" << clad->yearLineColor2.hex << "' offset='1' stop-opacity='1' />\n"
-      << "  </linearGradient>\n\n"
-      << "  <filter id='__label_background' color-interpolation-filters='sRGB'>\n"
-      << "    <feGaussianBlur stdDeviation='5' />\n"
-      << "  </filter>\n\n";
+      << "  </linearGradient>\n\n";
 
   // Infobox properties
   *fp << "  <linearGradient id='__infobox_fill' x1='0' y1='0' x2='0' y2='1' stroke='none'>\n"
@@ -88,22 +85,30 @@ void GeneratorSVG::writeData(Cladogram * clad, ofstream * fp) {
         << "  </linearGradient>\n";
   }
 
-  *fp << "\n";
+  // Add connector markers
+  *fp << "\n  <circle id='connectors_start' cx='0' cy='0' r='" << lPX << "' stroke='none' />\n";
+  for(int i = 0; i < (int)clad->connectors.size(); ++i) {
+    *fp << "  <marker id='connector_" << i << "' stroke='none' markerUnits='userSpaceOnUse' style='overflow:visible;'>\n"
+        << "    <use xlink:href='#connectors_start' fill='#" << clad->connectors.at(i)->color.hex << "'  />\n"
+        << "  </marker>\n";
+  }
 
   // Add stop gradients
   Node * n;
+  int fade = clad->stopFadeOutPX / lPX;
+  *fp << "\n  <line id='fadeout' x1='0' y1='0' x2='" << fade << "' y2='0' stroke-width='1' />\n";
   for(int i = 0; i < (int)clad->nodes.size(); ++i) {
 
     n = clad->nodes.at(i);
     if(n->stop < clad->endOfTime) {
-      int fade = clad->stopFadeOutPX / lPX;
       string name = ws2underscore(n->name);
       *fp << "  <linearGradient id='__fadeout_" << name << "' x1='0' y1='0' x2='" << fade << "' y2='0' gradientUnits='userSpaceOnUse' stroke='none'>\n"
           << "    <stop stop-color='#" << n->color.hex << "' offset='0' stop-opacity='1' />\n"
           << "    <stop stop-color='#" << n->color.hex << "' offset='1' stop-opacity='0' />\n"
           << "  </linearGradient>\n"
-          << "  <marker id='__stop_" << name << "' markerWidth='" << fade << "' markerHeight='1' style='overflow:visible'>\n"
-          << "    <line x1='0' y1='0' x2='" << fade << "' y2='0' stroke='url(#__fadeout_" << name << ")' stroke-width='1'/>\n"
+          << "  <marker id='__stop_" << name << "' markerWidth='" << fade << "' markerHeight='1' style='overflow:visible;'>\n"
+//          << "    <line x1='0' y1='0' x2='" << fade << "' y2='0' stroke='url(#__fadeout_" << name << ")' stroke-width='1'/>\n"
+          << "    <use xlink:href='#fadeout' stroke='url(#__fadeout_" << name << ")' />\n"
           << "  </marker>\n";
     }
 
@@ -145,17 +150,23 @@ void GeneratorSVG::writeData(Cladogram * clad, ofstream * fp) {
   *fp << "</g>\n";
   // Connectors
   Connector * c;
-  *fp << "\n<g inkscape:label='Connectors' inkscape:groupmode='layer' id='layer_connectors' >\n";
+  *fp << "\n<g inkscape:label='Connectors' inkscape:groupmode='layer' id='layer_connectors'\n"
+      <<  "style='opacity:0.6;' >\n";
   for(int i = 0; i < (int)clad->connectors.size(); ++i) {
 
     c = clad->connectors.at(i);
     int posX = datePX(c->when, clad) + xPX;
     int posY1 = c->offsetA * oPX + yrlinePX;
     int posY2 = c->offsetB * oPX + yrlinePX;
+    int sign;
+    if(c->from->offset < c->to->offset) sign = 1;
+    else sign = -1;
+    string connectorDot = "";
+    if(clad->connectorDots == 1) connectorDot = " marker-start='url(#connector_" + int2str(i) + ")'";
     string dash = "";
     if(clad->connectorsDashed == 1) dash = "stroke-dasharray='" + int2str(c->thickness) + "," + int2str(c->thickness) + "'";
-    *fp << "  <line x1='" << posX << "' y1='" << posY1 << "' x2='" << posX << "' y2='" << posY2
-        << "' stroke='#" << c->color.hex << "' stroke-width='" << c->thickness << "' " << dash << " />\n";
+    *fp << "  <line x1='" << posX << "' y1='" << posY1 + sign * lPX/2 << "' x2='" << posX << "' y2='" << posY2
+        << "' stroke='#" << c->color.hex << "' stroke-width='" << c->thickness << "' " << dash << connectorDot << " />\n";
   }
   *fp << "</g>\n";
 
@@ -165,12 +176,15 @@ void GeneratorSVG::writeData(Cladogram * clad, ofstream * fp) {
   for(int i = 0; i < (int)clad->nodes.size(); ++i) {
 
     n = clad->nodes.at(i);
+    int sign;
     int startX = datePX(n->start, clad) + xPX;
     int stopX = datePX(n->stop, clad) + xPX;
     int posY = n->offset * oPX + yrlinePX;
     *fp << "  <path id='line_"<< ws2underscore(n->name) <<"' d='M ";
     if(n->parent != NULL) {
-      if(clad->derivType == 0) *fp << startX << " " << n->parent->offset * oPX + yrlinePX + lPX/2 << " L ";
+      if(n->offset < n->parent->offset) sign = 1;
+      else sign = -1;
+      if(clad->derivType == 0) *fp << startX << " " << n->parent->offset * oPX + yrlinePX - sign * lPX/2 << " L ";
       else *fp << datePX(n->parent->start, clad) + xPX << " " << n->parent->offset * oPX + yrlinePX + lPX/2 << " L ";
     }
     *fp << startX << " " << posY << " L " << stopX << " " << posY
@@ -217,13 +231,17 @@ void GeneratorSVG::writeData(Cladogram * clad, ofstream * fp) {
     int posY = n->offset * oPX + yrlinePX - (oPX/5);  // last value is experimental
     int posXwName = posX + n->name.size() * dirty_hack_em;
     if(clad->labelBackground == 1)
-      *fp << "  <rect x='" << posX - dirty_hack_em/3 << "' y='" << posY - dirty_hack_ex *4/3 << "' width='" << n->name.size() * dirty_hack_em << "' height='" << dirty_hack_ex *5/3 << "' fill='#" << clad->mainBackground.hex << "' opacity='0.8'  rx='5' ry='5' />\n";//filter='url(#__label_background)' />\n";
+      *fp << "  <rect x='" << posX - dirty_hack_em/3 << "' y='" << posY - dirty_hack_ex *4/3 << "' width='" << n->name.size() * dirty_hack_em << "' height='" << dirty_hack_ex *5/3 << "' fill='#" << clad->mainBackground.hex << "' opacity='0.5'  rx='5' ry='5' />\n";
     *fp << "  " << href << "<text x='"<< posX <<"' y='"<< posY <<"' >" << n->name <<"</text>" << hrefend << "\n";
     for(int j = 0; j < (int)n->nameChanges.size(); ++j) {
       if(j != 0) posXwName = posX + n->nameChanges.at(j-1).newName.size() * dirty_hack_em;
       posX = datePX(n->nameChanges.at(j).date, clad) + xPX + clad->smallDotRadius;
       if(posX < posXwName) posX = posXwName;
-      *fp << "    <text x='"<< posX <<"' y='"<< posY <<"' >" << n->nameChanges.at(j).newName <<"</text>\n";
+      if(clad->descriptionIsHyperLink == 1)
+        href = "<a xlink:href='" + n->nameChanges.at(j).description + "'>";
+      if(clad->labelBackground == 1)
+        *fp << "  <rect x='" << posX - dirty_hack_em/3 << "' y='" << posY - dirty_hack_ex *4/3 << "' width='" << n->nameChanges.at(j).newName.size() * dirty_hack_em << "' height='" << dirty_hack_ex *5/3 << "' fill='#" << clad->mainBackground.hex << "' opacity='0.5'  rx='5' ry='5' />\n";
+      *fp << "    " << href << "<text x='"<< posX <<"' y='"<< posY <<"' >" << n->nameChanges.at(j).newName <<"</text>" << hrefend << "\n";
     }
 
   }

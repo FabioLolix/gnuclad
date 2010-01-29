@@ -1,5 +1,15 @@
 Color constructor: RGB and hex
 
+add option to display namechanges within dot (nameChangeStyle)
+add option to display dot with stroke instead of fill (dotStyle)
+
+label backgrounds
+
+
+optimise both-subtree at creation time
+
+add option curvedConnectors ?
+
 connectors different start/end time? -> painful but useful for parseDir symlinks
 
 external (translatable) strings for errors and messages ?
@@ -8,8 +18,6 @@ GRAMPS file format parser
 GEDCOM file format parser
 
 CSV generator (generateCSV)
-
-optimise both-subtree at creation time
 
 parseDIR (depth based and then time pased)
 
