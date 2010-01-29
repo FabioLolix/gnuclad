@@ -68,7 +68,7 @@ void GeneratorSVG::writeData(Cladogram * clad, ofstream * fp) {
       << "    <stop stop-color='#" << clad->infoBoxColor1.hex << "' offset='0' stop-opacity='1' />\n"
       << "    <stop stop-color='#" << clad->infoBoxColor2.hex << "' offset='1' stop-opacity='1' />\n"
       << "  </linearGradient>\n"
-      << "  <linearGradient id='__infobox_stroke' x1='0' y1='0' x2='0' y2='1' stroke='none'>\n"
+      << "  <linearGradient id='__infobox_stroke' x1='0' y1='0' x2='0' y2='1'>\n"
       << "    <stop stop-color='#" << clad->infoBoxColor2.hex << "' offset='0' stop-opacity='1' />\n"
       << "    <stop stop-color='#" << clad->infoBoxColor1.hex << "' offset='1' stop-opacity='1' />\n"
       << "  </linearGradient>\n"
@@ -230,8 +230,9 @@ void GeneratorSVG::writeData(Cladogram * clad, ofstream * fp) {
     int posX = datePX(n->start, clad) + xPX + clad->dotRadius;
     int posY = n->offset * oPX + yrlinePX - (oPX/5);  // last value is experimental
     int posXwName = posX + n->name.size() * dirty_hack_em;
+    float bg_correction = 0.75;
     if(clad->labelBackground == 1)
-      *fp << "  <rect x='" << posX - dirty_hack_em/3 << "' y='" << posY - dirty_hack_ex *4/3 << "' width='" << n->name.size() * dirty_hack_em << "' height='" << dirty_hack_ex *5/3 << "' fill='#" << clad->mainBackground.hex << "' opacity='0.5'  rx='5' ry='5' />\n";
+      *fp << "  <rect x='" << posX - dirty_hack_em/4 << "' y='" << posY - dirty_hack_ex *5/4 << "' width='" << n->name.size() * dirty_hack_em * bg_correction << "' height='" << dirty_hack_ex *6/4 << "' fill='#" << clad->mainBackground.hex << "' opacity='0.5'  rx='5' ry='5' />\n";
     *fp << "  " << href << "<text x='"<< posX <<"' y='"<< posY <<"' >" << n->name <<"</text>" << hrefend << "\n";
     for(int j = 0; j < (int)n->nameChanges.size(); ++j) {
       if(j != 0) posXwName = posX + n->nameChanges.at(j-1).newName.size() * dirty_hack_em;
@@ -240,7 +241,7 @@ void GeneratorSVG::writeData(Cladogram * clad, ofstream * fp) {
       if(clad->descriptionIsHyperLink == 1)
         href = "<a xlink:href='" + n->nameChanges.at(j).description + "'>";
       if(clad->labelBackground == 1)
-        *fp << "  <rect x='" << posX - dirty_hack_em/3 << "' y='" << posY - dirty_hack_ex *4/3 << "' width='" << n->nameChanges.at(j).newName.size() * dirty_hack_em << "' height='" << dirty_hack_ex *5/3 << "' fill='#" << clad->mainBackground.hex << "' opacity='0.5'  rx='5' ry='5' />\n";
+        *fp << "    <rect x='" << posX - dirty_hack_em/4 << "' y='" << posY - dirty_hack_ex *5/4 << "' width='" << n->nameChanges.at(j).newName.size() * dirty_hack_em << "' height='" << dirty_hack_ex *6/4 << "' fill='#" << clad->mainBackground.hex << "' opacity='0.5'  rx='5' ry='5' />\n";
       *fp << "    " << href << "<text x='"<< posX <<"' y='"<< posY <<"' >" << n->nameChanges.at(j).newName <<"</text>" << hrefend << "\n";
     }
 
@@ -271,11 +272,11 @@ void GeneratorSVG::writeData(Cladogram * clad, ofstream * fp) {
   vector<string> textv;
   explode(clad->infoBoxText, '|', &textv);
   *fp << "\n<g inkscape:label='Infobox' inkscape:groupmode='layer' id='layer_infobox'\n"
-      << " style='stroke:none;font-family:" << clad->yearLineFont << ";-inkscape-font-specification:" << clad->yearLineFont << ";' >\n"
+      << " style='stroke:none;font-family:" << clad->infoBoxFont << ";-inkscape-font-specification:" << clad->infoBoxFont << ";' >\n"
       << "  <rect x='" << clad->infoBoxX << "' y='" << clad->infoBoxY << "' width='" << clad->infoBoxWidth << "' height='" << clad->infoBoxHeight << "' rx='10' ry='10' filter='url(#__infobox_shadow)' opacity='0.6' />\n"
-      << "  <rect x='" << clad->infoBoxX << "' y='" << clad->infoBoxY << "' width='" << clad->infoBoxWidth << "' height='" << clad->infoBoxHeight << "' rx='10' ry='10' fill='url(#__infobox_fill)' stroke='url(#__infobox_stroke)' />\n"
-      << "  <text x='" << clad->infoBoxX + dirty_hack_ex * 2/3 << "' y='" << clad->infoBoxY + dirty_hack_ex *2 << "'><tspan style='font-size:" << clad->infoBoxTitleSize << "px;'>" << clad->infoBoxTitle << "</tspan></text>\n"
-      << "  <text x='" << clad->infoBoxX + dirty_hack_ex * 2/3 << "' y='" << clad->infoBoxY + dirty_hack_ex *2 + 10 << "' style='font-size:" << clad->infoBoxTextSize << "px;'>\n";
+      << "  <rect x='" << clad->infoBoxX << "' y='" << clad->infoBoxY << "' width='" << clad->infoBoxWidth << "' height='" << clad->infoBoxHeight << "' rx='10' ry='10' fill='url(#__infobox_fill)' stroke='url(#__infobox_stroke)' stroke-width='2' />\n"
+      << "  <text x='" << clad->infoBoxX + dirty_hack_ex * 2/3 << "' y='" << clad->infoBoxY + dirty_hack_ex *5/3 << "'><tspan style='font-size:" << clad->infoBoxTitleSize << "px;font-weight:bold;'>" << clad->infoBoxTitle << "</tspan></text>\n"
+      << "  <text x='" << clad->infoBoxX + dirty_hack_ex * 2/3 << "' y='" << clad->infoBoxY + dirty_hack_ex *2 << "' style='font-size:" << clad->infoBoxTextSize << "px;'>\n";
   for(int i = 0; i < (int)textv.size(); ++i)
     *fp << "    <tspan x='" << clad->infoBoxX + dirty_hack_ex * 2/3 << "' dy='" << dirty_hack_ex2 * 2 << "'>" << textv.at(i) << "</tspan>\n";
   *fp << "  </text>\n"
