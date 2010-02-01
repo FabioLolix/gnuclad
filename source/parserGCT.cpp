@@ -67,7 +67,7 @@ void ParserGCT::parseData(Cladogram * clad, ifstream * fp) {
     } else if(entry.at(0) == "C") {  // add a connector
 
       Connector * c = clad->addConnector();
-      c->when = Date(entry.at(1));
+      c->fromWhen = Date(entry.at(1));
       c->fromName = entry.at(2);
       c->toName = entry.at(3);
       c->thickness = str2int( entry.at(4) );

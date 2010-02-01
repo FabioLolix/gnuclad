@@ -121,7 +121,8 @@ class Connector {
   public:
   std::string fromName;
   std::string toName;
-  Date when;
+  Date fromWhen;
+  Date toWhen;
   int thickness;
   Color color;
 

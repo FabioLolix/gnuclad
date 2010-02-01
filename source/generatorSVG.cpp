@@ -155,7 +155,8 @@ void GeneratorSVG::writeData(Cladogram * clad, ofstream * fp) {
   for(int i = 0; i < (int)clad->connectors.size(); ++i) {
 
     c = clad->connectors.at(i);
-    int posX = datePX(c->when, clad) + xPX;
+    int posX1 = datePX(c->fromWhen, clad) + xPX;
+    int posX2 = datePX(c->toWhen, clad) + xPX;
     int posY1 = c->offsetA * oPX + yrlinePX;
     int posY2 = c->offsetB * oPX + yrlinePX;
     int sign;
@@ -165,7 +166,7 @@ void GeneratorSVG::writeData(Cladogram * clad, ofstream * fp) {
     if(clad->connectorDots == 1) connectorDot = " marker-start='url(#connector_" + int2str(i) + ")'";
     string dash = "";
     if(clad->connectorsDashed == 1) dash = "stroke-dasharray='" + int2str(c->thickness) + "," + int2str(c->thickness) + "'";
-    *fp << "  <line x1='" << posX << "' y1='" << posY1 + sign * lPX/2 << "' x2='" << posX << "' y2='" << posY2
+    *fp << "  <line x1='" << posX1 << "' y1='" << posY1 + sign * lPX/2 << "' x2='" << posX2 << "' y2='" << posY2
         << "' stroke='#" << c->color.hex << "' stroke-width='" << c->thickness << "' " << dash << connectorDot << " />\n";
   }
   *fp << "</g>\n";
@@ -185,7 +186,7 @@ void GeneratorSVG::writeData(Cladogram * clad, ofstream * fp) {
       if(n->offset < n->parent->offset) sign = 1;
       else sign = -1;
       if(clad->derivType == 0) *fp << startX << " " << n->parent->offset * oPX + yrlinePX - sign * lPX/2 << " L ";
-      else *fp << datePX(n->parent->start, clad) + xPX << " " << n->parent->offset * oPX + yrlinePX + lPX/2 << " L ";
+      else *fp << datePX(n->parent->start, clad) + xPX << " " << n->parent->offset * oPX + yrlinePX - sign * lPX/2 << " L ";
     }
     *fp << startX << " " << posY << " L " << stopX << " " << posY
         << "' stroke='#"<< n->color.hex <<"'";

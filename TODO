@@ -1,25 +1,29 @@
 Color constructor: RGB and hex
 
+move infobox title and text into CSV (T and TT) ???
+	-> no more infobox directly from directory parsing
+
 add option to display namechanges within dot (nameChangeStyle)
 add option to display dot with stroke instead of fill (dotStyle)
 
-label backgrounds
+add option to insert SVG's in CSV? (SVG as control field) -> PNG etc
+
+label backgrounds... (use font renderer?)
+
+
+
+parseDIR (depth based and then time pased)
+CSV generator (generateCSV)
 
 
 optimise both-subtree at creation time
 
 add option curvedConnectors ?
 
-connectors different start/end time? -> painful but useful for parseDir symlinks
-
 external (translatable) strings for errors and messages ?
 
 GRAMPS file format parser
 GEDCOM file format parser
-
-CSV generator (generateCSV)
-
-parseDIR (depth based and then time pased)
 
 add ability to override options in CSV? (with X flag) -> easy to implement
 

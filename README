@@ -1,4 +1,28 @@
-OPTIMISATION MORE INFO:
+HOW TO COMPILE
+
+Open this folder in a terminal and type:
+  make all
+
+This will produce a 'gnuclad' binary in the bin folder
+Change to the bin folder and execute gnuclad to get
+acquainted with it's syntax:
+  cd bin
+  ./gnuclad
+
+Use the provided example files as you see fit.
+
+
+
+
+
+
+
+
+
+
+
+
+OPTIMISATION - ADDITIONAL INFO:
 
 The current optimisation is greedy and therefore not exactly stellar.
 For example, this optimises well:

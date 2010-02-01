@@ -30,9 +30,8 @@ Your parser is called only by this function:
 
 The file pointer is a correctly opened file with the desired file name
 extension, though you have to check whether the file structure/format is valid
-yourself. The file pointer starts at the file's second line, since the first is
-used as the gnuclad "file header". The cladogram pointer is an empty Cladogram
-object that you have to fill.
+yourself. The cladogram pointer is an empty Cladogram object that you have
+to fill.
 The parser essentially defines the input file format.
 You should try to fill as much of the cladogram as possible in order to increase
 the information pool for the output generator. Note that not all generators will
@@ -44,6 +43,7 @@ All measures (height, thickness, ...) are "generic units".
 Let's break down the functions available for accomplishing this task,
 starting with the relevant properties of a single Node:
 
+class Node:
   std::string name
   std::string parentName
   Date start
@@ -51,11 +51,12 @@ starting with the relevant properties of a single Node:
   Color color
   Icon icon
 
-With the following classes used:
+Which uses the following constructors:
 
-  Date::Date(int year, int month)
+  Date::Date(std::string "yyyy.mm.dd")
+  Color::Color(std::string "#hexadecimalvalue")
   Color::Color(int red, int green, int blue)
-  Icon::Icon(std::string filename)
+  Icon::Icon(std::string "filename")
 
 These are the two functions you will use the most:
 
@@ -66,19 +67,17 @@ For example this:
 
   Node * node = clad->addNode("Debian");
   node->parentName = "";
-  node->start =  Date(1993,8);
-  node->stop = Date(0,0);
+  node->start =  Date(1993,8,1);
+  node->stop = Date("0");
   node->color = Color(191,18,56);
 
 Is equivalent to this:
 
-  Node * node = clad->addNode("Debian", Color(191,18,56), Date(1993,8), Date(0,0), "");
+  Node * node = clad->addNode("Debian", Color(191,18,56), Date("1993.8.0"), Date(0,0,0), "");
 
-The color can be specified either with red/green/blue values or a hex string:
+The color can be specified either with red/green/blue values or a hex string.
 
-  Node * node = clad->addNode("Debian", Color("BF1238"), Date(1993,8), Date(0,0), "");
-
-And Date(0,0) will be replaced by the date gnuclad is run at (or a user option).
+An empty date will be replaced by the date gnuclad is run at (or a user option).
 
 
 

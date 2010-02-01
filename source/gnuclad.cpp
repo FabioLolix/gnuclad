@@ -594,13 +594,17 @@ void Cladogram::compute() {
     c = connectors.at(i);
 
     // Cosmetic improvement, since we have no 0th month or day
-    if(c->when.month == 0) c->when.month = 1;
-    if(c->when.day == 0) c->when.day = 1;
+    if(c->fromWhen.month == 0) c->fromWhen.month = 1;
+    if(c->fromWhen.day == 0) c->fromWhen.day = 1;
+    if(c->toWhen.month == 0) c->toWhen.month = 1;
+    if(c->toWhen.day == 0) c->toWhen.day = 1;
 
-    if(endOfTime < c->when) {
+    if(endOfTime < c->fromWhen || endOfTime < c->toWhen) {
       cout << "\nIgnoring connector " << c->fromName << " -> " << c->toName
-           << " (" << c->when.year<< "." << c->when.month << "." << c->when.day
-           <<"): starts after specified End Of Time";
+           << " (starting " << c->fromWhen.year<< "." << c->fromWhen.month
+           << "." << c->fromWhen.day << " stopping " << c->toWhen.year << "."
+           << c->toWhen.month << "." << c->toWhen.day
+           << "): reaches after specified End Of Time";
       connectors.erase(connectors.begin() + i);
       --cCount;
       --i;
