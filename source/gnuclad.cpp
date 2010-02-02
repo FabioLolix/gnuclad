@@ -212,6 +212,11 @@ Icon::Icon(std::string tfilename) {
   filename = tfilename;
 }
 
+Image::Image() {
+  x = 0;
+  y = 0;
+}
+
 Domain::Domain() {
   intensity = 50;
   node = NULL;
@@ -276,6 +281,7 @@ Cladogram::Cladogram() {
   infoBoxWidth = 50;
   infoBoxHeight = 50;
 
+  fontCorrectionFactor = 1.0;
   treeMode = 0;
   sortKey = 0;
   optimise = 99;
@@ -329,6 +335,9 @@ Cladogram::~Cladogram() {
     if(connectors.at(i) != NULL) delete connectors.at(i);
   for(int i = 0; i < (int)domains.size(); ++i)
     if(domains.at(i) != NULL) delete domains.at(i);
+
+  for(int i = 0; i < (int)includeSVG.size(); ++i)
+    if(includeSVG.at(i) != NULL) delete includeSVG.at(i);
 }
 
 
@@ -384,6 +393,7 @@ void Cladogram::parseOptions(const string filename) {
       else if(opt == "infoBoxY") infoBoxY = str2int(val);
       else if(opt == "infoBoxWidth") infoBoxWidth = str2int(val);
       else if(opt == "infoBoxHeight") infoBoxHeight = str2int(val);
+      else if(opt == "fontCorrectionFactor")fontCorrectionFactor=str2double(val);
       else if(opt == "treeMode") treeMode = str2int(val);
       else if(opt == "sortKey") sortKey = str2int(val);
       else if(opt == "optimise") optimise = str2int(val);
@@ -465,6 +475,13 @@ Connector * Cladogram::addConnector() {
   Connector * c = new Connector;
   connectors.push_back(c);
   return c;
+}
+
+Image * Cladogram::addImage(std::string tname, std::vector<Image *> &vector) {
+  Image * i = new Image;
+  i->filename = tname;
+  vector.push_back(i);
+  return i;
 }
 
 // Returns the date with resolved overflow

@@ -32,6 +32,7 @@ void ParserCSV::parseData(Cladogram * clad, ifstream * fp) {
   int fixedFieldsNode = 8;
   int fixedFieldsConnector = 6;
   int fixedFieldsDomain = 4;
+  int fixedFieldsImage = 4;
 
   while( !fp->eof() && fp->good() ) {
 
@@ -53,12 +54,17 @@ void ParserCSV::parseData(Cladogram * clad, ifstream * fp) {
     if(entry.size() == 0) continue;
 
     string what;
-    if     (entry.at(0) == "N") what = "node";
-    else if(entry.at(0) == "C") what = "connector at";
-    else if(entry.at(0) == "D") what = "domain of";
+    string ctl = entry.at(0);
+    if     (ctl == "N") what = "node ";
+    else if(ctl == "C") what = "connector at ";
+    else if(ctl == "D") what = "domain of ";
+    else if(ctl == "SVG") what = "SVG include ";
+    else                what = ctl;
 
     try {
-      if(entry.at(0) == "N") {  // add a node
+
+      if(ctl == "" || ctl == "#" || ctl.substr(0,2) == "//") {}
+      else if(ctl == "N") {  // add a node
 
         if((int)entry.size() < fixedFieldsNode) throw 0;
 
@@ -75,7 +81,7 @@ void ParserCSV::parseData(Cladogram * clad, ifstream * fp) {
           if(entry.at(i) != "" && entry.at(i+1) != "")
             node->addNameChange(entry.at(i), Date(entry.at(i+1)),entry.at(i+2));
 
-      } else if(entry.at(0) == "C") {  // add a connector
+      } else if(ctl == "C") {  // add a connector
 
         if((int)entry.size() < fixedFieldsConnector) throw 0;
 
@@ -88,7 +94,7 @@ void ParserCSV::parseData(Cladogram * clad, ifstream * fp) {
         c->thickness = str2int( entry.at(5) );
         c->color = Color(entry.at(6));
 
-      } else if(entry.at(0) == "D") {  // add a domain
+      } else if(ctl == "D") {  // add a domain
 
         if((int)entry.size() < fixedFieldsDomain) throw 0;
 
@@ -96,10 +102,19 @@ void ParserCSV::parseData(Cladogram * clad, ifstream * fp) {
         domain->color = Color(entry.at(2));
         domain->intensity = str2int( entry.at(3) );
 
-      }
+      } else if(ctl == "SVG") {
+
+        if((int)entry.size() < fixedFieldsImage) throw 0;
+
+        Image * image = clad->addImage(entry.at(1), clad->includeSVG);
+        image->x = str2int(entry.at(2));
+        image->y = str2int(entry.at(3));
+
+      } else throw 0;
+
     } catch (...) {
       throw "invalid entry at line " + int2str(count - 1)
-            + " (" + what + " " + entry.at(1) + ")";
+            + " (" + what + entry.at(1) + ")";
     }
 
   }

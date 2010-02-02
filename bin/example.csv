@@ -30,3 +30,7 @@
 "#","Domains",,,,,,,,,,,
 "#","Node","Color","Intensity",,,,,,,,,
 "D","Parent","#faa",20,,,,,,,,,
+,,,,,,,,,,,,
+"#","Bonus Material! Include SVG images",,,,,,,,,,,
+"#","Path","x Position","y Position",,,,,,,,,
+"SVG","images/test.svg",770,80,,,,,,,,,

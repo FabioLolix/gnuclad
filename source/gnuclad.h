@@ -81,6 +81,16 @@ class Icon {
   Icon(std::string tfilename);
 };
 
+class Image {
+  public:
+  std::string filename;
+  int x;
+  int y;
+
+  Image();
+  Image(std::string tfilename);
+};
+
 class Node {
   public:
   std::string name;
@@ -161,8 +171,9 @@ class Cladogram {
   public:
   std::vector<Node *> nodes;
   std::vector<Node *> roots;
-  std::vector<Connector *>connectors;
-  std::vector<Domain *>domains;
+  std::vector<Connector *> connectors;
+  std::vector<Domain *> domains;
+  std::vector<Image *> includeSVG;
 
   Date beginningOfTime;
   Date endOfTime;
@@ -181,6 +192,7 @@ class Cladogram {
   int infoBoxWidth;
   int infoBoxHeight;
 
+  double fontCorrectionFactor;
   int treeMode;
   int sortKey;
   int optimise;
@@ -236,6 +248,7 @@ class Cladogram {
                  Date tstart, Date tstop, std::string tparentName);
   Domain * addDomain(std::string tname);
   Connector * addConnector();
+  Image * addImage(std::string tname, std::vector<Image *> &vector);
 
   Date rOf(Date d);
 };
@@ -276,6 +289,7 @@ void explode(const std::string str, const char delimiter, std::vector<std::strin
 void explodeSafely(const std::string str, const char delimiter,
                    const char toggle, std::vector<std::string> * v);
 std::string findReplace(std::string str, std::string find, std::string replace);
+double str2double(const std::string str);
 int str2int(const std::string s);
 std::string int2str(const int n);
 Date currentDate();

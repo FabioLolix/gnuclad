@@ -55,13 +55,22 @@ void GeneratorSVG::writeData(Cladogram * clad, ofstream * fp) {
       << "  height='" << height << "'\n"
       << ">\n\n";
 
+
+  //////////////////////////////////////////////////////////////////////////////
+  // Definitions
+
   *fp << "<defs>\n\n"
-      << "  <line id='ruler' x1='0' y1='0' x2='0' y2='100%' stroke='#" << clad->rulerColor.hex << "' stroke-width='" << clad->rulerWidth << "'/>\n\n"
-      << "  <line id='rulerMonth' x1='0' y1='0' x2='0' y2='100%' stroke='#" << clad->rulerMonthColor.hex << "' stroke-width='" << clad->rulerMonthWidth << "'/>\n\n"
+
+  // Rulers
+      << "  <line id='__ruler' x1='0' y1='0' x2='0' y2='100%' stroke='#" << clad->rulerColor.hex << "' stroke-width='" << clad->rulerWidth << "'/>\n\n"
+      << "  <line id='__rulerMonth' x1='0' y1='0' x2='0' y2='100%' stroke='#" << clad->rulerMonthColor.hex << "' stroke-width='" << clad->rulerMonthWidth << "'/>\n\n"
+
+  // Yearline gradient
       << "  <linearGradient id='__yearline' x1='0' y1='0' x2='1' y2='0' stroke='none'>\n"
       << "    <stop stop-color='#" << clad->yearLineColor1.hex << "' offset='0' stop-opacity='1' />\n"
       << "    <stop stop-color='#" << clad->yearLineColor2.hex << "' offset='1' stop-opacity='1' />\n"
       << "  </linearGradient>\n\n";
+
 
   // Infobox properties
   *fp << "  <linearGradient id='__infobox_fill' x1='0' y1='0' x2='0' y2='1' stroke='none'>\n"
@@ -76,6 +85,7 @@ void GeneratorSVG::writeData(Cladogram * clad, ofstream * fp) {
       << "    <feGaussianBlur stdDeviation='5' />\n"
       << "  </filter>\n\n";
 
+
   // Add domain gradients
   for(int i = 0; i < (int)clad->domains.size(); ++i) {
     Domain * d = clad->domains.at(i);
@@ -85,18 +95,20 @@ void GeneratorSVG::writeData(Cladogram * clad, ofstream * fp) {
         << "  </linearGradient>\n";
   }
 
+
   // Add connector markers
-  *fp << "\n  <circle id='connectors_start' cx='0' cy='0' r='" << lPX << "' stroke='none' />\n";
+  *fp << "\n  <circle id='__connectors_start' cx='0' cy='0' r='" << lPX << "' stroke='none' />\n";
   for(int i = 0; i < (int)clad->connectors.size(); ++i) {
-    *fp << "  <marker id='connector_" << i << "' stroke='none' markerUnits='userSpaceOnUse' style='overflow:visible;'>\n"
-        << "    <use xlink:href='#connectors_start' fill='#" << clad->connectors.at(i)->color.hex << "'  />\n"
+    *fp << "  <marker id='__connector_" << i << "' stroke='none' markerUnits='userSpaceOnUse' style='overflow:visible;'>\n"
+        << "    <use xlink:href='#__connectors_start' fill='#" << clad->connectors.at(i)->color.hex << "'  />\n"
         << "  </marker>\n";
   }
+
 
   // Add stop gradients
   Node * n;
   int fade = clad->stopFadeOutPX / lPX;
-  *fp << "\n  <line id='fadeout' x1='0' y1='0' x2='" << fade << "' y2='0' stroke-width='1' />\n";
+  *fp << "\n  <line id='__fadeout' x1='0' y1='0' x2='" << fade << "' y2='0' stroke-width='1' />\n";
   for(int i = 0; i < (int)clad->nodes.size(); ++i) {
 
     n = clad->nodes.at(i);
@@ -107,11 +119,38 @@ void GeneratorSVG::writeData(Cladogram * clad, ofstream * fp) {
           << "    <stop stop-color='#" << n->color.hex << "' offset='1' stop-opacity='0' />\n"
           << "  </linearGradient>\n"
           << "  <marker id='__stop_" << name << "' markerWidth='" << fade << "' markerHeight='1' style='overflow:visible;'>\n"
-//          << "    <line x1='0' y1='0' x2='" << fade << "' y2='0' stroke='url(#__fadeout_" << name << ")' stroke-width='1'/>\n"
-          << "    <use xlink:href='#fadeout' stroke='url(#__fadeout_" << name << ")' />\n"
+          << "    <use xlink:href='#__fadeout' stroke='url(#__fadeout_" << name << ")' />\n"
           << "  </marker>\n";
     }
 
+  }
+
+  // Additional SVG images - definitions
+  Image * image;
+  for(int i = 0; i < (int)clad->includeSVG.size(); ++i) {
+    image = clad->includeSVG.at(i);
+
+    ifstream inf( (image->filename).c_str() );
+    if( !inf.is_open() ) throw "failed to open SVG image " + image->filename;
+
+    *fp << "\n\n";
+    string line;
+    while( !inf.eof() && inf.good() ) {
+
+      getline(inf, line);
+      if( line.find("<defs") != string::npos ) {  // if we get to the defs
+        getline(inf, line);
+        while(line.find("</defs") == string::npos) {  // as long as within defs
+          *fp << line << "\n";
+          getline(inf, line);
+        }
+        break;
+      }
+
+    }
+
+    *fp << "\n\n";
+    inf.close();
   }
 
   *fp << "\n</defs>\n";
@@ -120,19 +159,23 @@ void GeneratorSVG::writeData(Cladogram * clad, ofstream * fp) {
   //////////////////////////////////////////////////////////////////////////////
   // Content
 
+
   // Background
   *fp << "\n<g inkscape:label='Background' inkscape:groupmode='layer' id='layer_background' >\n"
       << "  <rect x='0' y='0' width='" << width << "' height='" << height << "' fill='#" << clad->mainBackground.hex << "' />\n"
       << "</g>\n";
 
+
   // Year and month Rulers
   *fp << "\n<g inkscape:label='Year Rulers' inkscape:groupmode='layer' id='layer_yearrulers'>\n";
   for(int i = 0; i <= years; ++i) {
-    *fp  << "  <use xlink:href='#ruler' x='" << i * yrPX + xPX << "' />\n";
+    int x = i * yrPX + xPX;
+    *fp  << "  <use xlink:href='#__ruler' x='" << x << "' />\n";
     for(int j = 1; j < clad->monthsInYear; ++j)
-      *fp << "  <use xlink:href='#rulerMonth' x='" << i * yrPX + xPX + j * yrPX / clad->monthsInYear<< "' />\n";
+      *fp << "  <use xlink:href='#__rulerMonth' x='" << x + j * yrPX / clad->monthsInYear << "' />\n";
   }
   *fp << "</g>\n";
+
 
   // Domains
   *fp << "\n<g inkscape:label='Domains' inkscape:groupmode='layer' id='layer_domains' >\n";
@@ -142,12 +185,14 @@ void GeneratorSVG::writeData(Cladogram * clad, ofstream * fp) {
     int xpos = datePX(d->node->start, clad) + xPX;
     int yval = (d->offsetA - 1) * oPX + yrlinePX;
     int hval = (d->offsetB - d->offsetA + 2) * oPX;
-    *fp << "  <rect x='" << xpos << "' y='" << yval << "' width='" << width - xpos - xPX << "' height='" << hval
+    *fp << "  <rect x='" << xpos << "' y='" << yval << "' width='" << width - (xpos + xPX) << "' height='" << hval
         << "' rx='" << oPX / 2 << "' ry='" << oPX / 2 << "' fill='url(#__domain_" << ws2underscore(d->nodeName) << ")' />\n";
 
   }
 
   *fp << "</g>\n";
+
+
   // Connectors
   Connector * c;
   *fp << "\n<g inkscape:label='Connectors' inkscape:groupmode='layer' id='layer_connectors'\n"
@@ -163,13 +208,14 @@ void GeneratorSVG::writeData(Cladogram * clad, ofstream * fp) {
     if(c->from->offset < c->to->offset) sign = 1;
     else sign = -1;
     string connectorDot = "";
-    if(clad->connectorDots == 1) connectorDot = " marker-start='url(#connector_" + int2str(i) + ")'";
+    if(clad->connectorDots == 1) connectorDot = " marker-start='url(#__connector_" + int2str(i) + ")'";
     string dash = "";
     if(clad->connectorsDashed == 1) dash = "stroke-dasharray='" + int2str(c->thickness) + "," + int2str(c->thickness) + "'";
     *fp << "  <line x1='" << posX1 << "' y1='" << posY1 + sign * lPX/2 << "' x2='" << posX2 << "' y2='" << posY2
         << "' stroke='#" << c->color.hex << "' stroke-width='" << c->thickness << "' " << dash << connectorDot << " />\n";
   }
   *fp << "</g>\n";
+
 
   // Node Lines
   *fp << "\n<g inkscape:label='Lines' inkscape:groupmode='layer' id='layer_lines'\n"
@@ -181,12 +227,16 @@ void GeneratorSVG::writeData(Cladogram * clad, ofstream * fp) {
     int startX = datePX(n->start, clad) + xPX;
     int stopX = datePX(n->stop, clad) + xPX;
     int posY = n->offset * oPX + yrlinePX;
-    *fp << "  <path id='line_"<< ws2underscore(n->name) <<"' d='M ";
+    *fp << "  <path id='__line_"<< ws2underscore(n->name) <<"' d='M ";
     if(n->parent != NULL) {
+
       if(n->offset < n->parent->offset) sign = 1;
       else sign = -1;
-      if(clad->derivType == 0) *fp << startX << " " << n->parent->offset * oPX + yrlinePX - sign * lPX/2 << " L ";
-      else *fp << datePX(n->parent->start, clad) + xPX << " " << n->parent->offset * oPX + yrlinePX - sign * lPX/2 << " L ";
+      int posYparent = n->parent->offset * oPX + yrlinePX - sign * lPX/2;
+
+      if(clad->derivType == 0) *fp << startX << " " << posYparent << " L ";
+      else *fp << datePX(n->parent->start, clad) + xPX << " " << posYparent << " L ";
+
     }
     *fp << startX << " " << posY << " L " << stopX << " " << posY
         << "' stroke='#"<< n->color.hex <<"'";
@@ -197,6 +247,7 @@ void GeneratorSVG::writeData(Cladogram * clad, ofstream * fp) {
   }
   *fp << "</g>\n";
 
+
   // Dots
   *fp << "\n<g inkscape:label='Dots' inkscape:groupmode='layer' id='layer_dots'\n"
       << " style='stroke:none;' >\n";
@@ -205,7 +256,7 @@ void GeneratorSVG::writeData(Cladogram * clad, ofstream * fp) {
     n = clad->nodes.at(i);
     int posX = datePX(n->start, clad) + xPX;
     int posY = n->offset * oPX + yrlinePX;
-    *fp << "  <circle id='dot_" << ws2underscore(n->name) << "' cx='" << posX << "' cy='" << posY
+    *fp << "  <circle id='__dot_" << ws2underscore(n->name) << "' cx='" << posX << "' cy='" << posY
         << "' r='" << clad->dotRadius << "' fill='#" << n->color.hex << "' stroke='none' />\n";
 
     for(int j = 0; j < (int)n->nameChanges.size(); ++j) {
@@ -216,72 +267,124 @@ void GeneratorSVG::writeData(Cladogram * clad, ofstream * fp) {
   }
   *fp << "</g>\n";
 
+
   // Labels
   *fp << "\n<g inkscape:label='Labels' inkscape:groupmode='layer' id='layer_labels' xlink:type='simple'\n"
-      << " style='font-size:" << clad->labelFontSize << "px;stroke:none;fill:#" << clad->labelFontColor.hex << ";font-family:" << clad->labelFont << ";-inkscape-font-specification:" << clad->labelFont << ";' >\n";
-  int dirty_hack_em = int(clad->labelFontSize / 1.675);
-  int dirty_hack_ex = int(clad->labelFontSize / 1.675);
+      << " style='font-size:" << clad->labelFontSize << "px;stroke:none;fill:#" << clad->labelFontColor.hex << ";font-family:"
+      << clad->labelFont << ";-inkscape-font-specification:" << clad->labelFont << ";' >\n";
+  int dirty_hack_em = int(clad->labelFontSize / 1.675 * clad->fontCorrectionFactor);
+  int dirty_hack_ex = int(clad->labelFontSize / 1.375 * clad->fontCorrectionFactor);
   for(int i = 0; i < (int)clad->nodes.size(); ++i) {
+
     n = clad->nodes.at(i);
     string href = "", hrefend = "";
+
     if(clad->descriptionIsHyperLink == 1) {
       href = "<a xlink:href='" + n->description + "'>";
       hrefend = "</a>";
     }
+
     int posX = datePX(n->start, clad) + xPX + clad->dotRadius;
-    int posY = n->offset * oPX + yrlinePX - (oPX/5);  // last value is experimental
+    int posY = n->offset * oPX + yrlinePX - (dirty_hack_ex/2);  // last value is experimental
     int posXwName = posX + n->name.size() * dirty_hack_em;
-    float bg_correction = 0.75;
+
     if(clad->labelBackground == 1)
-      *fp << "  <rect x='" << posX - dirty_hack_em/4 << "' y='" << posY - dirty_hack_ex *5/4 << "' width='" << n->name.size() * dirty_hack_em * bg_correction << "' height='" << dirty_hack_ex *6/4 << "' fill='#" << clad->mainBackground.hex << "' opacity='0.5'  rx='5' ry='5' />\n";
+      *fp << "  <rect x='" << posX - dirty_hack_em/4 << "' y='" << posY - dirty_hack_ex *6/5 << "' width='" << n->name.size() * dirty_hack_em
+          << "' height='" << dirty_hack_ex *7/5 << "' fill='#" << clad->mainBackground.hex << "' opacity='0.5'  rx='5' ry='5' />\n";
+
     *fp << "  " << href << "<text x='"<< posX <<"' y='"<< posY <<"' >" << n->name <<"</text>" << hrefend << "\n";
+
     for(int j = 0; j < (int)n->nameChanges.size(); ++j) {
+
       if(j != 0) posXwName = posX + n->nameChanges.at(j-1).newName.size() * dirty_hack_em;
       posX = datePX(n->nameChanges.at(j).date, clad) + xPX + clad->smallDotRadius;
       if(posX < posXwName) posX = posXwName;
       if(clad->descriptionIsHyperLink == 1)
         href = "<a xlink:href='" + n->nameChanges.at(j).description + "'>";
+
       if(clad->labelBackground == 1)
-        *fp << "    <rect x='" << posX - dirty_hack_em/4 << "' y='" << posY - dirty_hack_ex *5/4 << "' width='" << n->nameChanges.at(j).newName.size() * dirty_hack_em << "' height='" << dirty_hack_ex *6/4 << "' fill='#" << clad->mainBackground.hex << "' opacity='0.5'  rx='5' ry='5' />\n";
+        *fp << "    <rect x='" << posX - dirty_hack_em/4 << "' y='" << posY - dirty_hack_ex *6/5 << "' width='" << n->nameChanges.at(j).newName.size() * dirty_hack_em
+            << "' height='" << dirty_hack_ex *7/5 << "' fill='#" << clad->mainBackground.hex << "' opacity='0.5'  rx='5' ry='5' />\n";
+
       *fp << "    " << href << "<text x='"<< posX <<"' y='"<< posY <<"' >" << n->nameChanges.at(j).newName <<"</text>" << hrefend << "\n";
+
     }
 
   }
   *fp << "</g>\n";
 
+
   // Year Lines with the year numbers
   *fp << "\n<g inkscape:label='Yearlines' inkscape:groupmode='layer' id='layer_yearlines'\n"
       << " style='stroke:none;fill:url(#__yearline);' >\n";
   yrlinePX -= 3 * oPX / 2;  // remove small margin
-  dirty_hack_ex = int(clad->yearLineFontSize / 1.675);  // CSS ex unit Inkscape is supposed to support but doesn't
+  dirty_hack_ex = int(clad->yearLineFontSize / 1.375 * clad->fontCorrectionFactor);  // CSS ex unit
   if(yrlinePX > 0) {
 
     *fp << "  <rect x='0' y='0' rx='5' ry='5' width='" << width << "' height='" << yrlinePX << "' />\n"
         << "  <rect x='0' y='" << height - yrlinePX << "' rx='5' ry='5' width='" << width << "' height='" << yrlinePX << "' />\n"
         << "  <g style='font-size:" << clad->yearLineFontSize << "px;stroke:none;fill:#" << clad->yearLineFontColor.hex << ";font-family:" << clad->yearLineFont << ";-inkscape-font-specification:" << clad->yearLineFont << ";text-anchor:middle;' >\n";
-    for(int i = 0; i < years; ++i)
-      *fp << "    <text x='" << yrPX * i + yrPX / 2 + xPX << "' y='" << yrlinePX  / 2 << "'><tspan dy='" << 0.5 * dirty_hack_ex<< "'>" << clad->beginningOfTime.year + i << "</tspan></text>\n"
-          << "    <text x='" << yrPX * i + yrPX / 2 + xPX << "' y='" << height - yrlinePX / 2 << "'><tspan dy='" << 0.5 * dirty_hack_ex<< "'>" << clad->beginningOfTime.year + i << "</tspan></text>\n";
+    for(int i = 0; i < years; ++i) {
+      int posX = yrPX * i + yrPX / 2 + xPX;
+      int posY = yrlinePX / 2 + 0.5 * dirty_hack_ex;
+      *fp << "    <text x='" << posX << "' y='" << posY << "'><tspan>" << clad->beginningOfTime.year + i << "</tspan></text>\n"
+          << "    <text x='" << posX << "' y='" << height - posY + dirty_hack_ex << "'><tspan>" << clad->beginningOfTime.year + i << "</tspan></text>\n";
+    }
     *fp << "  </g>\n";
 
   }
   *fp << "</g>\n";
 
+
   // The infobox
-  dirty_hack_ex = int(clad->infoBoxTitleSize / 1.675);
-  int dirty_hack_ex2 = int(clad->infoBoxTextSize / 1.675);
+  dirty_hack_ex = int(clad->infoBoxTitleSize / 1.375 * clad->fontCorrectionFactor);
+  int dirty_hack_ex2 = int(clad->infoBoxTextSize / 1.375 * clad->fontCorrectionFactor * 1.8);
   vector<string> textv;
   explode(clad->infoBoxText, '|', &textv);
+  int posX = clad->infoBoxX + dirty_hack_ex * 1/2;
+  int posY = clad->infoBoxY + dirty_hack_ex *5/3;
   *fp << "\n<g inkscape:label='Infobox' inkscape:groupmode='layer' id='layer_infobox'\n"
-      << " style='stroke:none;font-family:" << clad->infoBoxFont << ";-inkscape-font-specification:" << clad->infoBoxFont << ";' >\n"
+      << " style='stroke:none;font-size:" << clad->infoBoxTextSize << ";font-family:" << clad->infoBoxFont << ";-inkscape-font-specification:" << clad->infoBoxFont << ";' >\n"
       << "  <rect x='" << clad->infoBoxX << "' y='" << clad->infoBoxY << "' width='" << clad->infoBoxWidth << "' height='" << clad->infoBoxHeight << "' rx='10' ry='10' filter='url(#__infobox_shadow)' opacity='0.6' />\n"
-      << "  <rect x='" << clad->infoBoxX << "' y='" << clad->infoBoxY << "' width='" << clad->infoBoxWidth << "' height='" << clad->infoBoxHeight << "' rx='10' ry='10' fill='url(#__infobox_fill)' stroke='url(#__infobox_stroke)' stroke-width='2' />\n"
-      << "  <text x='" << clad->infoBoxX + dirty_hack_ex * 2/3 << "' y='" << clad->infoBoxY + dirty_hack_ex *5/3 << "'><tspan style='font-size:" << clad->infoBoxTitleSize << "px;font-weight:bold;'>" << clad->infoBoxTitle << "</tspan></text>\n"
-      << "  <text x='" << clad->infoBoxX + dirty_hack_ex * 2/3 << "' y='" << clad->infoBoxY + dirty_hack_ex *2 << "' style='font-size:" << clad->infoBoxTextSize << "px;'>\n";
-  for(int i = 0; i < (int)textv.size(); ++i)
-    *fp << "    <tspan x='" << clad->infoBoxX + dirty_hack_ex * 2/3 << "' dy='" << dirty_hack_ex2 * 2 << "'>" << textv.at(i) << "</tspan>\n";
-  *fp << "  </text>\n"
-      << "</g>\n";
+      << "  <rect x='" << clad->infoBoxX << "' y='" << clad->infoBoxY << "' width='" << clad->infoBoxWidth << "' height='" << clad->infoBoxHeight << "' rx='10' ry='10' fill='url(#__infobox_fill)' stroke='url(#__infobox_stroke)' stroke-width='2' />\n";
+  if(clad->infoBoxTitleSize > 0)
+    *fp << "  <text x='" << posX << "' y='" << posY << "'><tspan style='font-size:" << clad->infoBoxTitleSize << "px;font-weight:bold;'>" << clad->infoBoxTitle << "</tspan></text>\n";
+  if(clad->infoBoxTextSize > 0 )
+    for(int i = 0; i < (int)textv.size(); ++i)
+      *fp << "  <text x='" << posX << "' y='" << posY + dirty_hack_ex + dirty_hack_ex2 * i << "'><tspan>" << textv.at(i) << "</tspan></text>\n";
+  *fp << "</g>\n";
+
+
+  // Additional SVG images
+  *fp << "\n<g inkscape:label='Included SVG Images' inkscape:groupmode='layer' id='layer_included_svg'>\n";
+  for(int i = 0; i < (int)clad->includeSVG.size(); ++i) {
+
+    image = clad->includeSVG.at(i);
+
+    ifstream inf( (image->filename).c_str() );
+    if( !inf.is_open() ) throw "failed to open SVG image " + image->filename;
+    *fp << "  <g transform='translate(" << image->x << "," << image->y << ")' >\n";
+
+    string line;
+    while( !inf.eof() && inf.good() ) {
+
+      getline(inf, line);
+      if( line.find("</defs") != string::npos ) {  // if we get behind the defs
+        getline(inf, line);
+        while(line.find("</svg") == string::npos) {  // as long as witihn svg
+          *fp << line << "\n";
+          getline(inf, line);
+        }
+        break;
+      }
+
+    }
+
+    *fp << "  </g>\n";
+    inf.close();
+
+  }
+  *fp << "</g>\n";
 
 
 

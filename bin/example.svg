@@ -13,9 +13,9 @@
 
 <defs>
 
-  <line id='ruler' x1='0' y1='0' x2='0' y2='100%' stroke='#ddd' stroke-width='2'/>
+  <line id='__ruler' x1='0' y1='0' x2='0' y2='100%' stroke='#ddd' stroke-width='2'/>
 
-  <line id='rulerMonth' x1='0' y1='0' x2='0' y2='100%' stroke='#eaeaea' stroke-width='1'/>
+  <line id='__rulerMonth' x1='0' y1='0' x2='0' y2='100%' stroke='#eaeaea' stroke-width='1'/>
 
   <linearGradient id='__yearline' x1='0' y1='0' x2='1' y2='0' stroke='none'>
     <stop stop-color='#037' offset='0' stop-opacity='1' />
@@ -39,22 +39,56 @@
     <stop stop-color='#faa' offset='1' stop-opacity='0.2' />
   </linearGradient>
 
-  <circle id='connectors_start' cx='0' cy='0' r='4' stroke='none' />
-  <marker id='connector_0' stroke='none' markerUnits='userSpaceOnUse' style='overflow:visible;'>
-    <use xlink:href='#connectors_start' fill='#1f0'  />
+  <circle id='__connectors_start' cx='0' cy='0' r='4' stroke='none' />
+  <marker id='__connector_0' stroke='none' markerUnits='userSpaceOnUse' style='overflow:visible;'>
+    <use xlink:href='#__connectors_start' fill='#1f0'  />
   </marker>
-  <marker id='connector_1' stroke='none' markerUnits='userSpaceOnUse' style='overflow:visible;'>
-    <use xlink:href='#connectors_start' fill='#f00'  />
+  <marker id='__connector_1' stroke='none' markerUnits='userSpaceOnUse' style='overflow:visible;'>
+    <use xlink:href='#__connectors_start' fill='#f00'  />
   </marker>
 
-  <line id='fadeout' x1='0' y1='0' x2='7' y2='0' stroke-width='1' />
+  <line id='__fadeout' x1='0' y1='0' x2='7' y2='0' stroke-width='1' />
   <linearGradient id='__fadeout_Grandchlid' x1='0' y1='0' x2='7' y2='0' gradientUnits='userSpaceOnUse' stroke='none'>
     <stop stop-color='#0f0' offset='0' stop-opacity='1' />
     <stop stop-color='#0f0' offset='1' stop-opacity='0' />
   </linearGradient>
   <marker id='__stop_Grandchlid' markerWidth='7' markerHeight='1' style='overflow:visible;'>
-    <use xlink:href='#fadeout' stroke='url(#__fadeout_Grandchlid)' />
+    <use xlink:href='#__fadeout' stroke='url(#__fadeout_Grandchlid)' />
   </marker>
+
+
+     id="defs4">
+    <linearGradient
+       id="linearGradient3590">
+      <stop
+         style="stop-color:#00ff00;stop-opacity:1;"
+         offset="0"
+         id="stop3592" />
+      <stop
+         style="stop-color:#000000;stop-opacity:0;"
+         offset="1"
+         id="stop3594" />
+    </linearGradient>
+    <inkscape:perspective
+       sodipodi:type="inkscape:persp3d"
+       inkscape:vp_x="0 : 526.18109 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_z="744.09448 : 526.18109 : 1"
+       inkscape:persp3d-origin="372.04724 : 350.78739 : 1"
+       id="perspective10" />
+    <radialGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3590"
+       id="radialGradient3596"
+       cx="93.571426"
+       cy="83.790756"
+       fx="93.571426"
+       fy="83.790756"
+       r="46.92857"
+       gradientTransform="matrix(1,0,0,0.95433791,0,3.8260611)"
+       gradientUnits="userSpaceOnUse" />
+
+
 
 </defs>
 
@@ -63,126 +97,126 @@
 </g>
 
 <g inkscape:label='Year Rulers' inkscape:groupmode='layer' id='layer_yearrulers'>
-  <use xlink:href='#ruler' x='10' />
-  <use xlink:href='#rulerMonth' x='18' />
-  <use xlink:href='#rulerMonth' x='26' />
-  <use xlink:href='#rulerMonth' x='35' />
-  <use xlink:href='#rulerMonth' x='43' />
-  <use xlink:href='#rulerMonth' x='51' />
-  <use xlink:href='#rulerMonth' x='60' />
-  <use xlink:href='#rulerMonth' x='68' />
-  <use xlink:href='#rulerMonth' x='76' />
-  <use xlink:href='#rulerMonth' x='85' />
-  <use xlink:href='#rulerMonth' x='93' />
-  <use xlink:href='#rulerMonth' x='101' />
-  <use xlink:href='#ruler' x='110' />
-  <use xlink:href='#rulerMonth' x='118' />
-  <use xlink:href='#rulerMonth' x='126' />
-  <use xlink:href='#rulerMonth' x='135' />
-  <use xlink:href='#rulerMonth' x='143' />
-  <use xlink:href='#rulerMonth' x='151' />
-  <use xlink:href='#rulerMonth' x='160' />
-  <use xlink:href='#rulerMonth' x='168' />
-  <use xlink:href='#rulerMonth' x='176' />
-  <use xlink:href='#rulerMonth' x='185' />
-  <use xlink:href='#rulerMonth' x='193' />
-  <use xlink:href='#rulerMonth' x='201' />
-  <use xlink:href='#ruler' x='210' />
-  <use xlink:href='#rulerMonth' x='218' />
-  <use xlink:href='#rulerMonth' x='226' />
-  <use xlink:href='#rulerMonth' x='235' />
-  <use xlink:href='#rulerMonth' x='243' />
-  <use xlink:href='#rulerMonth' x='251' />
-  <use xlink:href='#rulerMonth' x='260' />
-  <use xlink:href='#rulerMonth' x='268' />
-  <use xlink:href='#rulerMonth' x='276' />
-  <use xlink:href='#rulerMonth' x='285' />
-  <use xlink:href='#rulerMonth' x='293' />
-  <use xlink:href='#rulerMonth' x='301' />
-  <use xlink:href='#ruler' x='310' />
-  <use xlink:href='#rulerMonth' x='318' />
-  <use xlink:href='#rulerMonth' x='326' />
-  <use xlink:href='#rulerMonth' x='335' />
-  <use xlink:href='#rulerMonth' x='343' />
-  <use xlink:href='#rulerMonth' x='351' />
-  <use xlink:href='#rulerMonth' x='360' />
-  <use xlink:href='#rulerMonth' x='368' />
-  <use xlink:href='#rulerMonth' x='376' />
-  <use xlink:href='#rulerMonth' x='385' />
-  <use xlink:href='#rulerMonth' x='393' />
-  <use xlink:href='#rulerMonth' x='401' />
-  <use xlink:href='#ruler' x='410' />
-  <use xlink:href='#rulerMonth' x='418' />
-  <use xlink:href='#rulerMonth' x='426' />
-  <use xlink:href='#rulerMonth' x='435' />
-  <use xlink:href='#rulerMonth' x='443' />
-  <use xlink:href='#rulerMonth' x='451' />
-  <use xlink:href='#rulerMonth' x='460' />
-  <use xlink:href='#rulerMonth' x='468' />
-  <use xlink:href='#rulerMonth' x='476' />
-  <use xlink:href='#rulerMonth' x='485' />
-  <use xlink:href='#rulerMonth' x='493' />
-  <use xlink:href='#rulerMonth' x='501' />
-  <use xlink:href='#ruler' x='510' />
-  <use xlink:href='#rulerMonth' x='518' />
-  <use xlink:href='#rulerMonth' x='526' />
-  <use xlink:href='#rulerMonth' x='535' />
-  <use xlink:href='#rulerMonth' x='543' />
-  <use xlink:href='#rulerMonth' x='551' />
-  <use xlink:href='#rulerMonth' x='560' />
-  <use xlink:href='#rulerMonth' x='568' />
-  <use xlink:href='#rulerMonth' x='576' />
-  <use xlink:href='#rulerMonth' x='585' />
-  <use xlink:href='#rulerMonth' x='593' />
-  <use xlink:href='#rulerMonth' x='601' />
-  <use xlink:href='#ruler' x='610' />
-  <use xlink:href='#rulerMonth' x='618' />
-  <use xlink:href='#rulerMonth' x='626' />
-  <use xlink:href='#rulerMonth' x='635' />
-  <use xlink:href='#rulerMonth' x='643' />
-  <use xlink:href='#rulerMonth' x='651' />
-  <use xlink:href='#rulerMonth' x='660' />
-  <use xlink:href='#rulerMonth' x='668' />
-  <use xlink:href='#rulerMonth' x='676' />
-  <use xlink:href='#rulerMonth' x='685' />
-  <use xlink:href='#rulerMonth' x='693' />
-  <use xlink:href='#rulerMonth' x='701' />
-  <use xlink:href='#ruler' x='710' />
-  <use xlink:href='#rulerMonth' x='718' />
-  <use xlink:href='#rulerMonth' x='726' />
-  <use xlink:href='#rulerMonth' x='735' />
-  <use xlink:href='#rulerMonth' x='743' />
-  <use xlink:href='#rulerMonth' x='751' />
-  <use xlink:href='#rulerMonth' x='760' />
-  <use xlink:href='#rulerMonth' x='768' />
-  <use xlink:href='#rulerMonth' x='776' />
-  <use xlink:href='#rulerMonth' x='785' />
-  <use xlink:href='#rulerMonth' x='793' />
-  <use xlink:href='#rulerMonth' x='801' />
-  <use xlink:href='#ruler' x='810' />
-  <use xlink:href='#rulerMonth' x='818' />
-  <use xlink:href='#rulerMonth' x='826' />
-  <use xlink:href='#rulerMonth' x='835' />
-  <use xlink:href='#rulerMonth' x='843' />
-  <use xlink:href='#rulerMonth' x='851' />
-  <use xlink:href='#rulerMonth' x='860' />
-  <use xlink:href='#rulerMonth' x='868' />
-  <use xlink:href='#rulerMonth' x='876' />
-  <use xlink:href='#rulerMonth' x='885' />
-  <use xlink:href='#rulerMonth' x='893' />
-  <use xlink:href='#rulerMonth' x='901' />
-  <use xlink:href='#ruler' x='910' />
-  <use xlink:href='#rulerMonth' x='918' />
-  <use xlink:href='#rulerMonth' x='926' />
-  <use xlink:href='#rulerMonth' x='935' />
-  <use xlink:href='#rulerMonth' x='943' />
-  <use xlink:href='#rulerMonth' x='951' />
-  <use xlink:href='#rulerMonth' x='960' />
-  <use xlink:href='#rulerMonth' x='968' />
-  <use xlink:href='#rulerMonth' x='976' />
-  <use xlink:href='#rulerMonth' x='985' />
-  <use xlink:href='#rulerMonth' x='993' />
-  <use xlink:href='#rulerMonth' x='1001' />
+  <use xlink:href='#__ruler' x='10' />
+  <use xlink:href='#__rulerMonth' x='18' />
+  <use xlink:href='#__rulerMonth' x='26' />
+  <use xlink:href='#__rulerMonth' x='35' />
+  <use xlink:href='#__rulerMonth' x='43' />
+  <use xlink:href='#__rulerMonth' x='51' />
+  <use xlink:href='#__rulerMonth' x='60' />
+  <use xlink:href='#__rulerMonth' x='68' />
+  <use xlink:href='#__rulerMonth' x='76' />
+  <use xlink:href='#__rulerMonth' x='85' />
+  <use xlink:href='#__rulerMonth' x='93' />
+  <use xlink:href='#__rulerMonth' x='101' />
+  <use xlink:href='#__ruler' x='110' />
+  <use xlink:href='#__rulerMonth' x='118' />
+  <use xlink:href='#__rulerMonth' x='126' />
+  <use xlink:href='#__rulerMonth' x='135' />
+  <use xlink:href='#__rulerMonth' x='143' />
+  <use xlink:href='#__rulerMonth' x='151' />
+  <use xlink:href='#__rulerMonth' x='160' />
+  <use xlink:href='#__rulerMonth' x='168' />
+  <use xlink:href='#__rulerMonth' x='176' />
+  <use xlink:href='#__rulerMonth' x='185' />
+  <use xlink:href='#__rulerMonth' x='193' />
+  <use xlink:href='#__rulerMonth' x='201' />
+  <use xlink:href='#__ruler' x='210' />
+  <use xlink:href='#__rulerMonth' x='218' />
+  <use xlink:href='#__rulerMonth' x='226' />
+  <use xlink:href='#__rulerMonth' x='235' />
+  <use xlink:href='#__rulerMonth' x='243' />
+  <use xlink:href='#__rulerMonth' x='251' />
+  <use xlink:href='#__rulerMonth' x='260' />
+  <use xlink:href='#__rulerMonth' x='268' />
+  <use xlink:href='#__rulerMonth' x='276' />
+  <use xlink:href='#__rulerMonth' x='285' />
+  <use xlink:href='#__rulerMonth' x='293' />
+  <use xlink:href='#__rulerMonth' x='301' />
+  <use xlink:href='#__ruler' x='310' />
+  <use xlink:href='#__rulerMonth' x='318' />
+  <use xlink:href='#__rulerMonth' x='326' />
+  <use xlink:href='#__rulerMonth' x='335' />
+  <use xlink:href='#__rulerMonth' x='343' />
+  <use xlink:href='#__rulerMonth' x='351' />
+  <use xlink:href='#__rulerMonth' x='360' />
+  <use xlink:href='#__rulerMonth' x='368' />
+  <use xlink:href='#__rulerMonth' x='376' />
+  <use xlink:href='#__rulerMonth' x='385' />
+  <use xlink:href='#__rulerMonth' x='393' />
+  <use xlink:href='#__rulerMonth' x='401' />
+  <use xlink:href='#__ruler' x='410' />
+  <use xlink:href='#__rulerMonth' x='418' />
+  <use xlink:href='#__rulerMonth' x='426' />
+  <use xlink:href='#__rulerMonth' x='435' />
+  <use xlink:href='#__rulerMonth' x='443' />
+  <use xlink:href='#__rulerMonth' x='451' />
+  <use xlink:href='#__rulerMonth' x='460' />
+  <use xlink:href='#__rulerMonth' x='468' />
+  <use xlink:href='#__rulerMonth' x='476' />
+  <use xlink:href='#__rulerMonth' x='485' />
+  <use xlink:href='#__rulerMonth' x='493' />
+  <use xlink:href='#__rulerMonth' x='501' />
+  <use xlink:href='#__ruler' x='510' />
+  <use xlink:href='#__rulerMonth' x='518' />
+  <use xlink:href='#__rulerMonth' x='526' />
+  <use xlink:href='#__rulerMonth' x='535' />
+  <use xlink:href='#__rulerMonth' x='543' />
+  <use xlink:href='#__rulerMonth' x='551' />
+  <use xlink:href='#__rulerMonth' x='560' />
+  <use xlink:href='#__rulerMonth' x='568' />
+  <use xlink:href='#__rulerMonth' x='576' />
+  <use xlink:href='#__rulerMonth' x='585' />
+  <use xlink:href='#__rulerMonth' x='593' />
+  <use xlink:href='#__rulerMonth' x='601' />
+  <use xlink:href='#__ruler' x='610' />
+  <use xlink:href='#__rulerMonth' x='618' />
+  <use xlink:href='#__rulerMonth' x='626' />
+  <use xlink:href='#__rulerMonth' x='635' />
+  <use xlink:href='#__rulerMonth' x='643' />
+  <use xlink:href='#__rulerMonth' x='651' />
+  <use xlink:href='#__rulerMonth' x='660' />
+  <use xlink:href='#__rulerMonth' x='668' />
+  <use xlink:href='#__rulerMonth' x='676' />
+  <use xlink:href='#__rulerMonth' x='685' />
+  <use xlink:href='#__rulerMonth' x='693' />
+  <use xlink:href='#__rulerMonth' x='701' />
+  <use xlink:href='#__ruler' x='710' />
+  <use xlink:href='#__rulerMonth' x='718' />
+  <use xlink:href='#__rulerMonth' x='726' />
+  <use xlink:href='#__rulerMonth' x='735' />
+  <use xlink:href='#__rulerMonth' x='743' />
+  <use xlink:href='#__rulerMonth' x='751' />
+  <use xlink:href='#__rulerMonth' x='760' />
+  <use xlink:href='#__rulerMonth' x='768' />
+  <use xlink:href='#__rulerMonth' x='776' />
+  <use xlink:href='#__rulerMonth' x='785' />
+  <use xlink:href='#__rulerMonth' x='793' />
+  <use xlink:href='#__rulerMonth' x='801' />
+  <use xlink:href='#__ruler' x='810' />
+  <use xlink:href='#__rulerMonth' x='818' />
+  <use xlink:href='#__rulerMonth' x='826' />
+  <use xlink:href='#__rulerMonth' x='835' />
+  <use xlink:href='#__rulerMonth' x='843' />
+  <use xlink:href='#__rulerMonth' x='851' />
+  <use xlink:href='#__rulerMonth' x='860' />
+  <use xlink:href='#__rulerMonth' x='868' />
+  <use xlink:href='#__rulerMonth' x='876' />
+  <use xlink:href='#__rulerMonth' x='885' />
+  <use xlink:href='#__rulerMonth' x='893' />
+  <use xlink:href='#__rulerMonth' x='901' />
+  <use xlink:href='#__ruler' x='910' />
+  <use xlink:href='#__rulerMonth' x='918' />
+  <use xlink:href='#__rulerMonth' x='926' />
+  <use xlink:href='#__rulerMonth' x='935' />
+  <use xlink:href='#__rulerMonth' x='943' />
+  <use xlink:href='#__rulerMonth' x='951' />
+  <use xlink:href='#__rulerMonth' x='960' />
+  <use xlink:href='#__rulerMonth' x='968' />
+  <use xlink:href='#__rulerMonth' x='976' />
+  <use xlink:href='#__rulerMonth' x='985' />
+  <use xlink:href='#__rulerMonth' x='993' />
+  <use xlink:href='#__rulerMonth' x='1001' />
 </g>
 
 <g inkscape:label='Domains' inkscape:groupmode='layer' id='layer_domains' >
@@ -191,34 +225,34 @@
 
 <g inkscape:label='Connectors' inkscape:groupmode='layer' id='layer_connectors'
 style='opacity:0.6;' >
-  <line x1='401' y1='152' x2='401' y2='170' stroke='#1f0' stroke-width='2' stroke-dasharray='2,2' marker-start='url(#connector_0)' />
-  <line x1='310' y1='72' x2='310' y2='150' stroke='#f00' stroke-width='3' stroke-dasharray='3,3' marker-start='url(#connector_1)' />
+  <line x1='401' y1='152' x2='401' y2='170' stroke='#1f0' stroke-width='2' stroke-dasharray='2,2' marker-start='url(#__connector_0)' />
+  <line x1='310' y1='72' x2='310' y2='150' stroke='#f00' stroke-width='3' stroke-dasharray='3,3' marker-start='url(#__connector_1)' />
 </g>
 
 <g inkscape:label='Lines' inkscape:groupmode='layer' id='layer_lines'
  style='fill:none;stroke-width:4;' >
-  <path id='line_Parent' d='M 51 70 L 817 70' stroke='#f00' />
-  <path id='line_Grandchild2' d='M 443 108 L 443 90 L 817 90' stroke='#01faf4' />
-  <path id='line_Child' d='M 216 72 L 216 110 L 817 110' stroke='#00F' />
-  <path id='line_Grandchlid' d='M 410 112 L 410 130 L 690 130' stroke='#0f0' marker-end='url(#__stop_Grandchlid)' />
-  <path id='line_Neighbour' d='M 110 150 L 817 150' stroke='#Ff0' />
-  <path id='line_Neighbour2' d='M 201 170 L 817 170' stroke='#f0f' />
+  <path id='__line_Parent' d='M 51 70 L 818 70' stroke='#f00' />
+  <path id='__line_Grandchild2' d='M 443 108 L 443 90 L 818 90' stroke='#01faf4' />
+  <path id='__line_Child' d='M 216 72 L 216 110 L 818 110' stroke='#00F' />
+  <path id='__line_Grandchlid' d='M 410 112 L 410 130 L 690 130' stroke='#0f0' marker-end='url(#__stop_Grandchlid)' />
+  <path id='__line_Neighbour' d='M 110 150 L 818 150' stroke='#Ff0' />
+  <path id='__line_Neighbour2' d='M 201 170 L 818 170' stroke='#f0f' />
 </g>
 
 <g inkscape:label='Dots' inkscape:groupmode='layer' id='layer_dots'
  style='stroke:none;' >
-  <circle id='dot_Parent' cx='51' cy='70' r='10' fill='#f00' stroke='none' />
+  <circle id='__dot_Parent' cx='51' cy='70' r='10' fill='#f00' stroke='none' />
     <circle cx='310' cy='70' r='5' fill='#f00' stroke='none' />
-  <circle id='dot_Grandchild2' cx='443' cy='90' r='10' fill='#01faf4' stroke='none' />
+  <circle id='__dot_Grandchild2' cx='443' cy='90' r='10' fill='#01faf4' stroke='none' />
     <circle cx='701' cy='90' r='5' fill='#01faf4' stroke='none' />
-  <circle id='dot_Child' cx='216' cy='110' r='10' fill='#00F' stroke='none' />
-  <circle id='dot_Grandchlid' cx='410' cy='130' r='10' fill='#0f0' stroke='none' />
-  <circle id='dot_Neighbour' cx='110' cy='150' r='10' fill='#Ff0' stroke='none' />
-  <circle id='dot_Neighbour2' cx='201' cy='170' r='10' fill='#f0f' stroke='none' />
+  <circle id='__dot_Child' cx='216' cy='110' r='10' fill='#00F' stroke='none' />
+  <circle id='__dot_Grandchlid' cx='410' cy='130' r='10' fill='#0f0' stroke='none' />
+  <circle id='__dot_Neighbour' cx='110' cy='150' r='10' fill='#Ff0' stroke='none' />
+  <circle id='__dot_Neighbour2' cx='201' cy='170' r='10' fill='#f0f' stroke='none' />
 </g>
 
 <g inkscape:label='Labels' inkscape:groupmode='layer' id='layer_labels' xlink:type='simple'
- style='font-size:12px;stroke:none;fill:#000;font-family:Arial;-inkscape-font-specification:Arial;' >
+ style='font-size:12px;stroke:none;fill:#000;font-family:Liberation Sans, Arial, Helvetica;-inkscape-font-specification:Liberation Sans, Arial, Helvetica;' >
   <text x='61' y='66' >Parent</text>
     <text x='315' y='66' >Paront</text>
   <text x='453' y='86' >Grandchild2</text>
@@ -233,37 +267,89 @@ style='opacity:0.6;' >
  style='stroke:none;fill:url(#__yearline);' >
   <rect x='0' y='0' rx='5' ry='5' width='920' height='40' />
   <rect x='0' y='200' rx='5' ry='5' width='920' height='40' />
-  <g style='font-size:28px;stroke:none;fill:#fff;font-family:Arial;-inkscape-font-specification:Arial;text-anchor:middle;' >
-    <text x='60' y='20'><tspan dy='8'>2002</tspan></text>
-    <text x='60' y='220'><tspan dy='8'>2002</tspan></text>
-    <text x='160' y='20'><tspan dy='8'>2003</tspan></text>
-    <text x='160' y='220'><tspan dy='8'>2003</tspan></text>
-    <text x='260' y='20'><tspan dy='8'>2004</tspan></text>
-    <text x='260' y='220'><tspan dy='8'>2004</tspan></text>
-    <text x='360' y='20'><tspan dy='8'>2005</tspan></text>
-    <text x='360' y='220'><tspan dy='8'>2005</tspan></text>
-    <text x='460' y='20'><tspan dy='8'>2006</tspan></text>
-    <text x='460' y='220'><tspan dy='8'>2006</tspan></text>
-    <text x='560' y='20'><tspan dy='8'>2007</tspan></text>
-    <text x='560' y='220'><tspan dy='8'>2007</tspan></text>
-    <text x='660' y='20'><tspan dy='8'>2008</tspan></text>
-    <text x='660' y='220'><tspan dy='8'>2008</tspan></text>
-    <text x='760' y='20'><tspan dy='8'>2009</tspan></text>
-    <text x='760' y='220'><tspan dy='8'>2009</tspan></text>
-    <text x='860' y='20'><tspan dy='8'>2010</tspan></text>
-    <text x='860' y='220'><tspan dy='8'>2010</tspan></text>
+  <g style='font-size:28px;stroke:none;fill:#fff;font-family:Liberation Sans, Arial, Helvetica;-inkscape-font-specification:Liberation Sans, Arial, Helvetica;text-anchor:middle;' >
+    <text x='60' y='30'><tspan>2002</tspan></text>
+    <text x='60' y='230'><tspan>2002</tspan></text>
+    <text x='160' y='30'><tspan>2003</tspan></text>
+    <text x='160' y='230'><tspan>2003</tspan></text>
+    <text x='260' y='30'><tspan>2004</tspan></text>
+    <text x='260' y='230'><tspan>2004</tspan></text>
+    <text x='360' y='30'><tspan>2005</tspan></text>
+    <text x='360' y='230'><tspan>2005</tspan></text>
+    <text x='460' y='30'><tspan>2006</tspan></text>
+    <text x='460' y='230'><tspan>2006</tspan></text>
+    <text x='560' y='30'><tspan>2007</tspan></text>
+    <text x='560' y='230'><tspan>2007</tspan></text>
+    <text x='660' y='30'><tspan>2008</tspan></text>
+    <text x='660' y='230'><tspan>2008</tspan></text>
+    <text x='760' y='30'><tspan>2009</tspan></text>
+    <text x='760' y='230'><tspan>2009</tspan></text>
+    <text x='860' y='30'><tspan>2010</tspan></text>
+    <text x='860' y='230'><tspan>2010</tspan></text>
   </g>
 </g>
 
 <g inkscape:label='Infobox' inkscape:groupmode='layer' id='layer_infobox'
- style='stroke:none;font-family:Arial;-inkscape-font-specification:Arial;' >
+ style='stroke:none;font-size:10;font-family:Liberation Sans, Arial, Helvetica;-inkscape-font-specification:Liberation Sans, Arial, Helvetica;' >
   <rect x='10' y='88' width='140' height='45' rx='10' ry='10' filter='url(#__infobox_shadow)' opacity='0.6' />
   <rect x='10' y='88' width='140' height='45' rx='10' ry='10' fill='url(#__infobox_fill)' stroke='url(#__infobox_stroke)' stroke-width='2' />
-  <text x='16' y='103'><tspan style='font-size:16px;font-weight:bold;'>Title</tspan></text>
-  <text x='16' y='106' style='font-size:10px;'>
-    <tspan x='16' dy='10'>Lorem ipsum dolor sit amet,</tspan>
-    <tspan x='16' dy='10'>consectetuer adipiscing elit</tspan>
-  </text>
+  <text x='15' y='106'><tspan style='font-size:16px;font-weight:bold;'>Title</tspan></text>
+  <text x='15' y='117'><tspan>Lorem ipsum dolor sit amet,</tspan></text>
+  <text x='15' y='130'><tspan>consectetuer adipiscing elit</tspan></text>
+</g>
+
+<g inkscape:label='Included SVG Images' inkscape:groupmode='layer' id='layer_included_svg'>
+  <g transform='translate(770,80)' >
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="1.4"
+     inkscape:cx="79.837141"
+     inkscape:cy="-60.284744"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:window-width="1440"
+     inkscape:window-height="849"
+     inkscape:window-x="0"
+     inkscape:window-y="28"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <path
+       sodipodi:type="arc"
+       style="opacity:0.49000005;fill:url(#radialGradient3596);fill-opacity:1;stroke:#000000;stroke-width:1;stroke-linecap:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:1, 2;stroke-dashoffset:0"
+       id="path2816"
+       sodipodi:cx="93.571426"
+       sodipodi:cy="83.790756"
+       sodipodi:rx="46.42857"
+       sodipodi:ry="44.285713"
+       d="m 140,83.790756 a 46.42857,44.285713 0 1 1 -92.857143,0 46.42857,44.285713 0 1 1 92.857143,0 z"
+       transform="matrix(1.0026728,0,0,0.56371163,4.0356152,-0.74564688)" />
+    <path
+       style="fill:none;stroke:#0000ff;stroke-width:6.30000019;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       d="m 70.450705,38.999705 c 13.63706,34.850263 20.708127,23.738585 23.233509,9.596449 2.525381,-14.142136 10.101526,-27.274119 16.667516,-10.101525 6.56599,17.172593 13.63706,3.030457 13.63706,3.030457"
+       id="path3602" />
+  </g>
+  </g>
 </g>
 
 </svg>

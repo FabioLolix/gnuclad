@@ -127,21 +127,31 @@ void explodeSafely(const string str, const char delimiter, const char toggle,
   if(buff != "") v->push_back(buff);
 }
 
-std::string findReplace(std::string str, std::string find, std::string replace) {
+std::string findReplace(std::string str, std::string find, std::string replace){
 
   if(find == replace)
-    throw "strReplace: find parameter == replace parameter";
+    throw "findReplace: find parameter == replace parameter";
   string::size_type pos = 0;
-  while( (pos = str.find(find, pos)) != string::npos ) {
+  while( (pos = str.find(find, pos)) != string::npos )
     str.replace(pos, find.size(), replace);
-    //~ pos++;
-  }
   return str;
 
 }
 
+// Converts a string to a double
+double str2double(const std::string str) {
+  std::istringstream ss (str);
+  double d;
+  ss >> d;
+  if(ss.fail() == true) {
+    cout << "\nError: string to double conversion failed!";
+    throw 0;
+  }
+  return d;
+}
+
 // Converts a string to an integer
-int str2int(const std::string str){
+int str2int(const std::string str) {
   std::istringstream ss (str);
   int n;
   ss >> n;
@@ -153,7 +163,7 @@ int str2int(const std::string str){
 }
 
 // Converts an integer to a string
-std::string int2str(const int n){
+std::string int2str(const int n) {
   std::ostringstream ss;
   ss << n;
   if(ss.fail() == true) {
