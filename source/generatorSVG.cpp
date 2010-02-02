@@ -171,7 +171,7 @@ void GeneratorSVG::writeData(Cladogram * clad, ofstream * fp) {
   for(int i = 0; i <= years; ++i) {
     int x = i * yrPX + xPX;
     *fp  << "  <use xlink:href='#__ruler' x='" << x << "' />\n";
-    for(int j = 1; j < clad->monthsInYear; ++j)
+    for(int j = 1; j < clad->monthsInYear && i < years; ++j)
       *fp << "  <use xlink:href='#__rulerMonth' x='" << x + j * yrPX / clad->monthsInYear << "' />\n";
   }
   *fp << "</g>\n";
