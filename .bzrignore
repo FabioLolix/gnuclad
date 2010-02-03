@@ -1,3 +1,4 @@
-gnuclad.tar.gz
+__gnuclad.geany
+__releases/
 bin/gnuclad
-windows/*
+windows/

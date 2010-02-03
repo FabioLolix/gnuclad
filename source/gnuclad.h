@@ -181,10 +181,11 @@ class Cladogram {
 
 
   std::string infoBoxTitle;
-  std::string infoBoxText;
+  std::vector<std::string> infoBoxText;
   int infoBoxTitleSize;
   std::string infoBoxFont;
   int infoBoxTextSize;
+  Color infoBoxFontColor;
   Color infoBoxColor1;
   Color infoBoxColor2;
   int infoBoxX;

@@ -8,7 +8,7 @@ add option to display dot with stroke instead of fill (dotStyle)
 CSV generator (generateCSV)
 
 
-parseDIR (depth based and then time pased)
+parseDIR (depth based and then time based)
 
 
 label backgrounds... maybe use font renderer? (freetype)

@@ -31,6 +31,6 @@ class GeneratorSVG: public Generator {
   void writeData(Cladogram * clad, std::ofstream * fp);
 };
 
-std::string ws2underscore(std::string str);
+std::string validxml(std::string str);
 
 #endif

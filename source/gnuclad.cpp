@@ -271,9 +271,10 @@ Cladogram::Cladogram() {
 
   infoBoxTitle = "Title";
   infoBoxTitleSize = 24;
-  infoBoxText = "Lorem ipsum dolor sit amet,|consectetuer adipiscing elit";
+  //~ infoBoxText.push_back("Lorem ipsum dolor sit amet");
   infoBoxTextSize = 16;
   infoBoxFont = "Arial";
+  infoBoxFontColor = Color("#000");
   infoBoxColor1 = Color("#5bf");
   infoBoxColor2 = Color("#38f");
   infoBoxX = 10;
@@ -384,9 +385,10 @@ void Cladogram::parseOptions(const string filename) {
 
       if     (opt == "infoBoxTitle") infoBoxTitle = val;
       else if(opt == "infoBoxTitleSize") infoBoxTitleSize = str2int(val);
-      else if(opt == "infoBoxText") infoBoxText = val;
+      else if(opt == "infoBoxText") infoBoxText.push_back(val);
       else if(opt == "infoBoxTextSize") infoBoxTextSize = str2int(val);
       else if(opt == "infoBoxFont") infoBoxFont = val;
+      else if(opt == "infoBoxFontColor") infoBoxFontColor = Color(val);
       else if(opt == "infoBoxColor1") infoBoxColor1 = Color(val);
       else if(opt == "infoBoxColor2") infoBoxColor2 = Color(val);
       else if(opt == "infoBoxX") infoBoxX = str2int(val);

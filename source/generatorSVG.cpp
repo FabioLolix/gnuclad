@@ -42,7 +42,7 @@ void GeneratorSVG::writeData(Cladogram * clad, ofstream * fp) {
   //////////////////////////////////////////////////////////////////////////////
   // Header (Inkscape compatible)
 
-  *fp << "<?xml version='1.0' encoding='UTF-8' standalone='no'?>\n"
+  *fp << "<?xml version='1.0' encoding='UTF-8' standalone='yes'?>\n"
       << "<!-- Created with gnuclad -->\n"
       << "\n"
       << "<svg\n"
@@ -66,14 +66,14 @@ void GeneratorSVG::writeData(Cladogram * clad, ofstream * fp) {
       << "  <line id='__rulerMonth' x1='0' y1='0' x2='0' y2='100%' stroke='#" << clad->rulerMonthColor.hex << "' stroke-width='" << clad->rulerMonthWidth << "'/>\n\n"
 
   // Yearline gradient
-      << "  <linearGradient id='__yearline' x1='0' y1='0' x2='1' y2='0' stroke='none'>\n"
+      << "  <linearGradient id='__yearline' x1='0' y1='0' x2='1' y2='0'>\n"
       << "    <stop stop-color='#" << clad->yearLineColor1.hex << "' offset='0' stop-opacity='1' />\n"
       << "    <stop stop-color='#" << clad->yearLineColor2.hex << "' offset='1' stop-opacity='1' />\n"
       << "  </linearGradient>\n\n";
 
 
   // Infobox properties
-  *fp << "  <linearGradient id='__infobox_fill' x1='0' y1='0' x2='0' y2='1' stroke='none'>\n"
+  *fp << "  <linearGradient id='__infobox_fill' x1='0' y1='0' x2='0' y2='1'>\n"
       << "    <stop stop-color='#" << clad->infoBoxColor1.hex << "' offset='0' stop-opacity='1' />\n"
       << "    <stop stop-color='#" << clad->infoBoxColor2.hex << "' offset='1' stop-opacity='1' />\n"
       << "  </linearGradient>\n"
@@ -89,7 +89,7 @@ void GeneratorSVG::writeData(Cladogram * clad, ofstream * fp) {
   // Add domain gradients
   for(int i = 0; i < (int)clad->domains.size(); ++i) {
     Domain * d = clad->domains.at(i);
-    *fp << "  <linearGradient id='__domain_" << ws2underscore(d->nodeName) << "' x1='0' y1='0' x2='1' y2='0' stroke='none'>\n"
+    *fp << "  <linearGradient id='__domain_" << validxml(d->nodeName) << "' x1='0' y1='0' x2='1' y2='0'>\n"
         << "    <stop stop-color='#" << d->color.hex << "' offset='0' stop-opacity='0' />\n"
         << "    <stop stop-color='#" << d->color.hex << "' offset='1' stop-opacity='" << float(d->intensity) / 100 << "' />\n"
         << "  </linearGradient>\n";
@@ -113,8 +113,8 @@ void GeneratorSVG::writeData(Cladogram * clad, ofstream * fp) {
 
     n = clad->nodes.at(i);
     if(n->stop < clad->endOfTime) {
-      string name = ws2underscore(n->name);
-      *fp << "  <linearGradient id='__fadeout_" << name << "' x1='0' y1='0' x2='" << fade << "' y2='0' gradientUnits='userSpaceOnUse' stroke='none'>\n"
+      string name = validxml(n->name);
+      *fp << "  <linearGradient id='__fadeout_" << name << "' x1='0' y1='0' x2='" << fade << "' y2='0' gradientUnits='userSpaceOnUse'>\n"
           << "    <stop stop-color='#" << n->color.hex << "' offset='0' stop-opacity='1' />\n"
           << "    <stop stop-color='#" << n->color.hex << "' offset='1' stop-opacity='0' />\n"
           << "  </linearGradient>\n"
@@ -139,8 +139,9 @@ void GeneratorSVG::writeData(Cladogram * clad, ofstream * fp) {
 
       getline(inf, line);
       if( line.find("<defs") != string::npos ) {  // if we get to the defs
-        getline(inf, line);
-        while(line.find("</defs") == string::npos) {  // as long as within defs
+        while(line.find(">") == string::npos) getline(inf, line); // closing tag
+        getline(inf, line); // closing tag
+        while(line.find("</defs>") == string::npos) {  // as long as within defs
           *fp << line << "\n";
           getline(inf, line);
         }
@@ -186,7 +187,7 @@ void GeneratorSVG::writeData(Cladogram * clad, ofstream * fp) {
     int yval = (d->offsetA - 1) * oPX + yrlinePX;
     int hval = (d->offsetB - d->offsetA + 2) * oPX;
     *fp << "  <rect x='" << xpos << "' y='" << yval << "' width='" << width - (xpos + xPX) << "' height='" << hval
-        << "' rx='" << oPX / 2 << "' ry='" << oPX / 2 << "' fill='url(#__domain_" << ws2underscore(d->nodeName) << ")' />\n";
+        << "' rx='" << oPX / 2 << "' ry='" << oPX / 2 << "' fill='url(#__domain_" << validxml(d->nodeName) << ")' />\n";
 
   }
 
@@ -227,7 +228,7 @@ void GeneratorSVG::writeData(Cladogram * clad, ofstream * fp) {
     int startX = datePX(n->start, clad) + xPX;
     int stopX = datePX(n->stop, clad) + xPX;
     int posY = n->offset * oPX + yrlinePX;
-    *fp << "  <path id='__line_"<< ws2underscore(n->name) <<"' d='M ";
+    *fp << "  <path id='__line_"<< validxml(n->name) <<"' d='M ";
     if(n->parent != NULL) {
 
       if(n->offset < n->parent->offset) sign = 1;
@@ -241,7 +242,7 @@ void GeneratorSVG::writeData(Cladogram * clad, ofstream * fp) {
     *fp << startX << " " << posY << " L " << stopX << " " << posY
         << "' stroke='#"<< n->color.hex <<"'";
     if(n->stop < clad->endOfTime)
-      *fp << " marker-end='url(#__stop_" << ws2underscore(n->name) << ")'";
+      *fp << " marker-end='url(#__stop_" << validxml(n->name) << ")'";
     *fp << " />\n";
 
   }
@@ -256,7 +257,7 @@ void GeneratorSVG::writeData(Cladogram * clad, ofstream * fp) {
     n = clad->nodes.at(i);
     int posX = datePX(n->start, clad) + xPX;
     int posY = n->offset * oPX + yrlinePX;
-    *fp << "  <circle id='__dot_" << ws2underscore(n->name) << "' cx='" << posX << "' cy='" << posY
+    *fp << "  <circle id='__dot_" << validxml(n->name) << "' cx='" << posX << "' cy='" << posY
         << "' r='" << clad->dotRadius << "' fill='#" << n->color.hex << "' stroke='none' />\n";
 
     for(int j = 0; j < (int)n->nameChanges.size(); ++j) {
@@ -269,7 +270,7 @@ void GeneratorSVG::writeData(Cladogram * clad, ofstream * fp) {
 
 
   // Labels
-  *fp << "\n<g inkscape:label='Labels' inkscape:groupmode='layer' id='layer_labels' xlink:type='simple'\n"
+  *fp << "\n<g inkscape:label='Labels' inkscape:groupmode='layer' id='layer_labels'\n"
       << " style='font-size:" << clad->labelFontSize << "px;stroke:none;fill:#" << clad->labelFontColor.hex << ";font-family:"
       << clad->labelFont << ";-inkscape-font-specification:" << clad->labelFont << ";' >\n";
   int dirty_hack_em = int(clad->labelFontSize / 1.675 * clad->fontCorrectionFactor);
@@ -339,19 +340,17 @@ void GeneratorSVG::writeData(Cladogram * clad, ofstream * fp) {
   // The infobox
   dirty_hack_ex = int(clad->infoBoxTitleSize / 1.375 * clad->fontCorrectionFactor);
   int dirty_hack_ex2 = int(clad->infoBoxTextSize / 1.375 * clad->fontCorrectionFactor * 1.8);
-  vector<string> textv;
-  explode(clad->infoBoxText, '|', &textv);
   int posX = clad->infoBoxX + dirty_hack_ex * 1/2;
   int posY = clad->infoBoxY + dirty_hack_ex *5/3;
   *fp << "\n<g inkscape:label='Infobox' inkscape:groupmode='layer' id='layer_infobox'\n"
-      << " style='stroke:none;font-size:" << clad->infoBoxTextSize << ";font-family:" << clad->infoBoxFont << ";-inkscape-font-specification:" << clad->infoBoxFont << ";' >\n"
-      << "  <rect x='" << clad->infoBoxX << "' y='" << clad->infoBoxY << "' width='" << clad->infoBoxWidth << "' height='" << clad->infoBoxHeight << "' rx='10' ry='10' filter='url(#__infobox_shadow)' opacity='0.6' />\n"
+      << " style='stroke:none;font-size:" << clad->infoBoxTextSize << ";fill:#" << clad->infoBoxFontColor.hex << ";font-family:" << clad->infoBoxFont << ";-inkscape-font-specification:" << clad->infoBoxFont << ";' >\n"
+      << "  <rect x='" << clad->infoBoxX << "' y='" << clad->infoBoxY << "' width='" << clad->infoBoxWidth << "' height='" << clad->infoBoxHeight << "' rx='10' ry='10' fill='#000' filter='url(#__infobox_shadow)' opacity='0.6' />\n"
       << "  <rect x='" << clad->infoBoxX << "' y='" << clad->infoBoxY << "' width='" << clad->infoBoxWidth << "' height='" << clad->infoBoxHeight << "' rx='10' ry='10' fill='url(#__infobox_fill)' stroke='url(#__infobox_stroke)' stroke-width='2' />\n";
   if(clad->infoBoxTitleSize > 0)
     *fp << "  <text x='" << posX << "' y='" << posY << "'><tspan style='font-size:" << clad->infoBoxTitleSize << "px;font-weight:bold;'>" << clad->infoBoxTitle << "</tspan></text>\n";
   if(clad->infoBoxTextSize > 0 )
-    for(int i = 0; i < (int)textv.size(); ++i)
-      *fp << "  <text x='" << posX << "' y='" << posY + dirty_hack_ex + dirty_hack_ex2 * i << "'><tspan>" << textv.at(i) << "</tspan></text>\n";
+    for(int i = 0; i < (int)clad->infoBoxText.size(); ++i)
+      *fp << "  <text x='" << posX << "' y='" << posY + dirty_hack_ex + dirty_hack_ex2 * i << "'><tspan>" << clad->infoBoxText.at(i) << "</tspan></text>\n";
   *fp << "</g>\n";
 
 
@@ -369,9 +368,9 @@ void GeneratorSVG::writeData(Cladogram * clad, ofstream * fp) {
     while( !inf.eof() && inf.good() ) {
 
       getline(inf, line);
-      if( line.find("</defs") != string::npos ) {  // if we get behind the defs
+      if( line.find("</defs>") != string::npos ) {  // if we get behind the defs
         getline(inf, line);
-        while(line.find("</svg") == string::npos) {  // as long as witihn svg
+        while(line.find("</svg>") == string::npos) {  // as long as witihn svg
           *fp << line << "\n";
           getline(inf, line);
         }
@@ -393,8 +392,22 @@ void GeneratorSVG::writeData(Cladogram * clad, ofstream * fp) {
 }
 
 
-string ws2underscore(string str) {
-  for(int i = 0; i < (int)str.size(); ++i)
-    if(str[i] == ' ') str[i] = '_';
+string validxml(string str) {
+  // We could simply encode in base64, but then the output file would be
+  // much less human readable, which is bad.
+  // Hence pushing the chars into "allowed space".
+  for(int i = 0; i < (int)str.size(); ++i) {
+    unsigned char c = (unsigned char)str[i];
+
+    if(c >= 127) c -= 128;  // remove above 127
+    if(c >= 123) c -= 5;  // push down to 'z'
+    if(c <= 32) c += 33;  // remove unprintable
+    while(c <= 47) c += 10; // push up to '0'
+
+    if(c >= 58 && c <= 64) c -= 10;  // remove :;<=>=@
+    if(c >= 91 && c <= 96) c -= 6;  // remove ^_`
+
+    str[i] = (char)c;
+  }
   return str;
 }
