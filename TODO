@@ -1,9 +1,17 @@
-vertical orientation
+vertical orientation -> try rotate
+
 make sure it works on OSX
 make sure it works on Windows
 
+what about icons? insert base64 PNGs and JPGs?
+
+improve README and PROGRAMMING
+
 ________________________________________________________________ v0.1
 
+improve command line interface? (getopts)
+
+translatable strings (gettext)
 
 parseDIR (depth based and then time based)
 
@@ -22,11 +30,11 @@ add option curvedConnectors ?
 
 add ability to override options in CSV? (with X flag)
   -> easy to implement, but bad practice (weakening conffile devalues parserDIR etc)
-  -> must implement generatorCONF with a CSV as input
+SOLUTION: implement generatorCONF (creates default conf if no csv as input)
+
 
 ________________________________________________________________ v0.3
 
-external (translatable) strings for errors and messages ?
 
 label backgrounds... maybe use font renderer? (freetype)
 

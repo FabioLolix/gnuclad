@@ -351,7 +351,7 @@ void GeneratorSVG::writeData(Cladogram * clad, ofstream * fp) {
         << "  <g style='font-size:" << clad->yearLineFontSize << "px;stroke:none;fill:#" << clad->yearLineFontColor.hex << ";font-family:" << clad->yearLineFont << ";-inkscape-font-specification:" << clad->yearLineFont << ";text-anchor:middle;' >\n";
     for(int i = 0; i < years; ++i) {
       int posX = yrPX * i + yrPX / 2 + xPX;
-      int posY = yrlinePX / 2 + 0.5 * dirty_hack_ex;
+      int posY = yrlinePX / 2 + dirty_hack_ex / 2;
       *fp << "    <text x='" << posX << "' y='" << posY << "'><tspan>" << clad->beginningOfTime.year + i << "</tspan></text>\n"
           << "    <text x='" << posX << "' y='" << height - posY + dirty_hack_ex << "'><tspan>" << clad->beginningOfTime.year + i << "</tspan></text>\n";
     }
