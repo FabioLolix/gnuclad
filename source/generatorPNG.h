@@ -1,5 +1,5 @@
 /*
-*  generatorSVG.h - PNG generator header for gnuclad
+*  generatorPNG.h - PNG generator header for gnuclad
 *
 *  Copyright (C) 2010 Donjan Rodic <drodic@student.ethz.ch>
 *

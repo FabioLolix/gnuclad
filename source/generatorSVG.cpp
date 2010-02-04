@@ -50,6 +50,10 @@ void GeneratorSVG::writeData(Cladogram * clad, ofstream * fp) {
       << "  xmlns:svg='http://www.w3.org/2000/svg'\n"
       << "  xmlns:xlink='http://www.w3.org/1999/xlink'\n"
       << "  xmlns:inkscape='http://www.inkscape.org/namespaces/inkscape'\n"  // for Inkscape layers
+      << "  xmlns:sodipodi='http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd'\n"  // and Sodipodi compatibility
+      << "  xmlns:dc='http://purl.org/dc/elements/1.1/'\n"
+      << "  xmlns:cc='http://creativecommons.org/ns#'\n"
+      << "  xmlns:rdf='http://www.w3.org/1999/02/22-rdf-syntax-ns#'\n"
       << "  version='1.1'\n"
       << "  width='" << width << "'\n"
       << "  height='" << height << "'\n"
@@ -250,19 +254,26 @@ void GeneratorSVG::writeData(Cladogram * clad, ofstream * fp) {
 
 
   // Dots
+  string style;
+  if     (clad->dotType == 0) style = "stroke:none;";
+  else if(clad->dotType == 1) style = "stroke-width:" + int2str(clad->lineWidth / 2) + ";fill:#" + clad->mainBackground.hex + ";";
   *fp << "\n<g inkscape:label='Dots' inkscape:groupmode='layer' id='layer_dots'\n"
-      << " style='stroke:none;' >\n";
+      << " style='" << style << "' >\n";
   for(int i = 0; i < (int)clad->nodes.size(); ++i) {
 
     n = clad->nodes.at(i);
     int posX = datePX(n->start, clad) + xPX;
     int posY = n->offset * oPX + yrlinePX;
+    string dotprops;
+    if     (clad->dotType == 0) dotprops = "fill='#" + n->color.hex + "' stroke='none'";
+    else if(clad->dotType == 1) dotprops = "stroke='#" + n->color.hex + "'";
+
     *fp << "  <circle id='__dot_" << validxml(n->name) << "' cx='" << posX << "' cy='" << posY
-        << "' r='" << clad->dotRadius << "' fill='#" << n->color.hex << "' stroke='none' />\n";
+        << "' r='" << clad->dotRadius << "' " << dotprops << " />\n";
 
     for(int j = 0; j < (int)n->nameChanges.size(); ++j) {
       posX = datePX(n->nameChanges.at(j).date, clad) + xPX;
-      *fp << "    <circle cx='" << posX << "' cy='" << posY << "' r='" << clad->smallDotRadius << "' fill='#" << n->color.hex << "' stroke='none' />\n";
+      *fp << "    <circle cx='" << posX << "' cy='" << posY << "' r='" << clad->smallDotRadius << "' " << dotprops << " />\n";
     }
 
   }
@@ -286,8 +297,9 @@ void GeneratorSVG::writeData(Cladogram * clad, ofstream * fp) {
     }
 
     int posX = datePX(n->start, clad) + xPX + clad->dotRadius;
-    int posY = n->offset * oPX + yrlinePX - (dirty_hack_ex/2);  // last value is experimental
+    int posY = n->offset * oPX + yrlinePX - dirty_hack_ex/2;  // last value is experimental
     int posXwName = posX + n->name.size() * dirty_hack_em;
+    string alignment;
 
     if(clad->labelBackground == 1)
       *fp << "  <rect x='" << posX - dirty_hack_em/4 << "' y='" << posY - dirty_hack_ex *6/5 << "' width='" << n->name.size() * dirty_hack_em
@@ -297,9 +309,21 @@ void GeneratorSVG::writeData(Cladogram * clad, ofstream * fp) {
 
     for(int j = 0; j < (int)n->nameChanges.size(); ++j) {
 
-      if(j != 0) posXwName = posX + n->nameChanges.at(j-1).newName.size() * dirty_hack_em;
-      posX = datePX(n->nameChanges.at(j).date, clad) + xPX + clad->smallDotRadius;
-      if(posX < posXwName) posX = posXwName;
+      if(clad->nameChangeType == 0) {
+
+        posX = datePX(n->nameChanges.at(j).date, clad) + xPX + clad->smallDotRadius;
+        if(posX < posXwName) posX = posXwName;
+        if(j != 0) posXwName = posX + n->nameChanges.at(j-1).newName.size() * dirty_hack_em;
+
+      } else if(clad->nameChangeType == 1) {
+
+        posX = datePX(n->nameChanges.at(j).date, clad) + xPX;
+        posY = n->offset * oPX + yrlinePX + dirty_hack_ex/2;
+        alignment = "style='text-anchor:middle;'";
+        clad->labelBackground = 0;                                              // <= is adjusting the label background pointless?
+
+      }
+
       if(clad->descriptionIsHyperLink == 1)
         href = "<a xlink:href='" + n->nameChanges.at(j).description + "'>";
 
@@ -307,7 +331,7 @@ void GeneratorSVG::writeData(Cladogram * clad, ofstream * fp) {
         *fp << "    <rect x='" << posX - dirty_hack_em/4 << "' y='" << posY - dirty_hack_ex *6/5 << "' width='" << n->nameChanges.at(j).newName.size() * dirty_hack_em
             << "' height='" << dirty_hack_ex *7/5 << "' fill='#" << clad->mainBackground.hex << "' opacity='0.5'  rx='5' ry='5' />\n";
 
-      *fp << "    " << href << "<text x='"<< posX <<"' y='"<< posY <<"' >" << n->nameChanges.at(j).newName <<"</text>" << hrefend << "\n";
+      *fp << "    " << href << "<text x='"<< posX <<"' y='"<< posY <<"' " << alignment << ">" << n->nameChanges.at(j).newName <<"</text>" << hrefend << "\n";
 
     }
 
@@ -343,14 +367,14 @@ void GeneratorSVG::writeData(Cladogram * clad, ofstream * fp) {
   int posX = clad->infoBoxX + dirty_hack_ex * 1/2;
   int posY = clad->infoBoxY + dirty_hack_ex *5/3;
   *fp << "\n<g inkscape:label='Infobox' inkscape:groupmode='layer' id='layer_infobox'\n"
-      << " style='stroke:none;font-size:" << clad->infoBoxTextSize << ";fill:#" << clad->infoBoxFontColor.hex << ";font-family:" << clad->infoBoxFont << ";-inkscape-font-specification:" << clad->infoBoxFont << ";' >\n"
+      << " style='stroke:none;fill:#" << clad->infoBoxFontColor.hex << ";font-family:" << clad->infoBoxFont << ";-inkscape-font-specification:" << clad->infoBoxFont << ";' >\n"
       << "  <rect x='" << clad->infoBoxX << "' y='" << clad->infoBoxY << "' width='" << clad->infoBoxWidth << "' height='" << clad->infoBoxHeight << "' rx='10' ry='10' fill='#000' filter='url(#__infobox_shadow)' opacity='0.6' />\n"
       << "  <rect x='" << clad->infoBoxX << "' y='" << clad->infoBoxY << "' width='" << clad->infoBoxWidth << "' height='" << clad->infoBoxHeight << "' rx='10' ry='10' fill='url(#__infobox_fill)' stroke='url(#__infobox_stroke)' stroke-width='2' />\n";
   if(clad->infoBoxTitleSize > 0)
     *fp << "  <text x='" << posX << "' y='" << posY << "'><tspan style='font-size:" << clad->infoBoxTitleSize << "px;font-weight:bold;'>" << clad->infoBoxTitle << "</tspan></text>\n";
   if(clad->infoBoxTextSize > 0 )
     for(int i = 0; i < (int)clad->infoBoxText.size(); ++i)
-      *fp << "  <text x='" << posX << "' y='" << posY + dirty_hack_ex + dirty_hack_ex2 * i << "'><tspan>" << clad->infoBoxText.at(i) << "</tspan></text>\n";
+      *fp << "  <text x='" << posX << "' y='" << posY + dirty_hack_ex + dirty_hack_ex2 * i << "'><tspan style='font-size:" << clad->infoBoxTextSize << "px;'>" << clad->infoBoxText.at(i) << "</tspan></text>\n";
   *fp << "</g>\n";
 
 

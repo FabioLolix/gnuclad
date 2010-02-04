@@ -127,6 +127,9 @@ void explodeSafely(const string str, const char delimiter, const char toggle,
   if(buff != "") v->push_back(buff);
 }
 
+
+// Find and replace all occurrences of the string "find" in the string "str"
+// with the string "replace", then return "str"
 std::string findReplace(std::string str, std::string find, std::string replace){
 
   if(find == replace)
@@ -179,6 +182,11 @@ Date currentDate() {
   time_t t = time(NULL);
   p = gmtime(&t);
   return Date(p->tm_year + 1900, p->tm_mon + 1, p->tm_mday);
+}
+
+// Returns a string yyyy.mm.dd based on input Date
+std::string Date2str(Date d) {
+  return int2str(d.year) + "." + int2str(d.month) + "." + int2str(d.day);
 }
 
 // Returns pixel offset based on Date object

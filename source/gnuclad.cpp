@@ -24,7 +24,7 @@
 
 #include "gnuclad.h"
 #include "parserCSV.h"
-#include "parserGCT.h"
+#include "generatorCSV.h"
 #include "generatorSVG.h"
 #include "generatorPNG.h"
 
@@ -43,10 +43,10 @@ using namespace std;
 
 int main(int argc, char ** argv) {
 
-  string version = "0.1.0";
+  string version = "0.1";
   string conffile = "";
   string inFormats = "csv";
-  string outFormats = "svg, sadly no png";
+  string outFormats = "csv, svg";
 
   // Help text
   string self = argv[0];
@@ -55,7 +55,7 @@ int main(int argc, char ** argv) {
     cout << "gnuclad v" << version << "\n"
          << "Usage: " << self << " INPUTFILE OUTPUTFORMAT [CONFIGFILE]\n"
          << " Example: " << self << " table.CSV svg\n"
-         << " Example: " << self << " Data.csv PNG alternative.conf\n"
+         << " Example: " << self << " Data.csv CSV alternative.conf\n"
          << "Supported input formats: " << inFormats << '\n'
          << "Supported output formats: " << outFormats << "\n\n";
     return EXIT_SUCCESS;
@@ -74,7 +74,6 @@ int main(int argc, char ** argv) {
   // Chose parser
   Parser * parser = NULL;
   if     (inputExt == "csv") parser = new ParserCSV;
-  else if(inputExt == "gct") parser = new ParserGCT;
   else {
     cout << "\nError: unknown input file type: " << inputExt << '\n'
          << "Supported input formats: " << inFormats << '\n';
@@ -83,7 +82,8 @@ int main(int argc, char ** argv) {
 
   // Chose generator
   Generator * generator = NULL;
-  if     (outputExt == "svg") generator = new GeneratorSVG;
+  if     (outputExt == "csv") generator = new GeneratorCSV;
+  else if(outputExt == "svg") generator = new GeneratorSVG;
   else if(outputExt == "png") generator = new GeneratorPNG;
   else {
     cout << "\nError: unknown output file type: " << outputExt << '\n'
@@ -164,12 +164,55 @@ Color::Color(int tred, int tgreen, int tblue) {
   green = tgreen;
   blue = tblue;
 
-//TODO: hex = ...
+  std::stringstream ss;
+  std::string hred, hgreen, hblue;
+  ss << std::hex << red;
+  ss >> hred;
+  if(hred.size() == 1) hred = "0" + hred;
+  ss.clear();
+  ss << std::hex << green;
+  ss >> hgreen;
+  if(hgreen.size() == 1) hgreen = "0" + hgreen;
+  ss.clear();
+  ss << std::hex << blue;
+  ss >> hblue;
+  if(hblue.size() == 1) hblue = "0" + hblue;
+  if(ss.fail() == true || red > 255 || green > 255 || blue > 255) {
+    cout << "\nError: Color RGB to hex conversion failed!";
+    throw 0;
+  }
+
+  hex = hred + hgreen + hblue;
 }
 Color::Color(string thex) {
   hex = checkHexCol(thex);
   hex = hex.substr(1);
-//TODO: rgb = ...
+
+  int l = 0;
+  if(hex.size() == 3) l = 1;
+  else if(hex.size() == 6) l = 2;
+
+  std::stringstream ss;
+  ss << std::hex << hex.substr(0, l);
+  ss >> red;
+  if(ss.fail() == true || red > 255) {
+    cout << "\nError: Color RGB to hex conversion failed!";
+    throw 0;
+  }
+  ss.clear();
+  ss << std::hex << hex.substr(l, l);
+  ss >> green;
+  if(ss.fail() == true || green > 255) {
+    cout << "\nError: Color RGB to hex conversion failed!";
+    throw 0;
+  }
+  ss.clear();
+  ss << std::hex << hex.substr(2*l, l);
+  ss >> blue;
+  if(ss.fail() == true || blue > 255) {
+    cout << "\nError: Color RGB to hex conversion failed!";
+    throw 0;
+  }
 }
 
 Date::Date() {
@@ -305,10 +348,12 @@ Cladogram::Cladogram() {
   labelFontSize = 16;
   labelFontColor = Color("#000");
   labelBackground = 0;
+  nameChangeType = 0;
 
   derivType = 0;
   dotRadius = 10;
   smallDotRadius = 5;
+  dotType = 0;
 
   connectorDots = 1;
   connectorsDashed = 1;
@@ -415,9 +460,11 @@ void Cladogram::parseOptions(const string filename) {
       else if(opt == "labelFontSize") labelFontSize = str2int(val);
       else if(opt == "labelFontColor") labelFontColor = Color(val);
       else if(opt == "labelBackground") labelBackground = str2int(val);
+      else if(opt == "nameChangeType") nameChangeType = str2int(val);
       else if(opt == "derivType") derivType = str2int(val);
       else if(opt == "dotRadius") dotRadius = str2int(val);
       else if(opt == "smallDotRadius") smallDotRadius = str2int(val);
+      else if(opt == "dotType") dotType = str2int(val);
       else if(opt == "connectorDots") connectorDots = str2int(val);
       else if(opt == "connectorsDashed") connectorsDashed = str2int(val);
       else if(opt == "yearLinePX") yearLinePX = str2int(val);
@@ -686,6 +733,8 @@ void Cladogram::compute() {
         compute_subtreeBoth(nodeTree, treeOffset, n);
       else if(treeMode == 1)
         compute_subtreeLower(nodeTree, treeOffset, n);
+      else if(treeMode == 2)
+        compute_subtreeLowerInverse(nodeTree, treeOffset, n);
 
       //TODO: maybe optimise here with both-rest-subtree swapping
 
@@ -843,12 +892,13 @@ void Cladogram::debug_cladogram_compute() {
 
 }
 
+// Generates a treeMap with the children distributed on both sides
 void Cladogram::compute_subtreeBoth(std::deque<Node *> &tree,
                                     int pos, Node * n) {
 
   int childCount = (int)n->children.size();
-                                                                                        /// OPTIMISE HERE
-  // optimise: if i node (has no children? and) ends before i+1 node starts, but them on same side
+                                                                                        ///TODO: OPTIMISE HERE??
+  // optimise: if i node (has no children? and) ends before i+1 node starts, put them on same side
 
 
   // Insert the upper subtree before current node
@@ -861,12 +911,23 @@ void Cladogram::compute_subtreeBoth(std::deque<Node *> &tree,
 
 }
 
+// Generates a treeMap with the children only below the parent
 void Cladogram::compute_subtreeLower(std::deque<Node *> &tree,
                                     int pos, Node * n) {
 
   // Insert all child nodes after current node in reverse order
   for(int i = 0; i < (int)n->children.size(); ++i)
     tree.insert( tree.begin() + pos + 1, n->children.at(i) );
+
+}
+
+// Generates a treeMap with the children only below the parent - inverse order
+void Cladogram::compute_subtreeLowerInverse(std::deque<Node *> &tree,
+                                    int pos, Node * n) {
+
+  // Insert all child nodes after current node
+  for(int i = 0; i < (int)n->children.size(); ++i)
+    tree.insert( tree.begin() + pos + 1 + i, n->children.at(i) );
 
 }
 

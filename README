@@ -1,26 +1,48 @@
+gnuclad readme - work in progress ;)
+
+////////////////////////////////////////////////////////////////////////////////
+
 HOW TO COMPILE
 
 Open this folder in a terminal and type:
   make all
 
-This will produce a 'gnuclad' binary in the bin folder
+This will produce a 'gnuclad' binary in the bin folder.
 Change to the bin folder and execute gnuclad to get
 acquainted with it's syntax:
   cd bin
   ./gnuclad
 
-Use the provided example files as you see fit.
+Change to the example folder, which should have a gnuclad link in it.
+  cd ../example
+
+Edit the provided example files as you see fit.
+The .csv can be openend with any spreadsheet program (e.g. OpenOffice.org Calc
+or Excel, although Excel 2007 has some compatibility trouble).
+The .conf file can be edited with any text editor of your choice.
+Then you are ready to generate a SVG image:
+  ./gnuclad example.csv svg example.conf
 
 
 
+////////////////////////////////////////////////////////////////////////////////
+
+TIPS
+
+If you have CSV as output format, the recommended treeMode conf setting
+is "lower inverse":
+  treeMode = 2
+This way the trees will be grouped by children and sorted by date.
+
+Important note using CSV as output format:
+All nodes with a starting date newer than endOfTime (usually the current date)
+will be ignored.
+All nodes with a stopping date newer or the same as endOfTime will have
+their stopping date removed (unset == "still alive").
 
 
 
-
-
-
-
-
+////////////////////////////////////////////////////////////////////////////////
 
 OPTIMISATION - ADDITIONAL INFO:
 

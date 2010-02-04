@@ -1,5 +1,5 @@
 /*
-*  parserGCT.h - GCT parser header for gnuclad
+*  generatorCSV.h - CSV generator header for gnuclad
 *
 *  Copyright (C) 2010 Donjan Rodic <drodic@student.ethz.ch>
 *
@@ -18,20 +18,18 @@
 */
 
 
-#ifndef PARSERGCT_H_
-#define PARSERGCT_H_
+#ifndef GENERATORCSV_H_
+#define GENERATORCSV_H_
 
 #include "gnuclad.h"
-//~ #include <string>
 
 
-class ParserGCT: public Parser {
+class GeneratorCSV: public Generator {
   public:
 
-  ParserGCT();
-  void parseData(Cladogram * clad, std::ifstream * fp);
+  GeneratorCSV();
+  void writeData(Cladogram * clad, std::ofstream * fp);
 };
-
 
 
 #endif

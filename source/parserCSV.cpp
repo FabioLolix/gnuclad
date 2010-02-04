@@ -30,7 +30,7 @@ void ParserCSV::parseData(Cladogram * clad, ifstream * fp) {
   string line;
   int count = 1;
   int fixedFieldsNode = 8;
-  int fixedFieldsConnector = 6;
+  int fixedFieldsConnector = 7;
   int fixedFieldsDomain = 4;
   int fixedFieldsImage = 4;
 

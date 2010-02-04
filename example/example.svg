@@ -6,6 +6,10 @@
   xmlns:svg='http://www.w3.org/2000/svg'
   xmlns:xlink='http://www.w3.org/1999/xlink'
   xmlns:inkscape='http://www.inkscape.org/namespaces/inkscape'
+  xmlns:sodipodi='http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd'
+  xmlns:dc='http://purl.org/dc/elements/1.1/'
+  xmlns:cc='http://creativecommons.org/ns#'
+  xmlns:rdf='http://www.w3.org/1999/02/22-rdf-syntax-ns#'
   version='1.1'
   width='920'
   height='320'
@@ -315,12 +319,12 @@ style='opacity:0.6;' >
 </g>
 
 <g inkscape:label='Infobox' inkscape:groupmode='layer' id='layer_infobox'
- style='stroke:none;font-size:12;font-family:Liberation Sans, Arial, Helvetica;-inkscape-font-specification:Liberation Sans, Arial, Helvetica;' >
-  <rect x='10' y='95' width='166' height='60' rx='10' ry='10' filter='url(#__infobox_shadow)' opacity='0.6' />
+ style='stroke:none;fill:#000;font-family:Liberation Sans, Arial, Helvetica;-inkscape-font-specification:Liberation Sans, Arial, Helvetica;' >
+  <rect x='10' y='95' width='166' height='60' rx='10' ry='10' fill='#000' filter='url(#__infobox_shadow)' opacity='0.6' />
   <rect x='10' y='95' width='166' height='60' rx='10' ry='10' fill='url(#__infobox_fill)' stroke='url(#__infobox_stroke)' stroke-width='2' />
   <text x='16' y='116'><tspan style='font-size:18px;font-weight:bold;'>Title</tspan></text>
-  <text x='16' y='129'><tspan>Lorem ipsum dolor sit amet,</tspan></text>
-  <text x='16' y='144'><tspan>consectetuer adipiscing elit</tspan></text>
+  <text x='16' y='129'><tspan style='font-size:12px;'>Lorem ipsum dolor sit amet,</tspan></text>
+  <text x='16' y='144'><tspan style='font-size:12px;'>consectetuer adipiscing elit</tspan></text>
 </g>
 
 <g inkscape:label='Included SVG Images' inkscape:groupmode='layer' id='layer_included_svg'>

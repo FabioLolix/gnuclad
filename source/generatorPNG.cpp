@@ -19,16 +19,19 @@
 
 #include "generatorPNG.h"
 
-#include <iostream>                     //<<<<<<<<<<<<<<<<<<<<<<<< REMOVE later
+#include <iostream>                      //<<<<<<<<<<<<<<<<<<<<<<<< REMOVE later
 
 using namespace std;
 
 // open new tmp file, generate svg into it,
-// use inkscape TMP.svg -D --export-png=TMP.png,
+// use inkscape TMP.svg -D --export-png=tmp.png,   (maybe without -D)
 // open tmp.png file and pool it into our target file
+// or maybe depend on librsvg2-bin (rsvg-convert) instead of inkscape?
 
-// or use libpng and it's compression zlib?
-// or depend on librsvg2-bin (rsvg-convert) instead of inkscape? might only work if it doesn't take snaps.
+// OR include a SVG renderer and then use libpng + zlib?
+
+// OR make a manual colormap, then compress it with libpng, libjpg, etc
+//    would require a font renderer too...
 
 
 GeneratorPNG::GeneratorPNG() {

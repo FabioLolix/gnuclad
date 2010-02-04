@@ -118,7 +118,7 @@ class Domain {
   public:
   std::string nodeName;
   Color color;
-  int intensity;  // %
+  int intensity;
 
   Node * node;
   int offsetA;
@@ -159,6 +159,7 @@ class Cladogram {
 
   void compute_subtreeBoth(std::deque<Node *> &tree, int pos, Node * n);
   void compute_subtreeLower(std::deque<Node *> &tree, int pos, Node * n);
+  void compute_subtreeLowerInverse(std::deque<Node *> &tree, int pos, Node * n);
 
   bool fitsInto(const int offset, Node * node);
   void moveOffsetsHigherThan(const int offset, const int move);
@@ -216,10 +217,12 @@ class Cladogram {
   int labelFontSize;
   Color labelFontColor;
   int labelBackground;
+  int nameChangeType;
 
   int derivType;
   int dotRadius;
   int smallDotRadius;
+  int dotType;
 
   int connectorDots;
   int connectorsDashed;
@@ -294,6 +297,7 @@ double str2double(const std::string str);
 int str2int(const std::string s);
 std::string int2str(const int n);
 Date currentDate();
+std::string Date2str(Date date);
 int datePX(Date d, const Cladogram * clad);
 std::string checkHexCol(const std::string color);
 

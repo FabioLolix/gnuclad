@@ -8,7 +8,7 @@
 "//!","gnuclad parses this correctly no matter in what order the nodes are. You can swap any lines.",,,,,,,,,,,,,
 "//!",,,,,,,,,,,,,,
 "//!","Empty lines get ignored, the first column controls the rest of the line:",,,,,,,,,,,,,
-"//!","# = comment, N = node, C = connector, D = domain",,,,,,,,,,,,,
+"//!","# = comment, N = node, C = connector, D = domain, SVG = SVG image to include",,,,,,,,,,,,,
 "//!",,,,,,,,,,,,,,
 ,,,,,,,,,,,,,,
 "#","Nodes",,,,,,,,,,,,,
