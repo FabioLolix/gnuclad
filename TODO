@@ -1,3 +1,6 @@
+vertical orientation
+make sure it works on OSX
+make sure it works on Windows
 
 ________________________________________________________________ v0.1
 
@@ -12,16 +15,18 @@ optimise both-subtree at creation time
 ________________________________________________________________ v0.2
 
 
-add option curvedConnectors ?
-
-external (translatable) strings for errors and messages ?
-
 take a look at libpng, then maybe implement colormap
 signature generator: 500x500 SVG (PNG if possible), average distribution, grayscale
+
+add option curvedConnectors ?
 
 add ability to override options in CSV? (with X flag)
   -> easy to implement, but bad practice (weakening conffile devalues parserDIR etc)
   -> must implement generatorCONF with a CSV as input
+
+________________________________________________________________ v0.3
+
+external (translatable) strings for errors and messages ?
 
 label backgrounds... maybe use font renderer? (freetype)
 

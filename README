@@ -18,10 +18,21 @@ Change to the example folder, which should have a gnuclad link in it.
 
 Edit the provided example files as you see fit.
 The .csv can be openend with any spreadsheet program (e.g. OpenOffice.org Calc
-or Excel, although Excel 2007 has some compatibility trouble).
+or Excel, although Excel 2007 has some compatibility trouble), the separator is
+comma (,) and the text delimiter is double quote (").
 The .conf file can be edited with any text editor of your choice.
 Then you are ready to generate a SVG image:
+  ../bin/gnuclad example.csv svg example.conf
+
+You can also use the symlink (only tested on GNU/Linux):
   ./gnuclad example.csv svg example.conf
+
+In order to install gnuclad on a POSIX conform system,
+copy the binary to /usr/bin:
+  sudo cp ../bin/gnuclad /usr/bin
+
+Then restart your terminal. You should be able to call gnuclad from any folder.
+
 
 
 
