@@ -37,7 +37,10 @@ void GeneratorSVG::writeData(Cladogram * clad, ofstream * fp) {
 
   int width = years * yrPX + 2 * xPX;
   int height = clad->maximumOffset * oPX + 2 * yrlinePX;
-// if(orientation == vertical) swap(width, height); // or transform the whole svg with rotation transform???
+  int canvasWidth = width;
+  int canvasHeight = height;
+  if(clad->orientation == 1 || clad->orientation == 3)
+    swap(canvasWidth, canvasHeight);
 
   //////////////////////////////////////////////////////////////////////////////
   // Header (Inkscape compatible)
@@ -55,8 +58,8 @@ void GeneratorSVG::writeData(Cladogram * clad, ofstream * fp) {
       << "  xmlns:cc='http://creativecommons.org/ns#'\n"
       << "  xmlns:rdf='http://www.w3.org/1999/02/22-rdf-syntax-ns#'\n"
       << "  version='1.1'\n"
-      << "  width='" << width << "'\n"
-      << "  height='" << height << "'\n"
+      << "  width='" << canvasWidth << "'\n"
+      << "  height='" << canvasHeight << "'\n"
       << ">\n\n";
 
 
@@ -64,10 +67,6 @@ void GeneratorSVG::writeData(Cladogram * clad, ofstream * fp) {
   // Definitions
 
   *fp << "<defs>\n\n"
-
-  // Rulers
-      << "  <line id='__ruler' x1='0' y1='0' x2='0' y2='100%' stroke='#" << clad->rulerColor.hex << "' stroke-width='" << clad->rulerWidth << "'/>\n\n"
-      << "  <line id='__rulerMonth' x1='0' y1='0' x2='0' y2='100%' stroke='#" << clad->rulerMonthColor.hex << "' stroke-width='" << clad->rulerMonthWidth << "'/>\n\n"
 
   // Yearline gradient
       << "  <linearGradient id='__yearline' x1='0' y1='0' x2='1' y2='0'>\n"
@@ -90,7 +89,7 @@ void GeneratorSVG::writeData(Cladogram * clad, ofstream * fp) {
       << "  </filter>\n\n";
 
 
-  // Add domain gradients
+  // Domain gradients
   for(int i = 0; i < (int)clad->domains.size(); ++i) {
     Domain * d = clad->domains.at(i);
     *fp << "  <linearGradient id='__domain_" << validxml(d->nodeName) << "' x1='0' y1='0' x2='1' y2='0'>\n"
@@ -100,7 +99,7 @@ void GeneratorSVG::writeData(Cladogram * clad, ofstream * fp) {
   }
 
 
-  // Add connector markers
+  // Connector markers
   *fp << "\n  <circle id='__connectors_start' cx='0' cy='0' r='" << lPX << "' stroke='none' />\n";
   for(int i = 0; i < (int)clad->connectors.size(); ++i) {
     *fp << "  <marker id='__connector_" << i << "' stroke='none' markerUnits='userSpaceOnUse' style='overflow:visible;'>\n"
@@ -109,7 +108,7 @@ void GeneratorSVG::writeData(Cladogram * clad, ofstream * fp) {
   }
 
 
-  // Add stop gradients
+  // Stop gradients
   Node * n;
   int fade = clad->stopFadeOutPX / lPX;
   *fp << "\n  <line id='__fadeout' x1='0' y1='0' x2='" << fade << "' y2='0' stroke-width='1' />\n";
@@ -130,6 +129,7 @@ void GeneratorSVG::writeData(Cladogram * clad, ofstream * fp) {
   }
 
   // Additional SVG images - definitions
+  *fp << "\n<!-- BEGIN additional SVG images - definitions -->\n";
   Image * image;
   for(int i = 0; i < (int)clad->includeSVG.size(); ++i) {
     image = clad->includeSVG.at(i);
@@ -154,9 +154,10 @@ void GeneratorSVG::writeData(Cladogram * clad, ofstream * fp) {
 
     }
 
-    *fp << "\n\n";
+    *fp << "\n";
     inf.close();
   }
+  *fp << "\n<!-- END additional SVG images - definitions -->\n";
 
   *fp << "\n</defs>\n";
 
@@ -165,19 +166,45 @@ void GeneratorSVG::writeData(Cladogram * clad, ofstream * fp) {
   // Content
 
 
+  // Orientation START
+  string transform = "", retransformLabels = "", retransformYearlines = "";
+  if     (clad->orientation == 0) {}
+  else if(clad->orientation == 1) {
+    transform = "transform='matrix(0,1,1,0,0,1)'";
+    retransformLabels = "transform='matrix(0,1,1,0,0,1)'";
+    retransformYearlines = "transform='matrix(0,1,1,0,0,1) rotate(90,0,0) translate(0,-" + int2str(canvasWidth) + ")'";
+  }
+  else if(clad->orientation == 2) {
+    transform = "transform='matrix(-1,0,0,1,0,1) translate(-" + int2str(canvasWidth) + ",0)'";
+    retransformLabels  = "transform='matrix(-1,0,0,1,0,1) translate(-" + int2str(canvasWidth) + ",0)'";
+    retransformYearlines  = "transform='matrix(-1,0,0,1,0,1) translate(-" + int2str(canvasWidth) + ",0)'";
+  }
+  else if(clad->orientation == 3) {
+    transform = "transform='rotate(-90,0,0) translate(-" + int2str(canvasHeight) + ",0)'";
+    retransformLabels  = "transform='translate(" + int2str(canvasHeight) + ",0) rotate(90,0,0)'";
+  }
+  if(clad->orientation != 0)
+    *fp << "\n<g id='orientation' " << transform << "><!-- BEGIN orientation transform -->\n";
+
+
   // Background
   *fp << "\n<g inkscape:label='Background' inkscape:groupmode='layer' id='layer_background' >\n"
       << "  <rect x='0' y='0' width='" << width << "' height='" << height << "' fill='#" << clad->mainBackground.hex << "' />\n"
       << "</g>\n";
 
-
   // Year and month Rulers
-  *fp << "\n<g inkscape:label='Year Rulers' inkscape:groupmode='layer' id='layer_yearrulers'>\n";
+  *fp << "\n<g inkscape:label='Year Rulers' inkscape:groupmode='layer' id='layer_yearrulers'"
+      << " stroke-width='" << clad->rulerMonthWidth << "' stroke='#" <<  clad->rulerMonthColor.hex  << "'>\n";
   for(int i = 0; i <= years; ++i) {
     int x = i * yrPX + xPX;
-    *fp  << "  <use xlink:href='#__ruler' x='" << x << "' />\n";
-    for(int j = 1; j < clad->monthsInYear && i < years; ++j)
-      *fp << "  <use xlink:href='#__rulerMonth' x='" << x + j * yrPX / clad->monthsInYear << "' />\n";
+    int xm;
+    *fp << "  <line x1='" << x << "' y1='0' x2='" << x << "' y2='" << height << "'"
+        << " stroke-width='" << clad->rulerWidth << "' stroke='#" <<  clad->rulerColor.hex  << "' />\n";
+    for(int j = 1; j < clad->monthsInYear && i < years; ++j) {
+      xm = x + j * yrPX / clad->monthsInYear;
+      *fp << "    <line x1='" << xm << "' y1='0' x2='" << xm << "' y2='" << height << "' />\n";
+    }
+
   }
   *fp << "</g>\n";
 
@@ -281,7 +308,7 @@ void GeneratorSVG::writeData(Cladogram * clad, ofstream * fp) {
 
 
   // Labels
-  *fp << "\n<g inkscape:label='Labels' inkscape:groupmode='layer' id='layer_labels'\n"
+  *fp << "\n<g inkscape:label='Labels' inkscape:groupmode='layer' id='layer_labels' " << retransformLabels << "\n"
       << " style='font-size:" << clad->labelFontSize << "px;stroke:none;fill:#" << clad->labelFontColor.hex << ";font-family:"
       << clad->labelFont << ";-inkscape-font-specification:" << clad->labelFont << ";' >\n";
   int dirty_hack_em = int(clad->labelFontSize / 1.675 * clad->fontCorrectionFactor);
@@ -299,39 +326,87 @@ void GeneratorSVG::writeData(Cladogram * clad, ofstream * fp) {
     int posX = datePX(n->start, clad) + xPX + clad->dotRadius;
     int posY = n->offset * oPX + yrlinePX - dirty_hack_ex/2;  // last value is experimental
     int posXwName = posX + n->name.size() * dirty_hack_em;
-    string alignment;
+    int alignmentBGx = posX - dirty_hack_em/4;
+    string alignment = "";
+
+    if(clad->orientation == 1) {
+
+      posX = n->offset * oPX + yrlinePX;
+      posY = datePX(n->start, clad) + xPX - clad->dotRadius - dirty_hack_ex/5;
+
+      alignment = "style='text-anchor:middle;'";
+      alignmentBGx = posX - n->name.size() * dirty_hack_em / 2;
+
+    } else if(clad->orientation == 2) {
+
+      posX = width - posX - n->name.size() * dirty_hack_em;
+      alignmentBGx = width - alignmentBGx - n->name.size() * dirty_hack_em;
+
+    } else if(clad->orientation == 3) {
+
+      posX = n->offset * oPX + yrlinePX;
+      posY = canvasHeight - (datePX(n->start, clad) + xPX - clad->dotRadius - dirty_hack_ex * 7/5);
+
+      alignment = "style='text-anchor:middle;'";
+      alignmentBGx = posX - n->name.size() * dirty_hack_em / 2;
+
+    }
 
     if(clad->labelBackground == 1)
-      *fp << "  <rect x='" << posX - dirty_hack_em/4 << "' y='" << posY - dirty_hack_ex *6/5 << "' width='" << n->name.size() * dirty_hack_em
+      *fp << "  <rect x='" << alignmentBGx << "' y='" << posY - dirty_hack_ex *6/5 << "' width='" << n->name.size() * dirty_hack_em
           << "' height='" << dirty_hack_ex *7/5 << "' fill='#" << clad->mainBackground.hex << "' opacity='0.5'  rx='5' ry='5' />\n";
 
-    *fp << "  " << href << "<text x='"<< posX <<"' y='"<< posY <<"' >" << n->name <<"</text>" << hrefend << "\n";
+    *fp << "  " << href << "<text x='"<< posX <<"' y='"<< posY <<"' " << alignment << " >" << n->name <<"</text>" << hrefend << "\n";
 
+    string alignmentNameChange;
     for(int j = 0; j < (int)n->nameChanges.size(); ++j) {
 
-      if(clad->nameChangeType == 0) {
+      if(clad->nameChangeType == 0) {  // names outside the dot
 
         posX = datePX(n->nameChanges.at(j).date, clad) + xPX + clad->smallDotRadius;
         if(posX < posXwName) posX = posXwName;
         if(j != 0) posXwName = posX + n->nameChanges.at(j-1).newName.size() * dirty_hack_em;
 
-      } else if(clad->nameChangeType == 1) {
+      } else if(clad->nameChangeType == 1) {  // names centered on the dot
 
         posX = datePX(n->nameChanges.at(j).date, clad) + xPX;
         posY = n->offset * oPX + yrlinePX + dirty_hack_ex/2;
-        alignment = "style='text-anchor:middle;'";
-        clad->labelBackground = 0;                                              // <= is adjusting the label background pointless?
+        alignmentNameChange = "style='text-anchor:middle;'";
+
+      }
+
+      if(clad->orientation == 1) {
+
+        posX = n->offset * oPX + yrlinePX + clad->smallDotRadius;
+        posY = datePX(n->nameChanges.at(j).date, clad) + xPX - clad->smallDotRadius;
+        if(clad->nameChangeType == 1) {
+          posX -= clad->smallDotRadius;
+          posY += clad->smallDotRadius + dirty_hack_ex/2;
+        }
+
+      } else if(clad->orientation == 2) {
+
+        posX = width - posX - n->nameChanges.at(j).newName.size() * dirty_hack_em;
+
+      } else if(clad->orientation == 3) {
+
+        posX = n->offset * oPX + yrlinePX + clad->smallDotRadius;
+        posY = canvasHeight - (datePX(n->nameChanges.at(j).date, clad) + xPX + clad->smallDotRadius/2);
+        if(clad->nameChangeType == 1) {
+          posX -= clad->smallDotRadius;
+          posY += clad->smallDotRadius/2 + dirty_hack_ex/2;
+        }
 
       }
 
       if(clad->descriptionIsHyperLink == 1)
         href = "<a xlink:href='" + n->nameChanges.at(j).description + "'>";
 
-      if(clad->labelBackground == 1)
+      if(clad->labelBackground == 1 && clad->nameChangeType != 1)
         *fp << "    <rect x='" << posX - dirty_hack_em/4 << "' y='" << posY - dirty_hack_ex *6/5 << "' width='" << n->nameChanges.at(j).newName.size() * dirty_hack_em
             << "' height='" << dirty_hack_ex *7/5 << "' fill='#" << clad->mainBackground.hex << "' opacity='0.5'  rx='5' ry='5' />\n";
 
-      *fp << "    " << href << "<text x='"<< posX <<"' y='"<< posY <<"' " << alignment << ">" << n->nameChanges.at(j).newName <<"</text>" << hrefend << "\n";
+      *fp << "    " << href << "<text x='"<< posX <<"' y='"<< posY <<"' " << alignmentNameChange << ">" << n->nameChanges.at(j).newName <<"</text>" << hrefend << "\n";
 
     }
 
@@ -340,7 +415,7 @@ void GeneratorSVG::writeData(Cladogram * clad, ofstream * fp) {
 
 
   // Year Lines with the year numbers
-  *fp << "\n<g inkscape:label='Yearlines' inkscape:groupmode='layer' id='layer_yearlines'\n"
+  *fp << "\n<g inkscape:label='Yearlines' inkscape:groupmode='layer' id='layer_yearlines' " << retransformYearlines << "\n"
       << " style='stroke:none;fill:url(#__yearline);' >\n";
   yrlinePX -= 3 * oPX / 2;  // remove small margin
   dirty_hack_ex = int(clad->yearLineFontSize / 1.375 * clad->fontCorrectionFactor);  // CSS ex unit
@@ -352,13 +427,20 @@ void GeneratorSVG::writeData(Cladogram * clad, ofstream * fp) {
     for(int i = 0; i < years; ++i) {
       int posX = yrPX * i + yrPX / 2 + xPX;
       int posY = yrlinePX / 2 + dirty_hack_ex / 2;
-      *fp << "    <text x='" << posX << "' y='" << posY << "'><tspan>" << clad->beginningOfTime.year + i << "</tspan></text>\n"
-          << "    <text x='" << posX << "' y='" << height - posY + dirty_hack_ex << "'><tspan>" << clad->beginningOfTime.year + i << "</tspan></text>\n";
+      int yeartext = clad->beginningOfTime.year + i;
+      if(clad->orientation == 2) yeartext = clad->endOfTime.year -i;
+      *fp << "    <text x='" << posX << "' y='" << posY << "'><tspan>" << yeartext << "</tspan></text>\n"
+          << "    <text x='" << posX << "' y='" << height - posY + dirty_hack_ex << "'><tspan>" << yeartext << "</tspan></text>\n";
     }
     *fp << "  </g>\n";
 
   }
   *fp << "</g>\n";
+
+
+  // Orientation STOP
+  if(clad->orientation != 0)
+    *fp << "</g><!-- END orientation transform -->\n";
 
 
   // The infobox

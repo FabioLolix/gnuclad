@@ -1,11 +1,16 @@
-vertical orientation -> try rotate
 
-make sure it works on OSX
-make sure it works on Windows
+improve command line interface: allow different output file name
+	input.csv output.svg bla.conf
+
 
 what about icons? insert base64 PNGs and JPGs?
 
+change labelBackground to labelBackgroundOpacity?
+
 improve README and PROGRAMMING
+
+make sure it works on OSX
+make sure it works on Windows
 
 ________________________________________________________________ v0.1
 
@@ -23,18 +28,19 @@ optimise both-subtree at creation time
 ________________________________________________________________ v0.2
 
 
-take a look at libpng, then maybe implement colormap
-signature generator: 500x500 SVG (PNG if possible), average distribution, grayscale
-
 add option curvedConnectors ?
 
 add ability to override options in CSV? (with X flag)
   -> easy to implement, but bad practice (weakening conffile devalues parserDIR etc)
 SOLUTION: implement generatorCONF (creates default conf if no csv as input)
 
+take a look at libpng, then maybe implement colormap
+signature generator: 500x500 SVG (PNG if possible), average distribution, grayscale
 
 ________________________________________________________________ v0.3
 
+
+________________________________________________________________ ...
 
 label backgrounds... maybe use font renderer? (freetype)
 

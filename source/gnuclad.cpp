@@ -326,6 +326,7 @@ Cladogram::Cladogram() {
   infoBoxHeight = 50;
 
   fontCorrectionFactor = 1.0;
+  orientation = 1;
   treeMode = 0;
   sortKey = 0;
   optimise = 99;
@@ -441,6 +442,7 @@ void Cladogram::parseOptions(const string filename) {
       else if(opt == "infoBoxWidth") infoBoxWidth = str2int(val);
       else if(opt == "infoBoxHeight") infoBoxHeight = str2int(val);
       else if(opt == "fontCorrectionFactor")fontCorrectionFactor=str2double(val);
+      else if(opt == "orientation") orientation = str2int(val);
       else if(opt == "treeMode") treeMode = str2int(val);
       else if(opt == "sortKey") sortKey = str2int(val);
       else if(opt == "optimise") optimise = str2int(val);

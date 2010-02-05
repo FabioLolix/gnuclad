@@ -195,6 +195,7 @@ class Cladogram {
   int infoBoxHeight;
 
   double fontCorrectionFactor;
+  int orientation;
   int treeMode;
   int sortKey;
   int optimise;
