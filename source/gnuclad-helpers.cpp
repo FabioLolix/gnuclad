@@ -18,6 +18,7 @@
 */
 
 #include "gnuclad.h"
+#include "gnuclad-portability.h"
 
 #include <iostream>
 #include <limits>
@@ -42,8 +43,7 @@ string strToLower(string str) {
 // Returns the part of the string up to the last dot
 //         the input string if there is no dot
 string getBaseName(string fname) {
-  string delimiter = "/";                                                       // TODO: make this work on Windows
-  fname = fname.substr(fname.rfind(delimiter) + 1);
+  fname = fname.substr(fname.rfind(folder_delimiter) + 1);
   if(fname.rfind('.') != std::string::npos)
     return fname.substr(0, fname.rfind('.'));
   else
@@ -54,10 +54,9 @@ string getBaseName(string fname) {
 //         an empty if there is no dot
 string getExt(string fname) {
   string ext = "";
-  string delimiter = "/";                                                       // TODO: make this work on Windows
   if(fname.rfind('.') != std::string::npos) {
     ext = strToLower(fname.substr(fname.rfind('.') + 1));
-    if(ext.rfind(delimiter) != std::string::npos)
+    if(ext.rfind(folder_delimiter) != std::string::npos)
       ext = "";
   }
   return ext;
