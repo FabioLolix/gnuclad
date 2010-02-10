@@ -1,8 +1,24 @@
-gnuclad readme - work in progress ;)
+
+Table of Contents:
+
+1. About
+2. How to compile
+3. Tips
+4. Optimisation - additional info
 
 ////////////////////////////////////////////////////////////////////////////////
 
-HOW TO COMPILE
+1. ABOUT
+
+gnuclad is a cladogram generator primarily written for the
+GNU/Linux distro timeline project (GLDT): http://futurist.se/gldt/
+
+General applications in genealogy or genesis visualisation are possible as well.
+
+
+////////////////////////////////////////////////////////////////////////////////
+
+2. HOW TO COMPILE
 
 Open this folder in a terminal and type:
   make all
@@ -11,9 +27,9 @@ This will produce a 'gnuclad' binary in the bin folder.
 Change to the bin folder and execute gnuclad to get
 acquainted with it's syntax:
   cd bin
-  ./gnuclad
+  ./gnuclad -h
 
-Change to the example folder, which should have a gnuclad link in it.
+Change to the example folder.
   cd ../example
 
 Edit the provided example files as you see fit.
@@ -21,11 +37,11 @@ The .csv can be openend with any spreadsheet program (e.g. OpenOffice.org Calc
 or Excel, although Excel 2007 has some compatibility trouble), the separator is
 comma (,) and the text delimiter is double quote (").
 The .conf file can be edited with any text editor of your choice.
-Then you are ready to generate a SVG image:
+Now you are ready to generate a SVG image:
   ../bin/gnuclad example.csv svg example.conf
 
-You can also use the symlink (only tested on GNU/Linux):
-  ./gnuclad example.csv svg example.conf
+You can also use the provided symlink (only tested on GNU/Linux):
+  ./gnuclad example.csv another_name.svg example.conf
 
 In order to install gnuclad on a POSIX conform system,
 copy the binary to /usr/bin:
@@ -34,16 +50,16 @@ copy the binary to /usr/bin:
 Then restart your terminal. You should be able to call gnuclad from any folder.
 
 
-
-
 ////////////////////////////////////////////////////////////////////////////////
 
-TIPS
+3. TIPS
 
-If you set CSV as output format, the recommended treeMode conf setting
-is "lower inverse":
+If you set CSV as output format, the recommended optimisation is 0 and
+treeMode conf setting is "lower inverse":
+  optimise = 0
   treeMode = 2
-This way the trees will be grouped by children and sorted by date.
+This way the trees will be grouped by children and sorted by date, while
+your single nodes won't be mangled.
 
 Important note using CSV as output format:
 All nodes with a starting date newer than endOfTime (usually the current date)
@@ -52,10 +68,9 @@ All nodes with a stopping date newer or the same as endOfTime will have
 their stopping date removed (unset == "still alive").
 
 
-
 ////////////////////////////////////////////////////////////////////////////////
 
-OPTIMISATION - ADDITIONAL INFO:
+4. OPTIMISATION - ADDITIONAL INFO
 
 The current optimisation is greedy and therefore not exactly stellar.
 For example, this optimises well:

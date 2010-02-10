@@ -96,11 +96,16 @@ class Color
 The Date object can be initialised either with year,month,day
 or with a string in the format "y.m.d" or "y.m" or "y", where the letters
 can be arbitary (also negative) integers.
+The monthset/dayset switches tell the generator whether to honor the month and
+day settings. They should be ignored by the parser.
 
 class Date
   int year;
   int month;
   int day;
+
+  bool monthset;
+  bool dayset;
 
   Date(int tyear, int tmonth, int tday);
   Date(const std::string str);
@@ -421,5 +426,3 @@ Date currentDate();
 std::string Date2str(Date date);
 
 int datePX(Date d, const Cladogram * clad);
-
-std::string checkHexCol(const std::string color);

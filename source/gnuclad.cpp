@@ -43,33 +43,45 @@ using namespace std;
 
 int main(int argc, char ** argv) {
 
-  string version = "0.1";
+  string version = "ALPHA";
   string conffile = "";
   string inFormats = "csv";
   string outFormats = "csv, svg";
 
-  // Help text
-  string self = argv[0];
+  // Version and Help
+  string self = argv[0], a1 = argv[1];
   if(self.substr(0, 2) == "./") self.replace(0, 2, "");
-  if(argc != 3 && argc != 4) {
-    cout << "gnuclad v" << version << "\n"
-         << "Usage: " << self << " INPUTFILE OUTPUTFORMAT [CONFIGFILE]\n"
-         << " Example: " << self << " table.CSV svg\n"
-         << " Example: " << self << " Data.csv CSV alternative.conf\n"
-         << "Supported input formats: " << inFormats << '\n'
-         << "Supported output formats: " << outFormats << "\n\n";
-    return EXIT_SUCCESS;
-  }
 
   cout << "gnuclad v" << version;
 
+  if(a1 == "-v" || a1 == "--version") {
+    cout << "\n";
+    return EXIT_SUCCESS;
+  }
+
+  if( (argc != 3 && argc != 4) || a1 == "-h" || a1 == "--help" ) {
+
+    cout << "\nUsage: " << self << " INPUTFILE OUTPUT[FORMAT|FILE] [CONFIGFILE]\n"
+         << " Example: " << self << " table.CSV SVG\n"
+         << " Example: " << self << " Data.csv result.csv alternative.conf\n"
+         << "Supported input formats: " << inFormats << '\n'
+         << "Supported output formats: " << outFormats << "\n\n";
+    return EXIT_SUCCESS;
+
+  }
+
   // Get input/output file information
-  string source = argv[1];
+  string source = a1;
   string dest = argv[2];
   string filename = getBaseName(source);
   string inputExt = getExt(source);  // lowercase extension
-  string outputExt = strToLower(dest);
+  string outputExt = getExt(dest);  // lowercase extension
+  if(outputExt == "") {
+    outputExt = strToLower(dest);
+    dest = filename + "." + outputExt;
+  }
   if(argc == 4) conffile = argv[3];
+
 
   // Chose parser
   Parser * parser = NULL;
@@ -113,7 +125,7 @@ int main(int argc, char ** argv) {
 
     clad->compute();
 
-    outfile = new_outfile(filename + '.' + outputExt);
+    outfile = new_outfile(dest);
     generator->writeData(clad, outfile);
 
   } catch(const char * err) {
@@ -143,7 +155,7 @@ int main(int argc, char ** argv) {
 
     cout << "\nAborted\n";
     if(inputExt != outputExt)
-      remove( (filename + '.' + outputExt).c_str() );
+      remove(dest.c_str());
 
   } else cout << "\nDone\n";
   
@@ -164,24 +176,15 @@ Color::Color(int tred, int tgreen, int tblue) {
   green = tgreen;
   blue = tblue;
 
-  std::stringstream ss;
-  std::string hred, hgreen, hblue;
-  ss << std::hex << red;
-  ss >> hred;
-  if(hred.size() == 1) hred = "0" + hred;
-  ss.clear();
-  ss << std::hex << green;
-  ss >> hgreen;
-  if(hgreen.size() == 1) hgreen = "0" + hgreen;
-  ss.clear();
-  ss << std::hex << blue;
-  ss >> hblue;
-  if(hblue.size() == 1) hblue = "0" + hblue;
-  if(ss.fail() == true || red > 255 || green > 255 || blue > 255) {
+  if(red > 255 || green > 255 || blue > 255 ||
+     red < 0   || green < 0   || blue < 0) {
     cout << "\nError: Color RGB to hex conversion failed!";
     throw 0;
   }
 
+  std::string hred = rgb2hexHue(red);
+  std::string hgreen = rgb2hexHue(green);
+  std::string hblue = rgb2hexHue(blue);
   hex = hred + hgreen + hblue;
 }
 Color::Color(string thex) {
@@ -192,24 +195,12 @@ Color::Color(string thex) {
   if(hex.size() == 3) l = 1;
   else if(hex.size() == 6) l = 2;
 
-  std::stringstream ss;
-  ss << std::hex << hex.substr(0, l);
-  ss >> red;
-  if(ss.fail() == true || red > 255) {
-    cout << "\nError: Color RGB to hex conversion failed!";
-    throw 0;
-  }
-  ss.clear();
-  ss << std::hex << hex.substr(l, l);
-  ss >> green;
-  if(ss.fail() == true || green > 255) {
-    cout << "\nError: Color RGB to hex conversion failed!";
-    throw 0;
-  }
-  ss.clear();
-  ss << std::hex << hex.substr(2*l, l);
-  ss >> blue;
-  if(ss.fail() == true || blue > 255) {
+  red = hex2rgbHue( hex.substr(0, l) );
+  green = hex2rgbHue( hex.substr(l, l) );
+  blue = hex2rgbHue( hex.substr(2*l, l) );
+
+  if(red > 255 || green > 255 || blue > 255 ||
+     red < 0   || green < 0   || blue < 0) {
     cout << "\nError: Color RGB to hex conversion failed!";
     throw 0;
   }
@@ -217,18 +208,30 @@ Color::Color(string thex) {
 
 Date::Date() {
   year = 0; month = 0; day = 0;
+  monthset = false; dayset = false;
 }
 Date::Date(int tyear, int tmonth, int tday) {
   year = tyear;
   month = tmonth;
   day = tday;
+  monthset = false;
+  dayset = false;
+  if(month != 0) monthset = true;
+  if(day != 0) dayset = true;
 }
 Date::Date(const std::string str) {
   year = 0; month = 0; day = 0;
+  monthset = false; dayset = false;
   vector<string> d;
   explode(str, '.', &d);
-  if(d.size() == 3) day = str2int(d.at(2));
-  if(d.size() >= 2) month = str2int(d.at(1));
+  if(d.size() == 3) {
+    day = str2int(d.at(2));
+    dayset = true;
+  }
+  if(d.size() >= 2) {
+    month = str2int(d.at(1));
+    monthset = true;
+  }
   if(d.size() >= 1) year = str2int(d.at(0));
 }
 bool Date::operator<(const Date d) {
@@ -348,7 +351,7 @@ Cladogram::Cladogram() {
   labelFont = "Arial";
   labelFontSize = 16;
   labelFontColor = Color("#000");
-  labelBackground = 0;
+  labelBGOpacity = 0;
   nameChangeType = 0;
 
   derivType = 0;
@@ -461,7 +464,7 @@ void Cladogram::parseOptions(const string filename) {
       else if(opt == "labelFont") labelFont = val;
       else if(opt == "labelFontSize") labelFontSize = str2int(val);
       else if(opt == "labelFontColor") labelFontColor = Color(val);
-      else if(opt == "labelBackground") labelBackground = str2int(val);
+      else if(opt == "labelBGOpacity")labelBGOpacity = str2int(val);
       else if(opt == "nameChangeType") nameChangeType = str2int(val);
       else if(opt == "derivType") derivType = str2int(val);
       else if(opt == "dotRadius") dotRadius = str2int(val);
@@ -481,7 +484,7 @@ void Cladogram::parseOptions(const string filename) {
       else if(opt == "descriptionIsHyperLink")
         descriptionIsHyperLink = str2int(val);
       else if(opt == "debug") debug = str2int(val);
-      else cout << "\nUnrecognised config option: " << opt << " => ignoring";
+      else cout << "\nIGNORING unrecognised config option: " << opt;
 
     } catch (...) {
       throw "invalid config setting for option: " + opt;
@@ -655,7 +658,7 @@ void Cladogram::compute() {
     if(c->toWhen.day == 0) c->toWhen.day = 1;
 
     if(endOfTime < c->fromWhen || endOfTime < c->toWhen) {
-      cout << "\nIgnoring connector " << c->fromName << " -> " << c->toName
+      cout << "\nIGNORING connector " << c->fromName << " -> " << c->toName
            << " (starting " << c->fromWhen.year<< "." << c->fromWhen.month
            << "." << c->fromWhen.day << " stopping " << c->toWhen.year << "."
            << c->toWhen.month << "." << c->toWhen.day

@@ -42,7 +42,8 @@ string strToLower(string str) {
 // Returns the part of the string up to the last dot
 //         the input string if there is no dot
 string getBaseName(string fname) {
-  fname = fname.substr(fname.rfind('/') + 1);
+  string delimiter = "/";                                                       // TODO: make this work on Windows
+  fname = fname.substr(fname.rfind(delimiter) + 1);
   if(fname.rfind('.') != std::string::npos)
     return fname.substr(0, fname.rfind('.'));
   else
@@ -52,10 +53,14 @@ string getBaseName(string fname) {
 // Returns the part of a string after the last dot
 //         an empty if there is no dot
 string getExt(string fname) {
-  if(fname.rfind('.') != std::string::npos)
-    return strToLower(fname.substr(fname.rfind('.') + 1));
-  else
-    return "";
+  string ext = "";
+  string delimiter = "/";                                                       // TODO: make this work on Windows
+  if(fname.rfind('.') != std::string::npos) {
+    ext = strToLower(fname.substr(fname.rfind('.') + 1));
+    if(ext.rfind(delimiter) != std::string::npos)
+      ext = "";
+  }
+  return ext;
 }
 
 // Returns a new input file, which you have to delete!
@@ -184,8 +189,10 @@ Date currentDate() {
   return Date(p->tm_year + 1900, p->tm_mon + 1, p->tm_mday);
 }
 
-// Returns a string yyyy.mm.dd based on input Date
+// Returns a string "y.m.d" (or "y.m" or "y") based on input Date
 std::string Date2str(Date d) {
+  if(d.dayset == false && d.monthset == false) return int2str(d.year);
+  if(d.dayset == false) return int2str(d.year) + "." + int2str(d.month);
   return int2str(d.year) + "." + int2str(d.month) + "." + int2str(d.day);
 }
 
@@ -203,6 +210,8 @@ int datePX(Date d, const Cladogram * clad) {
 }
 
 // Returns the supplied color string if it is in a valid hex color format
+// Doesn't check for value boundaries. It's called by the Color constructor and
+// shouldn't be used in parsers/generators.
 std::string checkHexCol(const std::string color) {
   if(color[0] != '#' ||
     (color != "none" && color.size() != 4 && color.size() != 7 )) {
@@ -212,4 +221,34 @@ std::string checkHexCol(const std::string color) {
       throw 0;
   }
   return color;
+}
+
+// Returns the hex value of a suppied RGB hue integer. It's called by the
+// Color constructor and shouldn't be used in parsers/generators.
+std::string rgb2hexHue(int hue) {
+  std::stringstream ss;
+  std::string hhue;
+  ss << std::hex << hue;
+  ss >> hhue;
+  if(hhue.size() == 1) hhue = "0" + hhue;
+
+  if(ss.fail() == true) {
+    cout << "\nError: Color RGB to hex conversion failed: bad hue!";
+    throw 0;
+  }
+  return hhue;
+}
+
+// Returns the RGB integer value of a suppied hex hue. It's called by the
+// Color constructor and shouldn't be used in parsers/generators.
+int hex2rgbHue(std::string hhue) {
+  std::stringstream ss;
+  int hue;
+  ss << std::hex << hhue;
+  ss >> hue;
+  if(ss.fail() == true) {
+    cout << "\nError: Color hex to RGB conversion failed: bad hue!";
+    throw 0;
+  }
+  return hue;
 }

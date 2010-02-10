@@ -267,7 +267,7 @@ void GeneratorSVG::writeData(Cladogram * clad, ofstream * fp) {
       int posYparent = n->parent->offset * oPX + yrlinePX - sign * lPX/2;
 
       if(clad->derivType == 0) *fp << startX << " " << posYparent << " L ";
-      else *fp << datePX(n->parent->start, clad) + xPX << " " << posYparent << " L ";
+      else if(clad->derivType == 1) *fp << datePX(n->parent->start, clad) + xPX << " " << posYparent << " L ";
 
     }
     *fp << startX << " " << posY << " L " << stopX << " " << posY
@@ -352,9 +352,10 @@ void GeneratorSVG::writeData(Cladogram * clad, ofstream * fp) {
 
     }
 
-    if(clad->labelBackground == 1)
+    if(clad->labelBGOpacity > 0)
       *fp << "  <rect x='" << alignmentBGx << "' y='" << posY - dirty_hack_ex *6/5 << "' width='" << n->name.size() * dirty_hack_em
-          << "' height='" << dirty_hack_ex *7/5 << "' fill='#" << clad->mainBackground.hex << "' opacity='0.5'  rx='5' ry='5' />\n";
+          << "' height='" << dirty_hack_ex *7/5 << "' fill='#" << clad->mainBackground.hex << "' opacity='" << double(clad->labelBGOpacity)/100 
+          << "'  rx='5' ry='5' />\n";
 
     *fp << "  " << href << "<text x='"<< posX <<"' y='"<< posY <<"' " << alignment << " >" << n->name <<"</text>" << hrefend << "\n";
 
@@ -402,9 +403,9 @@ void GeneratorSVG::writeData(Cladogram * clad, ofstream * fp) {
       if(clad->descriptionIsHyperLink == 1)
         href = "<a xlink:href='" + n->nameChanges.at(j).description + "'>";
 
-      if(clad->labelBackground == 1 && clad->nameChangeType != 1)
+      if(clad->labelBGOpacity > 0 && clad->nameChangeType != 1)
         *fp << "    <rect x='" << posX - dirty_hack_em/4 << "' y='" << posY - dirty_hack_ex *6/5 << "' width='" << n->nameChanges.at(j).newName.size() * dirty_hack_em
-            << "' height='" << dirty_hack_ex *7/5 << "' fill='#" << clad->mainBackground.hex << "' opacity='0.5'  rx='5' ry='5' />\n";
+            << "' height='" << dirty_hack_ex *7/5 << "' fill='#" << clad->mainBackground.hex << "' opacity='" << double(clad->labelBGOpacity)/100 << "'  rx='5' ry='5' />\n";
 
       *fp << "    " << href << "<text x='"<< posX <<"' y='"<< posY <<"' " << alignmentNameChange << ">" << n->nameChanges.at(j).newName <<"</text>" << hrefend << "\n";
 

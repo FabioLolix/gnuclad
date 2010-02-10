@@ -55,6 +55,9 @@ class Date {
   int month;
   int day;
 
+  bool monthset;
+  bool dayset;
+
   Date();
   Date(int tyear, int tmonth, int tday);
   Date(const std::string str);
@@ -216,7 +219,7 @@ class Cladogram {
   std::string labelFont;
   int labelFontSize;
   Color labelFontColor;
-  int labelBackground;
+  int labelBGOpacity;
   int nameChangeType;
 
   int derivType;
@@ -299,6 +302,8 @@ Date currentDate();
 std::string Date2str(Date date);
 int datePX(Date d, const Cladogram * clad);
 std::string checkHexCol(const std::string color);
+std::string rgb2hexHue(int hue);
+int hex2rgbHue(std::string hhue);
 
 
 
