@@ -56,29 +56,10 @@ class Date {
   int day;
 
   Date();
-  Date(int tyear, int tmonth);
   Date(int tyear, int tmonth, int tday);
   Date(const std::string str);
   bool operator<(Date d);
   Date operator+(Date d);
-};
-
-class NameChange {
-  public:
-  std::string newName;
-  Date date;
-  std::string description;
-
-  NameChange();
-  NameChange(std::string tnewName, Date tdate, std::string description);
-};
-
-class Icon {
-  public:
-  std::string filename;
-
-  Icon();
-  Icon(std::string tfilename);
 };
 
 class Image {
@@ -89,6 +70,24 @@ class Image {
 
   Image();
   Image(std::string tfilename);
+};
+
+class Icon {
+  public:
+  std::string filename;
+
+  Icon();
+  Icon(std::string tfilename);
+};
+
+class NameChange {
+  public:
+  std::string newName;
+  Date date;
+  std::string description;
+
+  NameChange();
+  NameChange(std::string tnewName, Date tdate, std::string description);
 };
 
 class Node {
@@ -249,8 +248,6 @@ class Cladogram {
   void compute();
 
   Node * addNode(std::string tname);
-  Node * addNode(std::string tname, Color tcolor,
-                 Date tstart, Date tstop, std::string tparentName);
   Domain * addDomain(std::string tname);
   Connector * addConnector();
   Image * addImage(std::string tname, std::vector<Image *> &vector);
@@ -290,7 +287,8 @@ std::ifstream * new_infile(const std::string fname);
 std::ofstream * new_outfile(const std::string fname);
 void safeClose(std::ifstream * fp);
 void safeClose(std::ofstream * fp);
-void explode(const std::string str, const char delimiter, std::vector<std::string> * v);
+void explode(const std::string str, const char delimiter,
+             std::vector<std::string> * v);
 void explodeSafely(const std::string str, const char delimiter,
                    const char toggle, std::vector<std::string> * v);
 std::string findReplace(std::string str, std::string find, std::string replace);

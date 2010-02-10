@@ -1,7 +1,7 @@
+use setbit for dates -> generating CSV has xxxx.yy instead of xxxx.yy.zz
 
 improve command line interface: allow different output file name
 	input.csv output.svg bla.conf
-
 
 what about icons? insert base64 PNGs and JPGs?
 

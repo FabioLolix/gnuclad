@@ -502,19 +502,6 @@ Node * Cladogram::addNode(std::string tname) {
   return node;
 }
 
-Node * Cladogram::addNode(std::string tname, Color tcolor,
-                          Date tstart, Date tstop, std::string tparentName) {
-
-  Node * node = addNode(tname);
-
-  node->parentName = tparentName;
-  node->color = tcolor;
-  node->start = tstart;
-  node->stop = tstop;
-
-  return node;
-}
-
 Domain * Cladogram::addDomain(std::string tname) {
   Domain * domain = new Domain;
   domain->nodeName = tname;

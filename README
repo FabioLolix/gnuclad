@@ -40,7 +40,7 @@ Then restart your terminal. You should be able to call gnuclad from any folder.
 
 TIPS
 
-If you have CSV as output format, the recommended treeMode conf setting
+If you set CSV as output format, the recommended treeMode conf setting
 is "lower inverse":
   treeMode = 2
 This way the trees will be grouped by children and sorted by date.
