@@ -72,7 +72,8 @@ void GeneratorCSV::writeData(Cladogram * clad, ofstream * fp) {
       << "\"//!\",\"gnuclad parses this correctly no matter in what order the nodes are. You can swap any lines.\"" << tail2 << "\n"
       << "\"//!\"" << tailWidth << "\n"
       << "\"//!\",\"Empty lines get ignored, the first column controls the rest of the line:\"" << tail2 << "\n"
-      << "\"//!\",\"# = comment, N = node, C = connector, D = domain, SVG = SVG image to include\"" << tail2 << "\n"
+      << "\"//!\",\"# = comment, N = node, C = connector, D = domain\"" << tail2 << "\n"
+      << "\"//!\",\"SVG = SVG image to include, PNG = PNG image to include\"" << tail2 << "\n"
       << "\"//!\"" << tailWidth << "\n"
       << tailWidth << "\n";
 
@@ -95,7 +96,7 @@ void GeneratorCSV::writeData(Cladogram * clad, ofstream * fp) {
     *fp << "\"N\",\"" << n->name << "\",\"#" << n->color.hex << "\",\"" 
         << n->parentName << "\",\""
         << Date2str(n->start) << "\",\"" << stopdate << "\",\""
-        << n->icon.filename << "\",\"" << n->description << "\"";
+        << n->iconfile << "\",\"" << n->description << "\"";
 
     for(int j = 0; j < (int)n->nameChanges.size(); ++j) {
       NameChange * nc = &(n->nameChanges.at(j));

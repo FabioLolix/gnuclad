@@ -128,35 +128,17 @@ void GeneratorSVG::writeData(Cladogram * clad, ofstream * fp) {
 
   }
 
+
+  // Icons - definitions for SVG files
+  for(int i = 0; i < (int)clad->nodes.size(); ++i)
+    if(getExt(clad->nodes.at(i)->iconfile) == "svg")
+      *fp << SVG_defs(clad->nodes.at(i)->iconfile);
+
+
   // Additional SVG images - definitions
   *fp << "\n<!-- BEGIN additional SVG images - definitions -->\n";
-  Image * image;
-  for(int i = 0; i < (int)clad->includeSVG.size(); ++i) {
-    image = clad->includeSVG.at(i);
-
-    ifstream inf( (image->filename).c_str() );
-    if( !inf.is_open() ) throw "failed to open SVG image " + image->filename;
-
-    *fp << "\n\n";
-    string line;
-    while( !inf.eof() && inf.good() ) {
-
-      getline(inf, line);
-      if( line.find("<defs") != string::npos ) {  // if we get to the defs
-        while(line.find(">") == string::npos) getline(inf, line); // closing tag
-        getline(inf, line); // closing tag
-        while(line.find("</defs>") == string::npos) {  // as long as within defs
-          *fp << line << "\n";
-          getline(inf, line);
-        }
-        break;
-      }
-
-    }
-
-    *fp << "\n";
-    inf.close();
-  }
+  for(int i = 0; i < (int)clad->includeSVG.size(); ++i)
+    *fp << SVG_defs(clad->includeSVG.at(i)->filename);
   *fp << "\n<!-- END additional SVG images - definitions -->\n";
 
   *fp << "\n</defs>\n";
@@ -302,6 +284,50 @@ void GeneratorSVG::writeData(Cladogram * clad, ofstream * fp) {
       posX = datePX(n->nameChanges.at(j).date, clad) + xPX;
       *fp << "    <circle cx='" << posX << "' cy='" << posY << "' r='" << clad->smallDotRadius << "' " << dotprops << " />\n";
     }
+
+  }
+  *fp << "</g>\n";
+
+
+  // Icons
+  *fp << "\n<g inkscape:label='Icons' inkscape:groupmode='layer' id='layer_icons'>\n";
+  string iconfile, format;
+  for(int i = 0; i < (int)clad->nodes.size(); ++i) {
+
+    n = clad->nodes.at(i);
+    iconfile = n->iconfile;
+    format = getExt(iconfile);
+
+    if(format == "") continue;
+    else if(format == "svg") {
+
+      int iconWidth = 0;
+      int iconHeight = 0;
+
+      string icon = SVG_body(iconfile, iconWidth, iconHeight);
+
+      int posX = datePX(n->start, clad) + xPX - iconWidth/2;
+      int posY = n->offset * oPX + yrlinePX - iconHeight/2;
+
+      *fp << "  <g transform='translate(" << posX << "," << posY << ")' >\n"
+          << icon
+          << "  </g>\n";
+
+    } else if(format == "png") {
+
+      int iconWidth = 0;
+      int iconHeight = 0;
+
+      string icon = base64_png(iconfile, iconWidth, iconHeight);
+
+      int posX = datePX(n->start, clad) + xPX - iconWidth/2;
+      int posY = n->offset * oPX + yrlinePX - iconHeight/2;
+
+      *fp << "  <image id='__icon_" << validxml(n->name) << "' x='" << posX << "' y='" << posY << "' width='" << iconWidth << "' height='" << iconHeight << "'\n"
+          << "    xlink:href='data:image/" << format << ";base64," << icon << "' />\n";
+
+    } else throw "unknown icon file format: " + format +
+                 "\n       accepted formats: svg, png";
 
   }
   *fp << "</g>\n";
@@ -460,38 +486,39 @@ void GeneratorSVG::writeData(Cladogram * clad, ofstream * fp) {
       *fp << "  <text x='" << posX << "' y='" << posY + dirty_hack_ex + dirty_hack_ex2 * i << "'><tspan style='font-size:" << clad->infoBoxTextSize << "px;'>" << clad->infoBoxText.at(i) << "</tspan></text>\n";
   *fp << "</g>\n";
 
+  *fp << "\n<!-- BEGIN additional images -->\n";
+
+  // Additional PNG images
+  Image * image;
+  *fp << "\n<g inkscape:label='Included PNG Images' inkscape:groupmode='layer' id='layer_included_png'>\n";
+  for(int i = 0; i < (int)clad->includePNG.size(); ++i) {
+    image = clad->includePNG.at(i);
+
+    int imgWidth = 0;
+    int imgHeight = 0;
+    string data = base64_png(image->filename, imgWidth, imgHeight);
+
+    *fp << "  <image id='__png_" << int2str(i) << "' x='" << image->x << "' y='" << image->y << "' width='" << imgWidth << "' height='" << imgHeight << "'\n"
+        << "    xlink:href='data:image/png;base64," << data << "' />\n";
+  }
+  *fp << "</g>\n";
+
 
   // Additional SVG images
   *fp << "\n<g inkscape:label='Included SVG Images' inkscape:groupmode='layer' id='layer_included_svg'>\n";
   for(int i = 0; i < (int)clad->includeSVG.size(); ++i) {
 
+    int void1, void2;
     image = clad->includeSVG.at(i);
-
-    ifstream inf( (image->filename).c_str() );
-    if( !inf.is_open() ) throw "failed to open SVG image " + image->filename;
-    *fp << "  <g transform='translate(" << image->x << "," << image->y << ")' >\n";
-
-    string line;
-    while( !inf.eof() && inf.good() ) {
-
-      getline(inf, line);
-      if( line.find("</defs>") != string::npos ) {  // if we get behind the defs
-        getline(inf, line);
-        while(line.find("</svg>") == string::npos) {  // as long as witihn svg
-          *fp << line << "\n";
-          getline(inf, line);
-        }
-        break;
-      }
-
-    }
-
-    *fp << "  </g>\n";
-    inf.close();
+    string data = SVG_body(image->filename, void1, void2);
+    *fp << "  <g transform='translate(" << image->x << "," << image->y << ")' >\n"
+        << data
+        << "  </g>\n";
 
   }
   *fp << "</g>\n";
 
+  *fp << "\n<!-- END additional images -->\n";
 
 
   *fp << "\n</svg>\n";
@@ -517,4 +544,104 @@ string validxml(string str) {
     str[i] = (char)c;
   }
   return str;
+}
+
+
+// Returns the definitions of the specified SVG image (within <defs></defs)
+std::string SVG_defs(std::string filename) {
+  ifstream fp( filename.c_str() );
+  if( !fp.is_open() ) throw "failed to open SVG image " + filename;
+
+  string line, data = "";
+  while( !fp.eof() && fp.good() ) {
+
+    getline(fp, line);
+    if( line.find("<defs") != string::npos ) {  // if we get to the defs
+      while(line.find(">") == string::npos) getline(fp, line); // closing tag
+      getline(fp, line); // closing tag
+      while(line.find("</defs>") == string::npos) {  // as long as within defs
+        data += line + "\n";
+        getline(fp, line);
+      }
+      break;
+    }
+
+  }
+  fp.close();
+  return data;
+}
+
+// Returns the body of the specified SVG image (after </defs>)
+// Also sets the supplied width and height parameters to the correct value
+std::string SVG_body(std::string filename, int &width, int &height) {
+  ifstream fp( filename.c_str() );
+  if( !fp.is_open() ) throw "failed to open SVG image " + filename;
+
+  string line, data = "";
+  while( !fp.eof() && fp.good() ) {
+
+    // set width and height
+    getline(fp, line);
+    if( line.find("<svg") != string::npos ) {
+      size_t pos;
+      while(line.find(">") == string::npos) {
+        if( (pos = line.find("width")) != string::npos) {
+          string tmp = line.substr(pos + 5);
+          tmp = tmp.substr(tmp.find_first_of("\"'") + 1);
+          tmp = tmp.substr(0, tmp.find_first_of("\"'"));
+          width = str2int(tmp);
+        }
+        if( (pos = line.find("height")) != string::npos) {
+          string tmp = line.substr(pos + 6);
+          tmp = tmp.substr(tmp.find_first_of("\"'") + 1);
+          tmp = tmp.substr(0, tmp.find_first_of("\"'"));
+          height = str2int(tmp);
+        }
+        getline(fp, line);
+      }
+    }
+
+    // get contents
+    if( line.find("</defs>") != string::npos ) {  // if we get behind the defs
+      getline(fp, line);
+      while(line.find("</svg>") == string::npos) {  // as long as within svg
+        data += line + "\n";
+        getline(fp, line);
+      }
+      break;
+    }
+
+  }
+  fp.close();
+  return data;
+}
+
+
+// Read a specified PNG file and return it as a base64 string
+// Also sets the supplied width and height parameters to the correct value
+std::string base64_png(std::string filename, int &width, int &height) {
+
+    ifstream fp(filename.c_str(), ios::in|ios::binary|ios::ate);
+    if( !fp.is_open() ) throw "failed to open PNG image " + filename;
+
+    int size = fp.tellg();
+    char * data = new char [size];
+    fp.seekg (0);
+    fp.read(data, size);
+
+    if(data[1] != 'P' || data[2] != 'N' || data[3] != 'G')
+      throw "invalid PNG icon file: " + filename;
+
+    string data64 = base64_encode(data, size);
+
+    // get width/height out of PNG's big endian format
+    width = ((int)data[16] << 12) | ((int)data[17] << 8) |
+                ((int)data[18] << 4)  |  (int)data[19];
+    height = ((int)data[20] << 12) | ((int)data[21] << 8) |
+                 ((int)data[22] << 4)  |  (int)data[23];
+
+    delete[] data;
+    fp.close();
+
+    return data64;
 }

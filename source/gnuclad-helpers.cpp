@@ -181,6 +181,44 @@ std::string int2str(const int n) {
   return ss.str();
 }
 
+// Returns a base64 encoded version of the input character array
+std::string base64_encode(const char * raw, unsigned int len) {
+
+  char base64_table[] =
+    {"ABCDEFGHIJKLMNOPQRSTUVWXYZ""abcdefghijklmnopqrstuvwxyz""0123456789+/"};
+  int lineWidth = 200;
+
+  string result;
+  char tri[3], quad[4];
+  unsigned int i;
+  int full = 0, n = 3;
+ 
+  for(i = 0; i < len; i = i + 3) {
+    if(len - i < 3) n = len - i;
+
+    for(int j = 0; j < 3; ++j) tri[j] = '\0';
+    for(int j = 0; j < n; ++j) tri[j] = raw[i + j];
+
+    quad[0] = base64_table[ (tri[0] & 0xFC) >> 2   ];   // FC = 11111100
+    quad[1] = base64_table[((tri[0] & 0x03) << 4) |     // 03 = 00000011
+                           ((tri[1] & 0xF0) >> 4)  ];   // F0 = 11110000
+    quad[2] = base64_table[((tri[1] & 0x0F) << 2) |     // 0F = 00001111
+                           ((tri[2] & 0xC0) >> 6)  ];   // C0 = 11000000
+    quad[3] = base64_table[  tri[2] & 0x3F         ];   // 3F = 00111111
+
+    for(int j = 3; j > n; --j) quad[j] = '=';
+    for(int j = 0; j < 4; ++j) result += quad[j];
+
+    full += 4;
+    if(full > lineWidth) {
+      result += "\n";
+      full = 0;
+    }
+  }
+
+  return result;
+}
+
 // Returns Date object with the time at execution
 Date currentDate() {
   tm * p = NULL;

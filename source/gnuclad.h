@@ -75,14 +75,6 @@ class Image {
   Image(std::string tfilename);
 };
 
-class Icon {
-  public:
-  std::string filename;
-
-  Icon();
-  Icon(std::string tfilename);
-};
-
 class NameChange {
   public:
   std::string newName;
@@ -101,7 +93,7 @@ class Node {
   Date start;
   Date stop;
   Color color;
-  Icon icon;
+  std::string iconfile;
   std::string description;
 
   Node * parent;
@@ -177,6 +169,7 @@ class Cladogram {
   std::vector<Connector *> connectors;
   std::vector<Domain *> domains;
   std::vector<Image *> includeSVG;
+  std::vector<Image *> includePNG;
 
   Date beginningOfTime;
   Date endOfTime;
@@ -298,6 +291,7 @@ std::string findReplace(std::string str, std::string find, std::string replace);
 double str2double(const std::string str);
 int str2int(const std::string s);
 std::string int2str(const int n);
+std::string base64_encode(const char * raw, unsigned int len);
 Date currentDate();
 std::string Date2str(Date date);
 int datePX(Date d, const Cladogram * clad);

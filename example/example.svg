@@ -17,10 +17,6 @@
 
 <defs>
 
-  <line id='__ruler' x1='0' y1='0' x2='0' y2='100%' stroke='#ddd' stroke-width='2'/>
-
-  <line id='__rulerMonth' x1='0' y1='0' x2='0' y2='100%' stroke='#eaeaea' stroke-width='1'/>
-
   <linearGradient id='__yearline' x1='0' y1='0' x2='1' y2='0'>
     <stop stop-color='#037' offset='0' stop-opacity='1' />
     <stop stop-color='#37d' offset='1' stop-opacity='1' />
@@ -74,6 +70,8 @@
     <use xlink:href='#__fadeout' stroke='url(#__fadeout_Neighbour)' />
   </marker>
 
+<!-- BEGIN additional SVG images - definitions -->
+
 
     <linearGradient
        id="linearGradient3590">
@@ -106,6 +104,7 @@
        gradientUnits="userSpaceOnUse" />
 
 
+<!-- END additional SVG images - definitions -->
 
 </defs>
 
@@ -113,116 +112,116 @@
   <rect x='0' y='0' width='920' height='320' fill='#fff' />
 </g>
 
-<g inkscape:label='Year Rulers' inkscape:groupmode='layer' id='layer_yearrulers'>
-  <use xlink:href='#__ruler' x='10' />
-  <use xlink:href='#__rulerMonth' x='18' />
-  <use xlink:href='#__rulerMonth' x='26' />
-  <use xlink:href='#__rulerMonth' x='35' />
-  <use xlink:href='#__rulerMonth' x='43' />
-  <use xlink:href='#__rulerMonth' x='51' />
-  <use xlink:href='#__rulerMonth' x='60' />
-  <use xlink:href='#__rulerMonth' x='68' />
-  <use xlink:href='#__rulerMonth' x='76' />
-  <use xlink:href='#__rulerMonth' x='85' />
-  <use xlink:href='#__rulerMonth' x='93' />
-  <use xlink:href='#__rulerMonth' x='101' />
-  <use xlink:href='#__ruler' x='110' />
-  <use xlink:href='#__rulerMonth' x='118' />
-  <use xlink:href='#__rulerMonth' x='126' />
-  <use xlink:href='#__rulerMonth' x='135' />
-  <use xlink:href='#__rulerMonth' x='143' />
-  <use xlink:href='#__rulerMonth' x='151' />
-  <use xlink:href='#__rulerMonth' x='160' />
-  <use xlink:href='#__rulerMonth' x='168' />
-  <use xlink:href='#__rulerMonth' x='176' />
-  <use xlink:href='#__rulerMonth' x='185' />
-  <use xlink:href='#__rulerMonth' x='193' />
-  <use xlink:href='#__rulerMonth' x='201' />
-  <use xlink:href='#__ruler' x='210' />
-  <use xlink:href='#__rulerMonth' x='218' />
-  <use xlink:href='#__rulerMonth' x='226' />
-  <use xlink:href='#__rulerMonth' x='235' />
-  <use xlink:href='#__rulerMonth' x='243' />
-  <use xlink:href='#__rulerMonth' x='251' />
-  <use xlink:href='#__rulerMonth' x='260' />
-  <use xlink:href='#__rulerMonth' x='268' />
-  <use xlink:href='#__rulerMonth' x='276' />
-  <use xlink:href='#__rulerMonth' x='285' />
-  <use xlink:href='#__rulerMonth' x='293' />
-  <use xlink:href='#__rulerMonth' x='301' />
-  <use xlink:href='#__ruler' x='310' />
-  <use xlink:href='#__rulerMonth' x='318' />
-  <use xlink:href='#__rulerMonth' x='326' />
-  <use xlink:href='#__rulerMonth' x='335' />
-  <use xlink:href='#__rulerMonth' x='343' />
-  <use xlink:href='#__rulerMonth' x='351' />
-  <use xlink:href='#__rulerMonth' x='360' />
-  <use xlink:href='#__rulerMonth' x='368' />
-  <use xlink:href='#__rulerMonth' x='376' />
-  <use xlink:href='#__rulerMonth' x='385' />
-  <use xlink:href='#__rulerMonth' x='393' />
-  <use xlink:href='#__rulerMonth' x='401' />
-  <use xlink:href='#__ruler' x='410' />
-  <use xlink:href='#__rulerMonth' x='418' />
-  <use xlink:href='#__rulerMonth' x='426' />
-  <use xlink:href='#__rulerMonth' x='435' />
-  <use xlink:href='#__rulerMonth' x='443' />
-  <use xlink:href='#__rulerMonth' x='451' />
-  <use xlink:href='#__rulerMonth' x='460' />
-  <use xlink:href='#__rulerMonth' x='468' />
-  <use xlink:href='#__rulerMonth' x='476' />
-  <use xlink:href='#__rulerMonth' x='485' />
-  <use xlink:href='#__rulerMonth' x='493' />
-  <use xlink:href='#__rulerMonth' x='501' />
-  <use xlink:href='#__ruler' x='510' />
-  <use xlink:href='#__rulerMonth' x='518' />
-  <use xlink:href='#__rulerMonth' x='526' />
-  <use xlink:href='#__rulerMonth' x='535' />
-  <use xlink:href='#__rulerMonth' x='543' />
-  <use xlink:href='#__rulerMonth' x='551' />
-  <use xlink:href='#__rulerMonth' x='560' />
-  <use xlink:href='#__rulerMonth' x='568' />
-  <use xlink:href='#__rulerMonth' x='576' />
-  <use xlink:href='#__rulerMonth' x='585' />
-  <use xlink:href='#__rulerMonth' x='593' />
-  <use xlink:href='#__rulerMonth' x='601' />
-  <use xlink:href='#__ruler' x='610' />
-  <use xlink:href='#__rulerMonth' x='618' />
-  <use xlink:href='#__rulerMonth' x='626' />
-  <use xlink:href='#__rulerMonth' x='635' />
-  <use xlink:href='#__rulerMonth' x='643' />
-  <use xlink:href='#__rulerMonth' x='651' />
-  <use xlink:href='#__rulerMonth' x='660' />
-  <use xlink:href='#__rulerMonth' x='668' />
-  <use xlink:href='#__rulerMonth' x='676' />
-  <use xlink:href='#__rulerMonth' x='685' />
-  <use xlink:href='#__rulerMonth' x='693' />
-  <use xlink:href='#__rulerMonth' x='701' />
-  <use xlink:href='#__ruler' x='710' />
-  <use xlink:href='#__rulerMonth' x='718' />
-  <use xlink:href='#__rulerMonth' x='726' />
-  <use xlink:href='#__rulerMonth' x='735' />
-  <use xlink:href='#__rulerMonth' x='743' />
-  <use xlink:href='#__rulerMonth' x='751' />
-  <use xlink:href='#__rulerMonth' x='760' />
-  <use xlink:href='#__rulerMonth' x='768' />
-  <use xlink:href='#__rulerMonth' x='776' />
-  <use xlink:href='#__rulerMonth' x='785' />
-  <use xlink:href='#__rulerMonth' x='793' />
-  <use xlink:href='#__rulerMonth' x='801' />
-  <use xlink:href='#__ruler' x='810' />
-  <use xlink:href='#__rulerMonth' x='818' />
-  <use xlink:href='#__rulerMonth' x='826' />
-  <use xlink:href='#__rulerMonth' x='835' />
-  <use xlink:href='#__rulerMonth' x='843' />
-  <use xlink:href='#__rulerMonth' x='851' />
-  <use xlink:href='#__rulerMonth' x='860' />
-  <use xlink:href='#__rulerMonth' x='868' />
-  <use xlink:href='#__rulerMonth' x='876' />
-  <use xlink:href='#__rulerMonth' x='885' />
-  <use xlink:href='#__rulerMonth' x='893' />
-  <use xlink:href='#__rulerMonth' x='901' />
-  <use xlink:href='#__ruler' x='910' />
+<g inkscape:label='Year Rulers' inkscape:groupmode='layer' id='layer_yearrulers' stroke-width='1' stroke='#eaeaea'>
+  <line x1='10' y1='0' x2='10' y2='320' stroke-width='2' stroke='#ddd' />
+    <line x1='18' y1='0' x2='18' y2='320' />
+    <line x1='26' y1='0' x2='26' y2='320' />
+    <line x1='35' y1='0' x2='35' y2='320' />
+    <line x1='43' y1='0' x2='43' y2='320' />
+    <line x1='51' y1='0' x2='51' y2='320' />
+    <line x1='60' y1='0' x2='60' y2='320' />
+    <line x1='68' y1='0' x2='68' y2='320' />
+    <line x1='76' y1='0' x2='76' y2='320' />
+    <line x1='85' y1='0' x2='85' y2='320' />
+    <line x1='93' y1='0' x2='93' y2='320' />
+    <line x1='101' y1='0' x2='101' y2='320' />
+  <line x1='110' y1='0' x2='110' y2='320' stroke-width='2' stroke='#ddd' />
+    <line x1='118' y1='0' x2='118' y2='320' />
+    <line x1='126' y1='0' x2='126' y2='320' />
+    <line x1='135' y1='0' x2='135' y2='320' />
+    <line x1='143' y1='0' x2='143' y2='320' />
+    <line x1='151' y1='0' x2='151' y2='320' />
+    <line x1='160' y1='0' x2='160' y2='320' />
+    <line x1='168' y1='0' x2='168' y2='320' />
+    <line x1='176' y1='0' x2='176' y2='320' />
+    <line x1='185' y1='0' x2='185' y2='320' />
+    <line x1='193' y1='0' x2='193' y2='320' />
+    <line x1='201' y1='0' x2='201' y2='320' />
+  <line x1='210' y1='0' x2='210' y2='320' stroke-width='2' stroke='#ddd' />
+    <line x1='218' y1='0' x2='218' y2='320' />
+    <line x1='226' y1='0' x2='226' y2='320' />
+    <line x1='235' y1='0' x2='235' y2='320' />
+    <line x1='243' y1='0' x2='243' y2='320' />
+    <line x1='251' y1='0' x2='251' y2='320' />
+    <line x1='260' y1='0' x2='260' y2='320' />
+    <line x1='268' y1='0' x2='268' y2='320' />
+    <line x1='276' y1='0' x2='276' y2='320' />
+    <line x1='285' y1='0' x2='285' y2='320' />
+    <line x1='293' y1='0' x2='293' y2='320' />
+    <line x1='301' y1='0' x2='301' y2='320' />
+  <line x1='310' y1='0' x2='310' y2='320' stroke-width='2' stroke='#ddd' />
+    <line x1='318' y1='0' x2='318' y2='320' />
+    <line x1='326' y1='0' x2='326' y2='320' />
+    <line x1='335' y1='0' x2='335' y2='320' />
+    <line x1='343' y1='0' x2='343' y2='320' />
+    <line x1='351' y1='0' x2='351' y2='320' />
+    <line x1='360' y1='0' x2='360' y2='320' />
+    <line x1='368' y1='0' x2='368' y2='320' />
+    <line x1='376' y1='0' x2='376' y2='320' />
+    <line x1='385' y1='0' x2='385' y2='320' />
+    <line x1='393' y1='0' x2='393' y2='320' />
+    <line x1='401' y1='0' x2='401' y2='320' />
+  <line x1='410' y1='0' x2='410' y2='320' stroke-width='2' stroke='#ddd' />
+    <line x1='418' y1='0' x2='418' y2='320' />
+    <line x1='426' y1='0' x2='426' y2='320' />
+    <line x1='435' y1='0' x2='435' y2='320' />
+    <line x1='443' y1='0' x2='443' y2='320' />
+    <line x1='451' y1='0' x2='451' y2='320' />
+    <line x1='460' y1='0' x2='460' y2='320' />
+    <line x1='468' y1='0' x2='468' y2='320' />
+    <line x1='476' y1='0' x2='476' y2='320' />
+    <line x1='485' y1='0' x2='485' y2='320' />
+    <line x1='493' y1='0' x2='493' y2='320' />
+    <line x1='501' y1='0' x2='501' y2='320' />
+  <line x1='510' y1='0' x2='510' y2='320' stroke-width='2' stroke='#ddd' />
+    <line x1='518' y1='0' x2='518' y2='320' />
+    <line x1='526' y1='0' x2='526' y2='320' />
+    <line x1='535' y1='0' x2='535' y2='320' />
+    <line x1='543' y1='0' x2='543' y2='320' />
+    <line x1='551' y1='0' x2='551' y2='320' />
+    <line x1='560' y1='0' x2='560' y2='320' />
+    <line x1='568' y1='0' x2='568' y2='320' />
+    <line x1='576' y1='0' x2='576' y2='320' />
+    <line x1='585' y1='0' x2='585' y2='320' />
+    <line x1='593' y1='0' x2='593' y2='320' />
+    <line x1='601' y1='0' x2='601' y2='320' />
+  <line x1='610' y1='0' x2='610' y2='320' stroke-width='2' stroke='#ddd' />
+    <line x1='618' y1='0' x2='618' y2='320' />
+    <line x1='626' y1='0' x2='626' y2='320' />
+    <line x1='635' y1='0' x2='635' y2='320' />
+    <line x1='643' y1='0' x2='643' y2='320' />
+    <line x1='651' y1='0' x2='651' y2='320' />
+    <line x1='660' y1='0' x2='660' y2='320' />
+    <line x1='668' y1='0' x2='668' y2='320' />
+    <line x1='676' y1='0' x2='676' y2='320' />
+    <line x1='685' y1='0' x2='685' y2='320' />
+    <line x1='693' y1='0' x2='693' y2='320' />
+    <line x1='701' y1='0' x2='701' y2='320' />
+  <line x1='710' y1='0' x2='710' y2='320' stroke-width='2' stroke='#ddd' />
+    <line x1='718' y1='0' x2='718' y2='320' />
+    <line x1='726' y1='0' x2='726' y2='320' />
+    <line x1='735' y1='0' x2='735' y2='320' />
+    <line x1='743' y1='0' x2='743' y2='320' />
+    <line x1='751' y1='0' x2='751' y2='320' />
+    <line x1='760' y1='0' x2='760' y2='320' />
+    <line x1='768' y1='0' x2='768' y2='320' />
+    <line x1='776' y1='0' x2='776' y2='320' />
+    <line x1='785' y1='0' x2='785' y2='320' />
+    <line x1='793' y1='0' x2='793' y2='320' />
+    <line x1='801' y1='0' x2='801' y2='320' />
+  <line x1='810' y1='0' x2='810' y2='320' stroke-width='2' stroke='#ddd' />
+    <line x1='818' y1='0' x2='818' y2='320' />
+    <line x1='826' y1='0' x2='826' y2='320' />
+    <line x1='835' y1='0' x2='835' y2='320' />
+    <line x1='843' y1='0' x2='843' y2='320' />
+    <line x1='851' y1='0' x2='851' y2='320' />
+    <line x1='860' y1='0' x2='860' y2='320' />
+    <line x1='868' y1='0' x2='868' y2='320' />
+    <line x1='876' y1='0' x2='876' y2='320' />
+    <line x1='885' y1='0' x2='885' y2='320' />
+    <line x1='893' y1='0' x2='893' y2='320' />
+    <line x1='901' y1='0' x2='901' y2='320' />
+  <line x1='910' y1='0' x2='910' y2='320' stroke-width='2' stroke='#ddd' />
 </g>
 
 <g inkscape:label='Domains' inkscape:groupmode='layer' id='layer_domains' >
@@ -237,15 +236,15 @@ style='opacity:0.6;' >
 
 <g inkscape:label='Lines' inkscape:groupmode='layer' id='layer_lines'
  style='fill:none;stroke-width:4;' >
-  <path id='__line_Parent' d='M 51 70 L 818 70' stroke='#f00' />
-  <path id='__line_Grandchild2' d='M 343 108 L 343 90 L 818 90' stroke='#01faf4' />
-  <path id='__line_Child' d='M 216 72 L 216 110 L 818 110' stroke='#00F' />
+  <path id='__line_Parent' d='M 51 70 L 820 70' stroke='#f00' />
+  <path id='__line_Grandchild2' d='M 343 108 L 343 90 L 820 90' stroke='#01faf4' />
+  <path id='__line_Child' d='M 216 72 L 216 110 L 820 110' stroke='#00F' />
   <path id='__line_Grandchild3' d='M 626 112 L 626 130 L 751 130' stroke='#f1a000' marker-end='url(#__stop_Grandchild3)' />
   <path id='__line_Grandchlid' d='M 318 112 L 318 130 L 590 130' stroke='#0f0' marker-end='url(#__stop_Grandchlid)' />
   <path id='__line_Neighbour' d='M 251 170 L 610 170' stroke='#Ff0' marker-end='url(#__stop_Neighbour)' />
-  <path id='__line_NeighboursChild2' d='M 510 228 L 510 210 L 818 210' stroke='#ff0' />
-  <path id='__line_Neighbour2' d='M 201 230 L 818 230' stroke='#f0f' />
-  <path id='__line_NeighboursChild' d='M 318 232 L 318 250 L 818 250' stroke='#0f0' />
+  <path id='__line_NeighboursChild2' d='M 510 228 L 510 210 L 820 210' stroke='#ff0' />
+  <path id='__line_Neighbour2' d='M 201 230 L 820 230' stroke='#f0f' />
+  <path id='__line_NeighboursChild' d='M 318 232 L 318 250 L 820 250' stroke='#0f0' />
 </g>
 
 <g inkscape:label='Dots' inkscape:groupmode='layer' id='layer_dots'
@@ -264,35 +263,38 @@ style='opacity:0.6;' >
   <circle id='__dot_NeighboursChild' cx='318' cy='250' r='10' fill='#0f0' stroke='none' />
 </g>
 
-<g inkscape:label='Labels' inkscape:groupmode='layer' id='layer_labels'
- style='font-size:12px;stroke:none;fill:#000;font-family:Liberation Sans, Arial, Helvetica;-inkscape-font-specification:Liberation Sans, Arial, Helvetica;' >
-  <rect x='60' y='57' width='42' height='11' fill='#fff' opacity='0.5'  rx='5' ry='5' />
-  <text x='61' y='66' >Parent</text>
-    <rect x='314' y='57' width='42' height='11' fill='#fff' opacity='0.5'  rx='5' ry='5' />
-    <text x='315' y='66' >Paront</text>
-    <rect x='539' y='57' width='42' height='11' fill='#fff' opacity='0.5'  rx='5' ry='5' />
-    <text x='540' y='66' >Parant</text>
-  <rect x='352' y='77' width='77' height='11' fill='#fff' opacity='0.5'  rx='5' ry='5' />
-  <text x='353' y='86' >Grandchild2</text>
-    <rect x='705' y='77' width='91' height='11' fill='#fff' opacity='0.5'  rx='5' ry='5' />
-    <text x='706' y='86' >SomethingElse</text>
-  <rect x='225' y='97' width='35' height='11' fill='#fff' opacity='0.5'  rx='5' ry='5' />
-  <text x='226' y='106' >Child</text>
-  <rect x='635' y='117' width='77' height='11' fill='#fff' opacity='0.5'  rx='5' ry='5' />
-  <text x='636' y='126' >Grandchild3</text>
-  <rect x='327' y='117' width='70' height='11' fill='#fff' opacity='0.5'  rx='5' ry='5' />
-  <text x='328' y='126' >Grandchlid</text>
-  <rect x='260' y='157' width='63' height='11' fill='#fff' opacity='0.5'  rx='5' ry='5' />
-  <text x='261' y='166' >Neighbour</text>
-  <rect x='519' y='197' width='112' height='11' fill='#fff' opacity='0.5'  rx='5' ry='5' />
-  <text x='520' y='206' >NeighboursChild2</text>
-  <rect x='210' y='217' width='70' height='11' fill='#fff' opacity='0.5'  rx='5' ry='5' />
-  <text x='211' y='226' >Neighbour2</text>
-  <rect x='327' y='237' width='105' height='11' fill='#fff' opacity='0.5'  rx='5' ry='5' />
-  <text x='328' y='246' >NeighboursChild</text>
+<g inkscape:label='Icons' inkscape:groupmode='layer' id='layer_icons'>
 </g>
 
-<g inkscape:label='Yearlines' inkscape:groupmode='layer' id='layer_yearlines'
+<g inkscape:label='Labels' inkscape:groupmode='layer' id='layer_labels' 
+ style='font-size:12px;stroke:none;fill:#000;font-family:Liberation Sans, Arial, Helvetica;-inkscape-font-specification:Liberation Sans, Arial, Helvetica;' >
+  <rect x='60' y='57' width='42' height='11' fill='#fff' opacity='0.5'  rx='5' ry='5' />
+  <a xlink:href='www.google.com'><text x='61' y='66'  >Parent</text></a>
+    <rect x='314' y='57' width='42' height='11' fill='#fff' opacity='0.5'  rx='5' ry='5' />
+    <a xlink:href=''><text x='315' y='66' >Paront</text></a>
+    <rect x='539' y='57' width='42' height='11' fill='#fff' opacity='0.5'  rx='5' ry='5' />
+    <a xlink:href=''><text x='540' y='66' >Parant</text></a>
+  <rect x='352' y='77' width='77' height='11' fill='#fff' opacity='0.5'  rx='5' ry='5' />
+  <a xlink:href=''><text x='353' y='86'  >Grandchild2</text></a>
+    <rect x='705' y='77' width='91' height='11' fill='#fff' opacity='0.5'  rx='5' ry='5' />
+    <a xlink:href=''><text x='706' y='86' >SomethingElse</text></a>
+  <rect x='225' y='97' width='35' height='11' fill='#fff' opacity='0.5'  rx='5' ry='5' />
+  <a xlink:href='http://en.wikipedia.org/wiki/Cladistics'><text x='226' y='106'  >Child</text></a>
+  <rect x='635' y='117' width='77' height='11' fill='#fff' opacity='0.5'  rx='5' ry='5' />
+  <a xlink:href=''><text x='636' y='126'  >Grandchild3</text></a>
+  <rect x='327' y='117' width='70' height='11' fill='#fff' opacity='0.5'  rx='5' ry='5' />
+  <a xlink:href=''><text x='328' y='126'  >Grandchlid</text></a>
+  <rect x='260' y='157' width='63' height='11' fill='#fff' opacity='0.5'  rx='5' ry='5' />
+  <a xlink:href='http://www.merriam-webster.com/dictionary/neighbor'><text x='261' y='166'  >Neighbour</text></a>
+  <rect x='519' y='197' width='112' height='11' fill='#fff' opacity='0.5'  rx='5' ry='5' />
+  <a xlink:href=''><text x='520' y='206'  >NeighboursChild2</text></a>
+  <rect x='210' y='217' width='70' height='11' fill='#fff' opacity='0.5'  rx='5' ry='5' />
+  <a xlink:href=''><text x='211' y='226'  >Neighbour2</text></a>
+  <rect x='327' y='237' width='105' height='11' fill='#fff' opacity='0.5'  rx='5' ry='5' />
+  <a xlink:href=''><text x='328' y='246'  >NeighboursChild</text></a>
+</g>
+
+<g inkscape:label='Yearlines' inkscape:groupmode='layer' id='layer_yearlines' 
  style='stroke:none;fill:url(#__yearline);' >
   <rect x='0' y='0' rx='5' ry='5' width='920' height='40' />
   <rect x='0' y='280' rx='5' ry='5' width='920' height='40' />
@@ -325,6 +327,19 @@ style='opacity:0.6;' >
   <text x='16' y='116'><tspan style='font-size:18px;font-weight:bold;'>Title</tspan></text>
   <text x='16' y='129'><tspan style='font-size:12px;'>Lorem ipsum dolor sit amet,</tspan></text>
   <text x='16' y='144'><tspan style='font-size:12px;'>consectetuer adipiscing elit</tspan></text>
+</g>
+
+<g inkscape:label='Included PNG Images' inkscape:groupmode='layer' id='layer_included_png'>
+  <image id='__png_0' x='880' y='230' width='40' height='40'
+    xlink:href='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM/rhtAAAAAXNSR0IArs4c6QAAAAZiS0dEAAAAAAAA+UO7fwAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAd0SU1FB9oCChYCLHJJ904AAAAZdEVYdENvbW1lbnQAQ3JlYXRlZCB3aXRoIEdJTVBXgQ4XAAAEO0lEQVRYw+2Y
+aW/bRhRFLylqtWO7TWWnjtukzZf+/z/UokviJdqs1SQ17JczwDUrO4oaKShQAYMRKIpz+Jb73oz0/+fffZKv8Ox4vVG7vpZUMQ4C+BRUKimT1JbUBKiUlDNKh0wOBNeQ1JF0xOgC2pAUJC0lrSTdS1o4ZHYAuJakY0nfSDqTdAJkE8iVpJmkO7NkwOV7BWxgqW8lvZJ0Luk7
+Sae4NwFiDlyO9ZqSiviQbE9Wa2Otc0kXkq4MMMKVwAXcn2HRR0mS7cFqPYN6LektcGe4usJaM0kP5s7CYq/aB2CD+LqS9IOkd5Le4N5T3J2QEGvgliTGUNKUeCyB/qKAGda5kPSzpF+YX5EcbRZ9AG4J0B1jIGnC9WKTBRP8L34MO8bclaSfGD9yLcLlQIwl/SXpPfMHs+Cy
+vnaGa6KANvle8aYl89rgqw2uPZLUl3TJeEkspoAtgbsB7E/mG4PLNxkmA6rLOLWMiq5YENBLgw6AxpdqAXTE9wR3FswjrHVt8x3WXPFsf+4jwOieS2LoDMgA2IRAHjHf88CcZ8TSFaUjWmvBC41x4wdJfwA2Aqyw8hY2eEcZMKdIwjsgX/DbAy4Y4Y5bvo+BmJq1Fvx2zeIV
+OvcRd16bO0sLn41g9RjsmbBeov5NU/opC42BvGPRj1g0cM8NsCcs6rEX/1+P6a2E9cRU/xwL9nB/m9g6sVra59oxMScr+KVJhY8UsNwAtxLXFhBdFuwwUpOfjPsiaCz8L7g3WmUBTJd7+jaOeelgL7IVYKi1XinXilr5ycyi8WW6gFd2X2pJ9wZNjNLT4Z5iW8iG1cGcP40t
+a+eWbcFkJatpaGUWTLDyBXX4NU1C1MbMSt3iU+5uWLu9RFYWlJ6hzUsr7MGsHUzrYsOZ8xJ9Sd8zn1mj2jI9XVj5exZQ1mXMrSQNyb6ZlaLSumAX8gHZfc+zeljtJXBt4GJxyIGbMlefApRZZW0KPze3R8mJAj7hBYamkwP+l1kX063BZdbZrHjmehNk4xn3Vxaf0f0zYnNg
+3cit1dYBvy9swfYG62W1pnVpzas+t2ENZtXcqspvNXetLKni3iJumDyhon726Rtv8cLI5KraxoLPWTTCRJdP+R4bBM/S2I5F/exae7+2EIr1O+wKqFq/WJo8Fc8U/BZZ3LcKFDueWA5H1ow82hene952NuwlvAanG1zewdKp79f3CZjWymRmMRlLaNtKaM92fDqUBWVAicXx
+2jfnVqX+cdqxz417qGnqzCQltU1UzPzV52w7k1pS7PopgZhY6exapg+tv5xwb7ltFidf6IApns907NDoAWl5L+lXSb+zJZj4sceuMrPLsVtqGV3g7msqUAQc4OZwqBiU9YkzLJRjuS4gE9w7BG59yBNWX6OJi4/t6C1QOebWdoWvAeiHmK1ak1tY+QyHPqN+ar3E1q2eOK34
+73z+Bkaj2+1CJM8wAAAAAElFTkSuQmCC' />
 </g>
 
 <g inkscape:label='Included SVG Images' inkscape:groupmode='layer' id='layer_included_svg'>

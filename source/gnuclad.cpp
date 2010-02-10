@@ -253,11 +253,6 @@ NameChange::NameChange(std::string tnewName, Date tdate,
   description = tdescription;
 }
 
-Icon::Icon() {}
-Icon::Icon(std::string tfilename) {
-  filename = tfilename;
-}
-
 Image::Image() {
   x = 0;
   y = 0;
@@ -388,6 +383,8 @@ Cladogram::~Cladogram() {
 
   for(int i = 0; i < (int)includeSVG.size(); ++i)
     if(includeSVG.at(i) != NULL) delete includeSVG.at(i);
+  for(int i = 0; i < (int)includePNG.size(); ++i)
+    if(includePNG.at(i) != NULL) delete includePNG.at(i);
 }
 
 

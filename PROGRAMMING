@@ -116,17 +116,13 @@ class Date
 
 The Image object is to be initialised only with addImage() in the parser:
   Image * Cladogram::addImage(std::string tname, std::vector<Image *> &vector);
-The parser has to specify the vector it wants the image to be loaded, currently
-only includeSVG.
+The parser has to specify the vector it wants the image to be loaded into.
 It is usually passed to the generator unchanged and contains three members.
 
 class Image
   std::string filename;
   int x;
   int y;
-
-
-class Icon: TODO, MAY BE SUBJECT TO CHANGE
 
 
 The NameChange is to be initialised only with addNameChange() in the parser:
@@ -150,10 +146,10 @@ class Node
   std::string name
   std::string parentName
   std::vector<NameChange> nameChanges;
-  Date start
-  Date stop
-  Color color
-  Icon icon
+  Date start;
+  Date stop;
+  Color color;
+  std::string iconfile;
   std::string description;
   int offset;
 
@@ -200,6 +196,7 @@ class Cladogram
   std::vector<Connector *> connectors;
   std::vector<Domain *> domains;
   std::vector<Image *> includeSVG;
+  std::vector<Image *> includePNG;
 
   Node * addNode(std::string tname);
   Domain * addDomain(std::string tname);
@@ -310,7 +307,7 @@ Adding a Node:
   n->parentName = "";
   n->start =  Date(1993,8,1);
   n->stop = Date("2000.3");
-  n->icon = "";
+  n->iconfile = "";
   n->description = "it rocks!";
   n->addNameChange("NewName", Date("1999.2.1"), "it still rocks!")
 
@@ -335,11 +332,15 @@ that will have been added at the end of the parser routine):
   d->intensity = 15;
 
 
-Adding an image (currently only SVG is supported):
+Adding an image (currently supported: SVG and PNG):
 
   Image * image = clad->addImage("picture.svg", clad->includeSVG);
   image->x = 100;
   image->y = 50;
+
+  Image * image = clad->addImage("picture.svg", clad->includePNG);
+  image->x = 10;
+  image->y = 500;
 
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -361,6 +362,7 @@ vector<Node *> nodes
 vector<Connector *> connectors
 vector<Domain *> domains
 vector<Image *> includeSVG
+vector<Image *> includePNG
 
 Additionally, you should strive to make use of all configuration options the
 Cladogram contains. For an overview, take a look at the 'Classes' chapter.
@@ -420,6 +422,8 @@ double str2double(const std::string str);
 int str2int(const std::string s);
 
 std::string int2str(const int n);
+
+std::string base64_encode(const char * raw, unsigned int len);
 
 Date currentDate();
 

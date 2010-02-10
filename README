@@ -54,14 +54,23 @@ Then restart your terminal. You should be able to call gnuclad from any folder.
 
 3. TIPS
 
-If you set CSV as output format, the recommended optimisation is 0 and
+You can include SVG images in the CSV spreadsheets, yet only the defs and
+drawing data (paths etc) are imported, NOT the header.
+If you think the default gnuclad SVG header is missing something, please file
+a bug detailing the problem.
+
+You can also include PNG images in the CSV, but keep in mind that raster images
+are encoded in base64 and may result in a really huge output file.
+
+
+When using CSV as output format, the recommended optimisation is 0 and
 treeMode conf setting is "lower inverse":
   optimise = 0
   treeMode = 2
 This way the trees will be grouped by children and sorted by date, while
 your single nodes won't be mangled.
 
-Important note using CSV as output format:
+Also relevant when using CSV as output:
 All nodes with a starting date newer than endOfTime (usually the current date)
 will be ignored.
 All nodes with a stopping date newer or the same as endOfTime will have

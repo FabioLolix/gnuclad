@@ -73,7 +73,7 @@ void ParserCSV::parseData(Cladogram * clad, ifstream * fp) {
         node->parentName = entry.at(3);
         node->start = Date(entry.at(4));
         node->stop = Date(entry.at(5));
-        node->icon = entry.at(6);
+        node->iconfile = entry.at(6);
         node->description = entry.at(7);
 
         // get the name changes
@@ -107,6 +107,14 @@ void ParserCSV::parseData(Cladogram * clad, ifstream * fp) {
         if((int)entry.size() < fixedFieldsImage) throw 0;
 
         Image * image = clad->addImage(entry.at(1), clad->includeSVG);
+        image->x = str2int(entry.at(2));
+        image->y = str2int(entry.at(3));
+
+      } else if(ctl == "PNG") {
+
+        if((int)entry.size() < fixedFieldsImage) throw 0;
+
+        Image * image = clad->addImage(entry.at(1), clad->includePNG);
         image->x = str2int(entry.at(2));
         image->y = str2int(entry.at(3));
 
