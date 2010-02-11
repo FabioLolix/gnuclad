@@ -1,0 +1,859 @@
+\input texinfo   @c -*-texinfo-*-
+@c %**start of header
+@setfilename gnuclad.info
+@settitle gnuclad manual
+@c %**end of header
+
+
+
+@c DESCRIPTION & COPYRIGHT
+@copying
+This is a manual for gnuclad
+
+Copyright @copyright{} 2010 Donjan Rodic <donjan (at) dyx (dot) ch>
+
+@quotation
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.
+@end quotation
+
+@end copying
+
+
+
+@c TITLEPAGE & CONTENTS
+@titlepage
+@title gnuclad cladogram generator
+@subtitle version
+@author Donjan Rodic (@email{donjan@dyx.ch})
+@page
+@vskip 0pt plus 1filll
+@insertcopying
+@end titlepage
+
+@c @contents
+
+@c ____________________________________________________________________ TOP NODE
+
+
+@c TOP NODE & MENU
+@ifnottex
+@node Top
+@top gnuclad cladogram generator
+
+This is the texinfo manual for gnuclad. (February 2010)
+
+@end ifnottex
+
+@menu
+* About:: General information
+* Usage Tips:: Useful things to know
+* Config Options:: An overview
+* FAQ:: Frequently Asked Questions
+* Programming:: Contribute to the project
+@end menu
+@menu
+* GNU Free Documentation License::
+* Index:: Anchor index
+@end menu
+
+
+@c _______________________________________________________________________ ABOUT
+
+@node About
+@chapter About
+
+@section Contact
+
+The most recent version of gnuclad and it's documentation can be
+downloaded at @uref{https://launchpad.net/gnuclad}.
+
+You can also file bugs and contact the developers there.
+
+@section Purpose
+
+gnuclad has been written to facilitate progress of the GNU/Linux distro
+timeline project (GLDT) which can be found at @uref{http://futurist.se/gldt/}
+
+Meanwhile it has become quite customisable and general application -
+for example in genealogy or visualisation of hierarchical structures -
+should be possible.
+
+@section Formats
+
+Supported input formats are: CSV spreadsheets
+
+Supported output formats are: CSV and SVG
+
+A sample CSV file should be distributed together with gnuclad.
+It can be openend with any spreadsheet program; the field separator is
+comma (,) and the text delimiter is double quote (").
+
+The .conf file can be edited with any text editor of your choice.
+
+@section Syntax
+
+@example
+gnuclad INPUTFILE OUTPUT[FORMAT|FILE] [CONFIGFILE]
+
+  example: gnuclad table.CSV SVG
+  example: gnuclad Data.csv result.csv alternative.conf
+@end example
+
+@cindex Getting Started
+@section Getting started
+
+If you downloaded the source code and don't know how to proceed, here are a
+few detailed instructions.
+
+Open the gnuclad folder in a terminal and type:
+@example
+  make
+@end example
+
+This will produce a 'gnuclad' binary in the bin folder.
+Change to the bin folder and execute gnuclad to get
+acquainted with it's syntax:
+@example
+  cd bin
+  ./gnuclad -h
+@end example
+
+Change to the example folder and generate your first SVG image:
+@example
+  cd ../example
+  ../bin/gnuclad example.csv svg example.conf
+@end example
+
+In order to install gnuclad on a POSIX conform system, change to the main
+directory:
+@example
+  cd ..
+  make install
+@end example
+
+Then restart your terminal. You should be able to call gnuclad from any folder.
+If you wish to uninstall gnuclad, simply open a terminal in the main gnuclad
+folder and execute:
+@example
+  make uninstall
+@end example
+
+
+@c __________________________________________________________________ USAGE TIPS
+
+
+@node Usage Tips
+@chapter Usage Tips
+
+@section CSV spreadsheets as input
+
+You can include SVG images in the CSV spreadsheets.
+Keep in mind that only the defs and drawing data (paths etc) are imported,
+NOT the header.
+If you think the default gnuclad SVG header is missing something, please file
+a bug detailing the problem.
+
+You can also include PNG images in the CSV, but keep in mind that raster images
+are encoded in base64 and may result in a really huge output file.
+
+
+@section CSV spreadsheets as output
+
+All nodes with a starting date newer than endOfTime (usually the current date)
+will be ignored.
+All nodes with a stopping date newer or the same as endOfTime will have
+their stopping date removed (unset == "still alive").
+
+For best results, the recommended optimisation is 0 and
+treeMode conf setting is "lower inverse":
+@example
+  optimise = 0
+  treeMode = 2
+@end example
+This way the trees will be grouped by children and sorted by date, while
+your single nodes won't be mangled.
+
+
+@section Optimisation - how it works
+
+The optimisation parameter can be set to a value between 0 and 99.
+0 obviously turns any optimisation off while 99 tries to stuff the resulting
+image closely together.
+
+The first digit refers to the optimisation factor for isolated nodes, those
+which are not part of the tree. The higher it is, the more aggressively they
+will be appended to each other.
+
+The second digit sets the tree optimisation. Higher values will try to cramp the
+tree together more than lower ones.
+
+@section Optimisation - additional info
+
+The current optimisation is greedy and therefore not exactly stellar.
+
+For example, this optimises well:
+@example
+           4 -> 2
+___          ->  ___ ___ ___
+        ___  ->      _______
+    _______  ->
+    ___      ->
+
+@end example
+But a slightly different map doesn't (a human can easily reduce this to 2):
+@example
+           4 -> 3
+___          ->  ___     ___
+        ___  ->      _______
+    _______  ->    _____
+  _____      ->  
+@end example
+Sorting by start date (see config options) might help a bit.
+
+
+@c ______________________________________________________________ CONFIG OPTIONS
+
+
+@node Config Options
+@chapter Config Options
+
+@section Default settings
+
+Every config option has a preset default which will be used if there is no
+override.
+In the same spirit, a default configuration will be used if you specify no
+config file.
+
+@section Generate a config file
+
+TODO
+
+
+@cindex Detailed configuration options
+@section Detail
+
+@example
+# gnuclad example config file
+
+# If you comment or delete an option,
+# gnuclad will use the built-in defaults.
+# Allowed syntax is:
+#   option=value
+#   option = value
+#   option= 'value'
+#   option ="value"
+#   option = three word value
+#   option = "three word value"
+#   ...
+
+
+
+# Modify the appearance of your info box
+# To disable the box:
+# Set both font size parameters to 0, set the width and height to 0
+infoBoxTitle = Title
+infoBoxTitleSize = 18
+infoBoxText = Lorem ipsum dolor sit amet,
+infoBoxText = consectetuer adipiscing elit
+infoBoxTextSize = 12
+infoBoxFont = Liberation Sans, Arial, Helvetica
+infoBoxFontColor = #000
+infoBoxColor1 = #5bf
+infoBoxColor2 = #38f
+infoBoxX = 10
+infoBoxY = 95
+infoBoxWidth = 166
+infoBoxHeight = 60
+
+# Correction factor for font pixel width/height.
+# It is normalised for Liberation Sans (= Arial) and will
+# affect the alignment of all text in your output.
+# Since this one setting affects all text instances, it's
+# recommended to use "similarly spaced" fonts throughout your settings.
+fontCorrectionFactor = 1.0
+
+# Orientation of the timeline
+# 0 = left to right, 1 = top to bottom
+# 2 = right to left, 3 = bottom to top
+orientation = 0
+
+# The layout of the tree
+# 0 = branch to both sides
+# 1 = branch only on lower side
+# 2 = branch only on lower side, inverse (good for CSV output)
+treeMode = 0
+
+# Chose: 0 = don't presort, 1 = by name, 2 = by date
+sortKey = 0
+
+# Set between 0 and 99
+# The first digit refers to the optimisation for isolated nodes.
+# The second digit refers to the optimisation for trees.
+optimise = 99
+
+# How much space (in offsets) to add before/after trees
+treeSpacing = 1
+
+# How big (total leaf nodes) a tree has to be before it gets spacing
+treeSpacingBiggerThan = 1
+
+# Background color in hexadecimal RGB (#abc or #abcdef)
+mainBackground = #fff
+
+# Customise the background lines separating the years and months
+rulerWidth = 2
+rulerColor = #ddd
+rulerMonthWidth = 1
+rulerMonthColor = #eaeaea
+
+# Width of your node lines
+lineWidth = 4
+
+# Number of pixels between node lines
+offsetPX = 20
+
+# Set to 0 if you want "dying" lines to abruptly stop
+stopFadeOutPX = 30
+
+# When optimising, gnuclad will inline nodes if possible.
+# This sets the minimum time distance between the stop of one node
+# and the start of another which will allow the latter to get appended.
+# Format: yyyy.mm.dd
+stopSpacing = 0.1.0
+
+# How many pixels a year should have
+yearPX = 100
+
+# Customise the node labels
+labelFont = Liberation Sans, Arial, Helvetica
+labelFontSize = 12
+labelFontColor = #000
+
+# An experimental feature you might want to use with derivType = 1
+# Opacity takes values between 0 (transparent) and 100 (opaque)
+# It DOES NOT work flawlessly with SVG 1.1 output (hoping for v1.2 or CSS3 ...)
+labelBGOpacity = 50
+
+# Useful if you want to use the renames only as version bumps
+# 0 = rename above the dot to the right, like the first name
+# 1 = rename centered within dot
+nameChangeType = 0
+
+# How the lines should derive from the parent
+# 0 = orthogonal, 1 = from parent's starting point
+derivType = 0
+
+# The size of the node dots
+dotRadius = 10
+smallDotRadius = 5
+
+# Determines how the dots look
+# 0 = full dots, 1 = circles
+# Circles might be useful together with nameChangeType = 1
+dotType = 0
+
+# Adds small half-circles to connector starting points
+connectorDots = 1
+
+# Set to 1 if the connectors should have a dashed stroke
+# 0 for a full line
+connectorsDashed = 1
+
+# Customise the year line encompassing the cladogram
+yearLinePX = 40
+yearLineColor1 = #037
+yearLineColor2 = #37d
+yearLineFont = Liberation Sans, Arial, Helvetica
+yearLineFontSize = 28
+yearLineFontColor = #fff
+
+# Remember to adjust your input data after changing these averages:
+daysInMonth = 30
+monthsInYear = 12
+#endOfTime = 2012.12
+
+# Set to 1 if the description should be used as a web link
+descriptionIsHyperLink = 1
+
+# Show debug information when running gnuclad
+# 0 = off, 1 = on
+debug = 0
+@end example
+
+
+@c _________________________________________________________________________ FAQ
+
+@cindex FAQ
+@node FAQ
+@chapter Frequently Asked Questions
+
+@strong{Are there any office spreadsheet editors that have trouble editing
+standard CSV spreadsheets?}@*
+Yes, a widely used non-POSIX office suite from 2007 has considerable problems 
+saving a CSV correctly.
+
+@strong{Are there any browsers that don't support the SVG image format?}@*
+SVG is supported by nearly any graphical browser available.
+Notable browsers incapable of rendering SVG include Dillo (all versions) and
+MS Internet Explorer (all versions, can be remedied with plugins).
+
+
+@c _________________________________________________________________ PROGRAMMING
+
+
+@node Programming
+@chapter Programming
+
+@section Contributing
+
+Here's a small documentation if you wish to hack gnuclad.
+Patches are always welcome. New parsers/generators even more so!
+
+
+@cindex Adding a parser/generator
+@section Adding a parser/generator
+
+Parsers read data from various sources into the Cladogram object,
+generators write data from the Cladogram object to a specified output format.
+
+This is a short overview over the steps necessary to include a parser/generator.
+For detailed information, see the "How to write a ..." sections below.
+
+
+@c _____________________________________ PROGRAMMING - ADDING PARSER/GENERATOR
+
+
+@strong{Adding a parser}
+
+parserXXX.h:
+@example
+#include "gnuclad.h"
+derive class from Parser:
+  class ParserXXX: public Parser
+add public method:
+  void parseData(Cladogram * clado, std::ifstream * fp);
+@end example
+
+parserXXX.cpp:
+@example
+#include "parserXXX.h"
+implement parseData(Cladogram * clad, std::ifstream * fp);
+@end example
+
+gnuclad.cpp:
+@example
+#include "parserXXX.h"
+update inFormats
+add choser:
+  else if(inputExt == "XXX") parser = new ParserXXX;
+@end example
+
+@strong{Adding a generator}
+
+generatorXXX.h:
+@example
+#include "gnuclad.h"
+derive class from generator:
+  class GeneratorXXX: public Generator
+add public method:
+  void writeData(Cladogram * clad, std::ofstream * fp);
+@end example
+
+generatorXXX.cpp:
+@example
+#include "generatorXXX.h"
+implement writeData();
+@end example
+
+gnuclad.cpp
+@example
+#include "generatorXXX.h"
+update outFormats
+add choser:
+  else if(outputExt == "XXX") generator = new GeneratorXXX;
+@end example
+
+
+@c _____________________________________ PROGRAMMING - CLASSES
+
+
+@cindex Classes
+@section Classes
+
+
+A breakdown of the classes used in gnuclad.
+Only the relevant public parts are shown, first the members and then the
+constructors & methods.
+We start with the simple classes, building up gradually.
+
+
+@*
+A Color object can be initialised either with RGB (1-255)
+or a hex color value (#abc or #abcdef).
+It will automatically convert and hold the other value too.
+@example
+class Color
+  int red;
+  int green;
+  int blue;
+  std::string hex;
+
+  Color(int tred, int tgreen, int tblue);
+  Color(std::string thex);
+@end example
+
+
+@*
+The Date object can be initialised either with year,month,day
+or with a string in the format "y.m.d" or "y.m" or "y", where the letters
+can be arbitrary (also negative) integers.
+The monthset/dayset switches tell the generator whether to honor the month and
+day settings. They should be ignored by the parser.
+@example
+class Date
+  int year;
+  int month;
+  int day;
+
+  bool monthset;
+  bool dayset;
+
+  Date(int tyear, int tmonth, int tday);
+  Date(const std::string str);
+
+  bool operator<(Date d);
+  Date operator+(Date d);
+@end example
+
+
+@*
+The Image object is to be initialised only with addImage() in the parser:
+@example
+  Image * Cladogram::addImage(std::string tname, std::vector<Image *> &vector);
+@end example
+The parser has to specify the vector it wants the image to be loaded into.
+It is usually passed to the generator unchanged and contains three members.
+@example
+class Image
+  std::string filename;
+  int x;
+  int y;
+@end example
+
+
+@*
+The NameChange is to be initialised only with addNameChange() in the parser:
+@example
+  void Node::addNameChange(std::string newName, Date date,
+                           std::string description);
+@end example
+The generator can access the nameChanges vector of the Node, making use of the
+three members.
+@example
+class NameChange
+  std::string newName;
+  Date date;
+  std::string description;
+@end example
+
+
+@*
+The second most important class, a single Node.
+It should be initialised only with the addNode() method:
+@example
+  Node * Cladogram::addNode(std::string tname);
+@end example
+The 'offset' is meant for the generator (it can be ignored by the parser).
+@example
+class Node
+  std::string name
+  std::string parentName
+  std::vector<NameChange> nameChanges;
+  Date start;
+  Date stop;
+  Color color;
+  std::string iconfile;
+  std::string description;
+  int offset;
+
+  void addNameChange(std::string newName, Date date, std::string description);
+@end example
+
+
+@*
+The Domain is to be initialised only with addDomain() in the parser:
+@example
+  Domain * Cladogram::addDomain(std::string tname);
+@end example
+The 'offsetA' and 'offsetB' are meant for the generator (they can be ignored
+by the parser).
+@example
+class Domain
+  std::string nodeName;
+  Color color;
+  int intensity;
+  int offsetA;
+  int offsetB;
+@end example
+
+
+@*
+The Connector is to be initialised only with addConnector() in the parser:
+@example
+  Connector * Cladogram::addConnector();
+@end example
+The 'offsetA' and 'offsetB' are meant for the generator (they can be ignored
+by the parser).
+@example
+class Connector
+  std::string fromName;
+  std::string toName;
+  Date fromWhen;
+  Date toWhen;
+  int thickness;
+  Color color;
+  int offsetA;
+  int offsetB;
+@end example
+
+
+@*
+The most important class is the Cladogram. It is used by a single object which
+describes the whole timeline and will be passed to the parser/generator.
+The Cladogram usually doesn't need to be accessed by the parser, except for the
+add*** functions.
+The generator is meant to make use of the data vectors.
+@example
+class Cladogram
+  std::vector<Node *> nodes;
+  std::vector<Connector *> connectors;
+  std::vector<Domain *> domains;
+  std::vector<Image *> includeSVG;
+  std::vector<Image *> includePNG;
+
+  Node * addNode(std::string tname);
+  Domain * addDomain(std::string tname);
+  Connector * addConnector();
+  Image * addImage(std::string tname, std::vector<Image *> &vector);
+@end example
+
+The cladogram also holds all configuration options. These are usually read by
+a separate configuration parser, but can be modified by your parser if necessary
+and should implemented by the generator as completely as possible.
+The option names are identical to the variable names: look at the
+'Config Options' chapter for reference.
+
+
+@c _____________________________________ PROGRAMMING - HOW TO PARSER
+
+
+
+@section How to write a parser
+
+
+Your parser is called only by this function:
+@example
+  parser->parseData(Cladogram * clad, std::ifstream * fp);
+@end example
+
+Therefore it should implement the following one:
+@example
+  void ParserXXX::parseData(Cladogram * clad, std::ifstream * fp) @{ ... @}
+@end example
+
+The file pointer is a correctly opened file with the desired file name
+extension, though you have to check whether the file structure/format is valid
+yourself. The cladogram pointer is an empty Cladogram object that you have
+to fill.
+@*@emph{The parser essentially defines the input file format.}@*
+You should try to fill as much of the Cladogram as possible in order to increase
+the information pool for the output generator. For a quick view overview, take a
+look at the description of the Cladogram in the 'Classes' section. Note that
+not all generators will make use of every piece of data, and it all depends on
+the options the user has set; the more information the better.
+
+If you cannot fill a field, leave it empty and the generators will ignore it.
+All measures (height, thickness, ...) are "generic units".
+
+Objects created with the add*** functions will be allocated and later deleted
+automatically.
+It is important to use those functions for objects you wish to pass on to the
+generator.
+
+@*
+Adding a Node:
+@example
+  Node * n = clad->addNode("MyFirstNode");
+  n->color = Color("#a2b3c4");
+  n->parentName = "";
+  n->start =  Date(1993,8,1);
+  n->stop = Date("2000.3");
+  n->iconfile = "";
+  n->description = "it rocks!";
+  n->addNameChange("NewName", Date("1999.2.1"), "it still rocks!")
+@end example
+
+@*
+Adding a Connector (note that fromName and toName are expected to be existing
+Node names at the end of the parser routine - you'll get an error otherwise):
+@example
+  Connector * c = clad->addConnector();
+  c->fromWhen = Date(1997,0,0);
+  c->fromName = "MyFirstNode";
+  c->toWhen = Date("1997.5.1");
+  c->toName = "MySecondNode";
+  c->thickness = 3;
+  c->color = Color(12,255,0);
+@end example
+
+@*
+Adding a domain (note that the initialising name is expected to be an existing
+Node name at the end of the parser routine - you'll get an error otherwise):
+@example
+  Domain * d = clad->addDomain("MyFirstNode");
+  d->color = Color("#abc");
+  d->intensity = 15;
+@end example
+
+@*
+Adding an image (currently supported: SVG and PNG):
+@example
+  Image * image = clad->addImage("picture.svg", clad->includeSVG);
+  image->x = 100;
+  image->y = 50;
+
+  Image * image = clad->addImage("picture.svg", clad->includePNG);
+  image->x = 10;
+  image->y = 500;
+@end example
+
+
+@c _____________________________________ PROGRAMMING - HOW TO GENERATOR
+
+
+@section How to write a generator
+
+
+Your generator is called only by this function:
+@example
+  generator->writeData(Cladogram * clad, std::ofstream * fp);
+@end example
+
+Therefore it should implement the following one:
+@example
+  void generatorXXX::writeData(Cladogram * clad, std::ofstream * fp) @{ ... @}
+@end example
+
+The file pointer is a correctly opened file with the desired file name
+extension.@*
+You should try to use as much of the Cladogram information as possible.
+This can be done by iterating over the Cadlogram's data vectors, currently:
+@example
+vector<Node *> nodes
+vector<Connector *> connectors
+vector<Domain *> domains
+vector<Image *> includeSVG
+vector<Image *> includePNG
+@end example
+
+Additionally, you should strive to make use of all configuration options the
+Cladogram contains. For an overview, take a look at the 'Classes' section above
+and the list in the 'Config Options' chapter. Also a reading the 'gnuclad.h'
+header file won't hurt.
+
+If a variable is empty, try to handle it as gracefully as possible.
+All measures (height, thickness, ...) are "generic units".
+
+Example:
+@example
+  Node * n;
+  for(int i = 0; i < (int)clad->nodes.size(); ++i) @{
+
+    n = clad->nodes.at(i);
+    cout << "\nWe have " << n->name
+         << " at offset " << n->offset;
+
+  @}
+
+  cout << "\n\nOur end of time is "
+       << Date2str(clad->endOfTime) << "\n";
+
+  cout << "\n\nOur background color (in hex) is "
+       << mainBackground.hex << "\n";
+@end example
+
+
+@c _____________________________________ PROGRAMMING - UTILITY FUNCTIONS
+
+
+@cindex Utility functions
+@section Utility functions
+
+
+Here's a list of small helpers you can get when including 'gnuclad.h'.
+This is meant as a quick overview. For descriptions, take a look at
+the 'gnuclad-helpers.cpp' source file.
+
+void pressEnter();
+
+std::string strToLower(std::string str);
+
+std::string getBaseName(std::string fname);
+
+std::string getExt(std::string fname);
+
+std::ifstream * new_infile(const std::string fname);
+
+std::ofstream * new_outfile(const std::string fname);
+
+void safeClose(std::ifstream * fp);
+
+void safeClose(std::ofstream * fp);
+
+void explode(const std::string str, const char delimiter,
+             std::vector<std::string> * v);
+
+void explodeSafely(const std::string str, const char delimiter,
+                   const char toggle, std::vector<std::string> * v);
+
+std::string findReplace(std::string str, std::string find, std::string replace);
+
+double str2double(const std::string str);
+
+int str2int(const std::string s);
+
+std::string int2str(const int n);
+
+std::string base64_encode(const char * raw, unsigned int len);
+
+Date currentDate();
+
+std::string Date2str(Date date);
+
+int datePX(Date d, const Cladogram * clad);
+
+
+
+
+@c ________________________________________________________________________ GFDL
+
+
+
+@node GNU Free Documentation License
+@appendix GNU Free Documentation License
+
+@include fdl.texi
+
+@c _________________________________________________________________________ END
+
+
+@c END
+@node Index
+@unnumbered Index
+
+@printindex cp
+
+@bye
