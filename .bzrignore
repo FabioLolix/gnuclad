@@ -1,4 +1,1 @@
-bin/gnuclad
-example/gnuclad
-__releases/
-gnuclad.geany
+bin/*

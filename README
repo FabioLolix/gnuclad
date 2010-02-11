@@ -9,10 +9,10 @@ in the MANUAL folder.
 
 
 
-HOW TO COMPILE
+HOW TO COMPILE & INSTALL
 
 Open this folder in a terminal and type:
-  make all
+  make
 
 This will produce a 'gnuclad' binary in the bin folder.
 Change to the bin folder and execute gnuclad to get
@@ -24,8 +24,12 @@ Change to the example folder and generate your first SVG image:
   cd ../example
   ../bin/gnuclad example.csv svg example.conf
 
-In order to install gnuclad on a POSIX conform system,
-copy the binary to /usr/bin:
-  sudo cp ../bin/gnuclad /usr/bin
+In order to install gnuclad on a POSIX conform system, change to the main
+directory:
+  cd ..
+  make install
 
 Then restart your terminal. You should be able to call gnuclad from any folder.
+If you wish to uninstall gnuclad, simply open a terminal in the main
+gnuclad folder and execute:
+  make uninstall

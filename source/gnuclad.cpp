@@ -62,7 +62,7 @@ int main(int argc, char ** argv) {
 
   if( (argc != 3 && argc != 4) || a1 == "-h" || a1 == "--help" ) {
 
-    cout << "\nUsage: " << self << " INPUTFILE OUTPUT[FORMAT|FILE] [CONFIGFILE]\n"
+    cout << "\nUsage: " << self<<" INPUTFILE OUTPUT[FORMAT|FILE] [CONFIGFILE]\n"
          << " Example: " << self << " table.CSV SVG\n"
          << " Example: " << self << " Data.csv result.csv alternative.conf\n"
          << "Supported input formats: " << inFormats << '\n'
@@ -107,7 +107,7 @@ int main(int argc, char ** argv) {
 
   // Declare resources
   Cladogram * clad = NULL;
-  clad = new Cladogram();  // some compilers throw error if init at declare
+  clad = new Cladogram();
   ifstream * infile = NULL;
   ofstream * outfile = NULL;
   int exitval = EXIT_SUCCESS;
@@ -119,7 +119,7 @@ int main(int argc, char ** argv) {
 
     clad->parseOptions(conffile);
 
-    // if(isFolder(source)) ...
+    // if(isFolder(source)) todo
     infile = new_infile(source);
     parser->parseData(clad, infile);
     safeClose(infile);  // if we want to write to the same file
@@ -837,11 +837,11 @@ void Cladogram::compute() {
     c = connectors.at(i);
     c->offsetA = c->from->offset;
     c->offsetB = c->to->offset;
-    //~ if(c->offsetA > c->offsetB)  // this look bad with dashed connectors
+    //~ if(c->offsetA > c->offsetB)   // this looks bad with dashed connectors
       //~ swap(c->offsetA, c->offsetB);
   }
 
-  // Get total size (the maximum offset + 1)
+  // Get total size (the maximum offset)
   for(int i = 0; i < nCount; ++i)
     if(maximumOffset < nodes.at(i)->offset)
       maximumOffset = nodes.at(i)->offset;

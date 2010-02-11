@@ -174,6 +174,7 @@ void GeneratorSVG::writeData(Cladogram * clad, ofstream * fp) {
       << "  <rect x='0' y='0' width='" << width << "' height='" << height << "' fill='#" << clad->mainBackground.hex << "' />\n"
       << "</g>\n";
 
+
   // Year and month Rulers
   *fp << "\n<g inkscape:label='Year Rulers' inkscape:groupmode='layer' id='layer_yearrulers'"
       << " stroke-width='" << clad->rulerMonthWidth << "' stroke='#" <<  clad->rulerMonthColor.hex  << "'>\n";
@@ -385,6 +386,7 @@ void GeneratorSVG::writeData(Cladogram * clad, ofstream * fp) {
 
     *fp << "  " << href << "<text x='"<< posX <<"' y='"<< posY <<"' " << alignment << " >" << n->name <<"</text>" << hrefend << "\n";
 
+
     string alignmentNameChange;
     for(int j = 0; j < (int)n->nameChanges.size(); ++j) {
 
@@ -488,6 +490,7 @@ void GeneratorSVG::writeData(Cladogram * clad, ofstream * fp) {
 
   *fp << "\n<!-- BEGIN additional images -->\n";
 
+
   // Additional PNG images
   Image * image;
   *fp << "\n<g inkscape:label='Included PNG Images' inkscape:groupmode='layer' id='layer_included_png'>\n";
@@ -571,7 +574,7 @@ std::string SVG_defs(std::string filename) {
   return data;
 }
 
-// Returns the body of the specified SVG image (after </defs>)
+// Returns the body of the specified SVG image (after </defs>, up to </svg>)
 // Also sets the supplied width and height parameters to the correct value
 std::string SVG_body(std::string filename, int &width, int &height) {
   ifstream fp( filename.c_str() );
