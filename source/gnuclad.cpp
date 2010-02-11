@@ -49,11 +49,12 @@ int main(int argc, char ** argv) {
   string outFormats = "csv, svg";
 
   // Version and Help
-  string self = argv[0], a1 = argv[1];
+  string self = argv[0], a1;
   if(self.substr(0, 2) == "./") self.replace(0, 2, "");
 
   cout << "gnuclad v" << version;
 
+  if(argc > 1) a1 = argv[1];
   if(a1 == "-v" || a1 == "--version") {
     cout << "\n";
     return EXIT_SUCCESS;

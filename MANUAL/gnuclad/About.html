@@ -1,0 +1,108 @@
+<html lang="en">
+<head>
+<title>About - gnuclad manual</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="gnuclad manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="prev" href="index.html#Top" title="Top">
+<link rel="next" href="Usage-Tips.html#Usage-Tips" title="Usage Tips">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+This is a manual for gnuclad
+
+Copyright (C) 2010 Donjan Rodic <donjan (at) dyx (dot) ch>
+
+     Permission is granted to copy, distribute and/or modify this
+     document under the terms of the GNU Free Documentation License,
+     Version 1.3 or any later version published by the Free Software
+     Foundation; with no Invariant Sections, no Front-Cover Texts, and
+     no Back-Cover Texts.
+   -->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="About"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Usage-Tips.html#Usage-Tips">Usage Tips</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="index.html#Top">Top</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="index.html#Top">Top</a>
+<hr>
+</div>
+
+<h2 class="chapter">1 About</h2>
+
+<h3 class="section">1.1 Contact</h3>
+
+<p>The most recent version of gnuclad and it's documentation can be
+downloaded at <a href="https://launchpad.net/gnuclad">https://launchpad.net/gnuclad</a>.
+
+   <p>You can also file bugs and contact the developers there.
+
+<h3 class="section">1.2 Purpose</h3>
+
+<p>gnuclad has been written to facilitate progress of the GNU/Linux distro
+timeline project (GLDT) which can be found at <a href="http://futurist.se/gldt/">http://futurist.se/gldt/</a>
+
+   <p>Meanwhile it has become quite customisable and general application -
+for example in genealogy or visualisation of hierarchical structures -
+should be possible.
+
+<h3 class="section">1.3 Formats</h3>
+
+<p>Supported input formats are: CSV spreadsheets
+
+   <p>Supported output formats are: CSV and SVG
+
+   <p>A sample CSV file should be distributed together with gnuclad. 
+It can be openend with any spreadsheet program; the field separator is
+comma (,) and the text delimiter is double quote (").
+
+   <p>The .conf file can be edited with any text editor of your choice.
+
+<h3 class="section">1.4 Syntax</h3>
+
+<pre class="example">     gnuclad INPUTFILE OUTPUT[FORMAT|FILE] [CONFIGFILE]
+     
+       example: gnuclad table.CSV SVG
+       example: gnuclad Data.csv result.csv alternative.conf
+</pre>
+<h3 class="section">1.5 Getting started</h3>
+
+<p>If you downloaded the source code and don't know how to proceed, here are a
+few detailed instructions.
+
+   <p>Open the gnuclad folder in a terminal and type:
+<pre class="example">     make all
+</pre>
+   <p>This will produce a 'gnuclad' binary in the bin folder. 
+Change to the bin folder and execute gnuclad to get
+acquainted with it's syntax:
+<pre class="example">       cd bin
+       ./gnuclad -h
+</pre>
+   <p>Change to the example folder and generate your first SVG image:
+<pre class="example">       cd ../example
+       ../bin/gnuclad example.csv svg example.conf
+</pre>
+   <p>In order to install gnuclad on a POSIX conform system,
+copy the binary to /usr/bin:
+<pre class="example">       sudo cp ../bin/gnuclad /usr/bin
+</pre>
+   <p>Then restart your terminal. You should be able to call gnuclad from any folder.
+
+<!-- _____________________________________________________________________________ -->
+   </body></html>
+
