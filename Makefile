@@ -4,7 +4,6 @@
 SHAREDHEADERS=source/gnuclad.h source/gnuclad-portability.h
 
 SOURCEDIR = source/
-VPATH = source     #important
 OBJDIR = bin/obj/
 BINDIR = bin/
 BIN = $(BINDIR)gnuclad
@@ -22,6 +21,7 @@ DBGFLAGS = -Wall -Wextra -Werror -pedantic-errors -ansi -O0 -g3 # -pg
 # Automation starts here
 ################################################################################
 
+VPATH = $(SOURCEDIR)
 HEADERS=$(wildcard $(SOURCEDIR)*.h)
 SOURCES=$(wildcard $(SOURCEDIR)*.cpp)
 OBJS=$(subst $(SOURCEDIR),$(OBJDIR),$(SOURCES:.cpp=.o))
@@ -35,8 +35,8 @@ $(BIN): $(OBJS)
 	$(CC) $(CFLAGS) -o $(BIN) $(OBJS)
 	@echo Shared headers are: $(SHAREDHEADERS)
 
-# The following line isn't even required, which seems very illogical because
-# the line below it already has OBJDIR in the %
+# The following line isn't even required (but works!), which seems very
+# illogical because the line below it already has OBJDIR in the %   ... magic
 #$(OBJDIR)$(subst $(OBJDIR),,%.o): %.cpp $(SHAREDHEADERS)
 $(OBJDIR)%.o: %.cpp $(SHAREDHEADERS)
 	@$(SMART_MKDIR) $(OBJDIR)

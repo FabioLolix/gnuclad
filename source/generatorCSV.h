@@ -28,6 +28,7 @@ class GeneratorCSV: public Generator {
   public:
 
   GeneratorCSV();
+  ~GeneratorCSV();
   void writeData(Cladogram * clad, std::ofstream * fp);
 };
 

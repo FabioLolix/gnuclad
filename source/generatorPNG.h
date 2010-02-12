@@ -28,6 +28,7 @@ class GeneratorPNG: public Generator {
   public:
 
   GeneratorPNG();
+  ~GeneratorPNG();
   void writeData(Cladogram * clad, std::ofstream * fp);
 };
 

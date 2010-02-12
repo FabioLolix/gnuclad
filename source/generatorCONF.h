@@ -28,6 +28,7 @@ class GeneratorCONF: public Generator {
   public:
 
   GeneratorCONF();
+  ~GeneratorCONF();
   void writeData(Cladogram * clad, std::ofstream * fp);
 };
 

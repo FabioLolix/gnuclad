@@ -1017,3 +1017,13 @@ void Cladogram::optimise_pullTree(int first, int last) {
     while(fitsInto(n->offset + sign, n)) n->offset += sign;
   }
 }
+
+
+
+////////////////////////////////////////////////////////////////////////////////
+///
+// Parser/Generator destructor
+//
+
+Parser::~Parser() {}
+Generator::~Generator() {}

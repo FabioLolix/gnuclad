@@ -24,13 +24,14 @@ should be possible.
 
 Supported input formats are: CSV spreadsheets
 
-Supported output formats are: CSV and SVG
+Supported output formats are: CSV, SVG and CONF
 
-A sample CSV file should be distributed together with gnuclad.
+A sample CSV file is distributed together with gnuclad.
 It can be openend with any spreadsheet program; the field separator is
-comma (,) and the text delimiter is double quote (").
+comma (,) and the text delimiter is double quote ("). Please make sure you save
+it that way.
 
-The .conf file can be edited with any text editor of your choice.
+The conf file can be edited with any text editor of your choice.
 
 @section Syntax
 
@@ -47,7 +48,13 @@ gnuclad INPUTFILE OUTPUT[FORMAT|FILE] [CONFIGFILE]
 If you downloaded the source code and don't know how to proceed, here are a
 few detailed instructions.
 
-Open the gnuclad folder in a terminal and type:
+gnuclad is built with the GNU toolchain, specifically g++ and GNU make.
+These are included in most GNU/Linux distributions and can be obtained
+from the Xcode developer package on OSX.
+On Windows, compilation works flawlessly with MinGW & MSYS, though it should be
+possible with other compilers by tweaking the Makefile.
+
+To compile gnuclad, open the gnuclad main folder in a terminal and type:
 @example
   make
 @end example
@@ -73,9 +80,9 @@ directory:
   make install
 @end example
 
-Then restart your terminal. You should be able to call gnuclad from any folder.
-If you wish to uninstall gnuclad, simply open a terminal in the main gnuclad
-folder and execute:
+You should now be able to call gnuclad from any folder.
+If you wish to uninstall gnuclad, simply open a terminal in that same
+main gnuclad folder and execute:
 @example
   make uninstall
 @end example

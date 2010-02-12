@@ -22,8 +22,8 @@
 using namespace std;
 
 
-GeneratorCONF::GeneratorCONF() {
-}
+GeneratorCONF::GeneratorCONF() {}
+GeneratorCONF::~GeneratorCONF() {}
 
 void GeneratorCONF::writeData(Cladogram * clad, ofstream * fp) {
 

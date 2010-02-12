@@ -24,7 +24,7 @@ Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.
 
 @titlepage
 @title gnuclad cladogram generator
-@c @subtitle version
+@subtitle version 0.1
 @author Donjan Rodic (@email{donjan@dyx.ch})
 @page
 @vskip 0pt plus 1filll
@@ -40,7 +40,7 @@ Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.
 
 @top gnuclad cladogram generator
 
-This is the texinfo manual for gnuclad. (February 2010)
+This is the texinfo manual for gnuclad version 0.1 (12. February 2010)
 
 @end ifnottex
 

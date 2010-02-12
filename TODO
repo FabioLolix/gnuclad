@@ -20,7 +20,7 @@ ________________________________________________________________ v0.2
 
 
 add ability to override options in CSV? (with X flag)
-  -> easy to implement, but generatorCONF must come first
+  -> easy to implement, but painful to maintain
 
 take a look at libpng, then maybe implement colormap
 signature generator: 500x500 SVG (PNG if possible), average distribution, grayscale

@@ -22,8 +22,8 @@
 using namespace std;
 
 
-GeneratorCSV::GeneratorCSV() {
-}
+GeneratorCSV::GeneratorCSV() {}
+GeneratorCSV::~GeneratorCSV() {}
 
 void GeneratorCSV::writeData(Cladogram * clad, ofstream * fp) {
 

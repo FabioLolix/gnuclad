@@ -64,13 +64,14 @@ should be possible.
 
 <p>Supported input formats are: CSV spreadsheets
 
-   <p>Supported output formats are: CSV and SVG
+   <p>Supported output formats are: CSV, SVG and CONF
 
-   <p>A sample CSV file should be distributed together with gnuclad. 
+   <p>A sample CSV file is distributed together with gnuclad. 
 It can be openend with any spreadsheet program; the field separator is
-comma (,) and the text delimiter is double quote (").
+comma (,) and the text delimiter is double quote ("). Please make sure you save
+it that way.
 
-   <p>The .conf file can be edited with any text editor of your choice.
+   <p>The conf file can be edited with any text editor of your choice.
 
 <h3 class="section">1.4 Syntax</h3>
 
@@ -86,7 +87,13 @@ comma (,) and the text delimiter is double quote (").
 <p>If you downloaded the source code and don't know how to proceed, here are a
 few detailed instructions.
 
-   <p>Open the gnuclad folder in a terminal and type:
+   <p>gnuclad is built with the GNU toolchain, specifically g++ and GNU make. 
+These are included in most GNU/Linux distributions and can be obtained
+from the Xcode developer package on OSX. 
+On Windows, compilation works flawlessly with MinGW &amp; MSYS, though it should be
+possible with other compilers by tweaking the Makefile.
+
+   <p>To compile gnuclad, open the gnuclad main folder in a terminal and type:
 <pre class="example">       make
 </pre>
    <p>This will produce a 'gnuclad' binary in the bin folder. 
@@ -104,9 +111,9 @@ directory:
 <pre class="example">       cd ..
        make install
 </pre>
-   <p>Then restart your terminal. You should be able to call gnuclad from any folder. 
-If you wish to uninstall gnuclad, simply open a terminal in the main gnuclad
-folder and execute:
+   <p>You should now be able to call gnuclad from any folder. 
+If you wish to uninstall gnuclad, simply open a terminal in that same
+main gnuclad folder and execute:
 <pre class="example">       make uninstall
 </pre>
    <!-- Part of the gnuclad texinfo manual -->

@@ -22,8 +22,8 @@
 using namespace std;
 
 
-GeneratorSVG::GeneratorSVG() {
-}
+GeneratorSVG::GeneratorSVG() {}
+GeneratorSVG::~GeneratorSVG() {}
 
 void GeneratorSVG::writeData(Cladogram * clad, ofstream * fp) {
 
@@ -633,7 +633,7 @@ std::string base64_png(std::string filename, int &width, int &height) {
     fp.read(data, size);
 
     if(data[1] != 'P' || data[2] != 'N' || data[3] != 'G')
-      throw "invalid PNG icon file: " + filename;
+      throw "invalid PNG file: " + filename;
 
     string data64 = base64_encode(data, size);
 

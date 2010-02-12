@@ -265,11 +265,13 @@ class Cladogram {
 
 class Parser {
   public:
+  virtual ~Parser();
   virtual void parseData(Cladogram * cladogram, std::ifstream * fp) = 0;
 };
 
 class Generator {
   public:
+  virtual ~Generator();
   virtual void writeData(Cladogram * cladogram, std::ofstream * fp) = 0;
 };
 

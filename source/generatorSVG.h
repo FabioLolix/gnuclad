@@ -28,6 +28,7 @@ class GeneratorSVG: public Generator {
   public:
 
   GeneratorSVG();
+  ~GeneratorSVG();
   void writeData(Cladogram * clad, std::ofstream * fp);
 };
 

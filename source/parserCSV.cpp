@@ -22,8 +22,8 @@
 using namespace std;
 
 
-ParserCSV::ParserCSV() {
-}
+ParserCSV::ParserCSV() {}
+ParserCSV::~ParserCSV() {}
 
 void ParserCSV::parseData(Cladogram * clad, ifstream * fp) {
 

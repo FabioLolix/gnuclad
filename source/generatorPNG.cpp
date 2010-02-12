@@ -34,8 +34,8 @@ using namespace std;
 //    would require a font renderer too...
 
 
-GeneratorPNG::GeneratorPNG() {
-}
+GeneratorPNG::GeneratorPNG() {}
+GeneratorPNG::~GeneratorPNG() {}
 
 void GeneratorPNG::writeData(Cladogram * clad, ofstream * fp) {
 
