@@ -17,15 +17,17 @@ When adding a configuration option, be sure to implement it at least in the
 following places:
 @itemize @bullet
 @item gnuclad.h declaration
-@item gnuclad.cpp initalisation (constructor of the Cladogram object)
-@item gnuclad.cpp parser (parseOptions function)
+@item gnuclad.cpp initalisation (in the constructor of the Cladogram object)
+@item gnuclad.cpp parser (in the parseOptions function)
 @item generatorCONF.cpp
 @item the texinfo documentation, chapter Config Options (insert the config file
       created by generatorCONF)
-@item the example configuration file: example/example.conf <= TODO: maybe not
 @item third party gnuclad configuration files you have access to
 @end itemize
 
+In order to work with the most current config options, open the 'gnuclad.h'
+source file and search for CONFIG OPTIONS. This will take you straight to the
+declarations.
 
 @c _____________________________________________________ ADDING PARSER/GENERATOR
 
@@ -35,7 +37,7 @@ following places:
 Parsers read data from various sources into the Cladogram object,
 generators write data from the Cladogram object to a specified output format.
 
-This is a short overview over the steps necessary to include a parser/generator.
+This is a short overview on the steps necessary to include a parser/generator.
 For detailed information, see the "How to write a ..." sections below.
 
 @strong{Adding a parser}
@@ -146,7 +148,8 @@ The Image object is to be initialised only with addImage() in the parser:
 @example
   Image * Cladogram::addImage(std::string tname, std::vector<Image *> &vector);
 @end example
-The parser has to specify the vector it wants the image to be loaded into.
+The parser has to specify the vector it wants the image to be loaded into (see
+the Cladogram class below for details).
 It is usually passed to the generator unchanged and contains three members.
 @example
 class Image
@@ -255,8 +258,13 @@ class Cladogram
 The cladogram also holds all configuration options. These are usually read by
 a separate configuration parser, but can be modified by your parser if necessary
 and should implemented by the generator as completely as possible.
-The option names are identical to the variable names: look at the
-'Config Options' chapter for reference.
+The option names are identical to the variable names.
+
+In order to work with the most current config options, open the 'gnuclad.h'
+header file and search for CONFIG OPTIONS. This will take you straight to the
+declarations.
+
+You can also look at the 'Config Options' manual chapter for an overview.
 
 
 
@@ -362,8 +370,8 @@ Therefore it should implement the following one:
 
 The file pointer is a correctly opened file with the desired file name
 extension.@*
-You should try to use as much of the Cladogram information as possible.
-This can be done by iterating over the Cadlogram's data vectors, currently:
+You should try to utilise as much information as possible.
+This can be done by iterating over the Cadlogram's data vectors:
 @example
 vector<Node *> nodes
 vector<Connector *> connectors
@@ -373,9 +381,10 @@ vector<Image *> includePNG
 @end example
 
 Additionally, you should strive to make use of all configuration options the
-Cladogram contains. For an overview, take a look at the 'Classes' section above
-and the list in the 'Config Options' chapter. Also a reading the 'gnuclad.h'
-header file won't hurt.
+Cladogram contains.
+In order to work with the most current config options, open the 'gnuclad.h'
+header file and search for CONFIG OPTIONS. This will take you straight to the
+declarations.
 
 If a variable is empty, try to handle it as gracefully as possible.
 All measures (height, thickness, ...) are "generic units".

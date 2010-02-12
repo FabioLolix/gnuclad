@@ -172,9 +172,12 @@ class Cladogram {
   std::vector<Image *> includePNG;
 
   Date beginningOfTime;
-  Date endOfTime;
   int maximumOffset;
 
+
+  // CONFIG OPTIONS START
+
+  Date endOfTime;
 
   std::string infoBoxTitle;
   std::vector<std::string> infoBoxText;
@@ -235,6 +238,8 @@ class Cladogram {
   int descriptionIsHyperLink;
 
   int debug;
+
+  // CONFIG OPTIONS END
 
 
   Cladogram();

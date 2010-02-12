@@ -56,14 +56,17 @@ Patches are always welcome. New parsers/generators even more so!
 following places:
      <ul>
 <li>gnuclad.h declaration
-<li>gnuclad.cpp initalisation (constructor of the Cladogram object)
-<li>gnuclad.cpp parser (parseOptions function)
+<li>gnuclad.cpp initalisation (in the constructor of the Cladogram object)
+<li>gnuclad.cpp parser (in the parseOptions function)
 <li>generatorCONF.cpp
 <li>the texinfo documentation, chapter Config Options (insert the config file
       created by generatorCONF)
-<li>the example configuration file: example/example.conf &lt;= TODO: maybe not
 <li>third party gnuclad configuration files you have access to
 </ul>
+
+   <p>In order to work with the most current config options, open the 'gnuclad.h'
+source file and search for CONFIG OPTIONS. This will take you straight to the
+declarations.
 
 <!-- _____________________________________________________ ADDING PARSER/GENERATOR -->
    <p><a name="index-Adding-a-parser_002fgenerator-4"></a>
@@ -73,7 +76,7 @@ following places:
 <p>Parsers read data from various sources into the Cladogram object,
 generators write data from the Cladogram object to a specified output format.
 
-   <p>This is a short overview over the steps necessary to include a parser/generator. 
+   <p>This is a short overview on the steps necessary to include a parser/generator. 
 For detailed information, see the "How to write a ..." sections below.
 
    <p><strong>Adding a parser</strong>
@@ -161,7 +164,8 @@ day settings. They should be ignored by the parser.
 The Image object is to be initialised only with addImage() in the parser:
 <pre class="example">       Image * Cladogram::addImage(std::string tname, std::vector&lt;Image *&gt; &amp;vector);
 </pre>
-   <p>The parser has to specify the vector it wants the image to be loaded into. 
+   <p>The parser has to specify the vector it wants the image to be loaded into (see
+the Cladogram class below for details). 
 It is usually passed to the generator unchanged and contains three members.
 <pre class="example">     class Image
        std::string filename;
@@ -249,8 +253,13 @@ The generator is meant to make use of the data vectors.
    <p>The cladogram also holds all configuration options. These are usually read by
 a separate configuration parser, but can be modified by your parser if necessary
 and should implemented by the generator as completely as possible. 
-The option names are identical to the variable names: look at the
-'Config Options' chapter for reference.
+The option names are identical to the variable names.
+
+   <p>In order to work with the most current config options, open the 'gnuclad.h'
+header file and search for CONFIG OPTIONS. This will take you straight to the
+declarations.
+
+   <p>You can also look at the 'Config Options' manual chapter for an overview.
 
 <!-- _______________________________________________________________ HOW TO PARSER -->
 <h3 class="section">5.5 How to write a parser</h3>
@@ -330,8 +339,8 @@ Adding an image (currently supported: SVG and PNG):
 </pre>
    <p>The file pointer is a correctly opened file with the desired file name
 extension.<br>
-You should try to use as much of the Cladogram information as possible. 
-This can be done by iterating over the Cadlogram's data vectors, currently:
+You should try to utilise as much information as possible. 
+This can be done by iterating over the Cadlogram's data vectors:
 <pre class="example">     vector&lt;Node *&gt; nodes
      vector&lt;Connector *&gt; connectors
      vector&lt;Domain *&gt; domains
@@ -339,9 +348,10 @@ This can be done by iterating over the Cadlogram's data vectors, currently:
      vector&lt;Image *&gt; includePNG
 </pre>
    <p>Additionally, you should strive to make use of all configuration options the
-Cladogram contains. For an overview, take a look at the 'Classes' section above
-and the list in the 'Config Options' chapter. Also a reading the 'gnuclad.h'
-header file won't hurt.
+Cladogram contains. 
+In order to work with the most current config options, open the 'gnuclad.h'
+header file and search for CONFIG OPTIONS. This will take you straight to the
+declarations.
 
    <p>If a variable is empty, try to handle it as gracefully as possible. 
 All measures (height, thickness, ...) are "generic units".

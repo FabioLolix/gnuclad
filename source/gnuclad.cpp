@@ -26,6 +26,7 @@
 #include "parserCSV.h"
 #include "generatorCSV.h"
 #include "generatorSVG.h"
+#include "generatorCONF.h"
 #include "generatorPNG.h"
 
 #include <iostream>
@@ -46,7 +47,7 @@ int main(int argc, char ** argv) {
   string version = "ALPHA";
   string conffile = "";
   string inFormats = "csv";
-  string outFormats = "csv, svg";
+  string outFormats = "csv, svg, conf";
 
   // Version and Help
   string self = argv[0], a1;
@@ -97,6 +98,7 @@ int main(int argc, char ** argv) {
   Generator * generator = NULL;
   if     (outputExt == "csv") generator = new GeneratorCSV;
   else if(outputExt == "svg") generator = new GeneratorSVG;
+  else if(outputExt == "conf") generator = new GeneratorCONF;
   else if(outputExt == "png") generator = new GeneratorPNG;
   else {
     cout << "\nError: unknown output file type: " << outputExt << '\n'
@@ -317,8 +319,8 @@ Cladogram::Cladogram() {
   infoBoxTextSize = 16;
   infoBoxFont = "Arial";
   infoBoxFontColor = Color("#000");
-  infoBoxColor1 = Color("#5bf");
-  infoBoxColor2 = Color("#38f");
+  infoBoxColor1 = Color("#51b1f1");
+  infoBoxColor2 = Color("#3181f1");
   infoBoxX = 10;
   infoBoxY = 50;
   infoBoxWidth = 50;

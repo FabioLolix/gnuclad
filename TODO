@@ -1,9 +1,6 @@
 
 make sure it compiles on OSX and Windows (MinGW)
 
-generatorCONF
-
-? use example.conf only as lightweight subset display ? !YUP, only fanciest stuff
 ________________________________________________________________ v0.1
 
 translatable strings (gettext)
