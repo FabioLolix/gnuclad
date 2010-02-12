@@ -1,11 +1,16 @@
 
 make sure it compiles on OSX and Windows (MinGW)
 
+generatorCONF
+
+? use example.conf only as lightweight subset display ? !YUP, only fanciest stuff
 ________________________________________________________________ v0.1
 
 translatable strings (gettext)
 
-parseDIR (depth based and then time based)
+add option curvedConnectors ? (rather derivType)
+
+parserDIR (depth based and then perhaps time based)
 
 GRAMPS file format parser
 GEDCOM file format parser
@@ -17,11 +22,8 @@ change command line interface? (getopts)
 ________________________________________________________________ v0.2
 
 
-add option curvedConnectors ?
-
 add ability to override options in CSV? (with X flag)
-  -> easy to implement, but bad practice (weakening conffile devalues parserDIR etc)
-SOLUTION: implement generatorCONF (creates default conf if no csv as input)
+  -> easy to implement, but generatorCONF must come first
 
 take a look at libpng, then maybe implement colormap
 signature generator: 500x500 SVG (PNG if possible), average distribution, grayscale

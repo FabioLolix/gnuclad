@@ -71,8 +71,6 @@
   </marker>
 
 <!-- BEGIN additional SVG images - definitions -->
-
-
     <linearGradient
        id="linearGradient3590">
       <stop
@@ -102,7 +100,6 @@
        r="46.92857"
        gradientTransform="matrix(1,0,0,0.95433791,0,3.8260611)"
        gradientUnits="userSpaceOnUse" />
-
 
 <!-- END additional SVG images - definitions -->
 
@@ -236,15 +233,15 @@ style='opacity:0.6;' >
 
 <g inkscape:label='Lines' inkscape:groupmode='layer' id='layer_lines'
  style='fill:none;stroke-width:4;' >
-  <path id='__line_Parent' d='M 51 70 L 820 70' stroke='#f00' />
-  <path id='__line_Grandchild2' d='M 343 108 L 343 90 L 820 90' stroke='#01faf4' />
-  <path id='__line_Child' d='M 216 72 L 216 110 L 820 110' stroke='#00F' />
+  <path id='__line_Parent' d='M 51 70 L 821 70' stroke='#f00' />
+  <path id='__line_Grandchild2' d='M 343 108 L 343 90 L 821 90' stroke='#01faf4' />
+  <path id='__line_Child' d='M 216 72 L 216 110 L 821 110' stroke='#00F' />
   <path id='__line_Grandchild3' d='M 626 112 L 626 130 L 751 130' stroke='#f1a000' marker-end='url(#__stop_Grandchild3)' />
   <path id='__line_Grandchlid' d='M 318 112 L 318 130 L 590 130' stroke='#0f0' marker-end='url(#__stop_Grandchlid)' />
   <path id='__line_Neighbour' d='M 251 170 L 610 170' stroke='#Ff0' marker-end='url(#__stop_Neighbour)' />
-  <path id='__line_NeighboursChild2' d='M 510 228 L 510 210 L 820 210' stroke='#ff0' />
-  <path id='__line_Neighbour2' d='M 201 230 L 820 230' stroke='#f0f' />
-  <path id='__line_NeighboursChild' d='M 318 232 L 318 250 L 820 250' stroke='#0f0' />
+  <path id='__line_NeighboursChild2' d='M 510 228 L 510 210 L 821 210' stroke='#ff0' />
+  <path id='__line_Neighbour2' d='M 201 230 L 821 230' stroke='#f0f' />
+  <path id='__line_NeighboursChild' d='M 318 232 L 318 250 L 821 250' stroke='#0f0' />
 </g>
 
 <g inkscape:label='Dots' inkscape:groupmode='layer' id='layer_dots'
@@ -329,6 +326,8 @@ style='opacity:0.6;' >
   <text x='16' y='144'><tspan style='font-size:12px;'>consectetuer adipiscing elit</tspan></text>
 </g>
 
+<!-- BEGIN additional images -->
+
 <g inkscape:label='Included PNG Images' inkscape:groupmode='layer' id='layer_included_png'>
   <image id='__png_0' x='880' y='230' width='40' height='40'
     xlink:href='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM/rhtAAAAAXNSR0IArs4c6QAAAAZiS0dEAAAAAAAA+UO7fwAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAd0SU1FB9oCChYCLHJJ904AAAAZdEVYdENvbW1lbnQAQ3JlYXRlZCB3aXRoIEdJTVBXgQ4XAAAEO0lEQVRYw+2Y
@@ -395,5 +394,7 @@ a+eWbcFkJatpaGUWTLDyBXX4NU1C1MbMSt3iU+5uWLu9RFYWlJ6hzUsr7MGsHUzrYsOZ8xJ9Sd8zn1mj
   </g>
   </g>
 </g>
+
+<!-- END additional images -->
 
 </svg>

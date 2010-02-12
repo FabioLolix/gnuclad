@@ -1,0 +1,15 @@
+@c Part of the gnuclad texinfo manual
+
+@node FAQ
+@chapter Frequently Asked Questions
+@cindex FAQ
+
+@strong{Are there any office spreadsheet editors that have trouble editing
+standard CSV spreadsheets?}@*
+Yes, a widely used non-POSIX office suite from 2007 has considerable problems 
+saving a CSV correctly.
+
+@strong{Are there any browsers that don't support the SVG image format?}@*
+SVG is supported by nearly any graphical browser available.
+Notable browsers incapable of rendering SVG include Dillo (all versions) and
+MS Internet Explorer (all versions, can be remedied with plugins).

@@ -5,13 +5,19 @@ SHAREDHEADERS=source/gnuclad.h source/gnuclad-portability.h
 
 SOURCEDIR = source/
 VPATH = source     #important
+OBJDIR = bin/obj/
 BINDIR = bin/
 BIN = $(BINDIR)gnuclad
-OBJDIR = bin/obj/
+INSTALLBIN = /usr/bin/gnuclad
 
 INFODIR = MANUAL/source/
 
 SMART_MKDIR = mkdir -p
+
+CC = g++
+CFLAGS   = -Wall -Wextra -Werror -pedantic-errors -ansi -O2
+DBGFLAGS = -Wall -Wextra -Werror -pedantic-errors -ansi -O0 -g3 # -pg
+
 
 # Automation starts here
 ################################################################################
@@ -21,11 +27,6 @@ SOURCES=$(wildcard $(SOURCEDIR)*.cpp)
 OBJS=$(subst $(SOURCEDIR),$(OBJDIR),$(SOURCES:.cpp=.o))
 HEADERS_W_SOURCES=$(wildcard $(SOURCES:.cpp=.h))
 OBJS_W_HEADERS=$(subst $(SOURCEDIR),$(OBJDIR),$(HEADERS_W_SOURCES:.h=))
-
-CC = g++
-CFLAGS   = -Wall -Wextra -Werror -pedantic-errors -ansi -O2
-DBGFLAGS = -Wall -Wextra -Werror -pedantic-errors -ansi -O0 -g3
-
 
 all: $(BIN)
 
@@ -57,11 +58,11 @@ clean:
 	rm -f $(OBJS)
 	rm -rf $(OBJDIR)
 
-install: bin/gnuclad
-	sudo cp bin/gnuclad /usr/bin/gnuclad
+install: $(BIN)
+	sudo cp $(BIN) $(INSTALLBIN)
 
-uninstall: /usr/bin/gnuclad
-	sudo rm /usr/bin/gnuclad
+uninstall: $(INSTALLBIN)
+	sudo rm $(INSTALLBIN)
 
 
 texinfo:

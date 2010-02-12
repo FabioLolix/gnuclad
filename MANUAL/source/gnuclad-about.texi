@@ -1,0 +1,81 @@
+@c Part of the gnuclad texinfo manual
+
+
+@node About
+@chapter About
+
+@section Contact
+
+The most recent version of gnuclad and it's documentation can be
+downloaded at @uref{https://launchpad.net/gnuclad}.
+
+You can also file bugs and contact the developers there.
+
+@section Purpose
+
+gnuclad has been written to facilitate progress of the GNU/Linux distro
+timeline project (GLDT) which can be found at @uref{http://futurist.se/gldt/}
+
+Meanwhile it has become quite customisable and general application -
+for example in genealogy or visualisation of hierarchical structures -
+should be possible.
+
+@section Formats
+
+Supported input formats are: CSV spreadsheets
+
+Supported output formats are: CSV and SVG
+
+A sample CSV file should be distributed together with gnuclad.
+It can be openend with any spreadsheet program; the field separator is
+comma (,) and the text delimiter is double quote (").
+
+The .conf file can be edited with any text editor of your choice.
+
+@section Syntax
+
+@example
+gnuclad INPUTFILE OUTPUT[FORMAT|FILE] [CONFIGFILE]
+
+  example: gnuclad table.CSV SVG
+  example: gnuclad Data.csv result.csv alternative.conf
+@end example
+
+@cindex Getting Started
+@section Getting started
+
+If you downloaded the source code and don't know how to proceed, here are a
+few detailed instructions.
+
+Open the gnuclad folder in a terminal and type:
+@example
+  make
+@end example
+
+This will produce a 'gnuclad' binary in the bin folder.
+Change to the bin folder and execute gnuclad to get
+acquainted with it's syntax:
+@example
+  cd bin
+  ./gnuclad -h
+@end example
+
+Change to the example folder and generate your first SVG image:
+@example
+  cd ../example
+  ../bin/gnuclad example.csv svg example.conf
+@end example
+
+In order to install gnuclad on a POSIX conform system, change to the main
+directory:
+@example
+  cd ..
+  make install
+@end example
+
+Then restart your terminal. You should be able to call gnuclad from any folder.
+If you wish to uninstall gnuclad, simply open a terminal in the main gnuclad
+folder and execute:
+@example
+  make uninstall
+@end example

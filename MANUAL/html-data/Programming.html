@@ -49,9 +49,26 @@ Up:&nbsp;<a rel="up" accesskey="u" href="index.html#Top">Top</a>
 <p>Here's a small documentation if you wish to hack gnuclad. 
 Patches are always welcome. New parsers/generators even more so!
 
+<!-- _______________________________________________________ ADDING CONFIG OPTIONS -->
+<h3 class="section">5.2 Adding configuration options</h3>
+
+<p>When adding a configuration option, be sure to implement it at least in the
+following places:
+     <ul>
+<li>gnuclad.h declaration
+<li>gnuclad.cpp initalisation (constructor of the Cladogram object)
+<li>gnuclad.cpp parser (parseOptions function)
+<li>generatorCONF.cpp
+<li>the texinfo documentation, chapter Config Options (insert the config file
+      created by generatorCONF)
+<li>the example configuration file: example/example.conf &lt;= TODO: maybe not
+<li>third party gnuclad configuration files you have access to
+</ul>
+
+<!-- _____________________________________________________ ADDING PARSER/GENERATOR -->
    <p><a name="index-Adding-a-parser_002fgenerator-4"></a>
 
-<h3 class="section">5.2 Adding a parser/generator</h3>
+<h3 class="section">5.3 Adding a parser/generator</h3>
 
 <p>Parsers read data from various sources into the Cladogram object,
 generators write data from the Cladogram object to a specified output format.
@@ -59,7 +76,6 @@ generators write data from the Cladogram object to a specified output format.
    <p>This is a short overview over the steps necessary to include a parser/generator. 
 For detailed information, see the "How to write a ..." sections below.
 
-<!-- _____________________________________ PROGRAMMING - ADDING PARSER/GENERATOR -->
    <p><strong>Adding a parser</strong>
 
    <p>parserXXX.h:
@@ -98,10 +114,10 @@ For detailed information, see the "How to write a ..." sections below.
      add choser:
        else if(outputExt == "XXX") generator = new GeneratorXXX;
 </pre>
-   <!-- _____________________________________ PROGRAMMING - CLASSES -->
+   <!-- _____________________________________________________________________ CLASSES -->
    <p><a name="index-Classes-5"></a>
 
-<h3 class="section">5.3 Classes</h3>
+<h3 class="section">5.4 Classes</h3>
 
 <p>A breakdown of the classes used in gnuclad. 
 Only the relevant public parts are shown, first the members and then the
@@ -236,8 +252,8 @@ and should implemented by the generator as completely as possible.
 The option names are identical to the variable names: look at the
 'Config Options' chapter for reference.
 
-<!-- _____________________________________ PROGRAMMING - HOW TO PARSER -->
-<h3 class="section">5.4 How to write a parser</h3>
+<!-- _______________________________________________________________ HOW TO PARSER -->
+<h3 class="section">5.5 How to write a parser</h3>
 
 <p>Your parser is called only by this function:
 <pre class="example">       parser-&gt;parseData(Cladogram * clad, std::ifstream * fp);
@@ -303,8 +319,8 @@ Adding an image (currently supported: SVG and PNG):
        image-&gt;x = 10;
        image-&gt;y = 500;
 </pre>
-   <!-- _____________________________________ PROGRAMMING - HOW TO GENERATOR -->
-<h3 class="section">5.5 How to write a generator</h3>
+   <!-- ____________________________________________________________ HOW TO GENERATOR -->
+<h3 class="section">5.6 How to write a generator</h3>
 
 <p>Your generator is called only by this function:
 <pre class="example">       generator-&gt;writeData(Cladogram * clad, std::ofstream * fp);
@@ -346,10 +362,10 @@ All measures (height, thickness, ...) are "generic units".
        cout &lt;&lt; "\n\nOur background color (in hex) is "
             &lt;&lt; mainBackground.hex &lt;&lt; "\n";
 </pre>
-   <!-- _____________________________________ PROGRAMMING - UTILITY FUNCTIONS -->
+   <!-- ___________________________________________________________ UTILITY FUNCTIONS -->
    <p><a name="index-Utility-functions-6"></a>
 
-<h3 class="section">5.6 Utility functions</h3>
+<h3 class="section">5.7 Utility functions</h3>
 
 <p>Here's a list of small helpers you can get when including 'gnuclad.h'. 
 This is meant as a quick overview. For descriptions, take a look at

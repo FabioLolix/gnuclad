@@ -1,0 +1,69 @@
+@c Part of the gnuclad texinfo manual
+
+
+@node Usage Tips
+@chapter Usage Tips
+
+@section CSV spreadsheets as input
+
+You can include SVG images in the CSV spreadsheets.
+Keep in mind that only the defs and drawing data (paths etc) are imported,
+NOT the header.
+If you think the default gnuclad SVG header is missing something, please file
+a bug detailing the problem.
+
+You can also include PNG images in the CSV, but keep in mind that raster images
+are encoded in base64 and may result in a really huge output file.
+
+
+@section CSV spreadsheets as output
+
+All nodes with a starting date newer than endOfTime (usually the current date)
+will be ignored.
+All nodes with a stopping date newer or the same as endOfTime will have
+their stopping date removed (unset == "still alive").
+
+For best results, the recommended optimisation is 0 and
+treeMode conf setting is "lower inverse":
+@example
+  optimise = 0
+  treeMode = 2
+@end example
+This way the trees will be grouped by children and sorted by date, while
+your single nodes won't be mangled.
+
+
+@section Optimisation - how it works
+
+The optimisation parameter can be set to a value between 0 and 99.
+0 turns off optimisation completely while 99 tries to stuff the resulting
+image closely together.
+
+The first digit refers to the optimisation factor for isolated nodes, those
+which are not part of the tree. The higher it is, the more aggressively they
+will be appended to each other.
+The second digit sets the tree optimisation. Higher values will try to cramp the
+tree together more than lower ones.
+
+@section Optimisation - additional info
+
+The current optimisation is greedy and therefore not exactly stellar.
+
+For example, this optimises well:
+@example
+           4 -> 2
+___          ->  ___ ___ ___
+        ___  ->      _______
+    _______  ->
+    ___      ->
+
+@end example
+But a slightly different map doesn't (a human can easily reduce this to 2):
+@example
+           4 -> 3
+___          ->  ___     ___
+        ___  ->      _______
+    _______  ->    _____
+  _____      ->  
+@end example
+Sorting by start date (see config options) might help a bit.

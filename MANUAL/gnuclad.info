@@ -142,15 +142,14 @@ while your single nodes won't be mangled.
 ===============================
 
 The optimisation parameter can be set to a value between 0 and 99.  0
-obviously turns any optimisation off while 99 tries to stuff the
-resulting image closely together.
+turns off optimisation completely while 99 tries to stuff the resulting
+image closely together.
 
    The first digit refers to the optimisation factor for isolated
 nodes, those which are not part of the tree. The higher it is, the more
-aggressively they will be appended to each other.
-
-   The second digit sets the tree optimisation. Higher values will try
-to cramp the tree together more than lower ones.
+aggressively they will be appended to each other.  The second digit
+sets the tree optimisation. Higher values will try to cramp the tree
+together more than lower ones.
 
 2.4 Optimisation - additional info
 ==================================
@@ -367,7 +366,28 @@ File: gnuclad.info,  Node: Programming,  Next: GNU Free Documentation License,  
 Here's a small documentation if you wish to hack gnuclad.  Patches are
 always welcome. New parsers/generators even more so!
 
-5.2 Adding a parser/generator
+5.2 Adding configuration options
+================================
+
+When adding a configuration option, be sure to implement it at least in
+the following places:
+   * gnuclad.h declaration
+
+   * gnuclad.cpp initalisation (constructor of the Cladogram object)
+
+   * gnuclad.cpp parser (parseOptions function)
+
+   * generatorCONF.cpp
+
+   * the texinfo documentation, chapter Config Options (insert the
+     config file       created by generatorCONF)
+
+   * the example configuration file: example/example.conf <= TODO:
+     maybe not
+
+   * third party gnuclad configuration files you have access to
+
+5.3 Adding a parser/generator
 =============================
 
 Parsers read data from various sources into the Cladogram object,
@@ -416,7 +436,7 @@ parser/generator.  For detailed information, see the "How to write a
      add choser:
        else if(outputExt == "XXX") generator = new GeneratorXXX;
 
-5.3 Classes
+5.4 Classes
 ===========
 
 A breakdown of the classes used in gnuclad.  Only the relevant public
@@ -543,7 +563,7 @@ your parser if necessary and should implemented by the generator as
 completely as possible.  The option names are identical to the variable
 names: look at the 'Config Options' chapter for reference.
 
-5.4 How to write a parser
+5.5 How to write a parser
 =========================
 
 Your parser is called only by this function:
@@ -608,7 +628,7 @@ Adding an image (currently supported: SVG and PNG):
        image->x = 10;
        image->y = 500;
 
-5.5 How to write a generator
+5.6 How to write a generator
 ============================
 
 Your generator is called only by this function:
@@ -652,7 +672,7 @@ All measures (height, thickness, ...) are "generic units".
        cout << "\n\nOur background color (in hex) is "
             << mainBackground.hex << "\n";
 
-5.6 Utility functions
+5.7 Utility functions
 =====================
 
 Here's a list of small helpers you can get when including 'gnuclad.h'.
@@ -1193,12 +1213,12 @@ Index
  [index ]
 * Menu:
 
-* Adding a parser/generator:             Programming.         (line  12)
-* Classes:                               Programming.         (line  61)
+* Adding a parser/generator:             Programming.         (line  33)
+* Classes:                               Programming.         (line  82)
 * Detailed configuration options:        Config Options.      (line  18)
-* FAQ:                                   Config Options.      (line 167)
+* FAQ:                                   FAQ.                 (line   6)
 * Getting Started:                       About.               (line  45)
-* Utility functions:                     Programming.         (line 297)
+* Utility functions:                     Programming.         (line 318)
 
 
 
@@ -1206,10 +1226,10 @@ Tag Table:
 Node: Top474
 Node: About901
 Node: Usage Tips2941
-Node: Config Options5204
-Node: FAQ10125
-Node: Programming10745
-Node: GNU Free Documentation License21935
-Node: Index47101
+Node: Config Options5198
+Node: FAQ10119
+Node: Programming10739
+Node: GNU Free Documentation License22526
+Node: Index47692
 
 End Tag Table
