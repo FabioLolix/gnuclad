@@ -29,7 +29,7 @@ class ParserCSV: public Parser {
 
   ParserCSV();
   ~ParserCSV();
-  void parseData(Cladogram * clado, std::ifstream * fp);
+  void parseData(Cladogram * clad, std::ifstream * fp);
 };
 
 

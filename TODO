@@ -1,3 +1,5 @@
+GNUCLAD TODO
+
 
 make sure it compiles on OSX and Windows (MinGW)
 
@@ -8,6 +10,8 @@ translatable strings (gettext)
 add option curvedConnectors ? (rather derivType)
 
 parserDIR (depth based and then perhaps time based)
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!parserGRAPHVIZ
 
 GRAMPS file format parser
 GEDCOM file format parser

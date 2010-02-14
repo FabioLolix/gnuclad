@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="80"
+   height="30"
+   id="svg2"
+   version="1.1"
+   inkscape:version="0.47pre4 r22446"
+   sodipodi:docname="drawing.svg">
+  <defs
+     id="defs4">
+    <inkscape:perspective
+       sodipodi:type="inkscape:persp3d"
+       inkscape:vp_x="0 : 526.18109 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_z="744.09448 : 526.18109 : 1"
+       inkscape:persp3d-origin="372.04724 : 350.78739 : 1"
+       id="perspective10" />
+    <filter
+       id="filter3628"
+       inkscape:label="Fancy blur"
+       inkscape:menu="Blurs"
+       inkscape:menu-tooltip="Smooth colorized contour which allows desaturation and hue rotation"
+       color-interpolation-filters="sRGB">
+      <feGaussianBlur
+         id="feGaussianBlur3630"
+         stdDeviation="5"
+         result="result1" />
+      <feComposite
+         in2="result1"
+         id="feComposite3632"
+         operator="arithmetic"
+         k2="2"
+         in="result1" />
+    </filter>
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="3.959798"
+     inkscape:cx="80.171117"
+     inkscape:cy="12.126632"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer3"
+     showgrid="false"
+     inkscape:snap-global="false"
+     inkscape:window-width="1440"
+     inkscape:window-height="849"
+     inkscape:window-x="0"
+     inkscape:window-y="28"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:groupmode="layer"
+     id="layer3"
+     inkscape:label="bg"
+     style="display:inline">
+    <path
+       sodipodi:type="arc"
+       style="opacity:0.49000005;fill:#27287c;fill-opacity:0.74850296;stroke:#000000;stroke-width:1;stroke-linecap:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:1, 2;stroke-dashoffset:0;filter:url(#filter3628)"
+       id="path3608"
+       sodipodi:cx="38.638336"
+       sodipodi:cy="14.847712"
+       sodipodi:rx="31.31473"
+       sodipodi:ry="7.0710669"
+       d="m 69.953066,14.847712 a 31.31473,7.0710669 0 1 1 -0.02783,-0.298018 l -31.286905,0.298018 z"
+       sodipodi:start="0"
+       sodipodi:end="6.2410267" />
+  </g>
+  <g
+     inkscape:label="inc"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(0,-1022.3622)"
+     style="display:inline">
+    <text
+       xml:space="preserve"
+       style="font-size:14px;font-style:normal;font-weight:bold;fill:#000000;fill-opacity:1;stroke:none;font-family:Bitstream Vera Sans;-inkscape-font-specification:AlArabiya"
+       x="6.6992493"
+       y="1040.6414"
+       id="text2826"><tspan
+         sodipodi:role="line"
+         id="tspan2828"
+         x="6.6992493"
+         y="1040.6414">included</tspan></text>
+  </g>
+  <g
+     inkscape:groupmode="layer"
+     id="layer2"
+     inkscape:label="Layer"
+     transform="translate(0,-20)"
+     style="display:inline">
+    <text
+       xml:space="preserve"
+       style="font-size:34px;font-style:italic;font-weight:bold;fill:#7c7c7c;fill-opacity:0.78534031;stroke:none;font-family:Bitstream Vera Sans;-inkscape-font-specification:AlArabiya Italic"
+       x="1.1725943"
+       y="47.22208"
+       id="text3603"><tspan
+         sodipodi:role="line"
+         id="tspan3605"
+         x="1.1725943"
+         y="47.22208">SVG</tspan></text>
+  </g>
+</svg>

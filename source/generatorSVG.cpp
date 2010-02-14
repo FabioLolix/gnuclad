@@ -345,7 +345,7 @@ void GeneratorSVG::writeData(Cladogram * clad, ofstream * fp) {
     n = clad->nodes.at(i);
     string href = "", hrefend = "";
 
-    if(clad->descriptionIsHyperLink == 1) {
+    if(clad->descriptionType == 1) {
       href = "<a xlink:href='" + n->description + "'>";
       hrefend = "</a>";
     }
@@ -428,7 +428,7 @@ void GeneratorSVG::writeData(Cladogram * clad, ofstream * fp) {
 
       }
 
-      if(clad->descriptionIsHyperLink == 1)
+      if(clad->descriptionType == 1)
         href = "<a xlink:href='" + n->nameChanges.at(j).description + "'>";
 
       if(clad->labelBGOpacity > 0 && clad->nameChangeType != 1)
@@ -530,21 +530,24 @@ void GeneratorSVG::writeData(Cladogram * clad, ofstream * fp) {
 
 
 string validxml(string str) {
-  // We could simply encode in base64, but then the output file would be
-  // much less human readable, which is bad.
-  // Hence pushing the chars into "allowed space".
+  // We could simply encode the whole string in base64, but then the output
+  // file would be much less human readable, which is bad.
   for(int i = 0; i < (int)str.size(); ++i) {
-    unsigned char c = (unsigned char)str[i];
+    const unsigned char c = (unsigned char)str[i];
 
-    if(c >= 127) c -= 128;  // remove above 127
-    if(c >= 123) c -= 5;  // push down to 'z'
-    if(c <= 32) c += 33;  // remove unprintable
-    while(c <= 47) c += 10; // push up to '0'
+    if(  c >= 127 || c >= 123 ||              // stuff is redundant here, but
+       ((c <= 32 || c <= 47) && c != '-') ||  // leave it to highlight the ideas
+       ( c >= 58 && c <= 64 ) ||
+       ( c >= 91 && c <= 96 && c == '_' ) ) {
 
-    if(c >= 58 && c <= 64) c -= 10;  // remove :;<=>=@
-    if(c >= 91 && c <= 96) c -= 6;  // remove ^_`
+      string rep = "_" + int2str((int)c);
+      if(rep.size() == 2) rep.insert(1, "0");
+      if(rep.size() == 3) rep.insert(1, "0");
+      if(c == ' ') rep = "__";
+      str.replace(i, 1, rep);
+      i += rep.size()-1;
 
-    str[i] = (char)c;
+    }
   }
   return str;
 }

@@ -175,7 +175,7 @@ class Cladogram {
   int maximumOffset;
 
 
-  // CONFIG OPTIONS START
+  // CONFIG OPTIONS BEGIN
 
   Date endOfTime;
 
@@ -235,7 +235,7 @@ class Cladogram {
 
   int monthsInYear;
   int daysInMonth;
-  int descriptionIsHyperLink;
+  int descriptionType;
 
   int debug;
 

@@ -27,7 +27,7 @@ acquainted with it's syntax:
   ./gnuclad -h
 
 Change to the example folder and generate your first SVG image:
-  cd ../example
+  cd ../EXAMPLE
   ../bin/gnuclad example.csv svg example.conf
 
 In order to install gnuclad on a POSIX conform system, change to the main

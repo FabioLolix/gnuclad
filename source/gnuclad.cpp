@@ -307,24 +307,25 @@ Connector::Connector() {
 Cladogram::Cladogram() {
 
   maximumOffset = 0;
-  endOfTime = currentDate();  // can be changed as well...
-  beginningOfTime = endOfTime;
 
+  endOfTime = currentDate();
+  beginningOfTime = endOfTime;
 
   // the following can be overwritten in the config file:
 
+
   infoBoxTitle = "Title";
-  infoBoxTitleSize = 24;
+  infoBoxTitleSize = 18;
   //~ infoBoxText.push_back("Lorem ipsum dolor sit amet");
-  infoBoxTextSize = 16;
-  infoBoxFont = "Arial";
+  infoBoxTextSize = 12;
+  infoBoxFont = "Liberation Sans, Arial, Helvetica";
   infoBoxFontColor = Color("#000");
   infoBoxColor1 = Color("#51b1f1");
   infoBoxColor2 = Color("#3181f1");
   infoBoxX = 10;
-  infoBoxY = 50;
-  infoBoxWidth = 50;
-  infoBoxHeight = 50;
+  infoBoxY = 45;
+  infoBoxWidth = 166;
+  infoBoxHeight = 60;
 
   fontCorrectionFactor = 1.0;
   orientation = 1;
@@ -346,7 +347,7 @@ Cladogram::Cladogram() {
   stopSpacing = Date(0, 2, 0);
   yearPX = 100;
 
-  labelFont = "Arial";
+  labelFont = "Liberation Sans, Arial, Helvetica";
   labelFontSize = 16;
   labelFontColor = Color("#000");
   labelBGOpacity = 0;
@@ -363,14 +364,14 @@ Cladogram::Cladogram() {
   yearLinePX = 40;
   yearLineColor1 = Color("#037");
   yearLineColor2 = Color("#37d");
-  yearLineFont = "Arial";
+  yearLineFont = "Liberation Sans, Arial, Helvetica";
   yearLineFontSize = 28;
   yearLineFontColor = Color("#fff");
 
   daysInMonth = 30;
   monthsInYear = 12;
 
-  descriptionIsHyperLink = 0;
+  descriptionType = 0;
 
   debug = 0;
 
@@ -481,8 +482,7 @@ void Cladogram::parseOptions(const string filename) {
       else if(opt == "daysInMonth") daysInMonth = str2int(val);
       else if(opt == "monthsInYear") monthsInYear = str2int(val);
       else if(opt == "endOfTime") endOfTime = Date(val);
-      else if(opt == "descriptionIsHyperLink")
-        descriptionIsHyperLink = str2int(val);
+      else if(opt == "descriptionType") descriptionType = str2int(val);
       else if(opt == "debug") debug = str2int(val);
       else cout << "\nIGNORING unrecognised config option: " << opt;
 

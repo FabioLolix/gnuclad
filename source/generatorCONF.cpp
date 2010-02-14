@@ -175,13 +175,12 @@ void GeneratorCONF::writeData(Cladogram * clad, ofstream * fp) {
     *fp << "\n#endOfTime = 2010.2.12";
 
   *fp << "\n"
-      << "\n# Set to 1 if the description should be used as a web link."
-      << "\ndescriptionIsHyperLink = " << clad->descriptionIsHyperLink
+      << "\n# How the description field should be used."
+      << "\n# 0 = ignore"
+      << "\n# 1 = weblink URL"
+      << "\ndescriptionType = " << clad->descriptionType
       << "\n"
       << "\n# Show debug information when running gnuclad. (0 = off, 1 = on)"
       << "\ndebug = " << clad->debug;
-
-
-
 
 }

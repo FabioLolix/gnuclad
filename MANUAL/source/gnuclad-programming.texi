@@ -17,11 +17,11 @@ When adding a configuration option, be sure to implement it at least in the
 following places:
 @itemize @bullet
 @item gnuclad.h declaration (members of the Cladogram class)
-@item gnuclad.cpp initalisation (in the constructor of the Cladogram object)
+@item gnuclad.cpp initialisation (in the constructor of the Cladogram object)
 @item gnuclad.cpp parser (in the parseOptions function)
 @item generatorCONF.cpp
-@item the texinfo documentation, chapter Config Options (insert the new config
-      file created by generatorCONF)
+@item the texinfo documentation, chapter @ref{Config Options,,Config Options}
+      (insert the new config file created by generatorCONF)
 @item third party gnuclad configuration files you have access to
 @end itemize
 
@@ -38,7 +38,8 @@ Parsers read data from various sources into the Cladogram object,
 generators write data from the Cladogram object to a specified output format.
 
 This is a short overview on the steps necessary to include a parser/generator.
-For detailed information, see the "How to write a ..." sections below.
+For detailed information, see the "How to write a parser" and
+"How to write a generator" sections further below.
 
 @strong{Adding a parser}
 
@@ -49,7 +50,7 @@ derive class from Parser:
   class ParserXXX: public Parser
 declare constructor and destructor
 declare public method:
-  void parseData(Cladogram * clado, std::ifstream * fp);
+  void parseData(Cladogram * clad, std::ifstream * fp);
 @end example
 
 parserXXX.cpp:
@@ -268,12 +269,12 @@ In order to work with the most current config options, open the 'gnuclad.h'
 header file and search for CONFIG OPTIONS. This will take you straight to the
 declarations.
 
-You can also look at the 'Config Options' manual chapter for an overview.
+You can also look at the @ref{Config Options,,Config Options} manual chapter
+for an overview.
 
 
 
 @c _______________________________________________________________ HOW TO PARSER
-
 
 
 @section How to write a parser

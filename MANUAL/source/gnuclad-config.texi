@@ -17,7 +17,7 @@ You can always generate a full configuration file by specifying CONF as
 gnuclad's output:
 @example
 gnuclad input.csv CONF
-gnuclad input.csv a-config-file.conf
+gnuclad input.csv config-file.conf
 gnuclad input.csv conf another.conf
 @end example
 The last line will use the settings as available from 'another.conf' and
@@ -51,18 +51,18 @@ as output format.
 # To disable the box:
 # Set both font size parameters to 0, set the width and height to 0
 infoBoxTitle = Title
-infoBoxTitleSize = 24
+infoBoxTitleSize = 18
 infoBoxText = Lorem ipsum dolor sit amet,
 infoBoxText = consectetuer adipiscing elit
-infoBoxTextSize = 16
-infoBoxFont = Arial
+infoBoxTextSize = 12
+infoBoxFont = Liberation Sans, Arial, Helvetica
 infoBoxFontColor = #000
 infoBoxColor1 = #51b1f1
 infoBoxColor2 = #3181f1
 infoBoxX = 10
-infoBoxY = 50
-infoBoxWidth = 50
-infoBoxHeight = 50
+infoBoxY = 45
+infoBoxWidth = 166
+infoBoxHeight = 60
 
 # Correction factor for font pixel width/height.
 # It is normalised for Liberation Sans (= Arial) and will
@@ -123,7 +123,7 @@ stopSpacing = 0.2
 yearPX = 100
 
 # Customise the node labels
-labelFont = Arial
+labelFont = Liberation Sans, Arial, Helvetica
 labelFontSize = 16
 labelFontColor = #000
 
@@ -162,7 +162,7 @@ connectorsDashed = 1
 yearLinePX = 40
 yearLineColor = #037
 yearLineColor = #37d
-yearLineFont = Arial
+yearLineFont = Liberation Sans, Arial, Helvetica
 yearLineFontSize = 28
 yearLineFontColor = #fff
 
@@ -171,8 +171,10 @@ daysInMonth = 30
 monthsInYear = 12
 #endOfTime = 2010.2.12
 
-# Set to 1 if the description should be used as a web link.
-descriptionIsHyperLink = 0
+# How the description field should be used.
+# 0 = ignore
+# 1 = weblink URL
+descriptionType = 0
 
 # Show debug information when running gnuclad. (0 = off, 1 = on)
 debug = 0
