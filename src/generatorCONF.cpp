@@ -181,6 +181,7 @@ void GeneratorCONF::writeData(Cladogram * clad, ofstream * fp) {
       << "\ndescriptionType = " << clad->descriptionType
       << "\n"
       << "\n# Show debug information when running gnuclad. (0 = off, 1 = on)"
-      << "\ndebug = " << clad->debug;
+      << "\ndebug = " << clad->debug
+      << "\n";
 
 }

@@ -44,7 +44,7 @@ using namespace std;
 
 int main(int argc, char ** argv) {
 
-  string version = "ALPHA";
+  string version = "0.1";
   string conffile = "";
   string inFormats = "csv";
   string outFormats = "csv, svg, conf";

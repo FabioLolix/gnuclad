@@ -1,0 +1,10 @@
+GNUCLAD CHANGELOG
+
+2010.2.14 - version 0.1
+* First milepoint
+* Can parse CSV
+* Can generate CSV
+* Can generate SVG
+* Can generate CONF
+* Builds on GNU/Linux, OSX, Windows (MinGW)
+* Has complete manual
