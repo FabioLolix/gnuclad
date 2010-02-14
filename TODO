@@ -10,8 +10,7 @@ translatable strings (gettext)
 add option curvedConnectors ? (rather derivType)
 
 parserDIR (depth based and then perhaps time based)
-
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!parserGRAPHVIZ
+parserGV
 
 GRAMPS file format parser
 GEDCOM file format parser
