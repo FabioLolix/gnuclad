@@ -172,7 +172,7 @@ void GeneratorCONF::writeData(Cladogram * clad, ofstream * fp) {
   if(clad->endOfTime < currentDate())
     *fp << "\nendOfTime = " << Date2str(clad->endOfTime);
   else
-    *fp << "\n#endOfTime = 2010.2.12";
+    *fp << "\n#endOfTime = 2012.12";
 
   *fp << "\n"
       << "\n# How the description field should be used."

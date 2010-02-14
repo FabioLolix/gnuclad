@@ -348,7 +348,7 @@ CONF as output format.
      # Remember to adjust your input data after changing these averages.
      daysInMonth = 30
      monthsInYear = 12
-     #endOfTime = 2010.2.12
+     #endOfTime = 2012.12
 
      # How the description field should be used.
      # 0 = ignore
@@ -1260,9 +1260,9 @@ Node: Top474
 Node: About916
 Node: Usage Tips3326
 Node: Config Options5583
-Node: FAQ11074
-Node: Programming11694
-Node: GNU Free Documentation License24115
-Node: Index49281
+Node: FAQ11072
+Node: Programming11692
+Node: GNU Free Documentation License24113
+Node: Index49279
 
 End Tag Table

@@ -169,7 +169,7 @@ yearLineFontColor = #fff
 # Remember to adjust your input data after changing these averages.
 daysInMonth = 30
 monthsInYear = 12
-#endOfTime = 2010.2.12
+#endOfTime = 2012.12
 
 # How the description field should be used.
 # 0 = ignore
