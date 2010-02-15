@@ -1,0 +1,144 @@
+@c Part of the gnuclad texinfo manual
+
+
+@node How to code a parser/generator
+@unnumberedsec
+
+
+@c _______________________________________________________________ HOW TO PARSER
+
+
+@section How to write a parser
+
+
+Your parser is called only by this function:
+@example
+  parser->parseData(Cladogram * clad, std::ifstream * fp);
+@end example
+
+Therefore it should implement the following one:
+@example
+  void ParserXXX::parseData(Cladogram * clad, std::ifstream * fp) @{ ... @}
+@end example
+
+The file pointer is a correctly opened file with the desired file name
+extension, though you have to check whether the file structure/format is valid
+yourself. The cladogram pointer is an empty Cladogram object that you have
+to fill.
+@*@emph{The parser essentially defines the input file format.}@*
+You should try to fill as much of the Cladogram as possible in order to increase
+the information pool for the output generator. For a quick view overview, take a
+look at the description of the Cladogram in the 'Classes' section. Note that
+not all generators will make use of every piece of data, and it all depends on
+the options the user has set; the more information the better.
+
+If you cannot fill a field, leave it empty and the generators will ignore it.
+All measures (height, thickness, ...) are "generic units".
+
+Objects created with the add*** functions will be allocated and later deleted
+automatically.
+It is important to use those functions for objects you wish to pass on to the
+generator.
+
+@*
+Adding a Node:
+@example
+  Node * n = clad->addNode("MyFirstNode");
+  n->color = Color("#a2b3c4");
+  n->parentName = "";
+  n->start =  Date(1993,8,1);
+  n->stop = Date("2000.3");
+  n->iconfile = "";
+  n->description = "it rocks!";
+  n->addNameChange("NewName", Date("1999.2.1"), "it still rocks!")
+@end example
+
+@*
+Adding a Connector (note that fromName and toName are expected to be existing
+Node names at the end of the parser routine - you'll get an error otherwise):
+@example
+  Connector * c = clad->addConnector();
+  c->fromWhen = Date(1997,0,0);
+  c->fromName = "MyFirstNode";
+  c->toWhen = Date("1997.5.1");
+  c->toName = "MySecondNode";
+  c->thickness = 3;
+  c->color = Color(12,255,0);
+@end example
+
+@*
+Adding a domain (note that the initialising name is expected to be an existing
+Node name at the end of the parser routine - you'll get an error otherwise):
+@example
+  Domain * d = clad->addDomain("MyFirstNode");
+  d->color = Color("#abc");
+  d->intensity = 15;
+@end example
+
+@*
+Adding an image (currently supported: SVG and PNG):
+@example
+  Image * image = clad->addImage("picture.svg", clad->includeSVG);
+  image->x = 100;
+  image->y = 50;
+
+  Image * image = clad->addImage("picture.svg", clad->includePNG);
+  image->x = 10;
+  image->y = 500;
+@end example
+
+
+@c ____________________________________________________________ HOW TO GENERATOR
+
+
+@section How to write a generator
+
+
+Your generator is called only by this function:
+@example
+  generator->writeData(Cladogram * clad, std::ofstream * fp);
+@end example
+
+Therefore it should implement the following one:
+@example
+  void generatorXXX::writeData(Cladogram * clad, std::ofstream * fp) @{ ... @}
+@end example
+
+The file pointer is a correctly opened file with the desired file name
+extension.@*
+You should try to utilise as much information as possible.
+This can be done by iterating over the Cadlogram's data vectors:
+@example
+vector<Node *> nodes
+vector<Connector *> connectors
+vector<Domain *> domains
+vector<Image *> includeSVG
+vector<Image *> includePNG
+@end example
+
+Additionally, you should strive to make use of all configuration options the
+Cladogram contains.
+In order to work with the most current config options, open the 'gnuclad.h'
+header file and search for CONFIG OPTIONS. This will take you straight to the
+declarations.
+
+If a variable is empty, try to handle it as gracefully as possible.
+All measures (height, thickness, ...) are "generic units".
+
+Example:
+@example
+  Node * n;
+  for(int i = 0; i < (int)clad->nodes.size(); ++i) @{
+
+    n = clad->nodes.at(i);
+    cout << "\nWe have " << n->name
+         << " at offset " << n->offset;
+
+  @}
+
+  cout << "\n\nOur end of time is "
+       << Date2str(clad->endOfTime) << "\n";
+
+  cout << "\n\nOur background color (in hex) is "
+       << mainBackground.hex << "\n";
+@end example

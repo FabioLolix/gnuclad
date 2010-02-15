@@ -1,10 +1,5 @@
 GNUCLAD TODO
 
-
-make sure it compiles on OSX and Windows (MinGW)
-
-________________________________________________________________ v0.1
-
 translatable strings (gettext)
 
 add option curvedConnectors ? (rather derivType)

@@ -1,0 +1,241 @@
+@c Part of the gnuclad texinfo manual
+
+
+@node Classes and utilities
+@unnumberedsec
+
+
+@c _____________________________________________________________________ CLASSES
+
+
+@gcindex Classes
+@section Classes
+
+
+A breakdown of the classes used in gnuclad.
+Only the relevant public parts are shown, first the members and then the
+constructors & methods.
+We start with the simple classes, building up gradually.
+
+
+@*
+A  @strong{Color} object can be initialised either with RGB (1-255)
+or a hex color value (#abc or #abcdef).
+It will automatically convert and hold the other value too.
+@example
+class Color
+  int red;
+  int green;
+  int blue;
+  std::string hex;
+
+  Color(int tred, int tgreen, int tblue);
+  Color(std::string thex);
+@end example
+
+
+@*
+The @strong{Date} object can be initialised either with year,month,day
+or with a string in the format "y.m.d" or "y.m" or "y", where the letters
+can be arbitrary (also negative) integers.
+The monthset/dayset switches tell the generator whether to honor the month and
+day settings. They should be ignored by the parser.
+@example
+class Date
+  int year;
+  int month;
+  int day;
+
+  bool monthset;
+  bool dayset;
+
+  Date(int tyear, int tmonth, int tday);
+  Date(const std::string str);
+
+  bool operator<(Date d);
+  Date operator+(Date d);
+@end example
+
+
+@*
+The @strong{Image} object is to be initialised only with addImage() in the
+parser:
+@example
+  Image * Cladogram::addImage(std::string tname, std::vector<Image *> &vector);
+@end example
+The parser has to specify the vector it wants the image to be loaded into (see
+the Cladogram class below for details).
+It is usually passed to the generator unchanged and contains three members.
+@example
+class Image
+  std::string filename;
+  int x;
+  int y;
+@end example
+
+
+@*
+The @strong{NameChange} is to be initialised only with addNameChange() in the
+parser:
+@example
+  void Node::addNameChange(std::string newName, Date date,
+                           std::string description);
+@end example
+The generator can access the nameChanges vector of the Node, making use of the
+three members.
+@example
+class NameChange
+  std::string newName;
+  Date date;
+  std::string description;
+@end example
+
+
+@*
+The second most important class, a single @strong{Node}.
+It should be initialised only with the addNode() method:
+@example
+  Node * Cladogram::addNode(std::string tname);
+@end example
+The 'offset' is meant for the generator (it can be ignored by the parser).
+@example
+class Node
+  std::string name
+  std::string parentName
+  std::vector<NameChange> nameChanges;
+  Date start;
+  Date stop;
+  Color color;
+  std::string iconfile;
+  std::string description;
+  int offset;
+
+  void addNameChange(std::string newName, Date date, std::string description);
+@end example
+
+
+@*
+The @strong{Domain} is to be initialised only with addDomain() in the parser:
+@example
+  Domain * Cladogram::addDomain(std::string tname);
+@end example
+The 'offsetA' and 'offsetB' are meant for the generator (they can be ignored
+by the parser).
+@example
+class Domain
+  std::string nodeName;
+  Color color;
+  int intensity;
+  int offsetA;
+  int offsetB;
+@end example
+
+
+@*
+The @strong{Connector} is to be initialised only with addConnector() in the
+parser:
+@example
+  Connector * Cladogram::addConnector();
+@end example
+The 'offsetA' and 'offsetB' are meant for the generator (they can be ignored
+by the parser).
+@example
+class Connector
+  std::string fromName;
+  std::string toName;
+  Date fromWhen;
+  Date toWhen;
+  int thickness;
+  Color color;
+  int offsetA;
+  int offsetB;
+@end example
+
+
+@*
+The most important class is the @strong{Cladogram}. It is used by a single
+object which describes the whole timeline and will be passed to the
+parser/generator.
+The Cladogram usually doesn't need to be accessed by the parser, except for the
+add*** functions.
+The generator is meant to make use of the data vectors.
+@example
+class Cladogram
+  std::vector<Node *> nodes;
+  std::vector<Connector *> connectors;
+  std::vector<Domain *> domains;
+  std::vector<Image *> includeSVG;
+  std::vector<Image *> includePNG;
+
+  Node * addNode(std::string tname);
+  Domain * addDomain(std::string tname);
+  Connector * addConnector();
+  Image * addImage(std::string tname, std::vector<Image *> &vector);
+@end example
+
+@c                                                                              << revise following paragraphs + all that say search for CONFIG OPTIONS
+The cladogram also holds all configuration options. These are usually read by
+a separate configuration parser, but can be modified by your parser if necessary
+and should implemented by the generator as completely as possible.
+The option names are identical to the variable names.
+
+@c                                                                              << add new section Configuration options
+In order to work with the most current config options, open the 'gnuclad.h'
+header file and search for CONFIG OPTIONS. This will take you straight to the
+declarations.
+
+You can also look at the @ref{Config Options,,Config Options} manual chapter
+for an overview.
+
+
+
+
+
+@c ___________________________________________________________ UTILITY FUNCTIONS
+
+
+@gcindex Utility functions
+@section Utility functions
+
+
+Here's a list of small helpers you can get when including 'gnuclad.h'.
+This is meant as a quick overview. For descriptions, take a look at
+the 'gnuclad-helpers.cpp' source file.
+
+void pressEnter();
+
+std::string strToLower(std::string str);
+
+std::string getBaseName(std::string fname);
+
+std::string getExt(std::string fname);
+
+std::ifstream * new_infile(const std::string fname);
+
+std::ofstream * new_outfile(const std::string fname);
+
+void safeClose(std::ifstream * fp);
+
+void safeClose(std::ofstream * fp);
+
+void explode(const std::string str, const char delimiter,
+             std::vector<std::string> * v);
+
+void explodeSafely(const std::string str, const char delimiter,
+                   const char toggle, std::vector<std::string> * v);
+
+std::string findReplace(std::string str, std::string find, std::string replace);
+
+double str2double(const std::string str);
+
+int str2int(const std::string s);
+
+std::string int2str(const int n);
+
+std::string base64_encode(const char * raw, unsigned int len);
+
+Date currentDate();
+
+std::string Date2str(Date date);
+
+int datePX(Date d, const Cladogram * clad);

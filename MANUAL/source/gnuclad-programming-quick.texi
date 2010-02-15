@@ -1,0 +1,102 @@
+@c Part of the gnuclad texinfo manual
+
+
+@node Adding config options@comma{} parsers and generators
+@unnumberedsec
+
+@gcindex Quickly adding things.
+
+This page serves as a quick reference for adding configuration options,
+generators and parsers.
+
+
+@c _______________________________________________________ ADDING CONFIG OPTIONS                        << to be revised
+
+
+@section Adding configuration options
+
+When adding a configuration option, be sure to implement it at least in the
+following places:
+@itemize @bullet
+@item gnuclad.h declaration (members of the Cladogram class)
+@item gnuclad.cpp initialisation (in the constructor of the Cladogram object)
+@item gnuclad.cpp parser (in the parseOptions function)
+@item generatorCONF.cpp
+@item the texinfo documentation, chapter @ref{Config Options,,Config Options}
+      (insert the new config file created by generatorCONF)
+@item third party gnuclad configuration files you have access to
+@end itemize
+
+In order to work with the most current config options, open the 'gnuclad.h'
+source file and search for CONFIG OPTIONS. This will take you straight to the
+declarations.
+
+
+@c _______________________________________________________________ ADDING PARSER
+
+@section Adding a parser
+
+Parsers read data from various sources into the Cladogram object.
+For detailed information,
+see @ref{How to code a parser/generator,,How to write a parser}.
+
+
+parserXXX.h:
+@example
+#include "gnuclad.h"
+derive class from Parser:
+  class ParserXXX: public Parser
+declare constructor and destructor
+declare public method:
+  void parseData(Cladogram * clad, std::ifstream * fp);
+@end example
+
+parserXXX.cpp:
+@example
+#include "parserXXX.h"
+implement constructor and destructor
+implement parseData(Cladogram * clad, std::ifstream * fp);
+@end example
+
+gnuclad.cpp:
+@example
+#include "parserXXX.h"
+update inFormats
+add choser:
+  else if(inputExt == "XXX") parser = new ParserXXX;
+@end example
+
+
+@c ____________________________________________________________ ADDING GENERATOR
+
+@section Adding a generator
+
+Generators write data from the Cladogram object to a specified output format.
+For detailed information,
+see @ref{How to code a parser/generator,,How to write a generator}.
+
+
+generatorXXX.h:
+@example
+#include "gnuclad.h"
+derive class from generator:
+  class GeneratorXXX: public Generator
+declare constructor and destructor
+declare public method:
+  void writeData(Cladogram * clad, std::ofstream * fp);
+@end example
+
+generatorXXX.cpp:
+@example
+#include "generatorXXX.h"
+implement constructor and destructor
+implement writeData();
+@end example
+
+gnuclad.cpp
+@example
+#include "generatorXXX.h"
+update outFormats
+add choser:
+  else if(outputExt == "XXX") generator = new GeneratorXXX;
+@end example

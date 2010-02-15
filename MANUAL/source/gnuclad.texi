@@ -31,7 +31,7 @@ Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.
 @insertcopying
 @end titlepage
 
-@c not for html output: @contents
+@c only bloats html output: @contents
 
 @c ____________________________________________________________________ TOP NODE
 
@@ -83,5 +83,6 @@ This is the texinfo manual for gnuclad version 0.1 (14. February 2010)
 @unnumbered Index
 
 @printindex cp
+@printindex gc
 
 @bye

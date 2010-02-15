@@ -17,7 +17,6 @@
 *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-
 #if defined (WIN32) || defined (_WIN32)
 #define GNUCLAD_WINDOWS
 #else
@@ -25,13 +24,18 @@
 #endif
 
 
+#ifndef GNUCLADPORTABILITY_H_
+#define GNUCLADPORTABILITY_H_
 
 #ifdef GNUCLAD_POSIX
 
-std::string folder_delimiter = "/";
+const std::string folder_delimiter = "/";
 
 #elif defined(GNUCLAD_WINDOWS)
 
-std::string folder_delimiter = "\\";
+const std::string folder_delimiter = "\\";
+
+#endif
+
 
 #endif

@@ -1,0 +1,160 @@
+<html lang="en">
+<head>
+<title>How to code a parser/generator - gnuclad manual</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="gnuclad manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Programming.html#Programming" title="Programming">
+<link rel="prev" href="Classes-and-utilities.html#Classes-and-utilities" title="Classes and utilities">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+This is a manual for gnuclad
+
+Copyright (C) 2010 Donjan Rodic <donjan (at) dyx (dot) ch>
+
+     Permission is granted to copy, distribute and/or modify this
+     document under the terms of the GNU Free Documentation License,
+     Version 1.3 or any later version published by the Free Software
+     Foundation; with no Invariant Sections, no Front-Cover Texts, and
+     no Back-Cover Texts.
+   -->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="How-to-code-a-parser%2fgenerator"></a>
+<a name="How-to-code-a-parser_002fgenerator"></a>
+<p>
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Classes-and-utilities.html#Classes-and-utilities">Classes and utilities</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Programming.html#Programming">Programming</a>
+<hr>
+</div>
+
+<h3 class="unnumberedsec"></h3>
+
+<!-- _______________________________________________________________ HOW TO PARSER -->
+<h3 class="section">5.6 How to write a parser</h3>
+
+<p>Your parser is called only by this function:
+<pre class="example">       parser-&gt;parseData(Cladogram * clad, std::ifstream * fp);
+</pre>
+   <p>Therefore it should implement the following one:
+<pre class="example">       void ParserXXX::parseData(Cladogram * clad, std::ifstream * fp) { ... }
+</pre>
+   <p>The file pointer is a correctly opened file with the desired file name
+extension, though you have to check whether the file structure/format is valid
+yourself. The cladogram pointer is an empty Cladogram object that you have
+to fill. 
+<br><em>The parser essentially defines the input file format.</em><br>
+You should try to fill as much of the Cladogram as possible in order to increase
+the information pool for the output generator. For a quick view overview, take a
+look at the description of the Cladogram in the 'Classes' section. Note that
+not all generators will make use of every piece of data, and it all depends on
+the options the user has set; the more information the better.
+
+   <p>If you cannot fill a field, leave it empty and the generators will ignore it. 
+All measures (height, thickness, ...) are "generic units".
+
+   <p>Objects created with the add*** functions will be allocated and later deleted
+automatically. 
+It is important to use those functions for objects you wish to pass on to the
+generator.
+
+   <p><br>
+Adding a Node:
+<pre class="example">       Node * n = clad-&gt;addNode("MyFirstNode");
+       n-&gt;color = Color("#a2b3c4");
+       n-&gt;parentName = "";
+       n-&gt;start =  Date(1993,8,1);
+       n-&gt;stop = Date("2000.3");
+       n-&gt;iconfile = "";
+       n-&gt;description = "it rocks!";
+       n-&gt;addNameChange("NewName", Date("1999.2.1"), "it still rocks!")
+</pre>
+   <p><br>
+Adding a Connector (note that fromName and toName are expected to be existing
+Node names at the end of the parser routine - you'll get an error otherwise):
+<pre class="example">       Connector * c = clad-&gt;addConnector();
+       c-&gt;fromWhen = Date(1997,0,0);
+       c-&gt;fromName = "MyFirstNode";
+       c-&gt;toWhen = Date("1997.5.1");
+       c-&gt;toName = "MySecondNode";
+       c-&gt;thickness = 3;
+       c-&gt;color = Color(12,255,0);
+</pre>
+   <p><br>
+Adding a domain (note that the initialising name is expected to be an existing
+Node name at the end of the parser routine - you'll get an error otherwise):
+<pre class="example">       Domain * d = clad-&gt;addDomain("MyFirstNode");
+       d-&gt;color = Color("#abc");
+       d-&gt;intensity = 15;
+</pre>
+   <p><br>
+Adding an image (currently supported: SVG and PNG):
+<pre class="example">       Image * image = clad-&gt;addImage("picture.svg", clad-&gt;includeSVG);
+       image-&gt;x = 100;
+       image-&gt;y = 50;
+     
+       Image * image = clad-&gt;addImage("picture.svg", clad-&gt;includePNG);
+       image-&gt;x = 10;
+       image-&gt;y = 500;
+</pre>
+   <!-- ____________________________________________________________ HOW TO GENERATOR -->
+<h3 class="section">5.7 How to write a generator</h3>
+
+<p>Your generator is called only by this function:
+<pre class="example">       generator-&gt;writeData(Cladogram * clad, std::ofstream * fp);
+</pre>
+   <p>Therefore it should implement the following one:
+<pre class="example">       void generatorXXX::writeData(Cladogram * clad, std::ofstream * fp) { ... }
+</pre>
+   <p>The file pointer is a correctly opened file with the desired file name
+extension.<br>
+You should try to utilise as much information as possible. 
+This can be done by iterating over the Cadlogram's data vectors:
+<pre class="example">     vector&lt;Node *&gt; nodes
+     vector&lt;Connector *&gt; connectors
+     vector&lt;Domain *&gt; domains
+     vector&lt;Image *&gt; includeSVG
+     vector&lt;Image *&gt; includePNG
+</pre>
+   <p>Additionally, you should strive to make use of all configuration options the
+Cladogram contains. 
+In order to work with the most current config options, open the 'gnuclad.h'
+header file and search for CONFIG OPTIONS. This will take you straight to the
+declarations.
+
+   <p>If a variable is empty, try to handle it as gracefully as possible. 
+All measures (height, thickness, ...) are "generic units".
+
+   <p>Example:
+<pre class="example">       Node * n;
+       for(int i = 0; i &lt; (int)clad-&gt;nodes.size(); ++i) {
+     
+         n = clad-&gt;nodes.at(i);
+         cout &lt;&lt; "\nWe have " &lt;&lt; n-&gt;name
+              &lt;&lt; " at offset " &lt;&lt; n-&gt;offset;
+     
+       }
+     
+       cout &lt;&lt; "\n\nOur end of time is "
+            &lt;&lt; Date2str(clad-&gt;endOfTime) &lt;&lt; "\n";
+     
+       cout &lt;&lt; "\n\nOur background color (in hex) is "
+            &lt;&lt; mainBackground.hex &lt;&lt; "\n";
+</pre>
+   <!-- ________________________________________________________________________ GFDL -->
+   </body></html>
+
