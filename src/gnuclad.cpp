@@ -84,7 +84,6 @@ int main(int argc, char ** argv) {
   }
   if(argc == 4) conffile = argv[3];
 
-
   // Chose parser
   Parser * parser = NULL;
   if     (inputExt == "csv") parser = new ParserCSV;
@@ -115,6 +114,7 @@ int main(int argc, char ** argv) {
   int exitval = EXIT_SUCCESS;
 
   cout << ": " << inputExt << " => " << outputExt;
+  clad->inputFolder = getBaseFolder(source);
 
   // The heavy lifting
   try {

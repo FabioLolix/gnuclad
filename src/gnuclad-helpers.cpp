@@ -40,14 +40,22 @@ string strToLower(string str) {
   return str;
 }
 
+// Returns the part of the string up to the last folder delimiter
+//         an empty string if there is no folder delimiter
+std::string getBaseFolder(std::string fname) {
+  size_t pos = fname.rfind(folder_delimiter);
+  if(pos != std::string::npos)
+    return fname.substr(0, pos + 1);
+  return "";
+}
+
 // Returns the part of the string up to the last dot
 //         the input string if there is no dot
 string getBaseName(string fname) {
   fname = fname.substr(fname.rfind(folder_delimiter) + 1);
   if(fname.rfind('.') != std::string::npos)
     return fname.substr(0, fname.rfind('.'));
-  else
-    return fname;
+  return fname;
 }
 
 // Returns the part of a string after the last dot

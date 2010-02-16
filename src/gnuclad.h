@@ -173,6 +173,7 @@ class Cladogram {
 
   Date beginningOfTime;
   int maximumOffset;
+  std::string inputFolder;
 
 
   // CONFIG OPTIONS BEGIN
@@ -284,6 +285,7 @@ class Generator {
 
 void pressEnter();
 std::string strToLower(std::string str);
+std::string getBaseFolder(std::string fname);
 std::string getBaseName(std::string fname);
 std::string getExt(std::string fname);
 std::ifstream * new_infile(const std::string fname);

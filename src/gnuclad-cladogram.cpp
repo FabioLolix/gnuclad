@@ -27,6 +27,7 @@ using namespace std;
 Cladogram::Cladogram() {
 
   maximumOffset = 0;
+  inputFolder = "";
 
   endOfTime = currentDate();
   beginningOfTime = endOfTime;
@@ -278,6 +279,15 @@ void Cladogram::compute() {
   Node * r = NULL;
   Domain * d = NULL;
   Connector * c = NULL;
+
+
+  // Prepend input folder to icon files in order enable input from everywhere
+  for(int i = 0; i < (int)nodes.size(); ++i)
+    nodes.at(i)->iconfile = inputFolder + nodes.at(i)->iconfile;
+  for(int i = 0; i < (int)includeSVG.size(); ++i)
+    includeSVG.at(i)->filename = inputFolder + includeSVG.at(i)->filename;
+  for(int i = 0; i < (int)includePNG.size(); ++i)
+    includePNG.at(i)->filename = inputFolder + includePNG.at(i)->filename;
 
   // Basics
   // Juggle dates, warn for duplicates and assing parent pointers

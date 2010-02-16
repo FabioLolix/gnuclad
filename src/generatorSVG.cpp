@@ -630,7 +630,7 @@ std::string base64_png(std::string filename, int &width, int &height) {
     ifstream fp(filename.c_str(), ios::in|ios::binary|ios::ate);
     if( !fp.is_open() ) throw "failed to open PNG image " + filename;
 
-    int size = fp.tellg();
+    const int size = fp.tellg();
     char * data = new char [size];
     fp.seekg (0);
     fp.read(data, size);

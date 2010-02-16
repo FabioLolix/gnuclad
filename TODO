@@ -1,5 +1,7 @@
 GNUCLAD TODO
 
+improve programming doc on config
+
 translatable strings (gettext)
 
 add option curvedConnectors ? (rather derivType)
