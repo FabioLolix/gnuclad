@@ -1,15 +1,30 @@
 @c Part of the gnuclad texinfo manual
 
 
-@node How to code a parser/generator
+@node How to use config options and write a parser/generator
 @unnumberedsec
 
 
-@c _______________________________________________________________ HOW TO PARSER
+@section Using configuration options
+
+The options are usually read by a separate configuration parser, but can be
+modified by the data input parser if necessary and should implemented by the
+generator as completely as possible.
+The option names are identical to the variable names.
+
+In order to work with the most current config options, open the 'gnuclad.h'
+header file and search for CONFIG OPTIONS. This will take you straight to the
+declarations.
+
+You can also look at the @ref{Config Options,,Config Options} chapter
+for an explanation of the options.
+
 
 
 @section How to write a parser
 
+First check the
+@ref{Adding config options@comma{} parsers and generators,,quick overview}.
 
 Your parser is called only by this function:
 @example
@@ -50,7 +65,7 @@ Adding a Node:
   n->stop = Date("2000.3");
   n->iconfile = "";
   n->description = "it rocks!";
-  n->addNameChange("NewName", Date("1999.2.1"), "it still rocks!")
+  n->addNameChange("NewName", Date(1999,2,0), "it still rocks!")
 @end example
 
 @*
@@ -93,6 +108,9 @@ Adding an image (currently supported: SVG and PNG):
 
 @section How to write a generator
 
+
+First check the
+@ref{Adding config options@comma{} parsers and generators,,quick overview}.
 
 Your generator is called only by this function:
 @example
@@ -140,5 +158,5 @@ Example:
        << Date2str(clad->endOfTime) << "\n";
 
   cout << "\n\nOur background color (in hex) is "
-       << mainBackground.hex << "\n";
+       << clad->mainBackground.hex << "\n";
 @end example

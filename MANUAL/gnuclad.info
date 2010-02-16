@@ -385,100 +385,16 @@ always welcome. New parsers/generators even more so!
 
 * Menu:
 
-* Adding config options, parsers and generators::
 * Classes and utilities::
-* How to code a parser/generator::
+* Adding config options, parsers and generators::
+* How to use config options and write a parser/generator::
 
 
-File: gnuclad.info,  Node: Adding config options, parsers and generators,  Next: Classes and utilities,  Up: Programming
+File: gnuclad.info,  Node: Classes and utilities,  Next: Adding config options, parsers and generators,  Up: Programming
 
 
 
-This page serves as a quick reference for adding configuration options,
-generators and parsers.
-
-5.1 Adding configuration options
-================================
-
-When adding a configuration option, be sure to implement it at least in
-the following places:
-   * gnuclad.h declaration (members of the Cladogram class)
-
-   * gnuclad.cpp initialisation (in the constructor of the Cladogram
-     object)
-
-   * gnuclad.cpp parser (in the parseOptions function)
-
-   * generatorCONF.cpp
-
-   * the texinfo documentation, chapter *note Config Options: Config
-     Options.        (insert the new config file created by
-     generatorCONF)
-
-   * third party gnuclad configuration files you have access to
-
-   In order to work with the most current config options, open the
-'gnuclad.h' source file and search for CONFIG OPTIONS. This will take
-you straight to the declarations.
-
-5.2 Adding a parser
-===================
-
-Parsers read data from various sources into the Cladogram object.  For
-detailed information, see *note How to write a parser: How to code a
-parser/generator.
-
-   parserXXX.h:
-     #include "gnuclad.h"
-     derive class from Parser:
-       class ParserXXX: public Parser
-     declare constructor and destructor
-     declare public method:
-       void parseData(Cladogram * clad, std::ifstream * fp);
-
-   parserXXX.cpp:
-     #include "parserXXX.h"
-     implement constructor and destructor
-     implement parseData(Cladogram * clad, std::ifstream * fp);
-
-   gnuclad.cpp:
-     #include "parserXXX.h"
-     update inFormats
-     add choser:
-       else if(inputExt == "XXX") parser = new ParserXXX;
-
-5.3 Adding a generator
-======================
-
-Generators write data from the Cladogram object to a specified output
-format.  For detailed information, see *note How to write a generator:
-How to code a parser/generator.
-
-   generatorXXX.h:
-     #include "gnuclad.h"
-     derive class from generator:
-       class GeneratorXXX: public Generator
-     declare constructor and destructor
-     declare public method:
-       void writeData(Cladogram * clad, std::ofstream * fp);
-
-   generatorXXX.cpp:
-     #include "generatorXXX.h"
-     implement constructor and destructor
-     implement writeData();
-
-   gnuclad.cpp
-     #include "generatorXXX.h"
-     update outFormats
-     add choser:
-       else if(outputExt == "XXX") generator = new GeneratorXXX;
-
-
-File: gnuclad.info,  Node: Classes and utilities,  Next: How to code a parser/generator,  Prev: Adding config options, parsers and generators,  Up: Programming
-
-
-
-5.4 Classes
+5.1 Classes
 ===========
 
 A breakdown of the classes used in gnuclad.  Only the relevant public
@@ -497,11 +413,12 @@ the other value too.
        Color(int tred, int tgreen, int tblue);
        Color(std::string thex);
 
-The *Date* object can be initialised either with year,month,day or with
-a string in the format "y.m.d" or "y.m" or "y", where the letters can
-be arbitrary (also negative) integers.  The monthset/dayset switches
-tell the generator whether to honor the month and day settings. They
-should be ignored by the parser.
+The *Date* object can be initialised either with year,month,day or
+year,month or year integer parameters; or with a string in the format
+"y.m.d" or "y.m" or "y", where the letters can be arbitrary (also
+negative) integers.
+The monthset/dayset switches tell the generator to honor the month and
+day settings, and should be ignored by the parser.
      class Date
        int year;
        int month;
@@ -511,6 +428,8 @@ should be ignored by the parser.
        bool dayset;
 
        Date(int tyear, int tmonth, int tday);
+       Date(int tyear, int tmonth);
+       Date(int tyear);
        Date(const std::string str);
 
        bool operator<(Date d);
@@ -599,20 +518,10 @@ make use of the data vectors.
        Connector * addConnector();
        Image * addImage(std::string tname, std::vector<Image *> &vector);
 
-   The cladogram also holds all configuration options. These are
-usually read by a separate configuration parser, but can be modified by
-your parser if necessary and should implemented by the generator as
-completely as possible.  The option names are identical to the variable
-names.
+   The cladogram also holds all *note Configuration Options: How to use
+config options and write a parser/generator.
 
-   In order to work with the most current config options, open the
-'gnuclad.h' header file and search for CONFIG OPTIONS. This will take
-you straight to the declarations.
-
-   You can also look at the *note Config Options: Config Options.
-manual chapter for an overview.
-
-5.5 Utility functions
+5.2 Utility functions
 =====================
 
 Here's a list of small helpers you can get when including 'gnuclad.h'.
@@ -659,14 +568,116 @@ std::string replace);
    int datePX(Date d, const Cladogram * clad);
 
 
-File: gnuclad.info,  Node: How to code a parser/generator,  Prev: Classes and utilities,  Up: Programming
+File: gnuclad.info,  Node: Adding config options, parsers and generators,  Next: How to use config options and write a parser/generator,  Prev: Classes and utilities,  Up: Programming
 
 
 
-5.6 How to write a parser
+This page serves as a quick reference.  More detailed information can
+be found in *note the next chapter: How to use config options and write
+a parser/generator.
+
+5.3 Adding configuration options
+================================
+
+When adding a configuration option, be sure to implement it at least in
+the following places:
+   * gnuclad.h: members of the Cladogram class (declaration)
+
+   * gnuclad.cpp: in the constructor of the Cladogram object
+     (initialisation)
+
+   * gnuclad.cpp: in the parseOptions function
+
+   * generatorCONF.cpp: insert description of the new option
+
+   * the texinfo documentation, chapter *note Config Options: Config
+     Options.:       insert the new config file created by generatorCONF
+
+   * third party gnuclad configuration files you have access to
+
+   In order to work with the most current config options, open the
+'gnuclad.h' source file and search for CONFIG OPTIONS. This will take
+you straight to the declarations.
+
+5.4 Adding a parser
+===================
+
+Parsers read data from various sources into the Cladogram object.  For
+detailed information, see *note How to write a parser: How to use
+config options and write a parser/generator.
+
+   parserXXX.h:
+     #include "gnuclad.h"
+     derive class from Parser:
+       class ParserXXX: public Parser
+     declare constructor and destructor
+     declare public method:
+       void parseData(Cladogram * clad, std::ifstream * fp);
+
+   parserXXX.cpp:
+     #include "parserXXX.h"
+     implement constructor and destructor
+     implement parseData(Cladogram * clad, std::ifstream * fp);
+
+   gnuclad.cpp:
+     #include "parserXXX.h"
+     update inFormats
+     add choser:
+       else if(inputExt == "XXX") parser = new ParserXXX;
+
+5.5 Adding a generator
+======================
+
+Generators write data from the Cladogram object to a specified output
+format.  For detailed information, see *note How to write a generator:
+How to use config options and write a parser/generator.
+
+   generatorXXX.h:
+     #include "gnuclad.h"
+     derive class from generator:
+       class GeneratorXXX: public Generator
+     declare constructor and destructor
+     declare public method:
+       void writeData(Cladogram * clad, std::ofstream * fp);
+
+   generatorXXX.cpp:
+     #include "generatorXXX.h"
+     implement constructor and destructor
+     implement writeData(Cladogram * clad, std::ofstream * fp);
+
+   gnuclad.cpp
+     #include "generatorXXX.h"
+     update outFormats
+     add choser:
+       else if(outputExt == "XXX") generator = new GeneratorXXX;
+
+
+File: gnuclad.info,  Node: How to use config options and write a parser/generator,  Prev: Adding config options, parsers and generators,  Up: Programming
+
+
+
+5.6 Using configuration options
+===============================
+
+The options are usually read by a separate configuration parser, but
+can be modified by the data input parser if necessary and should
+implemented by the generator as completely as possible.  The option
+names are identical to the variable names.
+
+   In order to work with the most current config options, open the
+'gnuclad.h' header file and search for CONFIG OPTIONS. This will take
+you straight to the declarations.
+
+   You can also look at the *note Config Options: Config Options.
+chapter for an explanation of the options.
+
+5.7 How to write a parser
 =========================
 
-Your parser is called only by this function:
+First check the *note quick overview: Adding config options, parsers
+and generators.
+
+   Your parser is called only by this function:
        parser->parseData(Cladogram * clad, std::ifstream * fp);
 
    Therefore it should implement the following one:
@@ -699,7 +710,7 @@ Adding a Node:
        n->stop = Date("2000.3");
        n->iconfile = "";
        n->description = "it rocks!";
-       n->addNameChange("NewName", Date("1999.2.1"), "it still rocks!")
+       n->addNameChange("NewName", Date(1999,2,0), "it still rocks!")
 
 Adding a Connector (note that fromName and toName are expected to be
 existing Node names at the end of the parser routine - you'll get an
@@ -728,10 +739,13 @@ Adding an image (currently supported: SVG and PNG):
        image->x = 10;
        image->y = 500;
 
-5.7 How to write a generator
+5.8 How to write a generator
 ============================
 
-Your generator is called only by this function:
+First check the *note quick overview: Adding config options, parsers
+and generators.
+
+   Your generator is called only by this function:
        generator->writeData(Cladogram * clad, std::ofstream * fp);
 
    Therefore it should implement the following one:
@@ -769,7 +783,7 @@ All measures (height, thickness, ...) are "generic units".
             << Date2str(clad->endOfTime) << "\n";
 
        cout << "\n\nOur background color (in hex) is "
-            << mainBackground.hex << "\n";
+            << clad->mainBackground.hex << "\n";
 
 
 File: gnuclad.info,  Node: GNU Free Documentation License,  Next: Index,  Prev: Programming,  Up: Top
@@ -1278,7 +1292,7 @@ Index
 * Quickly adding things.:                Adding config options, parsers and generators.
                                                               (line   5)
 * Utility functions:                     Classes and utilities.
-                                                              (line 139)
+                                                              (line 132)
 
 
 
@@ -1289,10 +1303,10 @@ Node: Usage Tips3326
 Node: Config Options5583
 Node: FAQ11072
 Node: Programming11692
-Node: Adding config options, parsers and generators12070
-Node: Classes and utilities14550
-Node: How to code a parser/generator20498
-Node: GNU Free Documentation License24686
-Node: Index49852
+Node: Classes and utilities12094
+Node: Adding config options, parsers and generators17657
+Node: How to use config options and write a parser/generator20375
+Node: GNU Free Documentation License25386
+Node: Index50552
 
 End Tag Table

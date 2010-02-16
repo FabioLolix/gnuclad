@@ -6,8 +6,7 @@
 <meta name="generator" content="makeinfo 4.13">
 <link title="Top" rel="start" href="index.html#Top">
 <link rel="up" href="Programming.html#Programming" title="Programming">
-<link rel="prev" href="Adding-config-options_0040comma_007b_007d-parsers-and-generators.html#Adding-config-options_0040comma_007b_007d-parsers-and-generators" title="Adding config options@comma{} parsers and generators">
-<link rel="next" href="How-to-code-a-parser_002fgenerator.html#How-to-code-a-parser_002fgenerator" title="How to code a parser/generator">
+<link rel="next" href="Adding-config-options_0040comma_007b_007d-parsers-and-generators.html#Adding-config-options_0040comma_007b_007d-parsers-and-generators" title="Adding config options@comma{} parsers and generators">
 <link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
 <!--
 This is a manual for gnuclad
@@ -37,8 +36,7 @@ Copyright (C) 2010 Donjan Rodic <donjan (at) dyx (dot) ch>
 <div class="node">
 <a name="Classes-and-utilities"></a>
 <p>
-Next:&nbsp;<a rel="next" accesskey="n" href="How-to-code-a-parser_002fgenerator.html#How-to-code-a-parser_002fgenerator">How to code a parser/generator</a>,
-Previous:&nbsp;<a rel="previous" accesskey="p" href="Adding-config-options_002c-parsers-and-generators.html#Adding-config-options_002c-parsers-and-generators">Adding config options, parsers and generators</a>,
+Next:&nbsp;<a rel="next" accesskey="n" href="Adding-config-options_002c-parsers-and-generators.html#Adding-config-options_002c-parsers-and-generators">Adding config options, parsers and generators</a>,
 Up:&nbsp;<a rel="up" accesskey="u" href="Programming.html#Programming">Programming</a>
 <hr>
 </div>
@@ -46,9 +44,9 @@ Up:&nbsp;<a rel="up" accesskey="u" href="Programming.html#Programming">Programmi
 <h3 class="unnumberedsec"></h3>
 
 <!-- _____________________________________________________________________ CLASSES -->
-<p><a name="index-Classes-5"></a>
+<p><a name="index-Classes-4"></a>
 
-<h3 class="section">5.4 Classes</h3>
+<h3 class="section">5.1 Classes</h3>
 
 <p>A breakdown of the classes used in gnuclad. 
 Only the relevant public parts are shown, first the members and then the
@@ -69,11 +67,11 @@ It will automatically convert and hold the other value too.
        Color(std::string thex);
 </pre>
    <p><br>
-The <strong>Date</strong> object can be initialised either with year,month,day
-or with a string in the format "y.m.d" or "y.m" or "y", where the letters
-can be arbitrary (also negative) integers. 
-The monthset/dayset switches tell the generator whether to honor the month and
-day settings. They should be ignored by the parser.
+The <strong>Date</strong> object can be initialised either with year,month,day or
+year,month or year integer parameters; or with a string in the format "y.m.d" or
+"y.m" or "y", where the letters can be arbitrary (also negative) integers.<br>
+The monthset/dayset switches tell the generator to honor the month and day
+settings, and should be ignored by the parser.
 <pre class="example">     class Date
        int year;
        int month;
@@ -83,6 +81,8 @@ day settings. They should be ignored by the parser.
        bool dayset;
      
        Date(int tyear, int tmonth, int tday);
+       Date(int tyear, int tmonth);
+       Date(int tyear);
        Date(const std::string str);
      
        bool operator&lt;(Date d);
@@ -182,24 +182,13 @@ The generator is meant to make use of the data vectors.
        Connector * addConnector();
        Image * addImage(std::string tname, std::vector&lt;Image *&gt; &amp;vector);
 </pre>
-   <!-- << revise following paragraphs + all that say search for CONFIG OPTIONS -->
-   <p>The cladogram also holds all configuration options. These are usually read by
-a separate configuration parser, but can be modified by your parser if necessary
-and should implemented by the generator as completely as possible. 
-The option names are identical to the variable names.
-
-<!-- << add new section Configuration options -->
-   <p>In order to work with the most current config options, open the 'gnuclad.h'
-header file and search for CONFIG OPTIONS. This will take you straight to the
-declarations.
-
-   <p>You can also look at the <a href="Config-Options.html#Config-Options">Config Options</a> manual chapter
-for an overview.
+   <p>The cladogram also holds all
+<a href="How-to-use-config-options-and-write-a-parser_002fgenerator.html#How-to-use-config-options-and-write-a-parser_002fgenerator">Configuration Options</a>.
 
 <!-- ___________________________________________________________ UTILITY FUNCTIONS -->
-   <p><a name="index-Utility-functions-6"></a>
+   <p><a name="index-Utility-functions-5"></a>
 
-<h3 class="section">5.5 Utility functions</h3>
+<h3 class="section">5.2 Utility functions</h3>
 
 <p>Here's a list of small helpers you can get when including 'gnuclad.h'. 
 This is meant as a quick overview. For descriptions, take a look at

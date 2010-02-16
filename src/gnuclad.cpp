@@ -209,10 +209,6 @@ Color::Color(string thex) {
   }
 }
 
-Date::Date() {
-  year = 0; month = 0; day = 0;
-  monthset = false; dayset = false;
-}
 Date::Date(int tyear, int tmonth, int tday) {
   year = tyear;
   month = tmonth;
@@ -221,6 +217,15 @@ Date::Date(int tyear, int tmonth, int tday) {
   dayset = false;
   if(month != 0) monthset = true;
   if(day != 0) dayset = true;
+}
+Date::Date(int tyear, int tmonth) {
+  *this = Date(tyear, tmonth, 0);
+}
+Date::Date(int tyear) {
+  *this = Date(tyear, 0, 0);
+}
+Date::Date() {
+  *this = Date(0, 0, 0);
 }
 Date::Date(const std::string str) {
   year = 0; month = 0; day = 0;

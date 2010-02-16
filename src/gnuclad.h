@@ -60,6 +60,8 @@ class Date {
 
   Date();
   Date(int tyear, int tmonth, int tday);
+  Date(int tyear, int tmonth);
+  Date(int tyear);
   Date(const std::string str);
   bool operator<(Date d);
   Date operator+(Date d);

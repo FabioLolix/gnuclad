@@ -35,11 +35,11 @@ class Color
 
 
 @*
-The @strong{Date} object can be initialised either with year,month,day
-or with a string in the format "y.m.d" or "y.m" or "y", where the letters
-can be arbitrary (also negative) integers.
-The monthset/dayset switches tell the generator whether to honor the month and
-day settings. They should be ignored by the parser.
+The @strong{Date} object can be initialised either with year,month,day or
+year,month or year integer parameters; or with a string in the format "y.m.d" or
+"y.m" or "y", where the letters can be arbitrary (also negative) integers.@*
+The monthset/dayset switches tell the generator to honor the month and day
+settings, and should be ignored by the parser.
 @example
 class Date
   int year;
@@ -50,6 +50,8 @@ class Date
   bool dayset;
 
   Date(int tyear, int tmonth, int tday);
+  Date(int tyear, int tmonth);
+  Date(int tyear);
   Date(const std::string str);
 
   bool operator<(Date d);
@@ -173,21 +175,8 @@ class Cladogram
   Image * addImage(std::string tname, std::vector<Image *> &vector);
 @end example
 
-@c                                                                              << revise following paragraphs + all that say search for CONFIG OPTIONS
-The cladogram also holds all configuration options. These are usually read by
-a separate configuration parser, but can be modified by your parser if necessary
-and should implemented by the generator as completely as possible.
-The option names are identical to the variable names.
-
-@c                                                                              << add new section Configuration options
-In order to work with the most current config options, open the 'gnuclad.h'
-header file and search for CONFIG OPTIONS. This will take you straight to the
-declarations.
-
-You can also look at the @ref{Config Options,,Config Options} manual chapter
-for an overview.
-
-
+The cladogram also holds all
+@ref{How to use config options and write a parser/generator,,Configuration Options}.
 
 
 

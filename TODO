@@ -1,6 +1,12 @@
 GNUCLAD TODO
 
-improve programming doc on config
+improve programming manual on config options
+
+implement grouping by connectors
+
+add icons to example files
+
+write manual on optimisation
 
 translatable strings (gettext)
 

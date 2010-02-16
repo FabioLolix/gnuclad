@@ -9,12 +9,12 @@ Here's a small documentation if you wish to hack gnuclad.
 Patches are always welcome. New parsers/generators even more so!
 
 @menu
-* Adding config options@comma{} parsers and generators::
 * Classes and utilities::
-* How to code a parser/generator::
+* Adding config options@comma{} parsers and generators::
+* How to use config options and write a parser/generator::
 @end menu
 
-@include gnuclad-programming-quick.texi
 @include gnuclad-programming-classes.texi
+@include gnuclad-programming-quick.texi
 @include gnuclad-programming-parsergenerator.texi
 
