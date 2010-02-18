@@ -249,6 +249,9 @@ bool Date::operator<(const Date d) {
     return true;
   else return false;
 }
+bool Date::operator==(Date d) {
+  return ( !(*this < d)&& !(d < *this) );
+}
 Date Date::operator+(const Date d) {
   return Date(d.year + year, d.month + month, d.day + day);
 }

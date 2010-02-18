@@ -63,8 +63,9 @@ class Date {
   Date(int tyear, int tmonth);
   Date(int tyear);
   Date(const std::string str);
-  bool operator<(Date d);
-  Date operator+(Date d);
+  bool operator<(const Date d);
+  bool operator==(Date d);
+  Date operator+(const Date d);
 };
 
 class Image {
@@ -256,7 +257,6 @@ class Cladogram {
   Connector * addConnector();
   Image * addImage(std::string tname, std::vector<Image *> &vector);
 
-  Date rOf(Date d);
 };
 
 
@@ -306,6 +306,7 @@ std::string base64_encode(const char * raw, unsigned int len);
 Date currentDate();
 std::string Date2str(Date date);
 int datePX(Date d, const Cladogram * clad);
+Date rOf(Date d, int monthsInYear, int daysInMonth);
 std::string checkHexCol(const std::string color);
 std::string rgb2hexHue(int hue);
 int hex2rgbHue(std::string hhue);

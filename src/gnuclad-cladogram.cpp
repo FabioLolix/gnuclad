@@ -49,7 +49,7 @@ Cladogram::Cladogram() {
   infoBoxHeight = 60;
 
   fontCorrectionFactor = 1.0;
-  orientation = 1;
+  orientation = 0;
   treeMode = 0;
   sortKey = 0;
   optimise = 99;
@@ -244,21 +244,6 @@ Image * Cladogram::addImage(std::string tname, std::vector<Image *> &vector) {
   i->filename = tname;
   vector.push_back(i);
   return i;
-}
-
-// Returns the date with resolved overflow
-// Use only if really needed (for comparisons), because you usually don't want
-// to equalise 2000.1.31 with 2000.2.1 if your daysInMonth is 30
-Date Cladogram::rOf(Date d) {
-  while(d.day > daysInMonth) {
-    d.month += 1;
-    d.day -= daysInMonth;
-  }
-  while(d.month > monthsInYear) {
-    d.year += 1;
-    d.month -= monthsInYear;
-  }
-  return d;
 }
 
 void Cladogram::compute() {
@@ -669,13 +654,17 @@ bool Cladogram::fitsInto(const int offset, Node * node) {
   sort(tmp.begin(), tmp.end(), compareDate());
 
   // Compare node to first and last in tmp
-  if( rOf(node->stop + stopSpacing) < tmp.at(0)->start ||
-      rOf(tmp.at(tmp.size()-1)->stop + stopSpacing) < node->start )
+  if( rOf(node->stop + stopSpacing, monthsInYear, daysInMonth)
+        < tmp.at(0)->start ||
+      rOf(tmp.at(tmp.size()-1)->stop + stopSpacing, monthsInYear, daysInMonth)
+        < node->start )
     return true;
   // Compare node to all others in tmp
   for(int i = 0; i < (int)tmp.size() - 1; ++i)
-    if( rOf(tmp.at(i)->stop + stopSpacing) < node->start &&
-        rOf(node->stop + stopSpacing) < tmp.at(i+1)->start )
+    if( rOf(tmp.at(i)->stop + stopSpacing, monthsInYear, daysInMonth)
+          < node->start &&
+        rOf(node->stop + stopSpacing, monthsInYear, daysInMonth)
+          < tmp.at(i+1)->start )
       return true;
 
   return false;

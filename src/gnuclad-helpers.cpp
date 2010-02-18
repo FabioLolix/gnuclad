@@ -254,6 +254,21 @@ int datePX(Date d, const Cladogram * clad) {
           + int(d.month * monPX) + int(d.day * dayPX);
 }
 
+// Returns the date with resolved overflow (x.2.35 => x.3.5; daysInMonth = 30)
+// Use only if really needed (for comparisons), because you usually don't want
+// to equalise 2000.1.31 with 2000.2.1 if your daysInMonth is 30
+Date rOf(Date d, int monthsInYear, int daysInMonth) {
+  while(d.day > daysInMonth) {
+    d.month += 1;
+    d.day -= daysInMonth;
+  }
+  while(d.month > monthsInYear) {
+    d.year += 1;
+    d.month -= monthsInYear;
+  }
+  return d;
+}
+
 // Returns the supplied color string if it is in a valid hex color format
 // Doesn't check for value boundaries. It's called by the Color constructor and
 // shouldn't be used in parsers/generators.

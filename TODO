@@ -1,41 +1,61 @@
 GNUCLAD TODO
+________________________________________________________________________
 
+class new_input from ostream and ofstream?
+class new_file from ifstream and ofstream?
+ifstream f = *fp;
+
+maybe... implement config options map
 improve programming manual on config options
-
-implement grouping by connectors
 
 add icons to example files
 
+parserDIR (depth based and then perhaps time based)
+
+implement grouping by connectors
+optimise both-subtree at creation time
 write manual on optimisation
 
+implement curved derivType
+implement curved connectors
+
 translatable strings (gettext)
+                                                                    v0.2
+________________________________________________________________________
 
-add option curvedConnectors ? (rather derivType)
-
-parserDIR (depth based and then perhaps time based)
-parserGV
+parserSQLite
+parserGV (graphviz)
 
 GRAMPS file format parser
 GEDCOM file format parser
 
-optimise both-subtree at creation time
+parserHTML
+generatorHTML
+                                                                    v0.3
+________________________________________________________________________
 
-change command line interface? (getopts)
 
-________________________________________________________________ v0.2
+take a look at libpng, then maybe implement colormap
+signature generator: 500x500 SVG (PNG if possible),
+                     average distribution, grayscale
+                                                                    v0.4
+________________________________________________________________________
 
+
+extensive testing and auditing
+                                                                    v0.5
+________________________________________________________________________
+
+                                                                    vXXX
+________________________________________________________________________
 
 add ability to override options in CSV? (with X flag)
   -> easy to implement, but painful to maintain
 
-take a look at libpng, then maybe implement colormap
-signature generator: 500x500 SVG (PNG if possible), average distribution, grayscale
-
-________________________________________________________________ v0.3
-
-
-________________________________________________________________ ...
-
 label backgrounds... maybe use font renderer? (freetype)
 
+change command line interface? (getopts)
+
 base GUI on csveditor (java)?
+                                                                    vYYY
+________________________________________________________________________
