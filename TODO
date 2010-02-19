@@ -1,9 +1,13 @@
 GNUCLAD TODO
 ________________________________________________________________________
 
-class new_input from ostream and ofstream?
-class new_file from ifstream and ofstream?
-ifstream f = *fp;
+class new_input containing ostream and ofstream?
+class new_file ifstream and ofstream, overload by return type?
+
+automake
+
+add non-conf-file cladogram options to manual? or just point to source
+update manual programming-utilities
 
 maybe... implement config options map
 improve programming manual on config options

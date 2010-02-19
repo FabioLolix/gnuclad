@@ -1,0 +1,38 @@
+@c Part of the gnuclad texinfo manual
+
+
+@node Configuration Options
+@unnumberedsec
+
+
+
+@section Adding configuration options
+
+When adding a configuration option, be sure to implement it at least in the
+following places:
+@itemize @bullet
+@item gnuclad.h: members of the Cladogram class (declaration)
+@item gnuclad.cpp: in the constructor of the Cladogram object (initialisation)
+@item gnuclad.cpp: in the parseOptions function
+@item generatorCONF.cpp: insert description of the new option
+@item the texinfo documentation, chapter @ref{Config Options,,Config Options}:
+      insert the new config file created by generatorCONF
+@item third party gnuclad configuration files you have access to
+@end itemize
+
+
+
+@section Using configuration options
+
+The options are usually read by a separate configuration parser, but can be
+modified by the data input parser if necessary and should implemented by the
+generator as completely as possible.
+The option names are identical to the variable names.
+
+In order to work with the most current config options, open the 'gnuclad.h'
+header file and search for CONFIG OPTIONS. This will take you straight to the
+declarations.
+
+You can also look at the @ref{Config Options,,Config Options} chapter
+for an explanation of the options.
+

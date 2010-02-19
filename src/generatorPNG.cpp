@@ -37,7 +37,7 @@ using namespace std;
 GeneratorPNG::GeneratorPNG() {}
 GeneratorPNG::~GeneratorPNG() {}
 
-void GeneratorPNG::writeData(Cladogram * clad, ofstream * fp) {
+void GeneratorPNG::writeData(Cladogram * clad, OutputFile & out) {
 
   cout << "\nTrying to generate PNG...\n"
        << "Trying really hard...\n"
@@ -47,5 +47,5 @@ void GeneratorPNG::writeData(Cladogram * clad, ofstream * fp) {
 
   throw "PNG generator not implemented yet!";
 
-  if(clad != NULL || fp != NULL) {};
+  if(clad != NULL || out.p != NULL) {};
 }

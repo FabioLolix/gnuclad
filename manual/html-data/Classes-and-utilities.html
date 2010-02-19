@@ -6,7 +6,7 @@
 <meta name="generator" content="makeinfo 4.13">
 <link title="Top" rel="start" href="index.html#Top">
 <link rel="up" href="Programming.html#Programming" title="Programming">
-<link rel="next" href="Adding-config-options_0040comma_007b_007d-parsers-and-generators.html#Adding-config-options_0040comma_007b_007d-parsers-and-generators" title="Adding config options@comma{} parsers and generators">
+<link rel="next" href="Configuration-Options.html#Configuration-Options" title="Configuration Options">
 <link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
 <!--
 This is a manual for gnuclad
@@ -36,7 +36,7 @@ Copyright (C) 2010 Donjan Rodic <donjan (at) dyx (dot) ch>
 <div class="node">
 <a name="Classes-and-utilities"></a>
 <p>
-Next:&nbsp;<a rel="next" accesskey="n" href="Adding-config-options_002c-parsers-and-generators.html#Adding-config-options_002c-parsers-and-generators">Adding config options, parsers and generators</a>,
+Next:&nbsp;<a rel="next" accesskey="n" href="Configuration-Options.html#Configuration-Options">Configuration Options</a>,
 Up:&nbsp;<a rel="up" accesskey="u" href="Programming.html#Programming">Programming</a>
 <hr>
 </div>
@@ -85,8 +85,9 @@ settings, and should be ignored by the parser.
        Date(int tyear);
        Date(const std::string str);
      
-       bool operator&lt;(Date d);
-       Date operator+(Date d);
+       bool operator&lt;(const Date d);
+       bool operator==(Date d);
+       Date operator+(const Date d);
 </pre>
    <p><br>
 The <strong>Image</strong> object is to be initialised only with addImage() in the
@@ -182,10 +183,18 @@ The generator is meant to make use of the data vectors.
        Connector * addConnector();
        Image * addImage(std::string tname, std::vector&lt;Image *&gt; &amp;vector);
 </pre>
-   <p>The cladogram also holds all
-<a href="How-to-use-config-options-and-write-a-parser_002fgenerator.html#How-to-use-config-options-and-write-a-parser_002fgenerator">Configuration Options</a>.
+   <p>The cladogram also holds all <a href="Configuration-Options.html#Configuration-Options">Configuration Options</a>.
 
-<!-- ___________________________________________________________ UTILITY FUNCTIONS -->
+   <p><br>
+The <strong>InputFile</strong> serves as a container to pass data to the parser.
+<pre class="example">     class InputFile:
+       std::ifstream * p;
+       std::string name;
+     
+       InputFile(std::string tname);
+       ~InputFile();
+</pre>
+   <!-- ___________________________________________________________ UTILITY FUNCTIONS -->
    <p><a name="index-Utility-functions-5"></a>
 
 <h3 class="section">5.2 Utility functions</h3>

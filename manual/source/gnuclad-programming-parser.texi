@@ -1,0 +1,126 @@
+@c Part of the gnuclad texinfo manual
+
+
+@node Writing a parser
+@unnumberedsec
+
+
+
+@section Adding a parser
+
+Steps neccessary to add a parser.
+XXX refers to the input format you want to implement.
+
+parserXXX.h:
+@example
+#include "gnuclad.h"
+derive class from Parser:
+  class ParserXXX: public Parser
+declare constructor and destructor
+declare public method:
+  void parseData(Cladogram * clad, InputFile & in);
+@end example
+
+parserXXX.cpp:
+@example
+#include "parserXXX.h"
+implement constructor and destructor
+implement parseData(Cladogram * clad, InputFile & in) @{ ... @}
+@end example
+
+gnuclad.cpp:
+@example
+#include "parserXXX.h"
+update inFormats
+add choser:
+  else if(inputExt == "XXX") parser = new ParserXXX;
+@end example
+
+
+@c _____________________________________________________________________________
+
+
+@section How to write a parser
+
+Your parser is called only by this function:
+@example
+  parser->parseData(Cladogram * clad, InputFile & in);
+@end example
+
+Therefore it should implement the following one:
+@example
+  void ParserXXX::parseData(Cladogram * clad, InputFile & in) @{ ... @}
+@end example
+
+The InputFile object holds a correctly opened input file. It also holds the file
+name in case your parser needs it. You can use the object like this:
+@example
+  ifstream * fp = in.p;
+  // or
+  ifstream & f = *(in.p);
+  // or
+  ifstream myfp(in.name);
+@end example
+
+The cladogram pointer is an empty Cladogram object that you have
+to fill.
+You should try to fill as much of it as possible in order to increase
+the information pool for the output generator. Note that
+not all generators will make use of every piece of data, and it all depends on
+the options the user has set; the more information the better.
+
+If you cannot fill a field, leave it empty and the generators will ignore it.
+All measures (height, thickness, ...) are "generic units".
+
+Objects created with the add*** functions will be allocated and later deleted
+automatically.
+It is important to use those functions for objects you wish to pass on to the
+generator.
+
+
+@*
+Adding a Node:
+@example
+  Node * n = clad->addNode("MyFirstNode");
+  n->color = Color("#a2b3c4");
+  n->parentName = "";
+  n->start =  Date(1993,8,1);
+  n->stop = Date("2000.3");
+  n->iconfile = "";
+  n->description = "it rocks!";
+  n->addNameChange("NewName", Date(1999,2,0), "it still rocks!")
+@end example
+
+@*
+Adding a Connector (note that fromName and toName are expected to be existing
+Node names at the end of the parser routine - you'll get an error otherwise):
+@example
+  Connector * c = clad->addConnector();
+  c->fromWhen = Date(1997,0,0);
+  c->fromName = "MyFirstNode";
+  c->toWhen = Date("1997.5.1");
+  c->toName = "MySecondNode";
+  c->thickness = 3;
+  c->color = Color(12,255,0);
+@end example
+
+@*
+Adding a domain (note that the initialising name is expected to be an existing
+Node name at the end of the parser routine - you'll get an error otherwise):
+@example
+  Domain * d = clad->addDomain("MyFirstNode");
+  d->color = Color("#abc");
+  d->intensity = 15;
+@end example
+
+@*
+Adding an image (currently supported: SVG and PNG):
+@example
+  Image * image = clad->addImage("picture.svg", clad->includeSVG);
+  image->x = 100;
+  image->y = 50;
+
+  Image * image = clad->addImage("somewhere/picture.png", clad->includePNG);
+  image->x = 10;
+  image->y = 500;
+@end example

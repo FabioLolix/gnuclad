@@ -54,8 +54,9 @@ class Date
   Date(int tyear);
   Date(const std::string str);
 
-  bool operator<(Date d);
-  Date operator+(Date d);
+  bool operator<(const Date d);
+  bool operator==(Date d);
+  Date operator+(const Date d);
 @end example
 
 
@@ -175,8 +176,19 @@ class Cladogram
   Image * addImage(std::string tname, std::vector<Image *> &vector);
 @end example
 
-The cladogram also holds all
-@ref{How to use config options and write a parser/generator,,Configuration Options}.
+The cladogram also holds all @ref{Configuration Options,,Configuration Options}.
+
+@*
+The @strong{InputFile} serves as a container to pass data to the parser.
+@example
+class InputFile:
+  std::ifstream * p;
+  std::string name;
+
+  InputFile(std::string tname);
+  ~InputFile();
+@end example
+
 
 
 

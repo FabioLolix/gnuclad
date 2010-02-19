@@ -25,7 +25,9 @@ using namespace std;
 ParserCSV::ParserCSV() {}
 ParserCSV::~ParserCSV() {}
 
-void ParserCSV::parseData(Cladogram * clad, ifstream * fp) {
+void ParserCSV::parseData(Cladogram * clad, InputFile & in) {
+
+  ifstream & f = *(in.p);
 
   string line;
   int count = 1;
@@ -34,9 +36,9 @@ void ParserCSV::parseData(Cladogram * clad, ifstream * fp) {
   int fixedFieldsDomain = 4;
   int fixedFieldsImage = 4;
 
-  while( !fp->eof() && fp->good() ) {
+  while( !f.eof() && f.good() ) {
 
-    getline(*fp, line);
+    getline(f, line);
     ++count;
 
     vector<string> entry;

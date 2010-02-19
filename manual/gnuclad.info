@@ -119,8 +119,8 @@ File: gnuclad.info,  Node: Usage Tips,  Next: Config Options,  Prev: About,  Up:
 2 Usage Tips
 ************
 
-2.1 CSV spreadsheets as input
-=============================
+2.1 CSV spreadsheet as input
+============================
 
 You can include SVG images in the CSV spreadsheets.  Keep in mind that
 only the defs and drawing data (paths etc) are imported, NOT the header.
@@ -131,8 +131,8 @@ please file a bug detailing the problem.
 raster images are encoded in base64 and may result in a really huge
 output file.
 
-2.2 CSV spreadsheets as output
-==============================
+2.2 CSV spreadsheet as output
+=============================
 
 All nodes with a starting date newer than endOfTime (usually the
 current date) will be ignored.  All nodes with a stopping date newer or
@@ -386,11 +386,12 @@ always welcome. New parsers/generators even more so!
 * Menu:
 
 * Classes and utilities::
-* Adding config options, parsers and generators::
-* How to use config options and write a parser/generator::
+* Configuration Options::
+* Writing a parser::
+* Writing a generator::
 
 
-File: gnuclad.info,  Node: Classes and utilities,  Next: Adding config options, parsers and generators,  Up: Programming
+File: gnuclad.info,  Node: Classes and utilities,  Next: Configuration Options,  Up: Programming
 
 
 
@@ -432,8 +433,9 @@ day settings, and should be ignored by the parser.
        Date(int tyear);
        Date(const std::string str);
 
-       bool operator<(Date d);
-       Date operator+(Date d);
+       bool operator<(const Date d);
+       bool operator==(Date d);
+       Date operator+(const Date d);
 
 The *Image* object is to be initialised only with addImage() in the
 parser:
@@ -518,8 +520,16 @@ make use of the data vectors.
        Connector * addConnector();
        Image * addImage(std::string tname, std::vector<Image *> &vector);
 
-   The cladogram also holds all *note Configuration Options: How to use
-config options and write a parser/generator.
+   The cladogram also holds all *note Configuration Options:
+Configuration Options.
+
+The *InputFile* serves as a container to pass data to the parser.
+     class InputFile:
+       std::ifstream * p;
+       std::string name;
+
+       InputFile(std::string tname);
+       ~InputFile();
 
 5.2 Utility functions
 =====================
@@ -568,13 +578,9 @@ std::string replace);
    int datePX(Date d, const Cladogram * clad);
 
 
-File: gnuclad.info,  Node: Adding config options, parsers and generators,  Next: How to use config options and write a parser/generator,  Prev: Classes and utilities,  Up: Programming
+File: gnuclad.info,  Node: Configuration Options,  Next: Writing a parser,  Prev: Classes and utilities,  Up: Programming
 
 
-
-This page serves as a quick reference.  More detailed information can
-be found in *note the next chapter: How to use config options and write
-a parser/generator.
 
 5.3 Adding configuration options
 ================================
@@ -595,68 +601,7 @@ the following places:
 
    * third party gnuclad configuration files you have access to
 
-   In order to work with the most current config options, open the
-'gnuclad.h' source file and search for CONFIG OPTIONS. This will take
-you straight to the declarations.
-
-5.4 Adding a parser
-===================
-
-Parsers read data from various sources into the Cladogram object.  For
-detailed information, see *note How to write a parser: How to use
-config options and write a parser/generator.
-
-   parserXXX.h:
-     #include "gnuclad.h"
-     derive class from Parser:
-       class ParserXXX: public Parser
-     declare constructor and destructor
-     declare public method:
-       void parseData(Cladogram * clad, std::ifstream * fp);
-
-   parserXXX.cpp:
-     #include "parserXXX.h"
-     implement constructor and destructor
-     implement parseData(Cladogram * clad, std::ifstream * fp);
-
-   gnuclad.cpp:
-     #include "parserXXX.h"
-     update inFormats
-     add choser:
-       else if(inputExt == "XXX") parser = new ParserXXX;
-
-5.5 Adding a generator
-======================
-
-Generators write data from the Cladogram object to a specified output
-format.  For detailed information, see *note How to write a generator:
-How to use config options and write a parser/generator.
-
-   generatorXXX.h:
-     #include "gnuclad.h"
-     derive class from generator:
-       class GeneratorXXX: public Generator
-     declare constructor and destructor
-     declare public method:
-       void writeData(Cladogram * clad, std::ofstream * fp);
-
-   generatorXXX.cpp:
-     #include "generatorXXX.h"
-     implement constructor and destructor
-     implement writeData(Cladogram * clad, std::ofstream * fp);
-
-   gnuclad.cpp
-     #include "generatorXXX.h"
-     update outFormats
-     add choser:
-       else if(outputExt == "XXX") generator = new GeneratorXXX;
-
-
-File: gnuclad.info,  Node: How to use config options and write a parser/generator,  Prev: Adding config options, parsers and generators,  Up: Programming
-
-
-
-5.6 Using configuration options
+5.4 Using configuration options
 ===============================
 
 The options are usually read by a separate configuration parser, but
@@ -671,29 +616,59 @@ you straight to the declarations.
    You can also look at the *note Config Options: Config Options.
 chapter for an explanation of the options.
 
-5.7 How to write a parser
+
+File: gnuclad.info,  Node: Writing a parser,  Next: Writing a generator,  Prev: Configuration Options,  Up: Programming
+
+
+
+5.5 Adding a parser
+===================
+
+Steps neccessary to add a parser.  XXX refers to the input format you
+want to implement.
+
+   parserXXX.h:
+     #include "gnuclad.h"
+     derive class from Parser:
+       class ParserXXX: public Parser
+     declare constructor and destructor
+     declare public method:
+       void parseData(Cladogram * clad, InputFile & in);
+
+   parserXXX.cpp:
+     #include "parserXXX.h"
+     implement constructor and destructor
+     implement parseData(Cladogram * clad, InputFile & in) { ... }
+
+   gnuclad.cpp:
+     #include "parserXXX.h"
+     update inFormats
+     add choser:
+       else if(inputExt == "XXX") parser = new ParserXXX;
+
+5.6 How to write a parser
 =========================
 
-First check the *note quick overview: Adding config options, parsers
-and generators.
-
-   Your parser is called only by this function:
-       parser->parseData(Cladogram * clad, std::ifstream * fp);
+Your parser is called only by this function:
+       parser->parseData(Cladogram * clad, InputFile & in);
 
    Therefore it should implement the following one:
-       void ParserXXX::parseData(Cladogram * clad, std::ifstream * fp) { ... }
+       void ParserXXX::parseData(Cladogram * clad, InputFile & in) { ... }
 
-   The file pointer is a correctly opened file with the desired file
-name extension, though you have to check whether the file
-structure/format is valid yourself. The cladogram pointer is an empty
-Cladogram object that you have to fill.
-_The parser essentially defines the input file format._
-You should try to fill as much of the Cladogram as possible in order to
-increase the information pool for the output generator. For a quick
-view overview, take a look at the description of the Cladogram in the
-'Classes' section. Note that not all generators will make use of every
-piece of data, and it all depends on the options the user has set; the
-more information the better.
+   The InputFile object holds a correctly opened input file. It also
+holds the file name in case your parser needs it. You can use the
+object like this:
+       ifstream * fp = in.p;
+       // or
+       ifstream & f = *(in.p);
+       // or
+       ifstream myfp(in.name);
+
+   The cladogram pointer is an empty Cladogram object that you have to
+fill.  You should try to fill as much of it as possible in order to
+increase the information pool for the output generator. Note that not
+all generators will make use of every piece of data, and it all depends
+on the options the user has set; the more information the better.
 
    If you cannot fill a field, leave it empty and the generators will
 ignore it.  All measures (height, thickness, ...) are "generic units".
@@ -735,36 +710,68 @@ Adding an image (currently supported: SVG and PNG):
        image->x = 100;
        image->y = 50;
 
-       Image * image = clad->addImage("picture.svg", clad->includePNG);
+       Image * image = clad->addImage("somewhere/picture.png", clad->includePNG);
        image->x = 10;
        image->y = 500;
+
+
+File: gnuclad.info,  Node: Writing a generator,  Prev: Writing a parser,  Up: Programming
+
+
+
+5.7 Adding a generator
+======================
+
+Steps neccessary to add a generator.  XXX refers to the output format
+you want to implement.
+
+   generatorXXX.h:
+     #include "gnuclad.h"
+     derive class from generator:
+       class GeneratorXXX: public Generator
+     declare constructor and destructor
+     declare public method:
+       void writeData(Cladogram * clad, OutputFile & out);
+
+   generatorXXX.cpp:
+     #include "generatorXXX.h"
+     implement constructor and destructor
+     implement writeData(Cladogram * clad, OutputFile & out) { ... }
+
+   gnuclad.cpp
+     #include "generatorXXX.h"
+     update outFormats
+     add choser:
+       else if(outputExt == "XXX") generator = new GeneratorXXX;
 
 5.8 How to write a generator
 ============================
 
-First check the *note quick overview: Adding config options, parsers
-and generators.
-
-   Your generator is called only by this function:
-       generator->writeData(Cladogram * clad, std::ofstream * fp);
+Your generator is called only by this function:
+       generator->writeData(Cladogram * clad, OutputFile & out);
 
    Therefore it should implement the following one:
-       void generatorXXX::writeData(Cladogram * clad, std::ofstream * fp) { ... }
+       void generatorXXX::writeData(Cladogram * clad, OutputFile & out) { ... }
 
-   The file pointer is a correctly opened file with the desired file
-name extension.
-You should try to utilise as much information as possible.  This can be
-done by iterating over the Cadlogram's data vectors:
+   The OutputFile object holds a correctly opened output file. It also
+holds the file name in case your generator needs it. You can use the
+object like this:
+       ofstream * fp = out.p;
+       // or
+       ofstream & f = *(out.p);
+       // or
+       ofstream myfp(out.name);
+
+   You should try to utilise as much information from the Cladogram as
+possible.  This can be done by iterating over its data vectors:
      vector<Node *> nodes
      vector<Connector *> connectors
      vector<Domain *> domains
      vector<Image *> includeSVG
      vector<Image *> includePNG
 
-   Additionally, you should strive to make use of all configuration
-options the Cladogram contains.  In order to work with the most current
-config options, open the 'gnuclad.h' header file and search for CONFIG
-OPTIONS. This will take you straight to the declarations.
+   Additionally, you should strive to make use of all *note
+configuration options: Configuration Options. the Cladogram contains.
 
    If a variable is empty, try to handle it as gracefully as possible.
 All measures (height, thickness, ...) are "generic units".
@@ -1289,10 +1296,8 @@ Index
 
 * Classes:                               Classes and utilities.
                                                               (line   5)
-* Quickly adding things.:                Adding config options, parsers and generators.
-                                                              (line   5)
 * Utility functions:                     Classes and utilities.
-                                                              (line 132)
+                                                              (line 141)
 
 
 
@@ -1300,13 +1305,14 @@ Tag Table:
 Node: Top474
 Node: About916
 Node: Usage Tips3326
-Node: Config Options5583
-Node: FAQ11072
-Node: Programming11692
-Node: Classes and utilities12094
-Node: Adding config options, parsers and generators17657
-Node: How to use config options and write a parser/generator20375
-Node: GNU Free Documentation License25386
-Node: Index50552
+Node: Config Options5579
+Node: FAQ11068
+Node: Programming11688
+Node: Classes and utilities12052
+Node: Configuration Options17801
+Node: Writing a parser19146
+Node: Writing a generator22472
+Node: GNU Free Documentation License24828
+Node: Index49994
 
 End Tag Table

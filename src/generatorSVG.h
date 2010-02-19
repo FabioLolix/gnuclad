@@ -29,7 +29,7 @@ class GeneratorSVG: public Generator {
 
   GeneratorSVG();
   ~GeneratorSVG();
-  void writeData(Cladogram * clad, std::ofstream * fp);
+  void writeData(Cladogram * clad, OutputFile & out);
 };
 
 std::string validxml(std::string str);

@@ -25,7 +25,9 @@ using namespace std;
 GeneratorCSV::GeneratorCSV() {}
 GeneratorCSV::~GeneratorCSV() {}
 
-void GeneratorCSV::writeData(Cladogram * clad, ofstream * fp) {
+void GeneratorCSV::writeData(Cladogram * clad, OutputFile & out) {
+
+  ofstream & f = *(out.p);
 
   Node * n;
   Connector * c;
@@ -64,7 +66,7 @@ void GeneratorCSV::writeData(Cladogram * clad, ofstream * fp) {
     tailIm += ",";
 
 
-  *fp << "\"//\",\"Open/save this file as a standard CSV  <=>  comma (,) separated and double quotes (\"\") as text delimiter.\"" << tail2 << "\n"
+  f << "\"//\",\"Open/save this file as a standard CSV  <=>  comma (,) separated and double quotes (\"\") as text delimiter.\"" << tail2 << "\n"
       << "\"//\",\"You can safely insert commas or double quotes into data fields.\"" << tail2 << "\n"
       << "\"//\",\"EXCEPTION: Don't insert a comma right after a double quote, since this terminates the field.\"" << tail2 << "\n"
       << "\"//\",\"When editing with OO.org Calc, use the single quote (') for three-number-dates to circumvent automatic conversion.\"" << tail2 << "\n"
@@ -79,7 +81,7 @@ void GeneratorCSV::writeData(Cladogram * clad, ofstream * fp) {
 
 
   // Nodes
-  *fp << "\"#\",\"Nodes\"" << tail2 << "\n"
+  f << "\"#\",\"Nodes\"" << tail2 << "\n"
       << "\"#\",\"Name\",\"Color\",\"Parent\",\"Start\",\"Stop\",\"Icon\",\"Description\",\"[Namechange\",\"When\",\"Description\",\"[Namechange\",\"When\",\"Description\",\". . . ]]\"" << tail15 << "\n";
   for(int i = 0; i < (int)clad->nodes.size(); ++i) {
 
@@ -93,25 +95,25 @@ void GeneratorCSV::writeData(Cladogram * clad, ofstream * fp) {
     if( !(n->stop < clad->endOfTime) )         // if node didn't stop yet,
       stopdate = "";                           // set empty stop date
 
-    *fp << "\"N\",\"" << n->name << "\",\"#" << n->color.hex << "\",\"" 
+    f << "\"N\",\"" << n->name << "\",\"#" << n->color.hex << "\",\"" 
         << n->parentName << "\",\""
         << Date2str(n->start) << "\",\"" << stopdate << "\",\""
         << n->iconfile << "\",\"" << n->description << "\"";
 
     for(int j = 0; j < (int)n->nameChanges.size(); ++j) {
       NameChange * nc = &(n->nameChanges.at(j));
-      *fp << ",\"" << nc->newName << "\",\"" << Date2str(nc->date) << "\",\""
+      f << ",\"" << nc->newName << "\",\"" << Date2str(nc->date) << "\",\""
           << nc->description << "\"";
     }
 
-    *fp << tailN << "\n";
+    f << tailN << "\n";
   }
   
-  *fp << tailWidth << "\n";
+  f << tailWidth << "\n";
 
 
   // Connectors
-  *fp << "\"#\",\"Connectors\"" << tail2 << "\n"
+  f << "\"#\",\"Connectors\"" << tail2 << "\n"
       << "\"#\",\"Leaving 'To When' empty will result in using 'From When' as this value\"" << tail2 << "\n"
       << "\"#\",\"From When\",\"From\",\"To When\",\"To\",\"Thickness\",\"Color\"" << tailC << "\n";
   for(int i = 0; i < (int)clad->connectors.size(); ++i) {
@@ -123,38 +125,38 @@ void GeneratorCSV::writeData(Cladogram * clad, ofstream * fp) {
     if( !(fromWhen < toWhen) && !(toWhen < fromWhen) )  // if they are equal
       toWhen = "";                                      // set empty toWhen date
 
-    *fp << "\"C\",\"" << fromWhen << "\",\"" << c->fromName << "\",\""
+    f << "\"C\",\"" << fromWhen << "\",\"" << c->fromName << "\",\""
         << toWhen << "\",\"" << c->toName << "\",\""
         << int2str(c->thickness) << "\",\"#" << c->color.hex << "\""
         << tailC << "\n";
     
   }
 
-  *fp << tailWidth << "\n";
+  f << tailWidth << "\n";
 
 
   // Domains
-  *fp << "\"#\",\"Domains\"" << tail2 << "\n"
+  f << "\"#\",\"Domains\"" << tail2 << "\n"
       << "\"#\",\"Distribution\",\"Color\",\"Intensity\"" << tailD << "\n";
   for(int i = 0; i < (int)clad->domains.size(); ++i) {
 
     d = clad->domains.at(i);
 
-    *fp << "\"D\",\"" << d->nodeName << "\",\"#" << d->color.hex
+    f << "\"D\",\"" << d->nodeName << "\",\"#" << d->color.hex
         << "\",\"" << int2str(d->intensity) << "\"" << tailD << "\n";
   }
 
-  *fp << tailWidth << "\n";
+  f << tailWidth << "\n";
 
 
   // Images
-  *fp << "\"#\",\"Images\"" << tail2 << "\n"
+  f << "\"#\",\"Images\"" << tail2 << "\n"
       << "\"#\",\"File Path\",\"x Position\",\"y Position\"" << tailIm << "\n";
   for(int i = 0; i < (int)clad->includeSVG.size(); ++i) {
 
     im = clad->includeSVG.at(i);
 
-    *fp << "\"SVG\",\"" << im->filename << "\",\"" << int2str(im->x)
+    f << "\"SVG\",\"" << im->filename << "\",\"" << int2str(im->x)
         << "\",\"" << int2str(im->y) << "\"" << tailIm << "\n";
   }
 

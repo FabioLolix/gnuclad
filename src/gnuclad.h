@@ -142,6 +142,24 @@ class Connector {
   Connector();
 };
 
+class InputFile {
+  public:
+  std::ifstream * p;
+  std::string name;
+
+  InputFile(std::string tname);
+  ~InputFile();
+};
+
+class OutputFile {
+  public:
+  std::ofstream * p;
+  std::string name;
+
+  OutputFile(std::string tname);
+  ~OutputFile();
+};
+
 
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -269,13 +287,13 @@ class Cladogram {
 class Parser {
   public:
   virtual ~Parser();
-  virtual void parseData(Cladogram * cladogram, std::ifstream * fp) = 0;
+  virtual void parseData(Cladogram * cladogram, InputFile & in) = 0;
 };
 
 class Generator {
   public:
   virtual ~Generator();
-  virtual void writeData(Cladogram * cladogram, std::ofstream * fp) = 0;
+  virtual void writeData(Cladogram * cladogram, OutputFile & out) = 0;
 };
 
 

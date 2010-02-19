@@ -17,7 +17,7 @@
 *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 *
 *
-*  Usage: ./gnuclad INPUTFILE OUTPUTFORMAT [CONFIGFILE]
+*  Usage: ./gnuclad --help
 */
 
 
@@ -49,25 +49,26 @@ int main(int argc, char ** argv) {
   string inFormats = "csv";
   string outFormats = "csv, svg, conf";
 
-  // Version and Help
-  string self = argv[0], a1;
-  if(self.substr(0, 2) == "./") self.replace(0, 2, "");
-
+  // Print version
   cout << "gnuclad v" << version;
 
+  string a1;
   if(argc > 1) a1 = argv[1];
   if(a1 == "-v" || a1 == "--version") {
     cout << "\n";
     return EXIT_SUCCESS;
   }
 
+  // Print help
+  string self = getBaseName(argv[0]);
   if( (argc != 3 && argc != 4) || a1 == "-h" || a1 == "--help" ) {
 
     cout << "\nUsage: " << self<<" INPUTFILE OUTPUT[FORMAT|FILE] [CONFIGFILE]\n"
          << " Example: " << self << " table.CSV SVG\n"
-         << " Example: " << self << " Data.csv result.csv alternative.conf\n"
+         << " Example: " << self << " Data.csv result.csv alternative.conf\n\n"
          << "Supported input formats: " << inFormats << '\n'
-         << "Supported output formats: " << outFormats << "\n\n";
+         << "Supported output formats: " << outFormats << "\n"
+         << "Please consult the texinfo manual for in-depth explanations.\n\n";
     return EXIT_SUCCESS;
 
   }
@@ -107,10 +108,7 @@ int main(int argc, char ** argv) {
   }
 
   // Declare resources
-  Cladogram * clad = NULL;
-  clad = new Cladogram();
-  ifstream * infile = NULL;
-  ofstream * outfile = NULL;
+  Cladogram * clad = new Cladogram();
   int exitval = EXIT_SUCCESS;
 
   cout << ": " << inputExt << " => " << outputExt;
@@ -121,15 +119,14 @@ int main(int argc, char ** argv) {
 
     clad->parseOptions(conffile);
 
-    // if(isFolder(source)) todo
-    infile = new_infile(source);
-    parser->parseData(clad, infile);
-    safeClose(infile);  // if we want to write to the same file
+    InputFile in(source);
+    parser->parseData(clad, in);
+    safeClose(in.p);  // if we want to write to the same file
 
     clad->compute();
 
-    outfile = new_outfile(dest);
-    generator->writeData(clad, outfile);
+    OutputFile out(dest);
+    generator->writeData(clad, out);
 
   } catch(const char * err) {
     cout << "\nError: " << err;
@@ -149,10 +146,6 @@ int main(int argc, char ** argv) {
   delete clad;
   delete parser;
   delete generator;
-  safeClose(infile);
-  safeClose(outfile);
-  delete infile;
-  delete outfile;  // deleting NULL pointers is safe! (in case new_infile fails)
 
   if(exitval == EXIT_FAILURE) {
 
@@ -303,6 +296,24 @@ bool Node::derivesFrom(Node * p) {
 Connector::Connector() {
   from = NULL;
   to = NULL;
+}
+
+InputFile::InputFile(std::string tname) {
+  name = tname;
+  p = new_infile(name);
+}
+InputFile::~InputFile() {
+  safeClose(p);
+  delete p;
+}
+
+OutputFile::OutputFile(std::string tname) {
+  name = tname;
+  p = new_outfile(name);
+}
+OutputFile::~OutputFile() {
+  safeClose(p);
+  delete p;
 }
 
 

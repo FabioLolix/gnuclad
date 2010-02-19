@@ -10,11 +10,13 @@ Patches are always welcome. New parsers/generators even more so!
 
 @menu
 * Classes and utilities::
-* Adding config options@comma{} parsers and generators::
-* How to use config options and write a parser/generator::
+* Configuration Options::
+* Writing a parser::
+* Writing a generator::
 @end menu
 
 @include gnuclad-programming-classes.texi
-@include gnuclad-programming-quick.texi
-@include gnuclad-programming-parsergenerator.texi
+@include gnuclad-programming-config.texi
+@include gnuclad-programming-parser.texi
+@include gnuclad-programming-generator.texi
 

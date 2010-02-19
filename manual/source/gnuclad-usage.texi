@@ -4,7 +4,7 @@
 @node Usage Tips
 @chapter Usage Tips
 
-@section CSV spreadsheets as input
+@section CSV spreadsheet as input
 
 You can include SVG images in the CSV spreadsheets.
 Keep in mind that only the defs and drawing data (paths etc) are imported,
@@ -16,7 +16,7 @@ You can also include PNG images in the CSV, but keep in mind that raster images
 are encoded in base64 and may result in a really huge output file.
 
 
-@section CSV spreadsheets as output
+@section CSV spreadsheet as output
 
 All nodes with a starting date newer than endOfTime (usually the current date)
 will be ignored.

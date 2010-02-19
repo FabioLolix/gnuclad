@@ -25,9 +25,11 @@ using namespace std;
 GeneratorCONF::GeneratorCONF() {}
 GeneratorCONF::~GeneratorCONF() {}
 
-void GeneratorCONF::writeData(Cladogram * clad, ofstream * fp) {
+void GeneratorCONF::writeData(Cladogram * clad, OutputFile & out) {
 
-  *fp << "# gnuclad config file\n\n"
+  ofstream & f = *(out.p);
+
+  f << "# gnuclad config file\n\n"
       << "# This file has been generated using CONF as gnuclad's output.\n"
       << "\n"
       << "# If you comment or delete an option,\n"
@@ -41,19 +43,19 @@ void GeneratorCONF::writeData(Cladogram * clad, ofstream * fp) {
       << "#   option = \"three word value\"\n"
       << "#   ...\n\n";
 
-  *fp << "\n# Modify the appearance of your info box"
+  f << "\n# Modify the appearance of your info box"
       << "\n# To disable the box:"
       << "\n# Set both font size parameters to 0, set the width and height to 0"
       << "\ninfoBoxTitle = " << clad->infoBoxTitle
       << "\ninfoBoxTitleSize = " << clad->infoBoxTitleSize;
 
   if(clad->infoBoxText.size() == 0)
-    *fp << "\ninfoBoxText = Lorem ipsum dolor sit amet,"
+    f << "\ninfoBoxText = Lorem ipsum dolor sit amet,"
         << "\ninfoBoxText = consectetuer adipiscing elit";
   else for(unsigned int i = 0; i < clad->infoBoxText.size(); ++i)
-    *fp << "\ninfoBoxText = " << clad->infoBoxText.at(i);
+    f << "\ninfoBoxText = " << clad->infoBoxText.at(i);
 
-  *fp << "\ninfoBoxTextSize = " << clad->infoBoxTextSize
+  f << "\ninfoBoxTextSize = " << clad->infoBoxTextSize
       << "\ninfoBoxFont = " << clad->infoBoxFont
       << "\ninfoBoxFontColor = #" << clad->infoBoxFontColor.hex
       << "\ninfoBoxColor1 = #" << clad->infoBoxColor1.hex
@@ -170,11 +172,11 @@ void GeneratorCONF::writeData(Cladogram * clad, ofstream * fp) {
       << "\nmonthsInYear = " << clad->monthsInYear;
 
   if(clad->endOfTime < currentDate())
-    *fp << "\nendOfTime = " << Date2str(clad->endOfTime);
+    f << "\nendOfTime = " << Date2str(clad->endOfTime);
   else
-    *fp << "\n#endOfTime = 2012.12";
+    f << "\n#endOfTime = 2012.12";
 
-  *fp << "\n"
+  f << "\n"
       << "\n# How the description field should be used."
       << "\n# 0 = ignore"
       << "\n# 1 = weblink URL"
