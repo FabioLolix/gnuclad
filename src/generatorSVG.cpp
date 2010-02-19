@@ -300,6 +300,7 @@ void GeneratorSVG::writeData(Cladogram * clad, OutputFile & out) {
     n = clad->nodes.at(i);
     iconfile = n->iconfile;
     format = getExt(iconfile);
+    string rotate;
 
     if(format == "") continue;
     else if(format == "svg") {
@@ -312,7 +313,12 @@ void GeneratorSVG::writeData(Cladogram * clad, OutputFile & out) {
       int posX = datePX(n->start, clad) + xPX - iconWidth/2;
       int posY = n->offset * oPX + yrlinePX - iconHeight/2;
 
-      f << "  <g transform='translate(" << posX << "," << posY << ")' >\n"
+      if(clad->orientation == 1)
+        rotate = "rotate(-90," + int2str(posX + iconWidth/2) + "," + int2str(posY + iconWidth/2) + ")";
+      if(clad->orientation == 3)
+        rotate = "rotate(90," + int2str(posX + iconWidth/2) + "," + int2str(posY + iconWidth/2) + ")";
+
+      f << "  <g transform='" << rotate << " translate(" << posX << "," << posY <<")' >\n"
           << icon
           << "  </g>\n";
 
@@ -326,8 +332,14 @@ void GeneratorSVG::writeData(Cladogram * clad, OutputFile & out) {
       int posX = datePX(n->start, clad) + xPX - iconWidth/2;
       int posY = n->offset * oPX + yrlinePX - iconHeight/2;
 
-      f << "  <image id='__icon_" << validxml(n->name) << "' x='" << posX << "' y='" << posY << "' width='" << iconWidth << "' height='" << iconHeight << "'\n"
-          << "    xlink:href='data:image/" << format << ";base64," << icon << "' />\n";
+      if(clad->orientation == 1)
+        rotate = "rotate(-90," + int2str(posX + iconWidth/2) + "," + int2str(posY + iconWidth/2) + ")";
+      if(clad->orientation == 3)
+        rotate = "rotate(90," + int2str(posX + iconWidth/2) + "," + int2str(posY + iconWidth/2) + ")";
+
+      f << "  <image id='__icon_" << validxml(n->name) << "'" << " transform='" << rotate << "'"
+        << " x='" << posX << "' y='" << posY << "' width='" << iconWidth << "' height='" << iconHeight << "'\n"
+        << "    xlink:href='data:image/" << format << ";base64," << icon << "' />\n";
 
     } else throw "unknown icon file format: " + format +
                  "\n       accepted formats: svg, png";
