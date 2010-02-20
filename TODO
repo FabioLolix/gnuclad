@@ -9,7 +9,7 @@ update manual programming-utilities
 maybe... implement config options map
 improve programming manual on config options
 
-add icons to example files
+replace config options with enum? (orientation...)
 
 parserDIR (depth based and then perhaps time based)
 

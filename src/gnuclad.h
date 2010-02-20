@@ -195,6 +195,7 @@ class Cladogram {
   Date beginningOfTime;
   int maximumOffset;
   std::string inputFolder;
+  std::string gnuclad_version;
 
 
   // CONFIG OPTIONS BEGIN
@@ -333,7 +334,7 @@ int hex2rgbHue(std::string hhue);
 
 ////////////////////////////////////////////////////////////////////////////////
 ///
-// Sort Comparison Definitions
+// Sort Comparison Functors
 //
 
 struct compareDate : public std::binary_function<Node *,Node *,bool> {

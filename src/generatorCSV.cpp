@@ -67,28 +67,28 @@ void GeneratorCSV::writeData(Cladogram * clad, OutputFile & out) {
 
 
   f << "\"//\",\"Open/save this file as a standard CSV  <=>  comma (,) separated and double quotes (\"\") as text delimiter.\"" << tail2 << "\n"
-      << "\"//\",\"You can safely insert commas or double quotes into data fields.\"" << tail2 << "\n"
-      << "\"//\",\"EXCEPTION: Don't insert a comma right after a double quote, since this terminates the field.\"" << tail2 << "\n"
-      << "\"//\",\"When editing with OO.org Calc, use the single quote (') for three-number-dates to circumvent automatic conversion.\"" << tail2 << "\n"
-      << "\"//\"" << tailWidth << "\n"
-      << "\"//!\",\"gnuclad parses this correctly no matter in what order the nodes are. You can swap any lines.\"" << tail2 << "\n"
-      << "\"//!\"" << tailWidth << "\n"
-      << "\"//!\",\"Empty lines get ignored, the first column controls the rest of the line:\"" << tail2 << "\n"
-      << "\"//!\",\"# = comment, N = node, C = connector, D = domain\"" << tail2 << "\n"
-      << "\"//!\",\"SVG = SVG image to include, PNG = PNG image to include\"" << tail2 << "\n"
-      << "\"//!\"" << tailWidth << "\n"
-      << tailWidth << "\n";
+    << "\"//\",\"You can safely insert commas or double quotes into data fields.\"" << tail2 << "\n"
+    << "\"//\",\"EXCEPTION: Don't insert a comma right after a double quote, since this terminates the field.\"" << tail2 << "\n"
+    << "\"//\",\"When editing with OO.org Calc, use the single quote (') for three-number-dates to circumvent automatic conversion.\"" << tail2 << "\n"
+    << "\"//\"" << tailWidth << "\n"
+    << "\"//!\",\"gnuclad parses this correctly no matter in what order the nodes are. You can swap any lines.\"" << tail2 << "\n"
+    << "\"//!\"" << tailWidth << "\n"
+    << "\"//!\",\"Empty lines get ignored, the first column controls the rest of the line:\"" << tail2 << "\n"
+    << "\"//!\",\"# = comment, N = node, C = connector, D = domain\"" << tail2 << "\n"
+    << "\"//!\",\"SVG = SVG image to include, PNG = PNG image to include\"" << tail2 << "\n"
+    << "\"//!\"" << tailWidth << "\n"
+    << tailWidth << "\n";
 
 
   // Nodes
   f << "\"#\",\"Nodes\"" << tail2 << "\n"
-      << "\"#\",\"Name\",\"Color\",\"Parent\",\"Start\",\"Stop\",\"Icon\",\"Description\",\"[Namechange\",\"When\",\"Description\",\"[Namechange\",\"When\",\"Description\",\". . . ]]\"" << tail15 << "\n";
+    << "\"#\",\"Name\",\"Color\",\"Parent\",\"Start\",\"Stop\",\"Icon\",\"Description\",\"[Namechange\",\"When\",\"Description\",\"[Namechange\",\"When\",\"Description\",\". . . ]]\"" << tail15 << "\n";
   for(int i = 0; i < (int)clad->nodes.size(); ++i) {
 
     n = clad->nodes.at(i);
 
     tailN = "";
-    for(int i = 0; i < width-fixedFieldsNode-(int)n->nameChanges.size()*3; ++i)
+    for(int j = 0; j < width-fixedFieldsNode-(int)n->nameChanges.size()*3; ++j)
       tailN += ",";
 
     string stopdate = Date2str(n->stop);       // cosmetic hack:
@@ -96,14 +96,14 @@ void GeneratorCSV::writeData(Cladogram * clad, OutputFile & out) {
       stopdate = "";                           // set empty stop date
 
     f << "\"N\",\"" << n->name << "\",\"#" << n->color.hex << "\",\"" 
-        << n->parentName << "\",\""
-        << Date2str(n->start) << "\",\"" << stopdate << "\",\""
-        << n->iconfile << "\",\"" << n->description << "\"";
+      << n->parentName << "\",\""
+      << Date2str(n->start) << "\",\"" << stopdate << "\",\""
+      << n->iconfile << "\",\"" << n->description << "\"";
 
     for(int j = 0; j < (int)n->nameChanges.size(); ++j) {
       NameChange * nc = &(n->nameChanges.at(j));
       f << ",\"" << nc->newName << "\",\"" << Date2str(nc->date) << "\",\""
-          << nc->description << "\"";
+        << nc->description << "\"";
     }
 
     f << tailN << "\n";
@@ -114,8 +114,8 @@ void GeneratorCSV::writeData(Cladogram * clad, OutputFile & out) {
 
   // Connectors
   f << "\"#\",\"Connectors\"" << tail2 << "\n"
-      << "\"#\",\"Leaving 'To When' empty will result in using 'From When' as this value\"" << tail2 << "\n"
-      << "\"#\",\"From When\",\"From\",\"To When\",\"To\",\"Thickness\",\"Color\"" << tailC << "\n";
+    << "\"#\",\"Leaving 'To When' empty will result in using 'From When' as this value\"" << tail2 << "\n"
+    << "\"#\",\"From When\",\"From\",\"To When\",\"To\",\"Thickness\",\"Color\"" << tailC << "\n";
   for(int i = 0; i < (int)clad->connectors.size(); ++i) {
 
     c = clad->connectors.at(i);
@@ -126,9 +126,9 @@ void GeneratorCSV::writeData(Cladogram * clad, OutputFile & out) {
       toWhen = "";                                      // set empty toWhen date
 
     f << "\"C\",\"" << fromWhen << "\",\"" << c->fromName << "\",\""
-        << toWhen << "\",\"" << c->toName << "\",\""
-        << int2str(c->thickness) << "\",\"#" << c->color.hex << "\""
-        << tailC << "\n";
+      << toWhen << "\",\"" << c->toName << "\",\""
+      << int2str(c->thickness) << "\",\"#" << c->color.hex << "\""
+      << tailC << "\n";
     
   }
 
@@ -137,13 +137,13 @@ void GeneratorCSV::writeData(Cladogram * clad, OutputFile & out) {
 
   // Domains
   f << "\"#\",\"Domains\"" << tail2 << "\n"
-      << "\"#\",\"Distribution\",\"Color\",\"Intensity\"" << tailD << "\n";
+    << "\"#\",\"Distribution\",\"Color\",\"Intensity\"" << tailD << "\n";
   for(int i = 0; i < (int)clad->domains.size(); ++i) {
 
     d = clad->domains.at(i);
 
     f << "\"D\",\"" << d->nodeName << "\",\"#" << d->color.hex
-        << "\",\"" << int2str(d->intensity) << "\"" << tailD << "\n";
+      << "\",\"" << int2str(d->intensity) << "\"" << tailD << "\n";
   }
 
   f << tailWidth << "\n";
@@ -151,13 +151,13 @@ void GeneratorCSV::writeData(Cladogram * clad, OutputFile & out) {
 
   // Images
   f << "\"#\",\"Images\"" << tail2 << "\n"
-      << "\"#\",\"File Path\",\"x Position\",\"y Position\"" << tailIm << "\n";
+    << "\"#\",\"File Path\",\"x Position\",\"y Position\"" << tailIm << "\n";
   for(int i = 0; i < (int)clad->includeSVG.size(); ++i) {
 
     im = clad->includeSVG.at(i);
 
     f << "\"SVG\",\"" << im->filename << "\",\"" << int2str(im->x)
-        << "\",\"" << int2str(im->y) << "\"" << tailIm << "\n";
+      << "\",\"" << int2str(im->y) << "\"" << tailIm << "\n";
   }
 
 }

@@ -107,12 +107,13 @@ int main(int argc, char ** argv) {
     exit(EXIT_FAILURE);
   }
 
-  // Declare resources
+  // Initialise Cladogram
   Cladogram * clad = new Cladogram();
-  int exitval = EXIT_SUCCESS;
-
-  cout << ": " << inputExt << " => " << outputExt;
+  clad->gnuclad_version = version;
   clad->inputFolder = getBaseFolder(source);
+
+  int exitval = EXIT_FAILURE;
+  cout << ": " << inputExt << " => " << outputExt;
 
   // The heavy lifting
   try {
@@ -128,18 +129,16 @@ int main(int argc, char ** argv) {
     OutputFile out(dest);
     generator->writeData(clad, out);
 
+    exitval = EXIT_SUCCESS;
+
   } catch(const char * err) {
     cout << "\nError: " << err;
-    exitval = EXIT_FAILURE;
   } catch(string err) {
     cout << "\nError: " << err;
-    exitval = EXIT_FAILURE;
   } catch(exception e) {
     cout << "\nError: " << e.what();
-    exitval = EXIT_FAILURE;
   } catch(...) {
     cout << "\nError: unknown reason";
-    exitval = EXIT_FAILURE;
   }
 
   // Cleaning up
@@ -149,12 +148,11 @@ int main(int argc, char ** argv) {
 
   if(exitval == EXIT_FAILURE) {
 
+    if(inputExt != outputExt) remove(dest.c_str());
     cout << "\nAborted\n";
-    if(inputExt != outputExt)
-      remove(dest.c_str());
 
   } else cout << "\nDone\n";
-  
+
   return exitval;
 }
 
