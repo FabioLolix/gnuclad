@@ -1,41 +1,9 @@
-GNUCLAD README
+gnuclad README
+==============
 
 gnuclad is a cladogram generator.
 The most recent version can be found at https://launchpad.net/gnuclad
 
-For more info and a detailed manual, please consult the texinfo pages.
+For more info and a detailed manual, please consult the Texinfo pages.
 They should be distributed in together with gnuclad and can be found
-in the MANUAL folder.
-
-
-
-HOW TO COMPILE & INSTALL
-
-gnuclad is built with the GNU toolchain, specifically g++ and GNU make.
-These are included in most GNU/Linux distributions and can be obtained
-from the Xcode developer package on OSX.
-On Windows, compilation works flawlessly with MinGW & MSYS, though it should be
-possible with other compilers by tweaking the Makefile.
-
-To compile gnuclad, open this folder in a terminal and type:
-  make
-
-This will produce a 'gnuclad' binary in the bin folder.
-Change to the bin folder and execute gnuclad to get
-acquainted with it's syntax:
-  cd bin
-  ./gnuclad -h
-
-Change to the example folder and generate your first SVG image:
-  cd ../EXAMPLE
-  ../bin/gnuclad example.csv svg example.conf
-
-In order to install gnuclad on a POSIX conform system, change to the main
-directory and run the install routine:
-  cd ..
-  make install
-
-You should now be able to call gnuclad from any folder.
-If you wish to uninstall gnuclad, simply open a terminal in that same
-main gnuclad folder and execute:
-  make uninstall
+in the 'manual' folder.

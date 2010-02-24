@@ -401,7 +401,7 @@ void GeneratorSVG::writeData(Cladogram * clad, OutputFile & out) {
     f << "  " << href << "<text x='"<< posX <<"' y='"<< posY <<"' " << alignment << " >" << n->name <<"</text>" << hrefend << "\n";
 
 
-    string alignmentNameChange;
+    string alignmentNameChange = "";
     for(int j = 0; j < (int)n->nameChanges.size(); ++j) {
 
       if(clad->nameChangeType == 0) {  // names outside the dot

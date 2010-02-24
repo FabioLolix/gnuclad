@@ -84,17 +84,15 @@ it that way.
 
 <h3 class="section">1.5 Getting started</h3>
 
-<p>If you downloaded the source code and don't know how to proceed, here are a
-few detailed instructions.
-
-   <p>gnuclad is built with the GNU toolchain, specifically g++ and GNU make. 
+<p>gnuclad is built with the GNU toolchain, specifically g++ and GNU make. 
 These are included in most GNU/Linux distributions and can be obtained
 from the Xcode developer package on OSX. 
-On Windows, compilation works flawlessly with MinGW &amp; MSYS, though it should be
+On Windows, compilation works flawlessly with MinGW &amp; MSYS, though it may be
 possible with other compilers by tweaking the Makefile.
 
    <p>To compile gnuclad, open the gnuclad main folder in a terminal and type:
-<pre class="example">       make
+<pre class="example">       ./configure
+       make
 </pre>
    <p>This will produce a 'gnuclad' binary in the bin folder. 
 Change to the bin folder and execute gnuclad to get
@@ -102,8 +100,8 @@ acquainted with it's syntax:
 <pre class="example">       cd bin
        ./gnuclad -h
 </pre>
-   <p>Change to the example folder and generate your first SVG image:
-<pre class="example">       cd ../EXAMPLE
+   <p>Change to the 'example' folder and generate your first SVG image:
+<pre class="example">       cd ../example
        ../bin/gnuclad example.csv svg example.conf
 </pre>
    <p>In order to install gnuclad on a POSIX conform system, change to the main

@@ -17,7 +17,7 @@ File: gnuclad.info,  Node: Top,  Next: About,  Up: (dir)
 gnuclad cladogram generator
 ***************************
 
-This is the texinfo manual for gnuclad version 0.1 (14. February 2010)
+This is the Texinfo manual for gnuclad version 0.1 (14. February 2010)
 
 * Menu:
 
@@ -81,17 +81,15 @@ it that way.
 1.5 Getting started
 ===================
 
-If you downloaded the source code and don't know how to proceed, here
-are a few detailed instructions.
-
-   gnuclad is built with the GNU toolchain, specifically g++ and GNU
-make.  These are included in most GNU/Linux distributions and can be
-obtained from the Xcode developer package on OSX.  On Windows,
-compilation works flawlessly with MinGW & MSYS, though it should be
-possible with other compilers by tweaking the Makefile.
+gnuclad is built with the GNU toolchain, specifically g++ and GNU make.
+These are included in most GNU/Linux distributions and can be obtained
+from the Xcode developer package on OSX.  On Windows, compilation works
+flawlessly with MinGW & MSYS, though it may be possible with other
+compilers by tweaking the Makefile.
 
    To compile gnuclad, open the gnuclad main folder in a terminal and
 type:
+       ./configure
        make
 
    This will produce a 'gnuclad' binary in the bin folder.  Change to
@@ -99,8 +97,8 @@ the bin folder and execute gnuclad to get acquainted with it's syntax:
        cd bin
        ./gnuclad -h
 
-   Change to the example folder and generate your first SVG image:
-       cd ../EXAMPLE
+   Change to the 'example' folder and generate your first SVG image:
+       cd ../example
        ../bin/gnuclad example.csv svg example.conf
 
    In order to install gnuclad on a POSIX conform system, change to the
@@ -119,20 +117,23 @@ File: gnuclad.info,  Node: Usage Tips,  Next: Config Options,  Prev: About,  Up:
 2 Usage Tips
 ************
 
-2.1 CSV spreadsheet as input
-============================
+2.1 Input: CSV => Output: SVG
+=============================
 
-You can include SVG images in the CSV spreadsheets.  Keep in mind that
-only the defs and drawing data (paths etc) are imported, NOT the header.
-If you think the default gnuclad SVG header is missing something,
-please file a bug detailing the problem.
+CSV spreadsheets can include SVG images, yet only the defs (gradients,
+etc) and drawing data (paths, shapes, etc) are imported, _not the
+header_.
+This means that included images have to comply with the SVG XML used by
+gnuclad.
+If you think the current SVG header is missing something, please file a
+bug detailing the problem.
 
-   You can also include PNG images in the CSV, but keep in mind that
+   CSV spreadsheets can also include PNG images, but keep in mind that
 raster images are encoded in base64 and may result in a really huge
 output file.
 
-2.2 CSV spreadsheet as output
-=============================
+2.2 Output: CSV
+===============
 
 All nodes with a starting date newer than endOfTime (usually the
 current date) will be ignored.  All nodes with a stopping date newer or
@@ -1304,15 +1305,15 @@ Index
 Tag Table:
 Node: Top474
 Node: About916
-Node: Usage Tips3326
-Node: Config Options5579
-Node: FAQ11068
-Node: Programming11688
-Node: Classes and utilities12052
-Node: Configuration Options17801
-Node: Writing a parser19146
-Node: Writing a generator22472
-Node: GNU Free Documentation License24828
-Node: Index49994
+Node: Usage Tips3236
+Node: Config Options5540
+Node: FAQ11029
+Node: Programming11649
+Node: Classes and utilities12013
+Node: Configuration Options17762
+Node: Writing a parser19107
+Node: Writing a generator22433
+Node: GNU Free Documentation License24789
+Node: Index49955
 
 End Tag Table

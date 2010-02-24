@@ -1,0 +1,6 @@
+#!/bin/sh
+
+cp build/Makefile.in Makefile
+echo "Only tested with gcc 4+ and GNU make."
+echo "Use another toolchain at your own risk."
+echo "Configuration done. Type: make"

@@ -40,7 +40,7 @@ Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.
 
 @top gnuclad cladogram generator
 
-This is the texinfo manual for gnuclad version 0.1 (14. February 2010)
+This is the Texinfo manual for gnuclad version 0.1 (14. February 2010)
 
 @end ifnottex
 
@@ -60,7 +60,7 @@ This is the texinfo manual for gnuclad version 0.1 (14. February 2010)
 
 @include gnuclad-about.texi
 
-@include gnuclad-usage.texi
+@include gnuclad-tips.texi
 
 @include gnuclad-config.texi
 

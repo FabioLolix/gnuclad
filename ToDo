@@ -4,9 +4,6 @@ ________________________________________________________________________
 automake
 
 add non-conf-file cladogram options to manual? or just point to source
-update manual programming-utilities
-
-maybe... implement config options map
 improve programming manual on config options
 
 replace config options with enum? (orientation...)
@@ -24,11 +21,11 @@ translatable strings (gettext)
                                                                     v0.2
 ________________________________________________________________________
 
+parserGRAMPS
+parserGEDCOM
+
 parserSQLite
 parserGV (graphviz)
-
-GRAMPS file format parser
-GEDCOM file format parser
 
 parserHTML
 generatorHTML
@@ -43,12 +40,26 @@ signature generator: 500x500 SVG (PNG if possible),
 ________________________________________________________________________
 
 
-extensive testing and auditing
+extensive testing, auditing and code cleanup
                                                                     v0.5
 ________________________________________________________________________
 
                                                                     vXXX
 ________________________________________________________________________
+
+REIMPLEMENT CONFIG OPTIONS
+  as done by Volker H. Simonis
+  as soon as the new standard ships (C++0x)
+  as generic Overload By Return Value chameleons
+  store in: vector<Option *> options
+  declare by subscript: options["width"] = int(4);
+                        options["start"] = Date(2002);
+  access by subscript:  cout << options["width"] << " "
+                             << Date2str(options["start"]);
+  enumeration shortcut: enum opts { width, start };
+                        options[width] = int(5);
+
+
 
 add ability to override options in CSV? (with X flag)
   -> easy to implement, but painful to maintain

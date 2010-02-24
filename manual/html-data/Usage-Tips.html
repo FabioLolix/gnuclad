@@ -44,18 +44,19 @@ Up:&nbsp;<a rel="up" accesskey="u" href="index.html#Top">Top</a>
 
 <h2 class="chapter">2 Usage Tips</h2>
 
-<h3 class="section">2.1 CSV spreadsheet as input</h3>
+<h3 class="section">2.1 Input: CSV =&gt; Output: SVG</h3>
 
-<p>You can include SVG images in the CSV spreadsheets. 
-Keep in mind that only the defs and drawing data (paths etc) are imported,
-NOT the header. 
-If you think the default gnuclad SVG header is missing something, please file
+<p>CSV spreadsheets can include SVG images, yet only the defs (gradients, etc) and
+drawing data (paths, shapes, etc) are imported, <em>not the header</em>.<br>
+This means that included images have to comply with the SVG XML used by
+gnuclad.<br>
+If you think the current SVG header is missing something, please file
 a bug detailing the problem.
 
-   <p>You can also include PNG images in the CSV, but keep in mind that raster images
+   <p>CSV spreadsheets can also include PNG images, but keep in mind that raster images
 are encoded in base64 and may result in a really huge output file.
 
-<h3 class="section">2.2 CSV spreadsheet as output</h3>
+<h3 class="section">2.2 Output: CSV</h3>
 
 <p>All nodes with a starting date newer than endOfTime (usually the current date)
 will be ignored. 
