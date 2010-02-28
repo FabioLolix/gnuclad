@@ -1,8 +1,7 @@
 #!/bin/sh
 
 # clean.sh
-# Cleans autotools files in the gnuclad source tree, in order to fix broken
-# autotools behaviour.
+# Cleans autotools files in the gnuclad source tree.
 # This file is of no interest to the end user
 
 
@@ -28,6 +27,6 @@ rm -f stamp-h1
 rm -rf src/.deps
 
 
-# UNDO make html  !!!  necessary in order to build the manual correctly
+# UNDO make html
 #
 rm -f manual/src/stamp-vti manual/src/.dirstamp
