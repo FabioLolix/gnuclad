@@ -29,6 +29,8 @@
 #include "generatorCONF.h"
 #include "generatorPNG.h"
 
+#include "../config.h"
+
 #include <iostream>
 #include <algorithm>
 //~ #include <cstdlib>
@@ -44,13 +46,13 @@ using namespace std;
 
 int main(int argc, char ** argv) {
 
-  string version = "0.1";
+  const string version = VERSION;
   string conffile = "";
   string inFormats = "csv";
   string outFormats = "csv, svg, conf";
 
   // Print version
-  cout << "gnuclad v" << version;
+  cout << "gnuclad " << version;
 
   string a1;
   if(argc > 1) a1 = argv[1];
