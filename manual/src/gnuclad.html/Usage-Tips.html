@@ -5,7 +5,7 @@
 <meta name="description" content="gnuclad manual">
 <meta name="generator" content="makeinfo 4.13">
 <link title="Top" rel="start" href="index.html#Top">
-<link rel="prev" href="About.html#About" title="About">
+<link rel="prev" href="Usage.html#Usage" title="Usage">
 <link rel="next" href="Config-Options.html#Config-Options" title="Config Options">
 <link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
 <!--
@@ -37,14 +37,14 @@ Copyright (C) 2010 Donjan Rodic <donjan (at) dyx (dot) ch>
 <a name="Usage-Tips"></a>
 <p>
 Next:&nbsp;<a rel="next" accesskey="n" href="Config-Options.html#Config-Options">Config Options</a>,
-Previous:&nbsp;<a rel="previous" accesskey="p" href="About.html#About">About</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Usage.html#Usage">Usage</a>,
 Up:&nbsp;<a rel="up" accesskey="u" href="index.html#Top">Top</a>
 <hr>
 </div>
 
-<h2 class="chapter">2 Usage Tips</h2>
+<h2 class="chapter">3 Usage Tips</h2>
 
-<h3 class="section">2.1 Input: CSV =&gt; Output: SVG</h3>
+<h3 class="section">3.1 Input: CSV =&gt; Output: SVG</h3>
 
 <p>CSV spreadsheets can include SVG images, yet only the defs (gradients, etc) and
 drawing data (paths, shapes, etc) are imported, <em>not the header</em>.<br>
@@ -56,7 +56,7 @@ a bug detailing the problem.
    <p>CSV spreadsheets can also include PNG images, but keep in mind that raster images
 are encoded in base64 and may result in a really huge output file.
 
-<h3 class="section">2.2 Output: CSV</h3>
+<h3 class="section">3.2 Output: CSV</h3>
 
 <p>All nodes with a starting date newer than endOfTime (usually the current date)
 will be ignored. 
@@ -71,7 +71,7 @@ treeMode conf setting is "lower inverse":
    <p>This way the trees will be grouped by children and sorted by date, while
 your single nodes won't be mangled.
 
-<h3 class="section">2.3 Optimisation - how it works</h3>
+<h3 class="section">3.3 Optimisation - how it works</h3>
 
 <p>The optimisation parameter can be set to a value between 0 and 99. 
 0 turns off optimisation completely while 99 tries to stuff the resulting
@@ -83,7 +83,7 @@ will be appended to each other.
 The second digit sets the tree optimisation. Higher values will try to cramp the
 tree together more than lower ones.
 
-<h3 class="section">2.4 Optimisation - additional info</h3>
+<h3 class="section">3.4 Optimisation - additional info</h3>
 
 <p>The current optimisation is greedy and therefore not exactly stellar.
 

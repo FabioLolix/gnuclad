@@ -1,8 +1,8 @@
 # gnuclad autoconf file
 
 AC_PREREQ(2.54)
-AC_INIT([gnuclad],[0.1],[bryonak at dyx dot ch])
-AM_INIT_AUTOMAKE([-Wall -Werror])
+AC_INIT([gnuclad],[0.1.x],[bryonak at dyx dot ch])
+AM_INIT_AUTOMAKE([-Wall])
 
 
 AC_CONFIG_SRCDIR([src/gnuclad.cpp])

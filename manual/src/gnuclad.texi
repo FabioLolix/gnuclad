@@ -48,7 +48,8 @@ This is the Texinfo manual for gnuclad version @value{VERSION} (@value{UPDATED})
 
 @menu
 * About:: General information
-* Usage Tips:: Useful things to know
+* Usage:: Basics
+* Usage Tips:: Things to know
 * Config Options:: An overview
 * FAQ:: Frequently Asked Questions
 * Programming:: Contribute to the project
@@ -61,6 +62,8 @@ This is the Texinfo manual for gnuclad version @value{VERSION} (@value{UPDATED})
 @c ________________________________________________________________________ BODY
 
 @include gnuclad-about.texi
+
+@include gnuclad-usage.texi
 
 @include gnuclad-tips.texi
 

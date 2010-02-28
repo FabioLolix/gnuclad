@@ -11,7 +11,7 @@
 Steps neccessary to add a generator.
 XXX refers to the output format you want to implement.
 
-generatorXXX.h:
+src/generatorXXX.h:
 @example
 #include "gnuclad.h"
 derive class from generator:
@@ -21,19 +21,24 @@ declare public method:
   void writeData(Cladogram * clad, OutputFile & out);
 @end example
 
-generatorXXX.cpp:
+src/generatorXXX.cpp:
 @example
 #include "generatorXXX.h"
 implement constructor and destructor
 implement writeData(Cladogram * clad, OutputFile & out) @{ ... @}
 @end example
 
-gnuclad.cpp
+src/gnuclad.cpp:
 @example
 #include "generatorXXX.h"
 update outFormats
 add choser:
   else if(outputExt == "XXX") generator = new GeneratorXXX;
+@end example
+
+src/Makefile.am:
+@example
+add to SOURCES: generatorXXX.h generatorXXX.cpp
 @end example
 
 

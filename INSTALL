@@ -11,15 +11,11 @@ To compile gnuclad, open this folder in a terminal and type:
   ./configure
   make
 
-This will produce a 'gnuclad' binary in the bin folder.
-Change to the bin folder and execute gnuclad to get
-acquainted with it's syntax:
-  cd bin
-  ./gnuclad -h
-
+This will produce a 'gnuclad' binary in the src folder.
 Change to the 'example' folder and generate your first SVG image:
-  cd ../example
-  ../bin/gnuclad example.csv svg example.conf
+  cd example
+  ../src/gnuclad --help
+  ../src/gnuclad example.csv svg example.conf
 
 In order to install gnuclad on a POSIX conform system, change to the main
 directory and run the install routine:

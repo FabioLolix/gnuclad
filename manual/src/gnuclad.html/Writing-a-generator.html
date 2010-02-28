@@ -43,12 +43,12 @@ Up:&nbsp;<a rel="up" accesskey="u" href="Programming.html#Programming">Programmi
 
 <h3 class="unnumberedsec"></h3>
 
-<h3 class="section">5.7 Adding a generator</h3>
+<h3 class="section">6.7 Adding a generator</h3>
 
 <p>Steps neccessary to add a generator. 
 XXX refers to the output format you want to implement.
 
-   <p>generatorXXX.h:
+   <p>src/generatorXXX.h:
 <pre class="example">     #include "gnuclad.h"
      derive class from generator:
        class GeneratorXXX: public Generator
@@ -56,19 +56,22 @@ XXX refers to the output format you want to implement.
      declare public method:
        void writeData(Cladogram * clad, OutputFile &amp; out);
 </pre>
-   <p>generatorXXX.cpp:
+   <p>src/generatorXXX.cpp:
 <pre class="example">     #include "generatorXXX.h"
      implement constructor and destructor
      implement writeData(Cladogram * clad, OutputFile &amp; out) { ... }
 </pre>
-   <p>gnuclad.cpp
+   <p>src/gnuclad.cpp:
 <pre class="example">     #include "generatorXXX.h"
      update outFormats
      add choser:
        else if(outputExt == "XXX") generator = new GeneratorXXX;
 </pre>
+   <p>src/Makefile.am:
+<pre class="example">     add to SOURCES: generatorXXX.h generatorXXX.cpp
+</pre>
    <!-- _____________________________________________________________________________ -->
-<h3 class="section">5.8 How to write a generator</h3>
+<h3 class="section">6.8 How to write a generator</h3>
 
 <p>Your generator is called only by this function:
 <pre class="example">       generator-&gt;writeData(Cladogram * clad, OutputFile &amp; out);

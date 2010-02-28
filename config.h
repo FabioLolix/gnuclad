@@ -11,7 +11,7 @@
 #define PACKAGE_NAME "gnuclad"
 
 /* Define to the full name and version of this package. */
-#define PACKAGE_STRING "gnuclad 0.1"
+#define PACKAGE_STRING "gnuclad 0.1.x"
 
 /* Define to the one symbol short name of this package. */
 #define PACKAGE_TARNAME "gnuclad"
@@ -20,7 +20,7 @@
 #define PACKAGE_URL ""
 
 /* Define to the version of this package. */
-#define PACKAGE_VERSION "0.1"
+#define PACKAGE_VERSION "0.1.x"
 
 /* Version number of package */
-#define VERSION "0.1"
+#define VERSION "0.1.x"
