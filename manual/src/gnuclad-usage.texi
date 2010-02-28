@@ -37,7 +37,7 @@ possible with other compilers by tweaking the Makefile.
 
 To compile gnuclad, open the gnuclad main folder in a terminal and type:
 @example
-  ./configure
+  sh configure
   make
 @end example
 

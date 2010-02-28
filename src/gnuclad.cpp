@@ -110,7 +110,8 @@ int main(int argc, char ** argv) {
   }
 
   // Initialise Cladogram
-  Cladogram * clad = new Cladogram();
+  Cladogram * clad = NULL;  // split declare and init because of warnings
+	clad = new Cladogram();
   clad->gnuclad_version = version;
   clad->inputFolder = getBaseFolder(source);
 

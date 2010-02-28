@@ -8,7 +8,7 @@ On Windows, compilation works flawlessly with MinGW & MSYS, though it may be
 possible with other compilers by tweaking the Makefile.
 
 To compile gnuclad, open this folder in a terminal and type:
-  ./configure
+  sh configure
   make
 
 This will produce a 'gnuclad' binary in the src folder.
