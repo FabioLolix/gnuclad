@@ -1,4 +1,10 @@
-# gnuclad autoconf file
+# Copyright (C) 2010 Donjan Rodic <donjan@dyx.ch>
+#
+# Copying and distribution of this file, with or without modification,
+# are permitted in any medium without royalty provided the copyright
+# notice and this notice are preserved.  This file is offered as-is,
+# without any warranty.
+
 
 AC_PREREQ(2.54)
 AC_INIT([gnuclad],[0.1.x],[bryonak at dyx dot ch])

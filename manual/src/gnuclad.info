@@ -17,12 +17,13 @@ File: gnuclad.info,  Node: Top,  Next: About,  Up: (dir)
 gnuclad cladogram generator
 ***************************
 
-This is the Texinfo manual for gnuclad version 0.1 (28 February 2010)
+This is the Texinfo manual for gnuclad version 0.1.x (28 February 2010)
 
 * Menu:
 
 * About:: General information
-* Usage Tips:: Useful things to know
+* Usage:: Basics
+* Usage Tips:: Things to know
 * Config Options:: An overview
 * FAQ:: Frequently Asked Questions
 * Programming:: Contribute to the project
@@ -33,7 +34,7 @@ This is the Texinfo manual for gnuclad version 0.1 (28 February 2010)
 * Index:: Anchor index
 
 
-File: gnuclad.info,  Node: About,  Next: Usage Tips,  Prev: Top,  Up: Top
+File: gnuclad.info,  Node: About,  Next: Usage,  Prev: Top,  Up: Top
 
 1 About
 *******
@@ -50,13 +51,24 @@ downloaded at `https://launchpad.net/gnuclad'.
 ===========
 
 gnuclad has been written to facilitate progress of the GNU/Linux distro
-timeline project (GLDT) which can be found at `http://futurist.se/gldt/'
+timeline project (GLDT).
 
    Meanwhile it has become quite customisable and general application -
 for example in genealogy or visualisation of hierarchical structures -
 should be possible.
 
-1.3 Formats
+1.3 Projects using gnuclad
+==========================
+
+GNU/Linux distro timeline: `http://futurist.se/gldt/'
+
+
+File: gnuclad.info,  Node: Usage,  Next: Usage Tips,  Prev: About,  Up: Top
+
+2 Usage
+*******
+
+2.1 Formats
 ===========
 
 Supported input formats are: CSV spreadsheets
@@ -70,7 +82,7 @@ it that way.
 
    The conf file can be edited with any text editor of your choice.
 
-1.4 Syntax
+2.2 Syntax
 ==========
 
      gnuclad INPUTFILE OUTPUT[FORMAT|FILE] [CONFIGFILE]
@@ -78,7 +90,7 @@ it that way.
        example: gnuclad table.CSV SVG
        example: gnuclad Data.csv result.csv alternative.conf
 
-1.5 Getting started
+2.3 Getting started
 ===================
 
 gnuclad is built with the GNU toolchain, specifically g++ and GNU make.
@@ -89,17 +101,14 @@ compilers by tweaking the Makefile.
 
    To compile gnuclad, open the gnuclad main folder in a terminal and
 type:
-       ./configure
+       sh configure
        make
 
-   This will produce a 'gnuclad' binary in the bin folder.  Change to
-the bin folder and execute gnuclad to get acquainted with it's syntax:
-       cd bin
-       ./gnuclad -h
-
-   Change to the 'example' folder and generate your first SVG image:
-       cd ../example
-       ../bin/gnuclad example.csv svg example.conf
+   This will produce a 'gnuclad' binary in the src folder.  Change to
+the 'example' folder and generate your first SVG image:
+       cd example
+       ../src/gnuclad --help
+       ../src/gnuclad example.csv svg example.conf
 
    In order to install gnuclad on a POSIX conform system, change to the
 main directory:
@@ -112,12 +121,12 @@ folder and execute:
        make uninstall
 
 
-File: gnuclad.info,  Node: Usage Tips,  Next: Config Options,  Prev: About,  Up: Top
+File: gnuclad.info,  Node: Usage Tips,  Next: Config Options,  Prev: Usage,  Up: Top
 
-2 Usage Tips
+3 Usage Tips
 ************
 
-2.1 Input: CSV => Output: SVG
+3.1 Input: CSV => Output: SVG
 =============================
 
 CSV spreadsheets can include SVG images, yet only the defs (gradients,
@@ -132,7 +141,7 @@ bug detailing the problem.
 raster images are encoded in base64 and may result in a really huge
 output file.
 
-2.2 Output: CSV
+3.2 Output: CSV
 ===============
 
 All nodes with a starting date newer than endOfTime (usually the
@@ -147,7 +156,7 @@ conf setting is "lower inverse":
    This way the trees will be grouped by children and sorted by date,
 while your single nodes won't be mangled.
 
-2.3 Optimisation - how it works
+3.3 Optimisation - how it works
 ===============================
 
 The optimisation parameter can be set to a value between 0 and 99.  0
@@ -160,7 +169,7 @@ aggressively they will be appended to each other.  The second digit
 sets the tree optimisation. Higher values will try to cramp the tree
 together more than lower ones.
 
-2.4 Optimisation - additional info
+3.4 Optimisation - additional info
 ==================================
 
 The current optimisation is greedy and therefore not exactly stellar.
@@ -183,17 +192,17 @@ to 2):
 
 File: gnuclad.info,  Node: Config Options,  Next: FAQ,  Prev: Usage Tips,  Up: Top
 
-3 Config Options
+4 Config Options
 ****************
 
-3.1 Default settings
+4.1 Default settings
 ====================
 
 Every config option has a preset default which will be used if there is
 no override.  In the same spirit, a default configuration will be used
 if you specify no config file.
 
-3.2 Generate a config file
+4.2 Generate a config file
 ==========================
 
 You can always generate a full configuration file by specifying CONF as
@@ -205,7 +214,7 @@ gnuclad's output:
 and complement them with the built-in defaults.  The 'input.csv' will
 be ignored. It can be an empty dummy file.
 
-3.3 Detail
+4.3 Detail
 ==========
 
 This is the default gnuclad configuration file as generated by using
@@ -362,7 +371,7 @@ CONF as output format.
 
 File: gnuclad.info,  Node: FAQ,  Next: Programming,  Prev: Config Options,  Up: Top
 
-4 Frequently Asked Questions
+5 Frequently Asked Questions
 ****************************
 
 *Are there any office spreadsheet editors that have trouble editing
@@ -378,7 +387,7 @@ Internet Explorer (all versions, can be remedied with plugins).
 
 File: gnuclad.info,  Node: Programming,  Next: GNU Free Documentation License,  Prev: FAQ,  Up: Top
 
-5 Programming
+6 Programming
 *************
 
 Here's a small documentation if you wish to hack gnuclad.  Patches are
@@ -396,7 +405,7 @@ File: gnuclad.info,  Node: Classes and utilities,  Next: Configuration Options, 
 
 
 
-5.1 Classes
+6.1 Classes
 ===========
 
 A breakdown of the classes used in gnuclad.  Only the relevant public
@@ -532,7 +541,7 @@ The *InputFile* serves as a container to pass data to the parser.
        InputFile(std::string tname);
        ~InputFile();
 
-5.2 Utility functions
+6.2 Utility functions
 =====================
 
 Here's a list of small helpers you can get when including 'gnuclad.h'.
@@ -583,7 +592,7 @@ File: gnuclad.info,  Node: Configuration Options,  Next: Writing a parser,  Prev
 
 
 
-5.3 Adding configuration options
+6.3 Adding configuration options
 ================================
 
 When adding a configuration option, be sure to implement it at least in
@@ -602,7 +611,7 @@ the following places:
 
    * third party gnuclad configuration files you have access to
 
-5.4 Using configuration options
+6.4 Using configuration options
 ===============================
 
 The options are usually read by a separate configuration parser, but
@@ -622,13 +631,13 @@ File: gnuclad.info,  Node: Writing a parser,  Next: Writing a generator,  Prev: 
 
 
 
-5.5 Adding a parser
+6.5 Adding a parser
 ===================
 
 Steps neccessary to add a parser.  XXX refers to the input format you
 want to implement.
 
-   parserXXX.h:
+   src/parserXXX.h:
      #include "gnuclad.h"
      derive class from Parser:
        class ParserXXX: public Parser
@@ -636,18 +645,21 @@ want to implement.
      declare public method:
        void parseData(Cladogram * clad, InputFile & in);
 
-   parserXXX.cpp:
+   src/parserXXX.cpp:
      #include "parserXXX.h"
      implement constructor and destructor
      implement parseData(Cladogram * clad, InputFile & in) { ... }
 
-   gnuclad.cpp:
+   src/gnuclad.cpp:
      #include "parserXXX.h"
      update inFormats
      add choser:
        else if(inputExt == "XXX") parser = new ParserXXX;
 
-5.6 How to write a parser
+   src/Makefile.am:
+     add to SOURCES: parserXXX.h parserXXX.cpp
+
+6.6 How to write a parser
 =========================
 
 Your parser is called only by this function:
@@ -720,13 +732,13 @@ File: gnuclad.info,  Node: Writing a generator,  Prev: Writing a parser,  Up: Pr
 
 
 
-5.7 Adding a generator
+6.7 Adding a generator
 ======================
 
 Steps neccessary to add a generator.  XXX refers to the output format
 you want to implement.
 
-   generatorXXX.h:
+   src/generatorXXX.h:
      #include "gnuclad.h"
      derive class from generator:
        class GeneratorXXX: public Generator
@@ -734,18 +746,21 @@ you want to implement.
      declare public method:
        void writeData(Cladogram * clad, OutputFile & out);
 
-   generatorXXX.cpp:
+   src/generatorXXX.cpp:
      #include "generatorXXX.h"
      implement constructor and destructor
      implement writeData(Cladogram * clad, OutputFile & out) { ... }
 
-   gnuclad.cpp
+   src/gnuclad.cpp:
      #include "generatorXXX.h"
      update outFormats
      add choser:
        else if(outputExt == "XXX") generator = new GeneratorXXX;
 
-5.8 How to write a generator
+   src/Makefile.am:
+     add to SOURCES: generatorXXX.h generatorXXX.cpp
+
+6.8 How to write a generator
 ============================
 
 Your generator is called only by this function:
@@ -1290,7 +1305,7 @@ Index
 
 * Detailed configuration options:        Config Options.       (line 25)
 * FAQ:                                   FAQ.                  (line  6)
-* Getting Started:                       About.                (line 46)
+* Getting Started:                       Usage.                (line 28)
 
  [index ]
 * Menu:
@@ -1304,16 +1319,17 @@ Index
 
 Tag Table:
 Node: Top481
-Node: About922
-Node: Usage Tips3242
-Node: Config Options5546
-Node: FAQ11035
-Node: Programming11655
-Node: Classes and utilities12019
-Node: Configuration Options17768
-Node: Writing a parser19113
-Node: Writing a generator22439
-Node: GNU Free Documentation License24795
-Node: Index49961
+Node: About934
+Node: Usage1619
+Node: Usage Tips3315
+Node: Config Options5619
+Node: FAQ11108
+Node: Programming11728
+Node: Classes and utilities12092
+Node: Configuration Options17841
+Node: Writing a parser19186
+Node: Writing a generator22592
+Node: GNU Free Documentation License25035
+Node: Index50201
 
 End Tag Table

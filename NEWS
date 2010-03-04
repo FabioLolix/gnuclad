@@ -1,1 +1,18 @@
-dummy file
+Copyright (C) 2010 Donjan Rodic <donjan@dyx.ch>
+
+Copying and distribution of this file, with or without modification,
+are permitted in any medium without royalty provided the copyright
+notice and this notice are preserved.  This file is offered as-is,
+without any warranty.
+
+________________________________________________________________________
+
+
+2010.2.14 - version 0.1
+* First milepoint
+* Can parse CSV
+* Can generate CSV
+* Can generate SVG
+* Can generate CONF
+* Builds on GNU/Linux, OSX, Windows (MinGW)
+* Has complete manual
