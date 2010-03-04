@@ -1,0 +1,102 @@
+@c Part of the gnuclad texinfo manual
+
+
+@node Writing a generator
+@unnumberedsec
+
+
+
+@section Adding a generator
+
+Steps neccessary to add a generator.
+XXX refers to the output format you want to implement.
+
+src/generatorXXX.h:
+@example
+#include "gnuclad.h"
+derive class from generator:
+  class GeneratorXXX: public Generator
+declare constructor and destructor
+declare public method:
+  void writeData(Cladogram * clad, OutputFile & out);
+@end example
+
+src/generatorXXX.cpp:
+@example
+#include "generatorXXX.h"
+implement constructor and destructor
+implement writeData(Cladogram * clad, OutputFile & out) @{ ... @}
+@end example
+
+src/gnuclad.cpp:
+@example
+#include "generatorXXX.h"
+update outFormats
+add choser:
+  else if(outputExt == "XXX") generator = new GeneratorXXX;
+@end example
+
+src/Makefile.am:
+@example
+add to SOURCES: generatorXXX.h generatorXXX.cpp
+@end example
+
+
+@c _____________________________________________________________________________
+
+
+@section How to write a generator
+
+Your generator is called only by this function:
+@example
+  generator->writeData(Cladogram * clad, OutputFile & out);
+@end example
+
+Therefore it should implement the following one:
+@example
+  void generatorXXX::writeData(Cladogram * clad, OutputFile & out) @{ ... @}
+@end example
+
+The OutputFile object holds a correctly opened output file. It also holds the
+file name in case your generator needs it. You can use the object like this:
+@example
+  ofstream * fp = out.p;
+  // or
+  ofstream & f = *(out.p);
+  // or
+  ofstream myfp(out.name);
+@end example
+
+You should try to utilise as much information from the Cladogram as possible.
+This can be done by iterating over its data vectors:
+@example
+vector<Node *> nodes
+vector<Connector *> connectors
+vector<Domain *> domains
+vector<Image *> includeSVG
+vector<Image *> includePNG
+@end example
+
+Additionally, you should strive to make use of all
+@ref{Configuration Options,,configuration options} the Cladogram contains.
+
+If a variable is empty, try to handle it as gracefully as possible.
+All measures (height, thickness, ...) are "generic units".
+
+Example:
+@example
+  Node * n;
+  for(int i = 0; i < (int)clad->nodes.size(); ++i) @{
+
+    n = clad->nodes.at(i);
+    cout << "\nWe have " << n->name
+         << " at offset " << n->offset;
+
+  @}
+
+  cout << "\n\nOur end of time is "
+       << Date2str(clad->endOfTime) << "\n";
+
+  cout << "\n\nOur background color (in hex) is "
+       << clad->mainBackground.hex << "\n";
+@end example

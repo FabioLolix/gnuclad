@@ -1,0 +1,30 @@
+@c Part of the gnuclad texinfo manual
+
+
+@node About
+@chapter About
+
+@section Contact
+
+The most recent version of gnuclad and it's documentation can be
+downloaded at @uref{https://launchpad.net/gnuclad}.
+
+You can also file bugs and contact the developers there.
+
+@section Purpose
+
+gnuclad has been written to facilitate progress of the GNU/Linux distro
+timeline project (GLDT).
+
+Meanwhile it has become quite customisable and general application -
+for example in genealogy or visualisation of hierarchical structures -
+should be possible.
+
+@section Documentation
+
+The documentation is distributed together with gnuclad and can be found in the
+'doc' folder.
+
+@section Projects using gnuclad
+
+GNU/Linux distro timeline: @uref{http://futurist.se/gldt/}
