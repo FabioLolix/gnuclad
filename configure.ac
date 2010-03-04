@@ -14,7 +14,7 @@ AM_INIT_AUTOMAKE([-Wall])
 
 AC_CONFIG_SRCDIR([src/gnuclad.cpp])
 AC_CONFIG_MACRO_DIR([m4])
-AC_CONFIG_FILES([Makefile src/Makefile doc/Makefile])
+AC_CONFIG_FILES([Makefile src/Makefile doc/src/Makefile])
 
 AC_CONFIG_HEADER(config.h)
 

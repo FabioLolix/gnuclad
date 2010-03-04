@@ -10,8 +10,6 @@ ________________________________________________________________________
 mv parsers/generators to parser/ and generator/ => shorten to CSV.cpp
  and lowercase names?
 
-mv manual to doc?
-
 add non-conf-file cladogram options to manual? or just point to source
 improve programming manual on config options
 

@@ -6,5 +6,5 @@
 # without any warranty.
 
 
-SUBDIRS = src doc
+SUBDIRS = src doc/src
 EXTRA_DIST = example

@@ -1,4 +1,3 @@
-
 Copyright (C) 2010 Donjan Rodic <donjan@dyx.ch>
 
 Copying and distribution of this file, with or without modification,
@@ -8,6 +7,26 @@ without any warranty.
 
 ________________________________________________________________________
 
+created with: bzr log --gnu-changelog
+
+
+2010-03-04  bryonak  <bryonak@freenet.de>
+
+	readded build files
+
+2010-03-04  bryonak  <bryonak@freenet.de>
+
+	more cleanup
+
+2010-03-04  bryonak  <bryonak@freenet.de>
+
+	added doc
+
+2010-03-04  bryonak  <bryonak@freenet.de>
+
+	manual -> doc
+	fixed ChangeLog
+	temporary cleanup of all regenerated files
 
 2010-03-04  bryonak  <bryonak@freenet.de>
 

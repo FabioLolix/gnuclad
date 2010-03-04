@@ -1,5 +1,5 @@
-This is src/gnuclad.info, produced by makeinfo version 4.13 from
-./src/gnuclad.texi.
+This is gnuclad.info, produced by makeinfo version 4.13 from
+gnuclad.texi.
 
 This is a manual for gnuclad
 
@@ -17,7 +17,7 @@ File: gnuclad.info,  Node: Top,  Next: About,  Up: (dir)
 gnuclad cladogram generator
 ***************************
 
-This is the Texinfo manual for gnuclad version 0.1.x (28 February 2010)
+This is the Texinfo manual for gnuclad version 0.1.x (4 March 2010)
 
 * Menu:
 
@@ -396,8 +396,8 @@ File: gnuclad.info,  Node: Programming,  Next: GNU Free Documentation License,  
 6 Programming
 *************
 
-Here's a small documentation if you wish to hack gnuclad.  Patches are
-always welcome. New parsers/generators even more so!
+asdf Here's a small documentation if you wish to hack gnuclad.  Patches
+are always welcome. New parsers/generators even more so!
 
 * Menu:
 
@@ -1324,18 +1324,18 @@ Index
 
 
 Tag Table:
-Node: Top481
-Node: About934
-Node: Usage1750
-Node: Usage Tips3446
-Node: Config Options5750
-Node: FAQ11239
-Node: Programming11859
-Node: Classes and utilities12223
-Node: Configuration Options17972
-Node: Writing a parser19317
-Node: Writing a generator22723
-Node: GNU Free Documentation License25166
-Node: Index50332
+Node: Top471
+Node: About920
+Node: Usage1736
+Node: Usage Tips3432
+Node: Config Options5736
+Node: FAQ11225
+Node: Programming11845
+Node: Classes and utilities12214
+Node: Configuration Options17963
+Node: Writing a parser19308
+Node: Writing a generator22714
+Node: GNU Free Documentation License25157
+Node: Index50323
 
 End Tag Table
