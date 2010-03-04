@@ -1,3 +1,4 @@
+
 Copyright (C) 2010 Donjan Rodic <donjan@dyx.ch>
 
 Copying and distribution of this file, with or without modification,
@@ -7,5 +8,278 @@ without any warranty.
 
 ________________________________________________________________________
 
-2010.2.14
-* 
+
+2010-03-04  bryonak  <bryonak@freenet.de>
+
+	added small copyright notice to all supporting files
+
+2010-02-28  bryonak  <bryonak@freenet.de>
+
+	fixed: gnuclad.cpp: split declare/initialise of clad
+	fixed: INSTALL instructions
+
+2010-02-28  bryonak  <bryonak@freenet.de>
+
+	added: gnuclad-usage.texi
+	improved: INSTALL
+
+2010-02-28  bryonak  <bryonak@freenet.de>
+
+	switching to autotools: step 2
+
+2010-02-28  bryonak  <bryonak@freenet.de>
+
+	switching to autotools
+
+2010-02-24  bryonak  <bryonak@freenet.de>
+
+	added: configure, Makefile.in, AUTHORS, COPYING, INSTALL, ToDo
+	removed: LICENSE, TODO
+	fixed: DESTDIR = /usr/local/bin
+	fixed: lowercase manual and example folder
+	implemented: make distclean, make dist
+	manual cleanup
+
+2010-02-20  bryonak  <bryonak@freenet.de>
+
+	implemented: version Cladogram and in generatorCONF.cpp
+	code cleanup
+
+2010-02-19  bryonak  <bryonak@freenet.de>
+
+	fixed: orientation of icons
+	added: example icons
+
+2010-02-19  bryonak  <bryonak@freenet.de>
+
+	implemented: Date::operator==(Date d);
+	implemented: InputFile, OutputFile
+	lots of code cleanup
+	better organisation of manual (split config, parser, generator)
+	lots of manual cleanup
+
+2010-02-18  bryonak  <bryonak@freenet.de>
+
+	implemented rOf(Date, int, int)
+	implemented Date::operator==(Date)
+	lowercased example and manual folder names
+
+2010-02-16  bryonak  <bryonak@freenet.de>
+
+	added missing html manual file
+
+2010-02-16  bryonak  <bryonak@freenet.de>
+
+	implemented: Date(y,m) and Date(y) constructors
+	added manual section: How to use config options
+	improved manual ordering
+
+2010-02-16  bryonak  <bryonak@freenet.de>
+
+	implemented: inputFolder (new internal variable so that gnuclad can be executed from everywhere)
+	implemented: getBaseFolder(std::string)
+
+2010-02-15  bryonak  <bryonak@freenet.de>
+
+	split off cladogram implementation
+	improved gnuclad-portability.h (#ifndef, const folder_delimiter)
+	improved manual structure
+	updated TODO
+
+2010-02-14  bryonak  <bryonak@freenet.de>
+
+	typo hotfix in config manual
+
+2010-02-14  bryonak  <bryonak@freenet.de>
+
+	cosmetical updates
+
+2010-02-14  bryonak  <bryonak@freenet.de>
+
+	this commit has been selected as gnuclad v0.1 release
+	added CHANGELOG
+	moved source/ to src/
+	improved Makefile (BINARY, DESTDIR, SHELL, folder separators)
+
+2010-02-14  bryonak  <bryonak@freenet.de>
+
+	implemented: better validxml() algorithm
+	implemented: descriptionType (formerly hyperlink)
+	improved: default config options
+	code cleanup
+	fixed: manual typos
+	implemented: manual cross references
+	added: example.conf example2.conf
+	improved: included example images
+
+2010-02-12  bryonak  <bryonak@freenet.de>
+
+	fixed compilation bugs on OSX (missing virtual destructors)
+	improved 1 line in Makefile
+	added version and date to manual
+	improved manual and moved from MANUAL.html to index.html
+	improved README
+
+2010-02-12  bryonak  <bryonak@freenet.de>
+
+	feature: generatorCONF
+	improved: manual (Programming, Config)
+	improved: configuration file
+
+2010-02-12  bryonak  <bryonak@freenet.de>
+
+	updated: manual
+	reorganised manual structure
+	cleaned up Makefile
+
+2010-02-11  bryonak  <bryonak@freenet.de>
+
+	added manual files
+
+2010-02-11  bryonak  <bryonak@freenet.de>
+
+	feature: greatly improved build system
+	feature: Makefile improvements (conditional target prerequisites)
+	feature: install/uninstall on POSIX
+	feature: improved manual
+	file cleanup throughout the project
+	code cleanup
+
+2010-02-11  bryonak  <bryonak@freenet.de>
+
+	implemented: texinfo manual
+	fixed: zero argument bug
+
+2010-02-11  bryonak  <bryonak@freenet.de>
+
+	added gnuclad-portability.h
+
+2010-02-11  bryonak  <bryonak@freenet.de>
+
+	feature: icons (SVG and PNG)
+	feature: includable PNG images
+	fixed: removed Icon class
+	implemented: base64_encode, base64_png
+	implemented: SVG_defs, SVG_body
+	code cleanup
+
+2010-02-10  bryonak  <bryonak@freenet.de>
+
+	feature: honors "-v", "--version", "-h", "--help"
+	feature: monthset/dayset switches
+	feature: label background opacity (labelBGOpacity)
+	feature: can now specify output file name
+	fixed: Date2str returns truncated string based on setbits
+	fixed: folder delimiter abstraction
+	fixed: getExt ignores possible folder delimiters
+	implemented: rgb2hexHue
+	implemented: hex2rgbHue
+	improved: README
+	code cleanup
+
+2010-02-10  bryonak  <bryonak@freenet.de>
+
+	improved: PROGRAMMING
+	slight code cleanup
+
+2010-02-05  bryonak  <bryonak@freenet.de>
+
+	feature: orientation
+	improved: rulers generation
+
+2010-02-04  bryonak  <bryonak@freenet.de>
+
+	fixed: compiler warning on windows
+
+2010-02-04  bryonak  <bryonak@freenet.de>
+
+	small code cleanup
+	updated readme/todo
+
+2010-02-04  bryonak  <bryonak@freenet.de>
+
+	feature: CSV generator
+	feature: nameChangeType
+	feature: dotType
+	feature: invers lower tree generation
+	implemented: color constructors hex <-> rgb
+	implemented: removal of GCT
+	implemented: correct inkscape/sodipodi namespace headers
+	fixed: infobox text font-size placement
+	fixed: removed PNG from supported versions
+	confirmed: works with minus years
+
+2010-02-03  bryonak  <bryonak@freenet.de>
+
+	fixed: generatorSVG now produces valid XML
+	fixed: various SVG display properties
+	fixed: SVG inclusion
+	feature: infoBoxFontColor
+	improved: titleBoxText
+
+2010-02-02  bryonak  <bryonak@freenet.de>
+
+	small bugfix in year ruler generation
+
+2010-02-02  bryonak  <bryonak@freenet.de>
+
+	feature: include external SVG images
+	feature: font correction factor
+	improved infobox handling
+	function: str2double
+	code cleanup
+
+2010-02-02  bryonak  <bryonak@freenet.de>
+
+	Feature: different endpoint times for connectors
+	Code cleanup
+	small README addition
+
+2010-01-29  bryonak  <bryonak@freenet.de>
+
+	font bugfix
+
+2010-01-29  bryonak  <bryonak@freenet.de>
+
+	Corrected vertical alignment for derivation lines/markers.
+	Improved tree reach optimisation for single roots.
+	Implemented connector markers.
+	New options: descriptionIsHyperLink, treeSpacingBiggerThan, connectorDots
+
+2010-01-23  bryonak  <bryonak@freenet.de>
+
+	Lower subtree (treeMode=1)
+	pullTree optimisation
+	various cleanups/improvements
+
+2010-01-21  bryonak  <bryonak@freenet.de>
+
+	ignore file
+
+2010-01-21  bryonak  <bryonak@freenet.de>
+
+	removing archives
+
+2010-01-21  bryonak  <bryonak@freenet.de>
+
+	MinGW compatibility
+
+2010-01-21  bryonak  <bryonak@freenet.de>
+
+	archives
+
+2010-01-20  bryonak  <bryonak@freenet.de>
+
+	dirent.h
+
+2010-01-20  bryonak  <bryonak@freenet.de>
+
+	Initial commit
+
+2010-01-20  bryonak  <bryonak@freenet.de>
+
+	No commit message
+2010-01-20  bryonak  <bryonak@freenet.de>
+
+	Initial commit
+

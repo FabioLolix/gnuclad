@@ -5,17 +5,17 @@
 # notice and this notice are preserved.  This file is offered as-is,
 # without any warranty.
 
-
 AC_PREREQ(2.54)
+
+AC_CONFIG_AUX_DIR([build-aux])
+
 AC_INIT([gnuclad],[0.1.x],[bryonak at dyx dot ch])
 AM_INIT_AUTOMAKE([-Wall])
 
-
 AC_CONFIG_SRCDIR([src/gnuclad.cpp])
 AC_CONFIG_MACRO_DIR([m4])
-AC_CONFIG_FILES([Makefile src/Makefile manual/Makefile])
+AC_CONFIG_FILES([Makefile src/Makefile doc/Makefile])
 
-#not yet used, but will do
 AC_CONFIG_HEADER(config.h)
 
 AC_PROG_CC

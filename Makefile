@@ -42,7 +42,8 @@ subdir = .
 DIST_COMMON = README $(am__configure_deps) $(srcdir)/Makefile.am \
 	$(srcdir)/Makefile.in $(srcdir)/config.h.in \
 	$(top_srcdir)/configure AUTHORS COPYING ChangeLog INSTALL NEWS \
-	depcomp install-sh missing
+	build-aux/depcomp build-aux/install-sh build-aux/mdate-sh \
+	build-aux/missing build-aux/texinfo.tex
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/configure.ac
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
@@ -106,18 +107,18 @@ DIST_ARCHIVES = $(distdir).tar.gz
 GZIP_ENV = --best
 distuninstallcheck_listfiles = find . -type f -print
 distcleancheck_listfiles = find . -type f -print
-ACLOCAL = ${SHELL} /home/bryonak/c/gnuclad/bryonak/missing --run aclocal-1.11
-AMTAR = ${SHELL} /home/bryonak/c/gnuclad/bryonak/missing --run tar
-AUTOCONF = ${SHELL} /home/bryonak/c/gnuclad/bryonak/missing --run autoconf
-AUTOHEADER = ${SHELL} /home/bryonak/c/gnuclad/bryonak/missing --run autoheader
-AUTOMAKE = ${SHELL} /home/bryonak/c/gnuclad/bryonak/missing --run automake-1.11
+ACLOCAL = aclocal-1.11
+AMTAR = tar
+AUTOCONF = autoconf
+AUTOHEADER = autoheader
+AUTOMAKE = automake-1.11
 AWK = gawk
 CC = gcc
-CCDEPMODE = depmode=gcc3
+CCDEPMODE = depmode=none
 CFLAGS = -g -O2
 CPPFLAGS = 
 CXX = g++
-CXXDEPMODE = depmode=gcc3
+CXXDEPMODE = depmode=none
 CXXFLAGS = -g -O2
 CYGPATH_W = echo
 DEFS = -DHAVE_CONFIG_H
@@ -135,7 +136,7 @@ LDFLAGS =
 LIBOBJS = 
 LIBS = 
 LTLIBOBJS = 
-MAKEINFO = ${SHELL} /home/bryonak/c/gnuclad/bryonak/missing --run makeinfo
+MAKEINFO = makeinfo
 MKDIR_P = /bin/mkdir -p
 OBJEXT = o
 PACKAGE = gnuclad
@@ -173,7 +174,7 @@ host_alias =
 htmldir = ${docdir}
 includedir = ${prefix}/include
 infodir = ${datarootdir}/info
-install_sh = ${SHELL} /home/bryonak/c/gnuclad/bryonak/install-sh
+install_sh = ${SHELL} /home/bryonak/install-sh
 libdir = ${exec_prefix}/lib
 libexecdir = ${exec_prefix}/libexec
 localedir = ${datarootdir}/locale
@@ -193,7 +194,7 @@ target_alias =
 top_build_prefix = 
 top_builddir = .
 top_srcdir = .
-SUBDIRS = src manual
+SUBDIRS = src doc
 EXTRA_DIST = example
 all: config.h
 	$(MAKE) $(AM_MAKEFLAGS) all-recursive
