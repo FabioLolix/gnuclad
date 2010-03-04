@@ -177,6 +177,8 @@ top_builddir = ..
 top_srcdir = ..
 info_TEXINFOS = src/gnuclad.texi
 hello_TEXINFOS = src/gnuclad-about.texi\
+	src/gnuclad-usage.texi\
+	src/gnuclad-tips.texi\
 	src/gnuclad-config.texi\
 	src/gnuclad-faq.texi
 
@@ -615,7 +617,6 @@ uninstall-am: uninstall-dvi-am uninstall-html-am uninstall-info-am \
 	uninstall uninstall-am uninstall-dvi-am uninstall-html-am \
 	uninstall-info-am uninstall-pdf-am uninstall-ps-am
 
-	src/gnuclad-tips.texi\
 	src/gnuclad-programming.texi\
 	src/gnuclad-programming-classes.texi\
 	src/gnuclad-programming-config.texi\
