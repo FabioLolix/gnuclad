@@ -1,5 +1,5 @@
 /*
-*  generatorCSV.cpp - implements a CSV generator for gnuclad
+*  csv.cpp - implements a CSV generator for gnuclad
 *
 *  Copyright (C) 2010 Donjan Rodic <donjan@dyx.ch>
 *
@@ -17,7 +17,7 @@
 *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "generatorCSV.h"
+#include "csv.h"
 
 using namespace std;
 

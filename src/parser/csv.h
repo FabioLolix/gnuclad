@@ -1,5 +1,5 @@
 /*
-*  parserCSV.h - CSV parser header for gnuclad
+*  csv.h - CSV parser header for gnuclad
 *
 *  Copyright (C) 2010 Donjan Rodic <donjan@dyx.ch>
 *
@@ -21,7 +21,7 @@
 #ifndef PARSERCSV_H_
 #define PARSERCSV_H_
 
-#include "gnuclad.h"
+#include "../gnuclad.h"
 
 
 class ParserCSV: public Parser {

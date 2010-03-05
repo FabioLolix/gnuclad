@@ -1,5 +1,5 @@
 /*
-*  generatorCONF.h - configuration file generator header for gnuclad
+*  png.h - PNG generator header for gnuclad
 *
 *  Copyright (C) 2010 Donjan Rodic <donjan@dyx.ch>
 *
@@ -18,17 +18,17 @@
 */
 
 
-#ifndef GENERATORCONF_H_
-#define GENERATORCONF_H_
+#ifndef GENERATORPNG_H_
+#define GENERATORPNG_H_
 
-#include "gnuclad.h"
+#include "../gnuclad.h"
 
 
-class GeneratorCONF: public Generator {
+class GeneratorPNG: public Generator {
   public:
 
-  GeneratorCONF();
-  ~GeneratorCONF();
+  GeneratorPNG();
+  ~GeneratorPNG();
   void writeData(Cladogram * clad, OutputFile & out);
 };
 

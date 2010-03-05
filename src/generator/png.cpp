@@ -1,5 +1,5 @@
 /*
-*  generatorPNG.cpp - implements a PNG generator for gnuclad
+*  png.cpp - implements a PNG generator for gnuclad
 *
 *  Copyright (C) 2010 Donjan Rodic <donjan@dyx.ch>
 *
@@ -17,7 +17,7 @@
 *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "generatorPNG.h"
+#include "png.h"
 
 #include <iostream>                      //<<<<<<<<<<<<<<<<<<<<<<<< REMOVE later
 

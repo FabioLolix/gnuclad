@@ -1,5 +1,5 @@
 /*
-*  generatorCSV.h - CSV generator header for gnuclad
+*  conf.h - configuration file generator header for gnuclad
 *
 *  Copyright (C) 2010 Donjan Rodic <donjan@dyx.ch>
 *
@@ -18,17 +18,17 @@
 */
 
 
-#ifndef GENERATORCSV_H_
-#define GENERATORCSV_H_
+#ifndef GENERATORCONF_H_
+#define GENERATORCONF_H_
 
-#include "gnuclad.h"
+#include "../gnuclad.h"
 
 
-class GeneratorCSV: public Generator {
+class GeneratorCONF: public Generator {
   public:
 
-  GeneratorCSV();
-  ~GeneratorCSV();
+  GeneratorCONF();
+  ~GeneratorCONF();
   void writeData(Cladogram * clad, OutputFile & out);
 };
 

@@ -1,5 +1,5 @@
 /*
-*  generatorSVG.cpp - implements a SVG generator for gnuclad
+*  svg.cpp - implements a SVG generator for gnuclad
 *
 *  Copyright (C) 2010 Donjan Rodic <donjan@dyx.ch>
 *
@@ -17,7 +17,7 @@
 *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "generatorSVG.h"
+#include "svg.h"
 
 using namespace std;
 

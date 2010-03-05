@@ -1,5 +1,5 @@
 /*
-*  generatorSVG.h - SVG generator header for gnuclad
+*  svg.h - SVG generator header for gnuclad
 *
 *  Copyright (C) 2010 Donjan Rodic <donjan@dyx.ch>
 *
@@ -21,7 +21,7 @@
 #ifndef GENERATORSVG_H_
 #define GENERATORSVG_H_
 
-#include "gnuclad.h"
+#include "../gnuclad.h"
 
 
 class GeneratorSVG: public Generator {

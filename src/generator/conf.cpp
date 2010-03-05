@@ -1,5 +1,5 @@
 /*
-*  generatorCONF.cpp - implements a configuration file generator for gnuclad
+*  conf.cpp - implements a configuration file generator for gnuclad
 *
 *  Copyright (C) 2010 Donjan Rodic <donjan@dyx.ch>
 *
@@ -17,7 +17,7 @@
 *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "generatorCONF.h"
+#include "conf.h"
 
 using namespace std;
 

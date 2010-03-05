@@ -1,5 +1,5 @@
 /*
-*  parserCSV.cpp - implements an CSV parser for gnuclad
+*  csv.cpp - implements an CSV parser for gnuclad
 *
 *  Copyright (C) 2010 Donjan Rodic <donjan@dyx.ch>
 *
@@ -17,7 +17,7 @@
 *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "parserCSV.h"
+#include "csv.h"
 
 using namespace std;
 

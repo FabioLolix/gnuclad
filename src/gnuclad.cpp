@@ -23,11 +23,11 @@
 
 
 #include "gnuclad.h"
-#include "parserCSV.h"
-#include "generatorCSV.h"
-#include "generatorSVG.h"
-#include "generatorCONF.h"
-#include "generatorPNG.h"
+#include "parser/csv.h"
+#include "generator/csv.h"
+#include "generator/svg.h"
+#include "generator/conf.h"
+#include "generator/png.h"
 
 #include "../config.h"
 
@@ -321,7 +321,7 @@ OutputFile::~OutputFile() {
 
 ////////////////////////////////////////////////////////////////////////////////
 ///
-// Parser/Generator destructor, required on OSX
+// Parser/Generator destructor, required by some gcc versions
 //
 
 Parser::~Parser() {}

@@ -1,5 +1,5 @@
 /*
-*  generatorPNG.h - PNG generator header for gnuclad
+*  csv.h - CSV generator header for gnuclad
 *
 *  Copyright (C) 2010 Donjan Rodic <donjan@dyx.ch>
 *
@@ -18,17 +18,17 @@
 */
 
 
-#ifndef GENERATORPNG_H_
-#define GENERATORPNG_H_
+#ifndef GENERATORCSV_H_
+#define GENERATORCSV_H_
 
-#include "gnuclad.h"
+#include "../gnuclad.h"
 
 
-class GeneratorPNG: public Generator {
+class GeneratorCSV: public Generator {
   public:
 
-  GeneratorPNG();
-  ~GeneratorPNG();
+  GeneratorCSV();
+  ~GeneratorCSV();
   void writeData(Cladogram * clad, OutputFile & out);
 };
 
