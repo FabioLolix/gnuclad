@@ -162,8 +162,8 @@ void GeneratorCONF::writeData(Cladogram * clad, OutputFile & out) {
     << "\n"
     << "\n# Customise the year line encompassing the cladogram"
     << "\nyearLinePX = " << clad->yearLinePX
-    << "\nyearLineColor = #" << clad->yearLineColor1.hex
-    << "\nyearLineColor = #" << clad->yearLineColor2.hex
+    << "\nyearLineColor1 = #" << clad->yearLineColor1.hex
+    << "\nyearLineColor2 = #" << clad->yearLineColor2.hex
     << "\nyearLineFont = " << clad->yearLineFont
     << "\nyearLineFontSize = " << clad->yearLineFontSize
     << "\nyearLineFontColor = #" << clad->yearLineFontColor.hex

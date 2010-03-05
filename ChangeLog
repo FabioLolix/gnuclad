@@ -12,6 +12,10 @@ created with: bzr log --gnu-changelog
 
 2010-03-04  bryonak  <bryonak@freenet.de>
 
+	doc/Makefile.am -> doc/src/Makefile.am
+
+2010-03-04  bryonak  <bryonak@freenet.de>
+
 	readded build files
 
 2010-03-04  bryonak  <bryonak@freenet.de>

@@ -49,8 +49,8 @@ Change to the 'example' folder and generate your first SVG image:
   ../src/gnuclad example.csv svg example.conf
 @end example
 
-In order to install gnuclad on a POSIX conform system, change to the main
-directory:
+In order to install gnuclad on a POSIX conform system, change back to the
+main directory and run the install routine:
 @example
   cd ..
   make install

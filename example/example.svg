@@ -259,18 +259,18 @@ style='opacity:0.6;' >
 
 <g inkscape:label='Lines' inkscape:groupmode='layer' id='layer_lines'
  style='fill:none;stroke-width:2;' >
-  <path id='__line_Jack' d='M 276 164 L 426 115 L 823 115' stroke='#afa' />
-  <path id='__line_Other__Child' d='M 51 264 L 276 165 L 823 165' stroke='#faa' />
-  <path id='__line_John' d='M 276 166 L 410 215 L 823 215' stroke='#aaf' />
-  <path id='__line_Parent' d='M 51 265 L 823 265' stroke='#f00' />
-  <path id='__line_Grandchild2' d='M 216 364 L 343 315 L 823 315' stroke='#01faf4' />
-  <path id='__line_Child' d='M 51 266 L 216 365 L 823 365' stroke='#00F' />
+  <path id='__line_Jack' d='M 276 164 L 426 115 L 827 115' stroke='#afa' />
+  <path id='__line_Other__Child' d='M 51 264 L 276 165 L 827 165' stroke='#faa' />
+  <path id='__line_John' d='M 276 166 L 410 215 L 827 215' stroke='#aaf' />
+  <path id='__line_Parent' d='M 51 265 L 827 265' stroke='#f00' />
+  <path id='__line_Grandchild2' d='M 216 364 L 343 315 L 827 315' stroke='#01faf4' />
+  <path id='__line_Child' d='M 51 266 L 216 365 L 827 365' stroke='#00F' />
   <path id='__line_Grandchild3' d='M 216 366 L 626 415 L 751 415' stroke='#f1a000' marker-end='url(#__stop_Grandchild3)' />
   <path id='__line_Grandchlid' d='M 216 366 L 318 415 L 573 415' stroke='#0f0' marker-end='url(#__stop_Grandchlid)' />
   <path id='__line_Neighbour' d='M 251 515 L 610 515' stroke='#Ff0' marker-end='url(#__stop_Neighbour)' />
-  <path id='__line_NeighboursChild2' d='M 201 614 L 510 565 L 823 565' stroke='#ff0' />
-  <path id='__line_Neighbour2' d='M 201 615 L 823 615' stroke='#f0f' />
-  <path id='__line_NeighboursChild' d='M 201 616 L 318 665 L 823 665' stroke='#0f0' />
+  <path id='__line_NeighboursChild2' d='M 201 614 L 510 565 L 827 565' stroke='#ff0' />
+  <path id='__line_Neighbour2' d='M 201 615 L 827 615' stroke='#f0f' />
+  <path id='__line_NeighboursChild' d='M 201 616 L 318 665 L 827 665' stroke='#0f0' />
 </g>
 
 <g inkscape:label='Dots' inkscape:groupmode='layer' id='layer_dots'
@@ -296,7 +296,7 @@ style='opacity:0.6;' >
 
 <g inkscape:label='Icons' inkscape:groupmode='layer' id='layer_icons'>
   <image id='__icon_Neighbour' transform='rotate(-90,251,515)' x='241' y='505' width='20' height='20'
-    xlink:href='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAAXNSR0IArs4c6QAAAAZiS0dEAAAAAAAA+UO7fwAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAd0SU1FB9oCEw8TLWhxZCIAAAAZdEVYdENvbW1lbnQAQ3JlYXRlZCB3aXRoIEdJTVBXgQ4XAAAAeElEQVQ4y2Ng
+    xlink:href='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAAXNSR0IArs4c6QAAAAZiS0dEAAAAAAAA+UO7fwAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAd0SU1FB9oDBQ4sHsavZMwAAAAZdEVYdENvbW1lbnQAQ3JlYXRlZCB3aXRoIEdJTVBXgQ4XAAAAeElEQVQ4y2Ng
 GAW0BrMZGBieoYk9Y2BgWEaugc9wGPgMlwYmIgwVJ8UFxBh4CY3/koGB4Su5Xt6FJ2wHDjyjRD22MHxAgqHPGBgYXpCbXMhRg1XDKSSfsEP5OA1jJGDoVgYGBkMs4ucZGBi8KYmorVAX7RotjWgPAA0gHUu9Sw9YAAAAAElFTkSuQmCC' />
   <g transform='rotate(-90,318,665) translate(308,655)' >
   <sodipodi:namedview

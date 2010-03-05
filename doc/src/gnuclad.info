@@ -17,7 +17,8 @@ File: gnuclad.info,  Node: Top,  Next: About,  Up: (dir)
 gnuclad cladogram generator
 ***************************
 
-This is the Texinfo manual for gnuclad version 0.1.x (4 March 2010)
+This is the Texinfo manual for gnuclad version experimental-52 (4 March
+2010)
 
 * Menu:
 
@@ -396,8 +397,8 @@ File: gnuclad.info,  Node: Programming,  Next: GNU Free Documentation License,  
 6 Programming
 *************
 
-asdf Here's a small documentation if you wish to hack gnuclad.  Patches
-are always welcome. New parsers/generators even more so!
+Here's a small documentation if you wish to hack gnuclad.  Patches are
+always welcome. New parsers/generators even more so!
 
 * Menu:
 
@@ -1325,17 +1326,17 @@ Index
 
 Tag Table:
 Node: Top471
-Node: About920
-Node: Usage1736
-Node: Usage Tips3432
-Node: Config Options5736
-Node: FAQ11225
-Node: Programming11845
-Node: Classes and utilities12214
-Node: Configuration Options17963
-Node: Writing a parser19308
-Node: Writing a generator22714
-Node: GNU Free Documentation License25157
-Node: Index50323
+Node: About930
+Node: Usage1746
+Node: Usage Tips3442
+Node: Config Options5746
+Node: FAQ11235
+Node: Programming11855
+Node: Classes and utilities12219
+Node: Configuration Options17968
+Node: Writing a parser19313
+Node: Writing a generator22719
+Node: GNU Free Documentation License25162
+Node: Index50328
 
 End Tag Table

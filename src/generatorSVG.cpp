@@ -44,6 +44,8 @@ void GeneratorSVG::writeData(Cladogram * clad, OutputFile & out) {
   if(clad->orientation == 1 || clad->orientation == 3)
     swap(canvasWidth, canvasHeight);
 
+
+
   //////////////////////////////////////////////////////////////////////////////
   // Header (Inkscape compatible)
 
@@ -63,6 +65,7 @@ void GeneratorSVG::writeData(Cladogram * clad, OutputFile & out) {
     << "  width='" << canvasWidth << "'\n"
     << "  height='" << canvasHeight << "'\n"
     << ">\n\n";
+
 
 
   //////////////////////////////////////////////////////////////////////////////
@@ -144,6 +147,7 @@ void GeneratorSVG::writeData(Cladogram * clad, OutputFile & out) {
   f << "\n<!-- END additional SVG images - definitions -->\n";
 
   f << "\n</defs>\n";
+
 
 
   //////////////////////////////////////////////////////////////////////////////
@@ -315,6 +319,8 @@ void GeneratorSVG::writeData(Cladogram * clad, OutputFile & out) {
 
       if(clad->orientation == 1)
         rotate = "rotate(-90," + int2str(posX + iconWidth/2) + "," + int2str(posY + iconWidth/2) + ")";
+      if(clad->orientation == 2)
+        rotate = "matrix(-1,0,0,1,0,1) translate(-" + int2str(2 * posX + iconWidth) + ",0)";
       if(clad->orientation == 3)
         rotate = "rotate(90," + int2str(posX + iconWidth/2) + "," + int2str(posY + iconWidth/2) + ")";
 
@@ -334,6 +340,8 @@ void GeneratorSVG::writeData(Cladogram * clad, OutputFile & out) {
 
       if(clad->orientation == 1)
         rotate = "rotate(-90," + int2str(posX + iconWidth/2) + "," + int2str(posY + iconWidth/2) + ")";
+      if(clad->orientation == 2)
+        rotate = "matrix(-1,0,0,1,0,1) translate(-" + int2str(2 * posX + iconWidth) + ",0)";
       if(clad->orientation == 3)
         rotate = "rotate(90," + int2str(posX + iconWidth/2) + "," + int2str(posY + iconWidth/2) + ")";
 
@@ -365,8 +373,8 @@ void GeneratorSVG::writeData(Cladogram * clad, OutputFile & out) {
     }
 
     int posX = datePX(n->start, clad) + xPX + clad->dotRadius;
-    int posY = n->offset * oPX + yrlinePX - dirty_hack_ex/2;  // last value is experimental
-    int posXwName = posX + n->name.size() * dirty_hack_em;
+    int posY = n->offset * oPX + yrlinePX - dirty_hack_ex/2;
+    int posXwName = posX + n->name.size() * (dirty_hack_em + 1);  // + 1 is experimental
     int alignmentBGx = posX - dirty_hack_em/4;
     string alignment = "";
 
@@ -404,13 +412,13 @@ void GeneratorSVG::writeData(Cladogram * clad, OutputFile & out) {
     string alignmentNameChange = "";
     for(int j = 0; j < (int)n->nameChanges.size(); ++j) {
 
-      if(clad->nameChangeType == 0) {  // names outside the dot
+      if(clad->nameChangeType == 0) {  // nameChange outside the dot
 
         posX = datePX(n->nameChanges.at(j).date, clad) + xPX + clad->smallDotRadius;
         if(posX < posXwName) posX = posXwName;
-        if(j != 0) posXwName = posX + n->nameChanges.at(j-1).newName.size() * dirty_hack_em;
+        if(j != 0) posXwName = posX + n->nameChanges.at(j-1).newName.size() * (dirty_hack_em + 1);  // + 1 is experimental
 
-      } else if(clad->nameChangeType == 1) {  // names centered on the dot
+      } else if(clad->nameChangeType == 1) {  // nameChange centered on the dot
 
         posX = datePX(n->nameChanges.at(j).date, clad) + xPX;
         posY = n->offset * oPX + yrlinePX + dirty_hack_ex/2;
@@ -418,7 +426,7 @@ void GeneratorSVG::writeData(Cladogram * clad, OutputFile & out) {
 
       }
 
-      if(clad->orientation == 1) {
+      if(clad->orientation == 1) {  // left to right
 
         posX = n->offset * oPX + yrlinePX + clad->smallDotRadius;
         posY = datePX(n->nameChanges.at(j).date, clad) + xPX - clad->smallDotRadius;
