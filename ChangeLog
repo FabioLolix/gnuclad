@@ -12,6 +12,14 @@ created with: bzr log --gnu-changelog
 
 2010-03-06  bryonak  <bryonak@freenet.de>
 
+	added src/parser/dir*, implemented in src/gnuclad.cpp, src/Makefile.am and across the manual
+	src/gnuclad-helpers.cpp: removed #include "gnuclad-portability.h"
+	src/gnuclad.h: added #include "gnuclad-portability.h"
+	doc/src/Makefile.am: fixed newline in SOURCES
+	INSTALL: improved instructions
+
+2010-03-06  bryonak  <bryonak@freenet.de>
+
 	improved and updated manual in many places
 
 2010-03-06  bryonak  <bryonak@freenet.de>

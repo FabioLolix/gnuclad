@@ -30,16 +30,18 @@ ParserDIR::~ParserDIR() {}
 void ParserDIR::parseData(Cladogram * clad, InputFile & in) {
 
 cout << "\n";
-    DIR *dp;
-    struct dirent *dirp;
-    if((dp  = opendir(in.name.c_str())) == NULL) {
-        cout << "Error opening " << in.name << endl;
-    }
+  DIR *dp;
+  struct dirent *dirp;
+  if((dp  = opendir(in.name.c_str())) == NULL) {
+    throw "unable to open directory " + in.name;
+  }
 
-    while ((dirp = readdir(dp)) != NULL) {
-        cout << string(dirp->d_name) << "\n";
-    }
-    closedir(dp);
+  while ((dirp = readdir(dp)) != NULL) {
+    cout << string(dirp->d_name) << "\n";
+  }
+  closedir(dp);
+
+
 
 cout << "\n";
 

@@ -12,27 +12,27 @@ replace config options with enum? (orientation...)
 
 parserDIR (depth based and then perhaps time based)
 
+write manual on optimisation
+
 implement grouping by connectors
 optimise both-subtree at creation time
-write manual on optimisation
 
 implement curved derivType
 implement curved connectors
 
 translatable strings (gettext)
-improve manual on optimisation
 
                                                                     v0.2
 ________________________________________________________________________
 
-parserGRAMPS
-parserGEDCOM
+parser/gramps
+parser/gedcom
 
-parserSQLite
-parserGV (graphviz)
+parser/sqlite
+parser/gv (graphviz)
 
-parserHTML
-generatorHTML
+parser/html
+generator/html
                                                                     v0.3
 ________________________________________________________________________
 

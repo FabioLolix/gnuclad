@@ -34,11 +34,28 @@ void GeneratorSVG::writeData(Cladogram * clad, OutputFile & out) {
   int oPX = clad->offsetPX;
   int lPX = clad->lineWidth;
   int yrlinePX = clad->yearLinePX + 3 * oPX / 2;  // add small margin
+  int topOffset = yrlinePX;
 
   int years = clad->endOfTime.year - clad->beginningOfTime.year + 1;
 
   int width = years * yrPX + 2 * xPX;
   int height = clad->maximumOffset * oPX + 2 * yrlinePX;
+
+  if(clad->infoBoxX < 0) {
+    if(clad->orientation != 0)
+      throw "out of boundary infoBox only supported with orientation == 0";
+    xPX -= clad->infoBoxX + 10;
+    width -= clad->infoBoxX + 10;
+    clad->infoBoxX = 10;
+  }
+  if(clad->infoBoxY < 0) {
+    if(clad->orientation != 0)
+      throw "out of boundary infoBox only supported with orientation == 0";
+    topOffset -= clad->infoBoxY + 10;
+    height -= clad->infoBoxY + 10;
+    clad->infoBoxY = 10;
+  }
+
   int canvasWidth = width;
   int canvasHeight = height;
   if(clad->orientation == 1 || clad->orientation == 3)
@@ -187,11 +204,11 @@ void GeneratorSVG::writeData(Cladogram * clad, OutputFile & out) {
   for(int i = 0; i <= years; ++i) {
     int x = i * yrPX + xPX;
     int xm;
-    f << "  <line x1='" << x << "' y1='0' x2='" << x << "' y2='" << height << "'"
+    f << "  <line x1='" << x << "' y1='" << topOffset - yrlinePX << "' x2='" << x << "' y2='" << height << "'"
       << " stroke-width='" << clad->rulerWidth << "' stroke='#" <<  clad->rulerColor.hex  << "' />\n";
     for(int j = 1; j < clad->monthsInYear && i < years; ++j) {
       xm = x + j * yrPX / clad->monthsInYear;
-      f << "    <line x1='" << xm << "' y1='0' x2='" << xm << "' y2='" << height << "' />\n";
+      f << "    <line x1='" << xm << "' y1='" << topOffset - yrlinePX << "' x2='" << xm << "' y2='" << height << "' />\n";
     }
 
   }
@@ -204,9 +221,10 @@ void GeneratorSVG::writeData(Cladogram * clad, OutputFile & out) {
 
     Domain * d = clad->domains.at(i);
     int xpos = datePX(d->node->start, clad) + xPX;
-    int yval = (d->offsetA - 1) * oPX + yrlinePX;
+    int wval = datePX(clad->endOfTime.year + 1, clad) - xpos + xPX;
+    int yval = (d->offsetA - 1) * oPX + topOffset;
     int hval = (d->offsetB - d->offsetA + 2) * oPX;
-    f << "  <rect x='" << xpos << "' y='" << yval << "' width='" << width - (xpos + xPX) << "' height='" << hval
+    f << "  <rect x='" << xpos << "' y='" << yval << "' width='" << wval << "' height='" << hval
       << "' rx='" << oPX / 2 << "' ry='" << oPX / 2 << "' fill='url(#__domain_" << validxml(d->nodeName) << ")' />\n";
 
   }
@@ -223,8 +241,8 @@ void GeneratorSVG::writeData(Cladogram * clad, OutputFile & out) {
     c = clad->connectors.at(i);
     int posX1 = datePX(c->fromWhen, clad) + xPX;
     int posX2 = datePX(c->toWhen, clad) + xPX;
-    int posY1 = c->offsetA * oPX + yrlinePX;
-    int posY2 = c->offsetB * oPX + yrlinePX;
+    int posY1 = c->offsetA * oPX + topOffset;
+    int posY2 = c->offsetB * oPX + topOffset;
     int sign;
     if(c->from->offset < c->to->offset) sign = 1;
     else sign = -1;
@@ -247,13 +265,13 @@ void GeneratorSVG::writeData(Cladogram * clad, OutputFile & out) {
     int sign;
     int startX = datePX(n->start, clad) + xPX;
     int stopX = datePX(n->stop, clad) + xPX;
-    int posY = n->offset * oPX + yrlinePX;
+    int posY = n->offset * oPX + topOffset;
     f << "  <path id='__line_"<< validxml(n->name) <<"' d='M ";
     if(n->parent != NULL) {
 
       if(n->offset < n->parent->offset) sign = 1;
       else sign = -1;
-      int posYparent = n->parent->offset * oPX + yrlinePX - sign * lPX/2;
+      int posYparent = n->parent->offset * oPX + topOffset - sign * lPX/2;
 
       if(clad->derivType == 0) f << startX << " " << posYparent << " L ";
       else if(clad->derivType == 1) f << datePX(n->parent->start, clad) + xPX << " " << posYparent << " L ";
@@ -279,7 +297,7 @@ void GeneratorSVG::writeData(Cladogram * clad, OutputFile & out) {
 
     n = clad->nodes.at(i);
     int posX = datePX(n->start, clad) + xPX;
-    int posY = n->offset * oPX + yrlinePX;
+    int posY = n->offset * oPX + topOffset;
     string dotprops;
     if     (clad->dotType == 0) dotprops = "fill='#" + n->color.hex + "' stroke='none'";
     else if(clad->dotType == 1) dotprops = "stroke='#" + n->color.hex + "'";
@@ -336,7 +354,7 @@ void GeneratorSVG::writeData(Cladogram * clad, OutputFile & out) {
       string icon = base64_png(iconfile, iconWidth, iconHeight);
 
       int posX = datePX(n->start, clad) + xPX - iconWidth/2;
-      int posY = n->offset * oPX + yrlinePX - iconHeight/2;
+      int posY = n->offset * oPX + topOffset - iconHeight/2;
 
       if(clad->orientation == 1)
         rotate = "rotate(-90," + int2str(posX + iconWidth/2) + "," + int2str(posY + iconWidth/2) + ")";
@@ -373,14 +391,14 @@ void GeneratorSVG::writeData(Cladogram * clad, OutputFile & out) {
     }
 
     int posX = datePX(n->start, clad) + xPX + clad->dotRadius;
-    int posY = n->offset * oPX + yrlinePX - dirty_hack_ex/2;
+    int posY = n->offset * oPX + topOffset - dirty_hack_ex/2;
     int posXwName = posX + n->name.size() * (dirty_hack_em + 1);  // + 1 is experimental
     int alignmentBGx = posX - dirty_hack_em/4;
     string alignment = "";
 
     if(clad->orientation == 1) {
 
-      posX = n->offset * oPX + yrlinePX;
+      posX = n->offset * oPX + topOffset;
       posY = datePX(n->start, clad) + xPX - clad->dotRadius - dirty_hack_ex/5;
 
       alignment = "style='text-anchor:middle;'";
@@ -393,7 +411,7 @@ void GeneratorSVG::writeData(Cladogram * clad, OutputFile & out) {
 
     } else if(clad->orientation == 3) {
 
-      posX = n->offset * oPX + yrlinePX;
+      posX = n->offset * oPX + topOffset;
       posY = canvasHeight - (datePX(n->start, clad) + xPX - clad->dotRadius - dirty_hack_ex * 7/5);
 
       alignment = "style='text-anchor:middle;'";
@@ -421,14 +439,14 @@ void GeneratorSVG::writeData(Cladogram * clad, OutputFile & out) {
       } else if(clad->nameChangeType == 1) {  // nameChange centered on the dot
 
         posX = datePX(n->nameChanges.at(j).date, clad) + xPX;
-        posY = n->offset * oPX + yrlinePX + dirty_hack_ex/2;
+        posY = n->offset * oPX + topOffset + dirty_hack_ex/2;
         alignmentNameChange = "style='text-anchor:middle;'";
 
       }
 
       if(clad->orientation == 1) {  // left to right
 
-        posX = n->offset * oPX + yrlinePX + clad->smallDotRadius;
+        posX = n->offset * oPX + topOffset + clad->smallDotRadius;
         posY = datePX(n->nameChanges.at(j).date, clad) + xPX - clad->smallDotRadius;
         if(clad->nameChangeType == 1) {
           posX -= clad->smallDotRadius;
@@ -441,7 +459,7 @@ void GeneratorSVG::writeData(Cladogram * clad, OutputFile & out) {
 
       } else if(clad->orientation == 3) {
 
-        posX = n->offset * oPX + yrlinePX + clad->smallDotRadius;
+        posX = n->offset * oPX + topOffset + clad->smallDotRadius;
         posY = canvasHeight - (datePX(n->nameChanges.at(j).date, clad) + xPX + clad->smallDotRadius/2);
         if(clad->nameChangeType == 1) {
           posX -= clad->smallDotRadius;
@@ -472,16 +490,16 @@ void GeneratorSVG::writeData(Cladogram * clad, OutputFile & out) {
   dirty_hack_ex = int(clad->yearLineFontSize / 1.375 * clad->fontCorrectionFactor);  // CSS ex unit
   if(yrlinePX > 0) {
 
-    f << "  <rect x='0' y='0' rx='5' ry='5' width='" << width << "' height='" << yrlinePX << "' />\n"
+    f << "  <rect x='0' y='" << topOffset - yrlinePX - 3*oPX/2 << "' rx='5' ry='5' width='" << width << "' height='" << yrlinePX << "' />\n"
       << "  <rect x='0' y='" << height - yrlinePX << "' rx='5' ry='5' width='" << width << "' height='" << yrlinePX << "' />\n"
       << "  <g style='font-size:" << clad->yearLineFontSize << "px;stroke:none;fill:#" << clad->yearLineFontColor.hex << ";font-family:" << clad->yearLineFont << ";-inkscape-font-specification:" << clad->yearLineFont << ";text-anchor:middle;' >\n";
     for(int i = 0; i < years; ++i) {
       int posX = yrPX * i + yrPX / 2 + xPX;
-      int posY = yrlinePX / 2 + dirty_hack_ex / 2;
+      int posY = topOffset - 3*oPX/2 - yrlinePX/2 + dirty_hack_ex / 2;
       int yeartext = clad->beginningOfTime.year + i;
       if(clad->orientation == 2) yeartext = clad->endOfTime.year -i;
       f << "    <text x='" << posX << "' y='" << posY << "'><tspan>" << yeartext << "</tspan></text>\n"
-        << "    <text x='" << posX << "' y='" << height - posY + dirty_hack_ex << "'><tspan>" << yeartext << "</tspan></text>\n";
+        << "    <text x='" << posX << "' y='" << height - yrlinePX/2 + dirty_hack_ex/2 << "'><tspan>" << yeartext << "</tspan></text>\n";
     }
     f << "  </g>\n";
 
@@ -523,7 +541,7 @@ void GeneratorSVG::writeData(Cladogram * clad, OutputFile & out) {
     int imgHeight = 0;
     string data = base64_png(image->filename, imgWidth, imgHeight);
 
-    f << "  <image id='__png_" << int2str(i) << "' x='" << image->x << "' y='" << image->y << "' width='" << imgWidth << "' height='" << imgHeight << "'\n"
+    f << "  <image id='__png_" << int2str(i) << "' x='" << image->x + xPX << "' y='" << image->y + topOffset << "' width='" << imgWidth << "' height='" << imgHeight << "'\n"
       << "    xlink:href='data:image/png;base64," << data << "' />\n";
   }
   f << "</g>\n";
@@ -536,7 +554,7 @@ void GeneratorSVG::writeData(Cladogram * clad, OutputFile & out) {
     int void1, void2;
     image = clad->includeSVG.at(i);
     string data = SVG_body(image->filename, void1, void2);
-    f << "  <g transform='translate(" << image->x << "," << image->y << ")' >\n"
+    f << "  <g transform='translate(" << image->x + xPX << "," << image->y + topOffset << ")' >\n"
       << data
       << "  </g>\n";
 

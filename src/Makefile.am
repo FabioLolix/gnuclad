@@ -16,4 +16,6 @@ gnuclad_SOURCES = gnuclad.h gnuclad-portability.h\
                   generator/conf.h generator/conf.cpp\
                   generator/png.h generator/png.cpp
 
+CFLAGS =
+CXXFLAGS =
 gnuclad_CPPFLAGS = -Wall -Wextra -Werror -pedantic-errors -ansi -O2
