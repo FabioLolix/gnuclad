@@ -11,7 +11,7 @@ gnuclad_TEXINFOS = gnuclad-about.texi\
 	gnuclad-usage.texi\
 	gnuclad-tips.texi\
 	gnuclad-config.texi\
-	gnuclad-faq.texi
+	gnuclad-faq.texi\
 	gnuclad-programming.texi\
 	gnuclad-programming-classes.texi\
 	gnuclad-programming-config.texi\

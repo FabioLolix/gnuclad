@@ -10,6 +10,7 @@ bin_PROGRAMS = gnuclad
 gnuclad_SOURCES = gnuclad.h gnuclad-portability.h\
                   gnuclad.cpp gnuclad-cladogram.cpp gnuclad-helpers.cpp\
                   parser/csv.h parser/csv.cpp\
+                  parser/dir.h parser/dir.cpp\
                   generator/csv.h generator/csv.cpp\
                   generator/svg.h generator/svg.cpp\
                   generator/conf.h generator/conf.cpp\

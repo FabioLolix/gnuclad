@@ -42,14 +42,14 @@ Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.
 
 @top gnuclad cladogram generator
 
-This is the Texinfo manual for gnuclad version @value{VERSION} (@value{UPDATED})
+This is the Texinfo manual for gnuclad @value{VERSION} (@value{UPDATED})
 
 @end ifnottex
 
 @menu
 * About:: General information
 * Usage:: Basics
-* Usage Tips:: Things to know
+* Usage Tips:: Good to know
 * Config Options:: An overview
 * FAQ:: Frequently Asked Questions
 * Programming:: Contribute to the project

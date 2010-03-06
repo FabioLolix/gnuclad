@@ -10,6 +10,22 @@ ________________________________________________________________________
 created with: bzr log --gnu-changelog
 
 
+2010-03-06  bryonak  <bryonak@freenet.de>
+
+	improved and updated manual in many places
+
+2010-03-06  bryonak  <bryonak@freenet.de>
+
+	moved parsers to src/parser and generators to src/generator
+	configure.ac: added subdir-objects
+	fixed typos in manual
+
+2010-03-05  bryonak  <bryonak@freenet.de>
+
+	src/generatorSVG.cpp: fixed icon placement if orientation == 2
+	added one em to posXwName
+	doc/src/gnuclad-config.texi: fixed yearLineColor, orientation
+
 2010-03-04  bryonak  <bryonak@freenet.de>
 
 	doc/Makefile.am -> doc/src/Makefile.am

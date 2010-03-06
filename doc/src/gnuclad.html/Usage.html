@@ -46,7 +46,7 @@ Up:&nbsp;<a rel="up" accesskey="u" href="index.html#Top">Top</a>
 
 <h3 class="section">2.1 Formats</h3>
 
-<p>Supported input formats are: CSV spreadsheets
+<p>Supported input formats are: CSV spreadsheets, directories
 
    <p>Supported output formats are: CSV, SVG and CONF
 
@@ -68,24 +68,24 @@ it that way.
 
 <h3 class="section">2.3 Getting started</h3>
 
-<p>gnuclad is built with the GNU toolchain, specifically g++ and GNU make. 
-These are included in most GNU/Linux distributions and can be obtained
-from the Xcode developer package on OSX. 
-On Windows, compilation works flawlessly with MinGW &amp; MSYS, though it may be
-possible with other compilers by tweaking the Makefile.
+<p>gnuclad is built with the GNU toolchain. 
+These tools are included in most GNU/Linux distributions and can be
+obtained from the Xcode developer package on OSX. 
+On Windows, compilation works flawlessly with MinGW &amp; MSYS. 
+Other build systems may work but have not been tested.
 
    <p>To compile gnuclad, open the gnuclad main folder in a terminal and type:
 <pre class="example">       sh configure
        make
 </pre>
-   <p>This will produce a 'gnuclad' binary in the src folder. 
+   <p>This will produce a 'gnuclad' binary in the 'src' folder. 
 Change to the 'example' folder and generate your first SVG image:
 <pre class="example">       cd example
        ../src/gnuclad --help
        ../src/gnuclad example.csv svg example.conf
 </pre>
-   <p>In order to install gnuclad on a POSIX conform system, change back to the
-main directory and run the install routine:
+   <p>In order to install gnuclad on a POSIX conform system, change back to
+the main directory and run the install routine:
 <pre class="example">       cd ..
        make install
 </pre>

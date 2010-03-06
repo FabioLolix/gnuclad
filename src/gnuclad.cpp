@@ -24,6 +24,7 @@
 
 #include "gnuclad.h"
 #include "parser/csv.h"
+#include "parser/dir.h"
 #include "generator/csv.h"
 #include "generator/svg.h"
 #include "generator/conf.h"
@@ -48,7 +49,7 @@ int main(int argc, char ** argv) {
 
   const string version = VERSION;
   string conffile = "";
-  string inFormats = "csv";
+  string inFormats = "csv, [directory]";
   string outFormats = "csv, svg, conf";
 
   // Print version
@@ -90,6 +91,7 @@ int main(int argc, char ** argv) {
   // Chose parser
   Parser * parser = NULL;
   if     (inputExt == "csv") parser = new ParserCSV;
+  else if(inputExt == "") parser = new ParserDIR;
   else {
     cout << "\nError: unknown input file type: " << inputExt << '\n'
          << "Supported input formats: " << inFormats << '\n';

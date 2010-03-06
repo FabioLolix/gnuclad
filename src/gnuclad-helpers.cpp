@@ -18,7 +18,6 @@
 */
 
 #include "gnuclad.h"
-#include "gnuclad-portability.h"
 
 #include <iostream>
 #include <limits>

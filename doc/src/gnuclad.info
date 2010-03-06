@@ -17,13 +17,13 @@ File: gnuclad.info,  Node: Top,  Next: About,  Up: (dir)
 gnuclad cladogram generator
 ***************************
 
-This is the Texinfo manual for gnuclad version 0.1.x (6 March 2010)
+This is the Texinfo manual for gnuclad 0.1.x (6 March 2010)
 
 * Menu:
 
 * About:: General information
 * Usage:: Basics
-* Usage Tips:: Things to know
+* Usage Tips:: Good to know
 * Config Options:: An overview
 * FAQ:: Frequently Asked Questions
 * Programming:: Contribute to the project
@@ -77,7 +77,7 @@ File: gnuclad.info,  Node: Usage,  Next: Usage Tips,  Prev: About,  Up: Top
 2.1 Formats
 ===========
 
-Supported input formats are: CSV spreadsheets
+Supported input formats are: CSV spreadsheets, directories
 
    Supported output formats are: CSV, SVG and CONF
 
@@ -99,25 +99,25 @@ it that way.
 2.3 Getting started
 ===================
 
-gnuclad is built with the GNU toolchain, specifically g++ and GNU make.
-These are included in most GNU/Linux distributions and can be obtained
-from the Xcode developer package on OSX.  On Windows, compilation works
-flawlessly with MinGW & MSYS, though it may be possible with other
-compilers by tweaking the Makefile.
+gnuclad is built with the GNU toolchain.  These tools are included in
+most GNU/Linux distributions and can be obtained from the Xcode
+developer package on OSX.  On Windows, compilation works flawlessly
+with MinGW & MSYS.  Other build systems may work but have not been
+tested.
 
    To compile gnuclad, open the gnuclad main folder in a terminal and
 type:
        sh configure
        make
 
-   This will produce a 'gnuclad' binary in the src folder.  Change to
+   This will produce a 'gnuclad' binary in the 'src' folder.  Change to
 the 'example' folder and generate your first SVG image:
        cd example
        ../src/gnuclad --help
        ../src/gnuclad example.csv svg example.conf
 
-   In order to install gnuclad on a POSIX conform system, change back
-to the main directory and run the install routine:
+   In order to install gnuclad on a POSIX conform system, change back to
+the main directory and run the install routine:
        cd ..
        make install
 
@@ -519,11 +519,11 @@ ignored by the parser).
        int offsetA;
        int offsetB;
 
-The most important class is the *Cladogram*. It is used by a single
-object which describes the whole timeline and will be passed to the
-parser/generator.  The Cladogram usually doesn't need to be accessed by
-the parser, except for the add*** functions.  The generator is meant to
-make use of the data vectors.
+The most important class is the *Cladogram*. It is instantiated by a
+single object which describes the whole timeline and will be passed to
+the parser/generator.  The Cladogram usually doesn't need to be
+accessed by the parser, except for the add*** functions.  The generator
+is meant to make use of the data vectors.
      class Cladogram
        std::vector<Node *> nodes;
        std::vector<Connector *> connectors;
@@ -623,16 +623,19 @@ the following places:
 ===============================
 
 The options are usually read by a separate configuration parser, but
-can be modified by the data input parser if necessary and should
+can be modified by the data input parser if necessary and should be
 implemented by the generator as completely as possible.  The option
-names are identical to the variable names.
+names in the config file are identical to the variable names and can be
+accessed via the cladogram pointer:
+     int myTextSize = clad->labelFontSize;
+     clad->monthsInYear = 10;
 
-   In order to work with the most current config options, open the
-'gnuclad.h' header file and search for CONFIG OPTIONS. This will take
-you straight to the declarations.
+   In order to work with the most current options, open the 'gnuclad.h'
+header file and search for CONFIG OPTIONS. This will take you straight
+to the declarations.
 
    You can also look at the *note Config Options: Config Options.
-chapter for an explanation of the options.
+chapter for a more detailed explanation.
 
 
 File: gnuclad.info,  Node: Writing a parser,  Next: Writing a generator,  Prev: Configuration Options,  Up: Programming
@@ -1327,17 +1330,17 @@ Index
 
 Tag Table:
 Node: Top471
-Node: About920
-Node: Usage1736
-Node: Usage Tips3465
-Node: Config Options5769
-Node: FAQ11260
-Node: Programming11880
-Node: Classes and utilities12244
-Node: Configuration Options17993
-Node: Writing a parser19448
-Node: Writing a generator22856
-Node: GNU Free Documentation License25298
-Node: Index50464
+Node: About910
+Node: Usage1726
+Node: Usage Tips3429
+Node: Config Options5733
+Node: FAQ11224
+Node: Programming11844
+Node: Classes and utilities12208
+Node: Configuration Options17965
+Node: Writing a parser19552
+Node: Writing a generator22960
+Node: GNU Free Documentation License25402
+Node: Index50568
 
 End Tag Table

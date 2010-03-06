@@ -56,7 +56,7 @@ am__dirstamp = $(am__leading_dot)dirstamp
 am_gnuclad_OBJECTS = gnuclad-gnuclad.$(OBJEXT) \
 	gnuclad-gnuclad-cladogram.$(OBJEXT) \
 	gnuclad-gnuclad-helpers.$(OBJEXT) parser/gnuclad-csv.$(OBJEXT) \
-	generator/gnuclad-csv.$(OBJEXT) \
+	parser/gnuclad-dir.$(OBJEXT) generator/gnuclad-csv.$(OBJEXT) \
 	generator/gnuclad-svg.$(OBJEXT) \
 	generator/gnuclad-conf.$(OBJEXT) \
 	generator/gnuclad-png.$(OBJEXT)
@@ -170,6 +170,7 @@ top_srcdir = @top_srcdir@
 gnuclad_SOURCES = gnuclad.h gnuclad-portability.h\
                   gnuclad.cpp gnuclad-cladogram.cpp gnuclad-helpers.cpp\
                   parser/csv.h parser/csv.cpp\
+                  parser/dir.h parser/dir.cpp\
                   generator/csv.h generator/csv.cpp\
                   generator/svg.h generator/svg.cpp\
                   generator/conf.h generator/conf.cpp\
@@ -255,6 +256,8 @@ parser/$(DEPDIR)/$(am__dirstamp):
 	@: > parser/$(DEPDIR)/$(am__dirstamp)
 parser/gnuclad-csv.$(OBJEXT): parser/$(am__dirstamp) \
 	parser/$(DEPDIR)/$(am__dirstamp)
+parser/gnuclad-dir.$(OBJEXT): parser/$(am__dirstamp) \
+	parser/$(DEPDIR)/$(am__dirstamp)
 generator/$(am__dirstamp):
 	@$(MKDIR_P) generator
 	@: > generator/$(am__dirstamp)
@@ -280,6 +283,7 @@ mostlyclean-compile:
 	-rm -f generator/gnuclad-png.$(OBJEXT)
 	-rm -f generator/gnuclad-svg.$(OBJEXT)
 	-rm -f parser/gnuclad-csv.$(OBJEXT)
+	-rm -f parser/gnuclad-dir.$(OBJEXT)
 
 distclean-compile:
 	-rm -f *.tab.c
@@ -292,6 +296,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@generator/$(DEPDIR)/gnuclad-png.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@generator/$(DEPDIR)/gnuclad-svg.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@parser/$(DEPDIR)/gnuclad-csv.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@parser/$(DEPDIR)/gnuclad-dir.Po@am__quote@
 
 .cpp.o:
 @am__fastdepCXX_TRUE@	depbase=`echo $@ | sed 's|[^/]*$$|$(DEPDIR)/&|;s|\.o$$||'`;\
@@ -364,6 +369,20 @@ parser/gnuclad-csv.obj: parser/csv.cpp
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='parser/csv.cpp' object='parser/gnuclad-csv.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(gnuclad_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o parser/gnuclad-csv.obj `if test -f 'parser/csv.cpp'; then $(CYGPATH_W) 'parser/csv.cpp'; else $(CYGPATH_W) '$(srcdir)/parser/csv.cpp'; fi`
+
+parser/gnuclad-dir.o: parser/dir.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(gnuclad_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT parser/gnuclad-dir.o -MD -MP -MF parser/$(DEPDIR)/gnuclad-dir.Tpo -c -o parser/gnuclad-dir.o `test -f 'parser/dir.cpp' || echo '$(srcdir)/'`parser/dir.cpp
+@am__fastdepCXX_TRUE@	$(am__mv) parser/$(DEPDIR)/gnuclad-dir.Tpo parser/$(DEPDIR)/gnuclad-dir.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='parser/dir.cpp' object='parser/gnuclad-dir.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(gnuclad_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o parser/gnuclad-dir.o `test -f 'parser/dir.cpp' || echo '$(srcdir)/'`parser/dir.cpp
+
+parser/gnuclad-dir.obj: parser/dir.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(gnuclad_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT parser/gnuclad-dir.obj -MD -MP -MF parser/$(DEPDIR)/gnuclad-dir.Tpo -c -o parser/gnuclad-dir.obj `if test -f 'parser/dir.cpp'; then $(CYGPATH_W) 'parser/dir.cpp'; else $(CYGPATH_W) '$(srcdir)/parser/dir.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(am__mv) parser/$(DEPDIR)/gnuclad-dir.Tpo parser/$(DEPDIR)/gnuclad-dir.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='parser/dir.cpp' object='parser/gnuclad-dir.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(gnuclad_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o parser/gnuclad-dir.obj `if test -f 'parser/dir.cpp'; then $(CYGPATH_W) 'parser/dir.cpp'; else $(CYGPATH_W) '$(srcdir)/parser/dir.cpp'; fi`
 
 generator/gnuclad-csv.o: generator/csv.cpp
 @am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(gnuclad_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT generator/gnuclad-csv.o -MD -MP -MF generator/$(DEPDIR)/gnuclad-csv.Tpo -c -o generator/gnuclad-csv.o `test -f 'generator/csv.cpp' || echo '$(srcdir)/'`generator/csv.cpp

@@ -180,7 +180,13 @@ gnuclad_TEXINFOS = gnuclad-about.texi\
 	gnuclad-usage.texi\
 	gnuclad-tips.texi\
 	gnuclad-config.texi\
-	gnuclad-faq.texi
+	gnuclad-faq.texi\
+	gnuclad-programming.texi\
+	gnuclad-programming-classes.texi\
+	gnuclad-programming-config.texi\
+	gnuclad-programming-parser.texi\
+	gnuclad-programming-generator.texi\
+	fdl.texi
 
 EXTRA_DIST = ../index.html gnuclad.html
 all: all-am
@@ -616,12 +622,6 @@ uninstall-am: uninstall-dvi-am uninstall-html-am uninstall-info-am \
 	uninstall uninstall-am uninstall-dvi-am uninstall-html-am \
 	uninstall-info-am uninstall-pdf-am uninstall-ps-am
 
-	gnuclad-programming.texi\
-	gnuclad-programming-classes.texi\
-	gnuclad-programming-config.texi\
-	gnuclad-programming-parser.texi\
-	gnuclad-programming-generator.texi\
-	fdl.texi
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
