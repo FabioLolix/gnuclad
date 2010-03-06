@@ -7,11 +7,6 @@ without any warranty.
 
 ________________________________________________________________________
 
-mv parsers/generators to parser/ and generator/ => shorten to CSV.cpp
- and lowercase names?
-
-add non-conf-file cladogram options to manual? or just point to source
-improve programming manual on config options
 
 replace config options with enum? (orientation...)
 
@@ -25,6 +20,8 @@ implement curved derivType
 implement curved connectors
 
 translatable strings (gettext)
+improve manual on optimisation
+
                                                                     v0.2
 ________________________________________________________________________
 

@@ -11,9 +11,9 @@
 Steps neccessary to add a parser.
 XXX refers to the input format you want to implement.
 
-src/parserXXX.h:
+src/parser/XXX.h:
 @example
-#include "gnuclad.h"
+#include "../gnuclad.h"
 derive class from Parser:
   class ParserXXX: public Parser
 declare constructor and destructor
@@ -21,16 +21,16 @@ declare public method:
   void parseData(Cladogram * clad, InputFile & in);
 @end example
 
-src/parserXXX.cpp:
+src/parser/XXX.cpp:
 @example
-#include "parserXXX.h"
+#include "XXX.h"
 implement constructor and destructor
 implement parseData(Cladogram * clad, InputFile & in) @{ ... @}
 @end example
 
 src/gnuclad.cpp:
 @example
-#include "parserXXX.h"
+#include "parser/XXX.h"
 update inFormats
 add choser:
   else if(inputExt == "XXX") parser = new ParserXXX;
@@ -38,7 +38,7 @@ add choser:
 
 src/Makefile.am:
 @example
-add to SOURCES: parserXXX.h parserXXX.cpp
+add to SOURCES: parser/XXX.h parser/XXX.cpp
 @end example
 
 

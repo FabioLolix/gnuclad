@@ -192,13 +192,16 @@ class Cladogram {
   std::vector<Image *> includeSVG;
   std::vector<Image *> includePNG;
 
-  Date beginningOfTime;
-  int maximumOffset;
   std::string inputFolder;
   std::string gnuclad_version;
 
 
   // CONFIG OPTIONS BEGIN
+
+  int maximumOffset;
+  Date beginningOfTime;
+
+  // The options below can be overridden by the config file
 
   Date endOfTime;
 

@@ -50,27 +50,27 @@ Up:&nbsp;<a rel="up" accesskey="u" href="Programming.html#Programming">Programmi
 <p>Steps neccessary to add a parser. 
 XXX refers to the input format you want to implement.
 
-   <p>src/parserXXX.h:
-<pre class="example">     #include "gnuclad.h"
+   <p>src/parser/XXX.h:
+<pre class="example">     #include "../gnuclad.h"
      derive class from Parser:
        class ParserXXX: public Parser
      declare constructor and destructor
      declare public method:
        void parseData(Cladogram * clad, InputFile &amp; in);
 </pre>
-   <p>src/parserXXX.cpp:
-<pre class="example">     #include "parserXXX.h"
+   <p>src/parser/XXX.cpp:
+<pre class="example">     #include "XXX.h"
      implement constructor and destructor
      implement parseData(Cladogram * clad, InputFile &amp; in) { ... }
 </pre>
    <p>src/gnuclad.cpp:
-<pre class="example">     #include "parserXXX.h"
+<pre class="example">     #include "parser/XXX.h"
      update inFormats
      add choser:
        else if(inputExt == "XXX") parser = new ParserXXX;
 </pre>
    <p>src/Makefile.am:
-<pre class="example">     add to SOURCES: parserXXX.h parserXXX.cpp
+<pre class="example">     add to SOURCES: parser/XXX.h parser/XXX.cpp
 </pre>
    <!-- _____________________________________________________________________________ -->
 <h3 class="section">6.6 How to write a parser</h3>

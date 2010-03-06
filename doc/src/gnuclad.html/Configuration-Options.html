@@ -50,28 +50,31 @@ Up:&nbsp;<a rel="up" accesskey="u" href="Programming.html#Programming">Programmi
 <p>When adding a configuration option, be sure to implement it at least in the
 following places:
      <ul>
-<li>gnuclad.h: members of the Cladogram class (declaration)
-<li>gnuclad.cpp: in the constructor of the Cladogram object (initialisation)
-<li>gnuclad.cpp: in the parseOptions function
-<li>generatorCONF.cpp: insert description of the new option
-<li>the texinfo documentation, chapter <a href="Config-Options.html#Config-Options">Config Options</a>:
-      insert the new config file created by generatorCONF
+<li>src/gnuclad.h: members of the Cladogram class (declaration)
+<li>src/gnuclad-cladogram.cpp: in the constructor of the Cladogram object
+                                 (initialisation / default setting)
+<li>src/gnuclad-cladogram.cpp: in the parseOptions function
+<li>src/generator/conf.cpp: output and description of the new option
+<li>doc/src/gnuclad-config.texi: at the bottom, insert the new config file
+                                   created by using 'conf' as output
 <li>third party gnuclad configuration files you have access to
 </ul>
 
 <h3 class="section">6.4 Using configuration options</h3>
 
 <p>The options are usually read by a separate configuration parser, but can be
-modified by the data input parser if necessary and should implemented by the
+modified by the data input parser if necessary and should be implemented by the
 generator as completely as possible. 
-The option names are identical to the variable names.
-
-   <p>In order to work with the most current config options, open the 'gnuclad.h'
-header file and search for CONFIG OPTIONS. This will take you straight to the
-declarations.
+The option names in the config file are identical to the variable names and can
+be accessed via the cladogram pointer:
+<pre class="example">     int myTextSize = clad-&gt;labelFontSize;
+     clad-&gt;monthsInYear = 10;
+</pre>
+   <p>In order to work with the most current options, open the 'gnuclad.h' header file
+and search for CONFIG OPTIONS. This will take you straight to the declarations.
 
    <p>You can also look at the <a href="Config-Options.html#Config-Options">Config Options</a> chapter
-for an explanation of the options.
+for a more detailed explanation.
 
 <!-- Part of the gnuclad texinfo manual -->
    </body></html>

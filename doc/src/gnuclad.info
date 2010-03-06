@@ -17,7 +17,7 @@ File: gnuclad.info,  Node: Top,  Next: About,  Up: (dir)
 gnuclad cladogram generator
 ***************************
 
-This is the Texinfo manual for gnuclad version 0.1.x (4 March 2010)
+This is the Texinfo manual for gnuclad version 0.1.x (6 March 2010)
 
 * Menu:
 
@@ -603,17 +603,19 @@ File: gnuclad.info,  Node: Configuration Options,  Next: Writing a parser,  Prev
 
 When adding a configuration option, be sure to implement it at least in
 the following places:
-   * gnuclad.h: members of the Cladogram class (declaration)
+   * src/gnuclad.h: members of the Cladogram class (declaration)
 
-   * gnuclad.cpp: in the constructor of the Cladogram object
-     (initialisation)
+   * src/gnuclad-cladogram.cpp: in the constructor of the Cladogram
+     object                                  (initialisation / default
+     setting)
 
-   * gnuclad.cpp: in the parseOptions function
+   * src/gnuclad-cladogram.cpp: in the parseOptions function
 
-   * generatorCONF.cpp: insert description of the new option
+   * src/generator/conf.cpp: output and description of the new option
 
-   * the texinfo documentation, chapter *note Config Options: Config
-     Options.:       insert the new config file created by generatorCONF
+   * doc/src/gnuclad-config.texi: at the bottom, insert the new config
+     file                                    created by using 'conf' as
+     output
 
    * third party gnuclad configuration files you have access to
 
@@ -643,27 +645,27 @@ File: gnuclad.info,  Node: Writing a parser,  Next: Writing a generator,  Prev: 
 Steps neccessary to add a parser.  XXX refers to the input format you
 want to implement.
 
-   src/parserXXX.h:
-     #include "gnuclad.h"
+   src/parser/XXX.h:
+     #include "../gnuclad.h"
      derive class from Parser:
        class ParserXXX: public Parser
      declare constructor and destructor
      declare public method:
        void parseData(Cladogram * clad, InputFile & in);
 
-   src/parserXXX.cpp:
-     #include "parserXXX.h"
+   src/parser/XXX.cpp:
+     #include "XXX.h"
      implement constructor and destructor
      implement parseData(Cladogram * clad, InputFile & in) { ... }
 
    src/gnuclad.cpp:
-     #include "parserXXX.h"
+     #include "parser/XXX.h"
      update inFormats
      add choser:
        else if(inputExt == "XXX") parser = new ParserXXX;
 
    src/Makefile.am:
-     add to SOURCES: parserXXX.h parserXXX.cpp
+     add to SOURCES: parser/XXX.h parser/XXX.cpp
 
 6.6 How to write a parser
 =========================
@@ -744,27 +746,27 @@ File: gnuclad.info,  Node: Writing a generator,  Prev: Writing a parser,  Up: Pr
 Steps neccessary to add a generator.  XXX refers to the output format
 you want to implement.
 
-   src/generatorXXX.h:
-     #include "gnuclad.h"
+   src/generator/XXX.h:
+     #include "../gnuclad.h"
      derive class from generator:
        class GeneratorXXX: public Generator
      declare constructor and destructor
      declare public method:
        void writeData(Cladogram * clad, OutputFile & out);
 
-   src/generatorXXX.cpp:
-     #include "generatorXXX.h"
+   src/generator/XXX.cpp:
+     #include "XXX.h"
      implement constructor and destructor
      implement writeData(Cladogram * clad, OutputFile & out) { ... }
 
    src/gnuclad.cpp:
-     #include "generatorXXX.h"
+     #include "generator/XXX.h"
      update outFormats
      add choser:
        else if(outputExt == "XXX") generator = new GeneratorXXX;
 
    src/Makefile.am:
-     add to SOURCES: generatorXXX.h generatorXXX.cpp
+     add to SOURCES: generator/XXX.h generator/XXX.cpp
 
 6.8 How to write a generator
 ============================
@@ -1333,9 +1335,9 @@ Node: FAQ11260
 Node: Programming11880
 Node: Classes and utilities12244
 Node: Configuration Options17993
-Node: Writing a parser19338
-Node: Writing a generator22744
-Node: GNU Free Documentation License25187
-Node: Index50353
+Node: Writing a parser19448
+Node: Writing a generator22856
+Node: GNU Free Documentation License25298
+Node: Index50464
 
 End Tag Table
