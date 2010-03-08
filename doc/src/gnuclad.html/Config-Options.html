@@ -128,7 +128,7 @@ The 'input.csv' will be ignored. It can be an empty dummy file.
      # How much space (in offsets) to add before/after trees
      treeSpacing = 1
      
-     # How big (total leaf nodes) a tree has to be before it gets spaced
+     # How big (total children) a tree has to be before it gets spaced
      treeSpacingBiggerThan = 5
      
      # Background color in hexadecimal RGB (#abc or #abcdef)
@@ -146,7 +146,7 @@ The 'input.csv' will be ignored. It can be an empty dummy file.
      # Number of pixels between node lines (== 1 offset)
      offsetPX = 20
      
-     # Set to 0 if you want 'dying' lines to abruptly stop
+     # Set to 0 if you want 'dying' lines to stop abruptly
      stopFadeOutPX = 30
      
      # When optimising, gnuclad will inline nodes if possible. This sets
@@ -213,6 +213,9 @@ The 'input.csv' will be ignored. It can be an empty dummy file.
      # 0 = ignore
      # 1 = weblink URL
      descriptionType = 0
+     
+     # When parsing direcories, show dot (hidden) files (0 = off, 1 = on)
+     dir_showDotDirs = 0
      
      # Show debug information when running gnuclad. (0 = off, 1 = on)
      debug = 0

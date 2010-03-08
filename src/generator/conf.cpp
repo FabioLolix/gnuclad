@@ -94,7 +94,7 @@ void GeneratorCONF::writeData(Cladogram * clad, OutputFile & out) {
     << "\n# How much space (in offsets) to add before/after trees"
     << "\ntreeSpacing = " << clad->treeSpacing
     << "\n"
-    << "\n# How big (total leaf nodes) a tree has to be before it gets spaced"
+    << "\n# How big (total children) a tree has to be before it gets spaced"
     << "\ntreeSpacingBiggerThan = " << clad->treeSpacingBiggerThan
     << "\n"
     << "\n# Background color in hexadecimal RGB (#abc or #abcdef)"
@@ -112,7 +112,7 @@ void GeneratorCONF::writeData(Cladogram * clad, OutputFile & out) {
     << "\n# Number of pixels between node lines (== 1 offset)"
     << "\noffsetPX = " << clad->offsetPX
     << "\n"
-    << "\n# Set to 0 if you want 'dying' lines to abruptly stop"
+    << "\n# Set to 0 if you want 'dying' lines to stop abruptly"
     << "\nstopFadeOutPX = " << clad->stopFadeOutPX
     << "\n"
     << "\n# When optimising, gnuclad will inline nodes if possible. This sets"
@@ -173,10 +173,10 @@ void GeneratorCONF::writeData(Cladogram * clad, OutputFile & out) {
     << "\nmonthsInYear = " << clad->monthsInYear
     << "\n"
     << "\n# Not setting endOfTime will use the current date.";
-  if(clad->endOfTime < currentDate())
-    f << "\nendOfTime = " << Date2str(clad->endOfTime);
-  else
+  if(clad->endOfTime == currentDate())
     f << "\n#endOfTime = 2012.12";
+  else
+    f << "\nendOfTime = " << Date2str(clad->endOfTime);
 
   f << "\n"
     << "\n# How the description field should be used."
