@@ -194,14 +194,17 @@ class Cladogram {
   std::vector<Image *> includeSVG;
   std::vector<Image *> includePNG;
 
-  std::string inputFolder;
   std::string gnuclad_version;
-
+  std::string inputFolder;
 
   // CONFIG OPTIONS BEGIN
 
   int maximumOffset;
   Date beginningOfTime;
+
+  bool truncateFolder;  // use only base name of child after parent assignment
+  bool inVitro;  // don't warn if child starts after parent stops
+
 
   // The options below can be overridden by the config file
 
@@ -264,6 +267,8 @@ class Cladogram {
   int monthsInYear;
   int daysInMonth;
   int descriptionType;
+
+  int dir_showDotDirs;
 
   int debug;
 

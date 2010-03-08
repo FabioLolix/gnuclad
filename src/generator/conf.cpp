@@ -160,7 +160,7 @@ void GeneratorCONF::writeData(Cladogram * clad, OutputFile & out) {
     << "\n# 0 = connectors are full lines"
     << "\nconnectorsDashed = " << clad->connectorsDashed
     << "\n"
-    << "\n# Customise the year line encompassing the cladogram"
+    << "\n# Customise the year line encompassing the cladogram."
     << "\nyearLinePX = " << clad->yearLinePX
     << "\nyearLineColor1 = #" << clad->yearLineColor1.hex
     << "\nyearLineColor2 = #" << clad->yearLineColor2.hex
@@ -170,8 +170,9 @@ void GeneratorCONF::writeData(Cladogram * clad, OutputFile & out) {
     << "\n"
     << "\n# Remember to adjust your input data after changing these averages."
     << "\ndaysInMonth = " << clad->daysInMonth
-    << "\nmonthsInYear = " << clad->monthsInYear;
-
+    << "\nmonthsInYear = " << clad->monthsInYear
+    << "\n"
+    << "\n# Not setting endOfTime will use the current date.";
   if(clad->endOfTime < currentDate())
     f << "\nendOfTime = " << Date2str(clad->endOfTime);
   else
@@ -182,6 +183,9 @@ void GeneratorCONF::writeData(Cladogram * clad, OutputFile & out) {
     << "\n# 0 = ignore"
     << "\n# 1 = weblink URL"
     << "\ndescriptionType = " << clad->descriptionType
+    << "\n"
+    << "\n# When parsing direcories, show dot (hidden) files (0 = off, 1 = on)"
+    << "\ndir_showDotDirs = " << clad->dir_showDotDirs
     << "\n"
     << "\n# Show debug information when running gnuclad. (0 = off, 1 = on)"
     << "\ndebug = " << clad->debug

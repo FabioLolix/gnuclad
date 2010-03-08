@@ -30,5 +30,5 @@ the main directory and run the install routine:
 
 You should now be able to call gnuclad from any folder.
 If you wish to uninstall gnuclad, simply open a terminal in that same
-main gnuclad folder and execute:
+main folder and execute:
   make uninstall

@@ -25,6 +25,8 @@ should be possible.
 The documentation is distributed together with gnuclad and can be found in the
 'doc' folder.
 
-@section Projects using gnuclad
+@section gnuclad usage
 
 GNU/Linux distro timeline: @uref{http://futurist.se/gldt/}
+
+Stéphane List Development Timeline: @uref{http://slist.lilotux.net/prog/}

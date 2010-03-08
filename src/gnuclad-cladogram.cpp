@@ -28,12 +28,14 @@ Cladogram::Cladogram() {
 
   maximumOffset = 0;
   inputFolder = "";
+  truncateFolder = false;
+  inVitro = false;
 
   endOfTime = currentDate();
   beginningOfTime = endOfTime;
 
 
-  // the following can be overwritten in the config file:
+  // the following default settings can be overwritten in the config file:
 
   infoBoxTitle = "Title";
   infoBoxTitleSize = 18;
@@ -94,6 +96,8 @@ Cladogram::Cladogram() {
 
   descriptionType = 0;
 
+  dir_showDotDirs = 0;
+
   debug = 0;
 
 }
@@ -116,10 +120,11 @@ Cladogram::~Cladogram() {
 void Cladogram::parseOptions(const string filename) {
 
   ifstream fp(filename.c_str());
-  string bla = "";
 
+  string bla = "";
   if(filename != "") bla = "(" + filename + ") found";
   else bla = "specified";
+
   if( !(fp.is_open()) ) {
     cout << "\nNo config file " << bla << ". Using default options.";
     return;
@@ -139,7 +144,7 @@ void Cladogram::parseOptions(const string filename) {
     opt = line.substr(0, p);
     val = line.substr(p + 1, line.size());
 
-    // strip trailing and leading whitespaces, and quotes
+    // strip trailing and leading whitespaces, and then quotes
     if(opt.size() > 0) {
       while(opt[0] == ' ') opt = opt.substr(1);
       while(opt[opt.size()-1] == ' ') opt = opt.substr(0, opt.size()-1);
@@ -204,6 +209,7 @@ void Cladogram::parseOptions(const string filename) {
       else if(opt == "monthsInYear") monthsInYear = str2int(val);
       else if(opt == "endOfTime") endOfTime = Date(val);
       else if(opt == "descriptionType") descriptionType = str2int(val);
+      else if(opt == "dir_showDotDirs") dir_showDotDirs = str2int(val);
       else if(opt == "debug") debug = str2int(val);
       else cout << "\nIGNORING unrecognised config option: " << opt;
 
@@ -266,7 +272,7 @@ void Cladogram::compute() {
   Connector * c = NULL;
 
 
-  // Prepend input folder to icon files in order enable input from everywhere
+  // Prepend input folder to image files in order enable input from everywhere
   for(int i = 0; i < (int)nodes.size(); ++i)
     nodes.at(i)->iconfile = inputFolder + nodes.at(i)->iconfile;
   for(int i = 0; i < (int)includeSVG.size(); ++i)
@@ -312,10 +318,12 @@ void Cladogram::compute() {
     if(n->start < beginningOfTime)
       beginningOfTime = n->start;
 
-    // Find pointer to parent and check for duplicates
+    // Naming node same as parent is not allowed
     string parName = n->parentName;
     if(n->name == parName)
       throw n->name + " has the same name as it's parent";
+
+    // Find pointer to parent and check for duplicates
     if(parName == "") roots.push_back(n);
     for(int j = 0; j < nCount; ++j) {
 
@@ -336,7 +344,7 @@ void Cladogram::compute() {
       if(n->start < n->parent->start)
         throw n->name + " starts before it's parent " + n->parent->name;
 
-      if(n->parent->stop < n->start)
+      if(n->parent->stop < n->start && inVitro == false)
         cout << "\nWarning: " << n->name
              << " starts AFTER it's parent (" << n->parent->name << ") stops!";
 
@@ -344,6 +352,13 @@ void Cladogram::compute() {
 
     }
   }
+
+  // Truncate folder names
+  if(truncateFolder == true)
+    for(int i = 0; i < nCount; ++i) {
+      n = nodes.at(i);
+      n->name = n->name.substr(n->name.rfind(folder_delimiter) + 1);
+    }
 
   // Assign nodes to domains
   for(int i = 0; i < dCount; ++i) {
@@ -503,8 +518,8 @@ void Cladogram::compute() {
       while(last < nCount && nodes.at(last)->root() == r) ++last;
 
       optimise_nextTree(first, last);
-      //~ if(opt >= 5) {
-        //~ optimise_interleaveTree(first, last);                                <= pseudocode
+      //~ if(opt >= 5) {                                                        <= pseudocode
+        //~ optimise_interleaveTree(first, last);
         //~ if(opt >= 8)
           //~ optimise_interleaveAllRoots(first, last);
       //~ }
@@ -530,6 +545,11 @@ void Cladogram::compute() {
   // Set domain offsets
   for(int i = 0; i < dCount; ++i) {
     d = domains.at(i);
+
+    if(d->node->size < treeSpacingBiggerThan)
+      cout << "\nWARNING: domain of node " << d->node->name << " will not get"
+           << " spaced and will possibly overlap with others because it's tree"
+           << " is too small. Reduce the treeSpacingBiggerThan config option.";
 
     // Get minimum and maximum offsets of children this domain's node has
     int min = nCount-1, max = 0;
@@ -604,8 +624,8 @@ void Cladogram::compute_subtreeBoth(std::deque<Node *> &tree,
                                     int pos, Node * n) {
 
   int childCount = (int)n->children.size();
-                                                                                        ///TODO: OPTIMISE HERE??
-  // optimise: if i node (has no children? and) ends before i+1 node starts, put them on same side
+                                                                                //TODO: OPTIMISE HERE??
+  // optimise: if node i (has no children and) ends before i+1 starts, put them on same side
 
 
   // Insert the upper subtree before current node

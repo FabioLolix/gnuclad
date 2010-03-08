@@ -12,6 +12,11 @@ created with: bzr log --gnu-changelog
 
 2010-03-06  bryonak  <bryonak@freenet.de>
 
+	src/generator/svg.cpp: implemented out of boundaries infobox
+	turned off default cflags
+
+2010-03-06  bryonak  <bryonak@freenet.de>
+
 	added src/parser/dir*, implemented in src/gnuclad.cpp, src/Makefile.am and across the manual
 	src/gnuclad-helpers.cpp: removed #include "gnuclad-portability.h"
 	src/gnuclad.h: added #include "gnuclad-portability.h"

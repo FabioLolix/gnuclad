@@ -10,7 +10,9 @@ ________________________________________________________________________
 
 replace config options with enum? (orientation...)
 
-parserDIR (depth based and then perhaps time based)
+improve parser/dir
+implement time version of parser/dir
+  (created = deriv, last modified = nameChange)
 
 write manual on optimisation
 

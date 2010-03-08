@@ -22,15 +22,23 @@
 #define PARSERDIR_H_
 
 #include "../gnuclad.h"
+#include <dirent.h>
 
 
 class ParserDIR: public Parser {
+
   public:
 
   ParserDIR();
   ~ParserDIR();
   void parseData(Cladogram * clad, InputFile & in);
+  void parseDir(std::string dirname, Cladogram * clad, int level);
+  void addNode(std::string name, Color color, std::string parent, int level,
+               Cladogram * clad);
+
 };
 
+bool readableDir(std::string dname);
+DIR * new_indir(std::string dname);
 
 #endif

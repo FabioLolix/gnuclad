@@ -91,7 +91,7 @@ int main(int argc, char ** argv) {
   // Chose parser
   Parser * parser = NULL;
   if     (inputExt == "csv") parser = new ParserCSV;
-  else if(inputExt == "") parser = new ParserDIR;
+  else if(inputExt == "")    parser = new ParserDIR;
   else {
     cout << "\nError: unknown input file type: " << inputExt << '\n'
          << "Supported input formats: " << inFormats << '\n';
@@ -100,10 +100,10 @@ int main(int argc, char ** argv) {
 
   // Chose generator
   Generator * generator = NULL;
-  if     (outputExt == "csv") generator = new GeneratorCSV;
-  else if(outputExt == "svg") generator = new GeneratorSVG;
+  if     (outputExt == "csv")  generator = new GeneratorCSV;
+  else if(outputExt == "svg")  generator = new GeneratorSVG;
   else if(outputExt == "conf") generator = new GeneratorCONF;
-  else if(outputExt == "png") generator = new GeneratorPNG;
+  else if(outputExt == "png")  generator = new GeneratorPNG;
   else {
     cout << "\nError: unknown output file type: " << outputExt << '\n'
          << "Supported output formats: " << outFormats << '\n';
@@ -118,7 +118,7 @@ int main(int argc, char ** argv) {
   clad->inputFolder = getBaseFolder(source);
 
   int exitval = EXIT_FAILURE;
-  cout << ": " << inputExt << " => " << outputExt;
+  cout << ": " << source << " => " << dest;
 
   // The heavy lifting
   try {

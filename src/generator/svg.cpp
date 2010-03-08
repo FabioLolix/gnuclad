@@ -67,7 +67,7 @@ void GeneratorSVG::writeData(Cladogram * clad, OutputFile & out) {
   // Header (Inkscape compatible)
 
   f << "<?xml version='1.0' encoding='UTF-8' standalone='yes'?>\n"
-    << "<!-- Created with gnuclad -->\n"
+    << "<!-- Created with gnuclad " << clad->gnuclad_version << " -->\n"
     << "\n"
     << "<svg\n"
     << "  xmlns='http://www.w3.org/2000/svg'\n"
@@ -194,7 +194,8 @@ void GeneratorSVG::writeData(Cladogram * clad, OutputFile & out) {
 
   // Background
   f << "\n<g inkscape:label='Background' inkscape:groupmode='layer' id='layer_background' >\n"
-    << "  <rect x='0' y='0' width='" << width << "' height='" << height << "' fill='#" << clad->mainBackground.hex << "' />\n"
+    << "  <rect x='0' y='0' width='" << width << "' height='" << height << "'"
+    << " rx='" << oPX / 2 << "' ry='" << oPX / 2 << "' fill='#" << clad->mainBackground.hex << "' />\n"
     << "</g>\n";
 
 
@@ -490,8 +491,8 @@ void GeneratorSVG::writeData(Cladogram * clad, OutputFile & out) {
   dirty_hack_ex = int(clad->yearLineFontSize / 1.375 * clad->fontCorrectionFactor);  // CSS ex unit
   if(yrlinePX > 0) {
 
-    f << "  <rect x='0' y='" << topOffset - yrlinePX - 3*oPX/2 << "' rx='5' ry='5' width='" << width << "' height='" << yrlinePX << "' />\n"
-      << "  <rect x='0' y='" << height - yrlinePX << "' rx='5' ry='5' width='" << width << "' height='" << yrlinePX << "' />\n"
+    f << "  <rect x='" << xPX - 10 << "' y='" << topOffset - yrlinePX - 3*oPX/2 << "' rx='5' ry='5' width='" << width - xPX + 10<< "' height='" << yrlinePX << "' />\n"
+      << "  <rect x='" << xPX - 10 << "' y='" << height - yrlinePX << "' rx='5' ry='5' width='" << width - xPX + 10 << "' height='" << yrlinePX << "' />\n"
       << "  <g style='font-size:" << clad->yearLineFontSize << "px;stroke:none;fill:#" << clad->yearLineFontColor.hex << ";font-family:" << clad->yearLineFont << ";-inkscape-font-specification:" << clad->yearLineFont << ";text-anchor:middle;' >\n";
     for(int i = 0; i < years; ++i) {
       int posX = yrPX * i + yrPX / 2 + xPX;
