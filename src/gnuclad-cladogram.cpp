@@ -104,16 +104,16 @@ Cladogram::Cladogram() {
 
 Cladogram::~Cladogram() {
   for(int i = 0; i < (int)nodes.size(); ++i)
-    if(nodes.at(i) != NULL) delete nodes.at(i);
+    if(nodes[i] != NULL) delete nodes[i];
   for(int i = 0; i < (int)connectors.size(); ++i)
-    if(connectors.at(i) != NULL) delete connectors.at(i);
+    if(connectors[i] != NULL) delete connectors[i];
   for(int i = 0; i < (int)domains.size(); ++i)
-    if(domains.at(i) != NULL) delete domains.at(i);
+    if(domains[i] != NULL) delete domains[i];
 
   for(int i = 0; i < (int)includeSVG.size(); ++i)
-    if(includeSVG.at(i) != NULL) delete includeSVG.at(i);
+    if(includeSVG[i] != NULL) delete includeSVG[i];
   for(int i = 0; i < (int)includePNG.size(); ++i)
-    if(includePNG.at(i) != NULL) delete includePNG.at(i);
+    if(includePNG[i] != NULL) delete includePNG[i];
 }
 
 
@@ -274,11 +274,11 @@ void Cladogram::compute() {
 
   // Prepend input folder to image files in order enable input from everywhere
   for(int i = 0; i < (int)nodes.size(); ++i)
-    nodes.at(i)->iconfile = inputFolder + nodes.at(i)->iconfile;
+    nodes[i]->iconfile = inputFolder + nodes[i]->iconfile;
   for(int i = 0; i < (int)includeSVG.size(); ++i)
-    includeSVG.at(i)->filename = inputFolder + includeSVG.at(i)->filename;
+    includeSVG[i]->filename = inputFolder + includeSVG[i]->filename;
   for(int i = 0; i < (int)includePNG.size(); ++i)
-    includePNG.at(i)->filename = inputFolder + includePNG.at(i)->filename;
+    includePNG[i]->filename = inputFolder + includePNG[i]->filename;
 
   // Basics
   // Juggle dates, warn for duplicates and assing parent pointers
@@ -286,7 +286,7 @@ void Cladogram::compute() {
   std::vector<int> toErase;
   for(int i = 0; i < nCount; ++i) {
 
-    n = nodes.at(i);
+    n = nodes[i];
 
     // If "start" is newer than endOfTime, ignore that node
     if(endOfTime < n->start) {
@@ -327,12 +327,12 @@ void Cladogram::compute() {
     if(parName == "") roots.push_back(n);
     for(int j = 0; j < nCount; ++j) {
 
-      if(j > i && n->name == nodes.at(j)->name)  // might result in bad children
+      if(j > i && n->name == nodes[j]->name)  // might result in bad children
         cout << "\nWarning: " << n->name
              << " (entry " << j+1 << ") is already listed at position " << i+1;
 
-      if(parName == nodes.at(j)->name)
-        n->parent = nodes.at(j);
+      if(parName == nodes[j]->name)
+        n->parent = nodes[j];
 
     }
     if(parName != "" && n->parent == NULL)
@@ -356,16 +356,16 @@ void Cladogram::compute() {
   // Truncate folder names
   if(truncateFolder == true)
     for(int i = 0; i < nCount; ++i) {
-      n = nodes.at(i);
+      n = nodes[i];
       n->name = n->name.substr(n->name.rfind(folder_delimiter) + 1);
     }
 
   // Assign nodes to domains
   for(int i = 0; i < dCount; ++i) {
-    d = domains.at(i);
+    d = domains[i];
     for(int j = 0; j < nCount; ++j)
-      if(nodes.at(j)->name == d->nodeName)
-        d->node = nodes.at(j);
+      if(nodes[j]->name == d->nodeName)
+        d->node = nodes[j];
     if(d->node == NULL)
       throw "unable to assign domain to " + d->nodeName;
 
@@ -379,7 +379,7 @@ void Cladogram::compute() {
   // Assign nodes to connectors
   for(int i = 0; i < cCount; ++i) {
 
-    c = connectors.at(i);
+    c = connectors[i];
 
     // Cosmetic improvement, since we have no 0th month or day
     if(c->fromWhen.month == 0) c->fromWhen.month = 1;
@@ -400,10 +400,10 @@ void Cladogram::compute() {
     }
 
     for(int j = 0; j < nCount; ++j) {
-      if(nodes.at(j)->name == c->fromName)
-        c->from = nodes.at(j);
-      if(nodes.at(j)->name == c->toName)
-        c->to = nodes.at(j);
+      if(nodes[j]->name == c->fromName)
+        c->from = nodes[j];
+      if(nodes[j]->name == c->toName)
+        c->to = nodes[j];
     }
     if(c->from == NULL || c->to == NULL)
       throw "unable to assign connector " + c->fromName + " -> " + c->toName;
@@ -413,13 +413,13 @@ void Cladogram::compute() {
   // Erase ignored nodes
   nCount -= (int)toErase.size();
   for(int i = (int)toErase.size() - 1; i >= 0; --i)
-    nodes.erase(nodes.begin() + toErase.at(i));
+    nodes.erase(nodes.begin() + toErase[i]);
   int rCount = (int)roots.size();
 
   // Push through size
   // Requires full parent paths, hence a new pass
   for(int i = 0; i < nCount; ++i) {
-    n = nodes.at(i);
+    n = nodes[i];
     while(n->parent != NULL) {
       n->parent->size += 1;
       n = n->parent;
@@ -433,14 +433,14 @@ void Cladogram::compute() {
   for(int i = 0; i < rCount; ++i) {
 
     int treeOffset = 0;
-    r = roots.at(i);
+    r = roots[i];
     std::deque<Node *> nodeTree;
     nodeTree.push_back(r);
 
     // Expand the tree if the current root size is bigger than 1
     while((int)nodeTree.size() < r->size) {
 
-      n = nodeTree.at(treeOffset);
+      n = nodeTree[treeOffset];
       if(n->offset == -1) {
         ++treeOffset;
         continue;
@@ -468,7 +468,7 @@ void Cladogram::compute() {
     // Assign offsets according to the tree
     // Will only have one assignment if it's a single root
     for(int j = 0; j < (int)nodeTree.size(); ++j)
-      nodeTree.at(j)->offset = offset + j;
+      nodeTree[j]->offset = offset + j;
 
     offset += r->size;
 
@@ -486,24 +486,19 @@ void Cladogram::compute() {
   for(int i = 0; i < rCount; ++i) {
 
     if(optimise == 0) break;
-    r = roots.at(i);
+    r = roots[i];
 
     if(r->size == 1) {  // Single root
 
       int opt = optimise/10;
 
-      // Don't reach behind trees of certain size
-      int upTo = rCount;
-      int j = i+1;
-      while(j < rCount) {
-        if(opt <= 1) { ++j; break; }  // look only at next root
-        if(opt <= 2 && roots.at(j)->size > 1) break;
-        if(opt <= 5 && roots.at(j)->size > 5) break;
-        if(opt <= 6 && roots.at(j)->size > 10) break;
-        if(opt <= 7 && roots.at(j)->size > 20) break;
-        ++j;
-      }
-      upTo = j;
+      // Don't reach behind trees of certain size, depending on opt
+      int treeBarrierSize[] = { 1, 1, 2, 2 ,2, 5, 10, 20, 50, 999999};  // 0 - 9
+      if(opt > 9) opt = 9;
+      int upTo = i+1;
+      while(++upTo < rCount)
+        if(roots[upTo]->size >= treeBarrierSize[opt]) break;
+      if(upTo > rCount) upTo = rCount;
 
       optimise_injectSingleRootAt(i, upTo);
 
@@ -513,11 +508,12 @@ void Cladogram::compute() {
 
       // Get first and last node positions of current continuous root tree block
       int first = 0;
-      while(first < nCount && nodes.at(first)->root() != r) ++first;
+      while(first < nCount && nodes[first]->root() != r) ++first;
       int last = first;
-      while(last < nCount && nodes.at(last)->root() == r) ++last;
+      while(last < nCount && nodes[last]->root() == r) ++last;
 
       optimise_nextTree(first, last);
+
       //~ if(opt >= 5) {                                                        <= pseudocode
         //~ optimise_interleaveTree(first, last);
         //~ if(opt >= 8)
@@ -532,8 +528,8 @@ void Cladogram::compute() {
 
   // Insert spacing at tree edges
   for(int i = 0; i < nCount - 1; ++i) {
-    Node * a = nodes.at(i);
-    Node * b = nodes.at(i+1);
+    Node * a = nodes[i];
+    Node * b = nodes[i+1];
     if( a->root() != b->root() )  // if not in same tree
       if(a->parent != NULL || b->parent != NULL ||  // if not root nodes
          a->children.size() > 0 || b->children.size() > 0)  // or have children
@@ -544,7 +540,7 @@ void Cladogram::compute() {
 
   // Set domain offsets
   for(int i = 0; i < dCount; ++i) {
-    d = domains.at(i);
+    d = domains[i];
 
     if(d->node->size < treeSpacingBiggerThan)
       cout << "\nWARNING: domain of node " << d->node->name << " will not get"
@@ -554,24 +550,24 @@ void Cladogram::compute() {
     // Get minimum and maximum offsets of children this domain's node has
     int min = nCount-1, max = 0;
     for(int j = 0; j < nCount; ++j) {
-      n = nodes.at(j);
+      n = nodes[j];
       if(n->derivesFrom(d->node)) {
-        if(n->offset < nodes.at(min)->offset)
+        if(n->offset < nodes[min]->offset)
           min = j;
-        if(n->offset > nodes.at(max)->offset)
+        if(n->offset > nodes[max]->offset)
           max = j;
       }
     }
 
-    d->offsetA = nodes.at(min)->offset;
-    d->offsetB = nodes.at(max)->offset;
+    d->offsetA = nodes[min]->offset;
+    d->offsetB = nodes[max]->offset;
     if(d->offsetA > d->node->offset) d->offsetA = d->node->offset;
     if(d->offsetB < d->node->offset) d->offsetB = d->node->offset;
   }
 
   // Set connector offsets
   for(int i = 0; i < cCount; ++i) {
-    c = connectors.at(i);
+    c = connectors[i];
     c->offsetA = c->from->offset;
     c->offsetB = c->to->offset;
     //~ if(c->offsetA > c->offsetB)   // this looks bad with dashed connectors
@@ -580,8 +576,8 @@ void Cladogram::compute() {
 
   // Get total size (the maximum offset)
   for(int i = 0; i < nCount; ++i)
-    if(maximumOffset < nodes.at(i)->offset)
-      maximumOffset = nodes.at(i)->offset;
+    if(maximumOffset < nodes[i]->offset)
+      maximumOffset = nodes[i]->offset;
 
 
   if(debug > 0) debug_cladogram_compute();
@@ -593,20 +589,20 @@ void Cladogram::compute() {
 void Cladogram::debug_cladogram_compute() {
 
   for(int i = 0; i < (int)nodes.size(); ++i) {
-    Node * n = nodes.at(i);
+    Node * n = nodes[i];
     string rt = (n->parent == NULL)?(" *"):("");
     cout << "\nDEBUG\t" << n->name << rt
          << "    \t  \tsize: " << n->size << "    \toffset: " << n->offset;
   }
   cout << "\n";
   for(int i = 0; i < (int)connectors.size(); ++i) {
-    Connector * c = connectors.at(i);
+    Connector * c = connectors[i];
     cout << "\nDEBUG\t" << c->fromName << "  \t=>\t" << c->toName
          << "   \t(" << c->offsetA << ","<< c->offsetB << ")";
   }
   cout << "\n";
   for(int i = 0; i < (int)domains.size(); ++i) {
-    Domain * d = domains.at(i);
+    Domain * d = domains[i];
     cout << "\nDEBUG\t domain " << d->nodeName
          << "    \t(" << d->offsetA << "," << d->offsetB << ")";
   }
@@ -630,11 +626,11 @@ void Cladogram::compute_subtreeBoth(std::deque<Node *> &tree,
 
   // Insert the upper subtree before current node
   for(int i = 1; i < childCount; i += 2)
-    tree.insert(tree.begin() + pos + i/2, n->children.at(i));
+    tree.insert(tree.begin() + pos + i/2, n->children[i]);
 
   // Insert the lower subtree after current node in reverse order
   for(int i = 0; i < childCount; i += 2)
-    tree.insert(tree.begin() + pos + (childCount/2) + 1, n->children.at(i));
+    tree.insert(tree.begin() + pos + (childCount/2) + 1, n->children[i]);
 
 }
 
@@ -644,7 +640,7 @@ void Cladogram::compute_subtreeLower(std::deque<Node *> &tree,
 
   // Insert all child nodes after current node in reverse order
   for(int i = 0; i < (int)n->children.size(); ++i)
-    tree.insert( tree.begin() + pos + 1, n->children.at(i) );
+    tree.insert(tree.begin() + pos + 1, n->children[i]);
 
 }
 
@@ -654,7 +650,7 @@ void Cladogram::compute_subtreeLowerInverse(std::deque<Node *> &tree,
 
   // Insert all child nodes after current node
   for(int i = 0; i < (int)n->children.size(); ++i)
-    tree.insert( tree.begin() + pos + 1 + i, n->children.at(i) );
+    tree.insert(tree.begin() + pos + 1 + i, n->children[i]);
 
 }
 
@@ -665,26 +661,25 @@ bool Cladogram::fitsInto(const int offset, Node * node) {
 
   vector<Node *> tmp;
   for(int i = 0; i < (int)nodes.size(); ++i)
-    if(nodes.at(i)->offset == offset)
-      tmp.push_back(nodes.at(i));
+    if(nodes[i]->offset == offset)
+      tmp.push_back(nodes[i]);
 
   if(offset == node->offset) return false;
   if(tmp.size() == 0) return true;
 
   sort(tmp.begin(), tmp.end(), compareDate());
 
+  int DinM = daysInMonth;
+  int MinY = monthsInYear;
+
   // Compare node to first and last in tmp
-  if( rOf(node->stop + stopSpacing, monthsInYear, daysInMonth)
-        < tmp.at(0)->start ||
-      rOf(tmp.at(tmp.size()-1)->stop + stopSpacing, monthsInYear, daysInMonth)
-        < node->start )
+  if( rOf(node->stop + stopSpacing, MinY, DinM) < tmp[0]->start ||
+      rOf(tmp[tmp.size()-1]->stop + stopSpacing, MinY, DinM) < node->start )
     return true;
   // Compare node to all others in tmp
-  for(int i = 0; i < (int)tmp.size() - 1; ++i)
-    if( rOf(tmp.at(i)->stop + stopSpacing, monthsInYear, daysInMonth)
-          < node->start &&
-        rOf(node->stop + stopSpacing, monthsInYear, daysInMonth)
-          < tmp.at(i+1)->start )
+  for(int i = 0; i < (int)tmp.size() - 2; ++i)
+    if( rOf(tmp[i]->stop + stopSpacing, MinY, DinM) < node->start &&
+        rOf(node->stop + stopSpacing, MinY, DinM) < tmp[i+1]->start )
       return true;
 
   return false;
@@ -693,8 +688,8 @@ bool Cladogram::fitsInto(const int offset, Node * node) {
 // Move all nodes with an offset higher than the specified one by given value.
 void Cladogram::moveOffsetsHigherThan(const int offset, const int move) {
   for(int i = 0; i < (int)nodes.size(); ++i)
-    if(nodes.at(i)->offset > offset)
-      nodes.at(i)->offset += move;
+    if(nodes[i]->offset > offset)
+      nodes[i]->offset += move;
 }
 
 // Moves a specified node to the front of the given vector
@@ -702,9 +697,9 @@ void Cladogram::moveOffsetsHigherThan(const int offset, const int move) {
 // Requires the vector to be sorted by ascending offset.
 void Cladogram::moveTo(int offset, Node * node, vector<Node *> &v) {
   int i = (int)v.size() - 1;
-  while(i > 0 && v.at(i) != node) --i;
-  while(i > 0 && v.at(i-1)->offset > offset) {
-    swap(v.at(i-1), v.at(i));
+  while(i > 0 && v[i] != node) --i;
+  while(i > 0 && v[i-1]->offset > offset) {
+    swap(v[i-1], v[i]);
     --i;
   }
 }
@@ -712,11 +707,12 @@ void Cladogram::moveTo(int offset, Node * node, vector<Node *> &v) {
 // Inject single roots into specified position i if possible,
 // until we hit upTo.
 void Cladogram::optimise_injectSingleRootAt(int pos, int upTo) {
-  Node * r = roots.at(pos);
+  Node * r = roots[pos];
   Node * cand;
+
   for(int i = pos+1; i < upTo; ++i) {
 
-    cand = roots.at(i);
+    cand = roots[i];
 
     if(cand->size == 1 && fitsInto(r->offset, cand)) {
       moveOffsetsHigherThan(cand->offset, -1);
@@ -733,11 +729,11 @@ void Cladogram::optimise_injectSingleRootAt(int pos, int upTo) {
 // Fill gaps within tree lines, interleave subtrees (only by 1 offset)
 void Cladogram::optimise_nextTree(int first, int last) {
   Node * a;
-  Node * b = nodes.at(first);
+  Node * b = nodes[first];
   for(int i = first; i < last - 1; ++i) {
 
     a = b;
-    b = nodes.at(i + 1);
+    b = nodes[i + 1];
     if(fitsInto(a->offset, b))
       moveOffsetsHigherThan(b->offset - 1, -1);
 
@@ -749,7 +745,7 @@ void Cladogram::optimise_pullTree(int first, int last) {
   Node * n;
   int sign = 0;
   for(int i = first; i < last; ++i) {
-    n = nodes.at(i);
+    n = nodes[i];
     if(n->parent == NULL) continue;
     if(n->offset < n->parent->offset) sign = 1;
     else sign = -1;

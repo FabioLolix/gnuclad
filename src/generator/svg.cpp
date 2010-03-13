@@ -113,7 +113,7 @@ void GeneratorSVG::writeData(Cladogram * clad, OutputFile & out) {
 
   // Domain gradients
   for(int i = 0; i < (int)clad->domains.size(); ++i) {
-    Domain * d = clad->domains.at(i);
+    Domain * d = clad->domains[i];
     f << "  <linearGradient id='__domain_" << validxml(d->nodeName) << "' x1='0' y1='0' x2='1' y2='0'>\n"
       << "    <stop stop-color='#" << d->color.hex << "' offset='0' stop-opacity='0' />\n"
       << "    <stop stop-color='#" << d->color.hex << "' offset='1' stop-opacity='" << float(d->intensity) / 100 << "' />\n"
@@ -125,7 +125,7 @@ void GeneratorSVG::writeData(Cladogram * clad, OutputFile & out) {
   f << "\n  <circle id='__connectors_start' cx='0' cy='0' r='" << lPX << "' stroke='none' />\n";
   for(int i = 0; i < (int)clad->connectors.size(); ++i) {
     f << "  <marker id='__connector_" << i << "' stroke='none' markerUnits='userSpaceOnUse' style='overflow:visible;'>\n"
-      << "    <use xlink:href='#__connectors_start' fill='#" << clad->connectors.at(i)->color.hex << "'  />\n"
+      << "    <use xlink:href='#__connectors_start' fill='#" << clad->connectors[i]->color.hex << "'  />\n"
       << "  </marker>\n";
   }
 
@@ -136,7 +136,7 @@ void GeneratorSVG::writeData(Cladogram * clad, OutputFile & out) {
   f << "\n  <line id='__fadeout' x1='0' y1='0' x2='" << fade << "' y2='0' stroke-width='1' />\n";
   for(int i = 0; i < (int)clad->nodes.size(); ++i) {
 
-    n = clad->nodes.at(i);
+    n = clad->nodes[i];
     if(n->stop < clad->endOfTime) {
       string name = validxml(n->name);
       f << "  <linearGradient id='__fadeout_" << name << "' x1='0' y1='0' x2='" << fade << "' y2='0' gradientUnits='userSpaceOnUse'>\n"
@@ -153,14 +153,14 @@ void GeneratorSVG::writeData(Cladogram * clad, OutputFile & out) {
 
   // Icons - definitions for SVG files
   for(int i = 0; i < (int)clad->nodes.size(); ++i)
-    if(getExt(clad->nodes.at(i)->iconfile) == "svg")
-      f << SVG_defs(clad->nodes.at(i)->iconfile);
+    if(getExt(clad->nodes[i]->iconfile) == "svg")
+      f << SVG_defs(clad->nodes[i]->iconfile);
 
 
   // Additional SVG images - definitions
   f << "\n<!-- BEGIN additional SVG images - definitions -->\n";
   for(int i = 0; i < (int)clad->includeSVG.size(); ++i)
-    f << SVG_defs(clad->includeSVG.at(i)->filename);
+    f << SVG_defs(clad->includeSVG[i]->filename);
   f << "\n<!-- END additional SVG images - definitions -->\n";
 
   f << "\n</defs>\n";
@@ -220,7 +220,7 @@ void GeneratorSVG::writeData(Cladogram * clad, OutputFile & out) {
   f << "\n<g inkscape:label='Domains' inkscape:groupmode='layer' id='layer_domains' >\n";
   for(int i = 0; i < (int)clad->domains.size(); ++i) {
 
-    Domain * d = clad->domains.at(i);
+    Domain * d = clad->domains[i];
     int xpos = datePX(d->node->start, clad) + xPX;
     int wval = datePX(clad->endOfTime.year + 1, clad) - xpos + xPX;
     int yval = (d->offsetA - 1) * oPX + topOffset;
@@ -239,7 +239,7 @@ void GeneratorSVG::writeData(Cladogram * clad, OutputFile & out) {
     <<  "style='opacity:0.6;' >\n";
   for(int i = 0; i < (int)clad->connectors.size(); ++i) {
 
-    c = clad->connectors.at(i);
+    c = clad->connectors[i];
     int posX1 = datePX(c->fromWhen, clad) + xPX;
     int posX2 = datePX(c->toWhen, clad) + xPX;
     int posY1 = c->offsetA * oPX + topOffset;
@@ -262,7 +262,7 @@ void GeneratorSVG::writeData(Cladogram * clad, OutputFile & out) {
     << " style='fill:none;stroke-width:" << lPX << ";' >\n";
   for(int i = 0; i < (int)clad->nodes.size(); ++i) {
 
-    n = clad->nodes.at(i);
+    n = clad->nodes[i];
     int sign;
     int startX = datePX(n->start, clad) + xPX;
     int stopX = datePX(n->stop, clad) + xPX;
@@ -296,7 +296,7 @@ void GeneratorSVG::writeData(Cladogram * clad, OutputFile & out) {
     << " style='" << style << "' >\n";
   for(int i = 0; i < (int)clad->nodes.size(); ++i) {
 
-    n = clad->nodes.at(i);
+    n = clad->nodes[i];
     int posX = datePX(n->start, clad) + xPX;
     int posY = n->offset * oPX + topOffset;
     string dotprops;
@@ -307,7 +307,7 @@ void GeneratorSVG::writeData(Cladogram * clad, OutputFile & out) {
       << "' r='" << clad->dotRadius << "' " << dotprops << " />\n";
 
     for(int j = 0; j < (int)n->nameChanges.size(); ++j) {
-      posX = datePX(n->nameChanges.at(j).date, clad) + xPX;
+      posX = datePX(n->nameChanges[j].date, clad) + xPX;
       f << "    <circle cx='" << posX << "' cy='" << posY << "' r='" << clad->smallDotRadius << "' " << dotprops << " />\n";
     }
 
@@ -320,7 +320,7 @@ void GeneratorSVG::writeData(Cladogram * clad, OutputFile & out) {
   string iconfile, format;
   for(int i = 0; i < (int)clad->nodes.size(); ++i) {
 
-    n = clad->nodes.at(i);
+    n = clad->nodes[i];
     iconfile = n->iconfile;
     format = getExt(iconfile);
     string rotate;
@@ -383,7 +383,7 @@ void GeneratorSVG::writeData(Cladogram * clad, OutputFile & out) {
   int dirty_hack_ex = int(clad->labelFontSize / 1.375 * clad->fontCorrectionFactor);
   for(int i = 0; i < (int)clad->nodes.size(); ++i) {
 
-    n = clad->nodes.at(i);
+    n = clad->nodes[i];
     string href = "", hrefend = "";
 
     if(clad->descriptionType == 1) {
@@ -433,13 +433,13 @@ void GeneratorSVG::writeData(Cladogram * clad, OutputFile & out) {
 
       if(clad->nameChangeType == 0) {  // nameChange outside the dot
 
-        posX = datePX(n->nameChanges.at(j).date, clad) + xPX + clad->smallDotRadius;
+        posX = datePX(n->nameChanges[j].date, clad) + xPX + clad->smallDotRadius;
         if(posX < posXwName) posX = posXwName;
-        if(j != 0) posXwName = posX + n->nameChanges.at(j-1).newName.size() * (dirty_hack_em + 1);  // + 1 is experimental
+        if(j != 0) posXwName = posX + n->nameChanges[j-1].newName.size() * (dirty_hack_em + 1);  // + 1 is experimental
 
       } else if(clad->nameChangeType == 1) {  // nameChange centered on the dot
 
-        posX = datePX(n->nameChanges.at(j).date, clad) + xPX;
+        posX = datePX(n->nameChanges[j].date, clad) + xPX;
         posY = n->offset * oPX + topOffset + dirty_hack_ex/2;
         alignmentNameChange = "style='text-anchor:middle;'";
 
@@ -448,7 +448,7 @@ void GeneratorSVG::writeData(Cladogram * clad, OutputFile & out) {
       if(clad->orientation == 1) {  // left to right
 
         posX = n->offset * oPX + topOffset + clad->smallDotRadius;
-        posY = datePX(n->nameChanges.at(j).date, clad) + xPX - clad->smallDotRadius;
+        posY = datePX(n->nameChanges[j].date, clad) + xPX - clad->smallDotRadius;
         if(clad->nameChangeType == 1) {
           posX -= clad->smallDotRadius;
           posY += clad->smallDotRadius + dirty_hack_ex/2;
@@ -456,12 +456,12 @@ void GeneratorSVG::writeData(Cladogram * clad, OutputFile & out) {
 
       } else if(clad->orientation == 2) {
 
-        posX = width - posX - n->nameChanges.at(j).newName.size() * dirty_hack_em;
+        posX = width - posX - n->nameChanges[j].newName.size() * dirty_hack_em;
 
       } else if(clad->orientation == 3) {
 
         posX = n->offset * oPX + topOffset + clad->smallDotRadius;
-        posY = canvasHeight - (datePX(n->nameChanges.at(j).date, clad) + xPX + clad->smallDotRadius/2);
+        posY = canvasHeight - (datePX(n->nameChanges[j].date, clad) + xPX + clad->smallDotRadius/2);
         if(clad->nameChangeType == 1) {
           posX -= clad->smallDotRadius;
           posY += clad->smallDotRadius/2 + dirty_hack_ex/2;
@@ -470,13 +470,13 @@ void GeneratorSVG::writeData(Cladogram * clad, OutputFile & out) {
       }
 
       if(clad->descriptionType == 1)
-        href = "<a xlink:href='" + n->nameChanges.at(j).description + "'>";
+        href = "<a xlink:href='" + n->nameChanges[j].description + "'>";
 
       if(clad->labelBGOpacity > 0 && clad->nameChangeType != 1)
-        f << "    <rect x='" << posX - dirty_hack_em/4 << "' y='" << posY - dirty_hack_ex *6/5 << "' width='" << n->nameChanges.at(j).newName.size() * dirty_hack_em
+        f << "    <rect x='" << posX - dirty_hack_em/4 << "' y='" << posY - dirty_hack_ex *6/5 << "' width='" << n->nameChanges[j].newName.size() * dirty_hack_em
           << "' height='" << dirty_hack_ex *7/5 << "' fill='#" << clad->mainBackground.hex << "' opacity='" << double(clad->labelBGOpacity)/100 << "'  rx='5' ry='5' />\n";
 
-      f << "    " << href << "<text x='"<< posX <<"' y='"<< posY <<"' " << alignmentNameChange << ">" << n->nameChanges.at(j).newName <<"</text>" << hrefend << "\n";
+      f << "    " << href << "<text x='"<< posX <<"' y='"<< posY <<"' " << alignmentNameChange << ">" << n->nameChanges[j].newName <<"</text>" << hrefend << "\n";
 
     }
 
@@ -526,7 +526,7 @@ void GeneratorSVG::writeData(Cladogram * clad, OutputFile & out) {
     f << "  <text x='" << posX << "' y='" << posY << "'><tspan style='font-size:" << clad->infoBoxTitleSize << "px;font-weight:bold;'>" << clad->infoBoxTitle << "</tspan></text>\n";
   if(clad->infoBoxTextSize > 0 )
     for(int i = 0; i < (int)clad->infoBoxText.size(); ++i)
-      f << "  <text x='" << posX << "' y='" << posY + dirty_hack_ex + dirty_hack_ex2 * i << "'><tspan style='font-size:" << clad->infoBoxTextSize << "px;'>" << clad->infoBoxText.at(i) << "</tspan></text>\n";
+      f << "  <text x='" << posX << "' y='" << posY + dirty_hack_ex + dirty_hack_ex2 * i << "'><tspan style='font-size:" << clad->infoBoxTextSize << "px;'>" << clad->infoBoxText[i] << "</tspan></text>\n";
   f << "</g>\n";
 
   f << "\n<!-- BEGIN additional images -->\n";
@@ -536,7 +536,7 @@ void GeneratorSVG::writeData(Cladogram * clad, OutputFile & out) {
   Image * image;
   f << "\n<g inkscape:label='Included PNG Images' inkscape:groupmode='layer' id='layer_included_png'>\n";
   for(int i = 0; i < (int)clad->includePNG.size(); ++i) {
-    image = clad->includePNG.at(i);
+    image = clad->includePNG[i];
 
     int imgWidth = 0;
     int imgHeight = 0;
@@ -553,7 +553,7 @@ void GeneratorSVG::writeData(Cladogram * clad, OutputFile & out) {
   for(int i = 0; i < (int)clad->includeSVG.size(); ++i) {
 
     int void1, void2;
-    image = clad->includeSVG.at(i);
+    image = clad->includeSVG[i];
     string data = SVG_body(image->filename, void1, void2);
     f << "  <g transform='translate(" << image->x + xPX << "," << image->y + topOffset << ")' >\n"
       << data

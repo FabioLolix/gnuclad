@@ -1,5 +1,5 @@
 /*
-*  gnuclad.cpp - generate a cladogram
+*  gnuclad.cpp - implements the gnuclad main function and the basic classes
 *
 *  Copyright (C) 2010 Donjan Rodic <donjan@dyx.ch>
 *
@@ -229,14 +229,14 @@ Date::Date(const std::string str) {
   vector<string> d;
   explode(str, '.', &d);
   if(d.size() == 3) {
-    day = str2int(d.at(2));
+    day = str2int(d[2]);
     dayset = true;
   }
   if(d.size() >= 2) {
-    month = str2int(d.at(1));
+    month = str2int(d[1]);
     monthset = true;
   }
-  if(d.size() >= 1) year = str2int(d.at(0));
+  if(d.size() >= 1) year = str2int(d[0]);
 }
 bool Date::operator<(const Date d) {
   if(year < d.year ||

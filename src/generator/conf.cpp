@@ -54,7 +54,7 @@ void GeneratorCONF::writeData(Cladogram * clad, OutputFile & out) {
     f << "\ninfoBoxText = Lorem ipsum dolor sit amet,"
       << "\ninfoBoxText = consectetuer adipiscing elit";
   else for(unsigned int i = 0; i < clad->infoBoxText.size(); ++i)
-    f << "\ninfoBoxText = " << clad->infoBoxText.at(i);
+    f << "\ninfoBoxText = " << clad->infoBoxText[i];
 
   f << "\ninfoBoxTextSize = " << clad->infoBoxTextSize
     << "\ninfoBoxFont = " << clad->infoBoxFont

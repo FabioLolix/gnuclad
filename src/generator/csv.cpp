@@ -40,7 +40,7 @@ void GeneratorCSV::writeData(Cladogram * clad, OutputFile & out) {
 
   int width = fixedFieldsNode;
   for(int i = 0; i < (int)clad->nodes.size(); ++i) {
-    n = clad->nodes.at(i);
+    n = clad->nodes[i];
     if(width < fixedFieldsNode + (int)n->nameChanges.size()*3)
       width = fixedFieldsNode + n->nameChanges.size()*3;
   }
@@ -85,7 +85,7 @@ void GeneratorCSV::writeData(Cladogram * clad, OutputFile & out) {
     << "\"#\",\"Name\",\"Color\",\"Parent\",\"Start\",\"Stop\",\"Icon\",\"Description\",\"[Namechange\",\"When\",\"Description\",\"[Namechange\",\"When\",\"Description\",\". . . ]]\"" << tail15 << "\n";
   for(int i = 0; i < (int)clad->nodes.size(); ++i) {
 
-    n = clad->nodes.at(i);
+    n = clad->nodes[i];
 
     tailN = "";
     for(int j = 0; j < width-fixedFieldsNode-(int)n->nameChanges.size()*3; ++j)
@@ -101,7 +101,7 @@ void GeneratorCSV::writeData(Cladogram * clad, OutputFile & out) {
       << n->iconfile << "\",\"" << n->description << "\"";
 
     for(int j = 0; j < (int)n->nameChanges.size(); ++j) {
-      NameChange * nc = &(n->nameChanges.at(j));
+      NameChange * nc = &(n->nameChanges[j]);
       f << ",\"" << nc->newName << "\",\"" << Date2str(nc->date) << "\",\""
         << nc->description << "\"";
     }
@@ -118,7 +118,7 @@ void GeneratorCSV::writeData(Cladogram * clad, OutputFile & out) {
     << "\"#\",\"From When\",\"From\",\"To When\",\"To\",\"Thickness\",\"Color\"" << tailC << "\n";
   for(int i = 0; i < (int)clad->connectors.size(); ++i) {
 
-    c = clad->connectors.at(i);
+    c = clad->connectors[i];
 
     string fromWhen = Date2str(c->fromWhen);
     string toWhen = Date2str(c->toWhen);                // cosmetic hack:
@@ -137,10 +137,10 @@ void GeneratorCSV::writeData(Cladogram * clad, OutputFile & out) {
 
   // Domains
   f << "\"#\",\"Domains\"" << tail2 << "\n"
-    << "\"#\",\"Distribution\",\"Color\",\"Intensity\"" << tailD << "\n";
+    << "\"#\",\"Node\",\"Color\",\"Intensity\"" << tailD << "\n";
   for(int i = 0; i < (int)clad->domains.size(); ++i) {
 
-    d = clad->domains.at(i);
+    d = clad->domains[i];
 
     f << "\"D\",\"" << d->nodeName << "\",\"#" << d->color.hex
       << "\",\"" << int2str(d->intensity) << "\"" << tailD << "\n";
@@ -154,10 +154,16 @@ void GeneratorCSV::writeData(Cladogram * clad, OutputFile & out) {
     << "\"#\",\"File Path\",\"x Position\",\"y Position\"" << tailIm << "\n";
   for(int i = 0; i < (int)clad->includeSVG.size(); ++i) {
 
-    im = clad->includeSVG.at(i);
+    im = clad->includeSVG[i];
 
     f << "\"SVG\",\"" << im->filename << "\",\"" << int2str(im->x)
       << "\",\"" << int2str(im->y) << "\"" << tailIm << "\n";
   }
+  for(int i = 0; i < (int)clad->includePNG.size(); ++i) {
 
+    im = clad->includePNG[i];
+
+    f << "\"PNG\",\"" << im->filename << "\",\"" << int2str(im->x)
+      << "\",\"" << int2str(im->y) << "\"" << tailIm << "\n";
+  }
 }

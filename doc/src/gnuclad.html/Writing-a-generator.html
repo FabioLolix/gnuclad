@@ -105,7 +105,7 @@ All measures (height, thickness, ...) are "generic units".
 <pre class="example">       Node * n;
        for(int i = 0; i &lt; (int)clad-&gt;nodes.size(); ++i) {
      
-         n = clad-&gt;nodes.at(i);
+         n = clad-&gt;nodes[i];
          cout &lt;&lt; "\nWe have " &lt;&lt; n-&gt;name
               &lt;&lt; " at offset " &lt;&lt; n-&gt;offset;
      

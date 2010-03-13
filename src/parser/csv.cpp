@@ -47,7 +47,7 @@ void ParserCSV::parseData(Cladogram * clad, InputFile & in) {
 
     // remove double quotes
     for(int i = 0; i < (int)entry.size(); ++i) {
-      string * e = &entry.at(i);
+      string * e = &entry[i];
       if(e->size() == 0) continue;
       if(e->at(0) == '"') *e = e->substr(1, e->size() - 1);
       if(e->at(e->size() - 1) == '"') *e = e->substr(0, e->size() - 1);
@@ -56,7 +56,7 @@ void ParserCSV::parseData(Cladogram * clad, InputFile & in) {
     if(entry.size() == 0) continue;
 
     string what;
-    string ctl = entry.at(0);
+    string ctl = entry[0];
     if     (ctl == "N") what = "node ";
     else if(ctl == "C") what = "connector at ";
     else if(ctl == "D") what = "domain of ";
@@ -70,61 +70,61 @@ void ParserCSV::parseData(Cladogram * clad, InputFile & in) {
 
         if((int)entry.size() < fixedFieldsNode) throw 0;
 
-        Node * node = clad->addNode(entry.at(1));
-        node->color = Color(entry.at(2));
-        node->parentName = entry.at(3);
-        node->start = Date(entry.at(4));
-        node->stop = Date(entry.at(5));
-        node->iconfile = entry.at(6);
-        node->description = entry.at(7);
+        Node * node = clad->addNode(entry[1]);
+        node->color = Color(entry[2]);
+        node->parentName = entry[3];
+        node->start = Date(entry[4]);
+        node->stop = Date(entry[5]);
+        node->iconfile = entry[6];
+        node->description = entry[7];
 
         // get the name changes
         for(int i = fixedFieldsNode; i < (int)entry.size()-1; i += 3)
-          if(entry.at(i) != "" && entry.at(i+1) != "")
-            node->addNameChange(entry.at(i), Date(entry.at(i+1)),entry.at(i+2));
+          if(entry[i] != "" && entry[i+1] != "")
+            node->addNameChange(entry[i], Date(entry[i+1]),entry[i+2]);
 
       } else if(ctl == "C") {  // add a connector
 
         if((int)entry.size() < fixedFieldsConnector) throw 0;
 
         Connector * c = clad->addConnector();
-        c->fromWhen = Date(entry.at(1));
-        c->fromName = entry.at(2);
-        if(entry.at(3) == "") c->toWhen = c->fromWhen;
-        else c->toWhen = Date(entry.at(3));
-        c->toName = entry.at(4);
-        c->thickness = str2int( entry.at(5) );
-        c->color = Color(entry.at(6));
+        c->fromWhen = Date(entry[1]);
+        c->fromName = entry[2];
+        if(entry[3] == "") c->toWhen = c->fromWhen;
+        else c->toWhen = Date(entry[3]);
+        c->toName = entry[4];
+        c->thickness = str2int(entry[5]);
+        c->color = Color(entry[6]);
 
       } else if(ctl == "D") {  // add a domain
 
         if((int)entry.size() < fixedFieldsDomain) throw 0;
 
-        Domain * domain = clad->addDomain(entry.at(1));
-        domain->color = Color(entry.at(2));
-        domain->intensity = str2int( entry.at(3) );
+        Domain * domain = clad->addDomain(entry[1]);
+        domain->color = Color(entry[2]);
+        domain->intensity = str2int(entry[3]);
 
       } else if(ctl == "SVG") {
 
         if((int)entry.size() < fixedFieldsImage) throw 0;
 
-        Image * image = clad->addImage(entry.at(1), clad->includeSVG);
-        image->x = str2int(entry.at(2));
-        image->y = str2int(entry.at(3));
+        Image * image = clad->addImage(entry[1], clad->includeSVG);
+        image->x = str2int(entry[2]);
+        image->y = str2int(entry[3]);
 
       } else if(ctl == "PNG") {
 
         if((int)entry.size() < fixedFieldsImage) throw 0;
 
-        Image * image = clad->addImage(entry.at(1), clad->includePNG);
-        image->x = str2int(entry.at(2));
-        image->y = str2int(entry.at(3));
+        Image * image = clad->addImage(entry[1], clad->includePNG);
+        image->x = str2int(entry[2]);
+        image->y = str2int(entry[3]);
 
       } else throw 0;
 
     } catch (...) {
       throw "invalid entry at line " + int2str(count - 1)
-            + " (" + what + entry.at(1) + ")";
+            + " (" + what + entry[1] + ")";
     }
 
   }

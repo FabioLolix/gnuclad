@@ -10,6 +10,23 @@ ________________________________________________________________________
 created with: bzr log --gnu-changelog
 
 
+2010-03-08  bryonak  <bryonak@freenet.de>
+
+	src/generator/conf.cpp: fixed endOfTime check (bug 534301)
+	improved explanations
+	added example/dir.conf
+
+2010-03-08  bryonak  <bryonak@freenet.de>
+
+	src/parser/dir.cpp: improved parsing, still experimental
+	src/generator/conf.cpp: added dir_showDotDirs
+	src/generator/svg.cpp: added clad->gnuclad_version
+	rounded main background corners
+	src/gnuclad-cladogram.cpp: added truncateFolder, inVitro, dir_showDotDirs
+	added node->size < treeSpacingBiggerThan warning
+	print full source => dest names
+	src/gnuclad.h: added truncateFolder, inVitro, dir_showDotDirs
+
 2010-03-06  bryonak  <bryonak@freenet.de>
 
 	src/generator/svg.cpp: implemented out of boundaries infobox

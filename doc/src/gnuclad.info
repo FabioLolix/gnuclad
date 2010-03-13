@@ -813,7 +813,7 @@ All measures (height, thickness, ...) are "generic units".
        Node * n;
        for(int i = 0; i < (int)clad->nodes.size(); ++i) {
 
-         n = clad->nodes.at(i);
+         n = clad->nodes[i];
          cout << "\nWe have " << n->name
               << " at offset " << n->offset;
 
@@ -1346,7 +1346,7 @@ Node: Classes and utilities12318
 Node: Configuration Options18112
 Node: Writing a parser19699
 Node: Writing a generator23107
-Node: GNU Free Documentation License25549
-Node: Index50715
+Node: GNU Free Documentation License25546
+Node: Index50712
 
 End Tag Table

@@ -60,11 +60,13 @@ void ParserDIR::parseDir(std::string dirname, Cladogram * clad, int level) {
 
 // just use 1 loop, add dirs to nondirs vector and append them later to children? how?
  // vector<string> dirs;
-// for(j = 0; j < (int)dirs.size(); ++j) addNode(dirs.at(j), Color("#00f"), dirname, level, clad);
+// for(j = 0; j < (int)dirs.size(); ++j) addNode(dirs[j], Color("#00f"), dirname, level, clad);
 
   string name;
   DIR * dir = new_indir(dirname);
   struct dirent * dirElem;
+
+  vector<string> dirs;
 
   while ((dirElem = readdir(dir)) != NULL) {
 
@@ -72,18 +74,24 @@ void ParserDIR::parseDir(std::string dirname, Cladogram * clad, int level) {
     if(name.substr(name.rfind(folder_delimiter) + 1).substr(0,1) == "." &&
        clad->dir_showDotDirs == 0)
       continue;
-    if(readableDir(name))
-      continue;
 
-    addNode(name, Color("#0ff"), dirname, level, clad);
+    if(readableDir(name)) dirs.push_back(name);
+      //~ continue;
+    else addNode(name, Color("#0ff"), dirname, level, clad);
 
   }
+
+  for(int i = 0; i < (int)dirs.size(); ++i) {
+    name = dirs[i];
+  }
+/*
   rewinddir(dir);
   while ((dirElem = readdir(dir)) != NULL) {
 
     name = dirname + folder_delimiter + dirElem->d_name;
     if(name.substr(name.rfind(folder_delimiter) + 1).substr(0,1) == "." &&
        clad->dir_showDotDirs == 0)
+       continue;
     if(!readableDir(name))
       continue;
     if(strcmp(dirElem->d_name, ".") == 0 || strcmp(dirElem->d_name, "..") == 0)
@@ -96,7 +104,7 @@ void ParserDIR::parseDir(std::string dirname, Cladogram * clad, int level) {
     parseDir(name, clad, level + 1);
 
   }
-
+*/
   closedir(dir);
 
 }
