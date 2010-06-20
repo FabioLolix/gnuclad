@@ -22,6 +22,8 @@ optimise both-subtree at creation time
 implement curved derivType
 implement curved connectors
 
+implement slice node
+
 translatable strings (gettext)
 
                                                                     v0.2

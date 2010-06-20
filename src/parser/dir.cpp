@@ -58,53 +58,38 @@ void ParserDIR::parseDir(std::string dirname, Cladogram * clad, int level) {
 
 // SOLVE OPTIMISATION PROBLEM: opt > x2 -> make pull work
 
-// just use 1 loop, add dirs to nondirs vector and append them later to children? how?
- // vector<string> dirs;
-// for(j = 0; j < (int)dirs.size(); ++j) addNode(dirs[j], Color("#00f"), dirname, level, clad);
-
   string name;
   DIR * dir = new_indir(dirname);
   struct dirent * dirElem;
 
   vector<string> dirs;
 
+  // Scan all nodes in current folder
   while ((dirElem = readdir(dir)) != NULL) {
 
     name = dirname + folder_delimiter + dirElem->d_name;
-    if(name.substr(name.rfind(folder_delimiter) + 1).substr(0,1) == "." &&
-       clad->dir_showDotDirs == 0)
+    if(dirElem->d_name[0] == '.' && clad->dir_showDotFiles == 0)
       continue;
 
-    if(readableDir(name)) dirs.push_back(name);
-      //~ continue;
+    if(false /*symlink .... make connector?*/) {}
+    else if(readableDir(name)) dirs.push_back(name);
     else addNode(name, Color("#0ff"), dirname, level, clad);
 
   }
 
+  // Add readable directories to cladogram
   for(int i = 0; i < (int)dirs.size(); ++i) {
-    name = dirs[i];
-  }
-/*
-  rewinddir(dir);
-  while ((dirElem = readdir(dir)) != NULL) {
 
-    name = dirname + folder_delimiter + dirElem->d_name;
-    if(name.substr(name.rfind(folder_delimiter) + 1).substr(0,1) == "." &&
-       clad->dir_showDotDirs == 0)
-       continue;
-    if(!readableDir(name))
-      continue;
-    if(strcmp(dirElem->d_name, ".") == 0 || strcmp(dirElem->d_name, "..") == 0)
+    name = dirs[i];
+    string tuple = name.substr(name.rfind(folder_delimiter) + 1).substr(0,2);
+    if(tuple == ".." || tuple == "." || tuple == "./")
       continue;
 
     addNode(name, Color("#00f"), dirname, level, clad);
-
-    // if symlink { make connector?; continue;}
-
     parseDir(name, clad, level + 1);
 
   }
-*/
+
   closedir(dir);
 
 }

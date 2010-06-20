@@ -135,6 +135,13 @@ void GeneratorCONF::writeData(Cladogram * clad, OutputFile & out) {
     << "\n# (hoping for v1.2 or CSS3 ...)"
     << "\nlabelBGOpacity = " << clad->labelBGOpacity
     << "\n"
+    << "\n# This sets the heuristic used for determining label background width"
+    << "\n# 0 = standard, will sometimes generate suboptimal width values"
+    << "\n# 1 = improved, but only if the majority of your characters fall into"
+    << "\n#               the ASCII charset and you use a fairly standard font"
+    << "\n#               playing around with fontCorrectionFactor might help"
+    << "\nasciiStrings = " << clad->asciiStrings
+    << "\n"
     << "\n# Useful if you want to use the renames only as version bumps."
     << "\n# 0 = rename above the dot to the right, like the first name"
     << "\n# 1 = rename centered within the dot"
@@ -185,7 +192,7 @@ void GeneratorCONF::writeData(Cladogram * clad, OutputFile & out) {
     << "\ndescriptionType = " << clad->descriptionType
     << "\n"
     << "\n# When parsing direcories, show dot (hidden) files (0 = off, 1 = on)"
-    << "\ndir_showDotDirs = " << clad->dir_showDotDirs
+    << "\ndir_showDotFiles = " << clad->dir_showDotFiles
     << "\n"
     << "\n# Show debug information when running gnuclad. (0 = off, 1 = on)"
     << "\ndebug = " << clad->debug

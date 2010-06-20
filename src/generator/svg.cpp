@@ -61,6 +61,10 @@ void GeneratorSVG::writeData(Cladogram * clad, OutputFile & out) {
   if(clad->orientation == 1 || clad->orientation == 3)
     swap(canvasWidth, canvasHeight);
 
+  // Small helpers
+  dirty_hack_em = int(clad->labelFontSize / 1.675 * clad->fontCorrectionFactor);
+  dirty_hack_ex = int(clad->labelFontSize / 1.375 * clad->fontCorrectionFactor);
+
 
 
   //////////////////////////////////////////////////////////////////////////////
@@ -133,9 +137,12 @@ void GeneratorSVG::writeData(Cladogram * clad, OutputFile & out) {
   // Stop gradients
   Node * n;
   int fade = clad->stopFadeOutPX / lPX;
-  f << "\n  <line id='__fadeout' x1='0' y1='0' x2='" << fade << "' y2='0' stroke-width='1' />\n";
+
+  f << "<rect id='__fadeout' height='1' width='" << fade << "' y='-0.5' x='0'/>";
+//  f << "\n  <line id='__fadeout' x1='0' y1='0' x2='" << fade << "' y2='0' stroke-width='1' />\n";  // line doesn't render in WebKit
   for(int i = 0; i < (int)clad->nodes.size(); ++i) {
 
+    if(clad->stopFadeOutPX == 0) break;
     n = clad->nodes[i];
     if(n->stop < clad->endOfTime) {
       string name = validxml(n->name);
@@ -144,7 +151,7 @@ void GeneratorSVG::writeData(Cladogram * clad, OutputFile & out) {
         << "    <stop stop-color='#" << n->color.hex << "' offset='1' stop-opacity='0' />\n"
         << "  </linearGradient>\n"
         << "  <marker id='__stop_" << name << "' markerWidth='" << fade << "' markerHeight='1' style='overflow:visible;'>\n"
-        << "    <use xlink:href='#__fadeout' stroke='url(#__fadeout_" << name << ")' />\n"
+        << "    <use xlink:href='#__fadeout' style='fill:url(#__fadeout_" << name << ")' />\n"
         << "  </marker>\n";
     }
 
@@ -280,7 +287,7 @@ void GeneratorSVG::writeData(Cladogram * clad, OutputFile & out) {
     }
     f << startX << " " << posY << " L " << stopX << " " << posY
       << "' stroke='#"<< n->color.hex <<"'";
-    if(n->stop < clad->endOfTime)
+    if(n->stop < clad->endOfTime  && clad->stopFadeOutPX != 0)
       f << " marker-end='url(#__stop_" << validxml(n->name) << ")'";
     f << " />\n";
 
@@ -379,8 +386,6 @@ void GeneratorSVG::writeData(Cladogram * clad, OutputFile & out) {
   f << "\n<g inkscape:label='Labels' inkscape:groupmode='layer' id='layer_labels' " << retransformLabels << "\n"
     << " style='font-size:" << clad->labelFontSize << "px;stroke:none;fill:#" << clad->labelFontColor.hex << ";font-family:"
     << clad->labelFont << ";-inkscape-font-specification:" << clad->labelFont << ";' >\n";
-  int dirty_hack_em = int(clad->labelFontSize / 1.675 * clad->fontCorrectionFactor);
-  int dirty_hack_ex = int(clad->labelFontSize / 1.375 * clad->fontCorrectionFactor);
   for(int i = 0; i < (int)clad->nodes.size(); ++i) {
 
     n = clad->nodes[i];
@@ -393,7 +398,7 @@ void GeneratorSVG::writeData(Cladogram * clad, OutputFile & out) {
 
     int posX = datePX(n->start, clad) + xPX + clad->dotRadius;
     int posY = n->offset * oPX + topOffset - dirty_hack_ex/2;
-    int posXwName = posX + n->name.size() * (dirty_hack_em + 1);  // + 1 is experimental
+    int posXwName = posX + strlenpx(n->name, clad) + dirty_hack_em;  // + dirty_hack_em is experimental
     int alignmentBGx = posX - dirty_hack_em/4;
     string alignment = "";
 
@@ -403,12 +408,12 @@ void GeneratorSVG::writeData(Cladogram * clad, OutputFile & out) {
       posY = datePX(n->start, clad) + xPX - clad->dotRadius - dirty_hack_ex/5;
 
       alignment = "style='text-anchor:middle;'";
-      alignmentBGx = posX - n->name.size() * dirty_hack_em / 2;
+      alignmentBGx = posX - strlenpx(n->name, clad) / 2;
 
     } else if(clad->orientation == 2) {
 
-      posX = width - posX - n->name.size() * dirty_hack_em;
-      alignmentBGx = width - alignmentBGx - n->name.size() * dirty_hack_em;
+      posX = width - posX - strlenpx(n->name, clad);
+      alignmentBGx = width - alignmentBGx - strlenpx(n->name, clad);
 
     } else if(clad->orientation == 3) {
 
@@ -416,13 +421,14 @@ void GeneratorSVG::writeData(Cladogram * clad, OutputFile & out) {
       posY = canvasHeight - (datePX(n->start, clad) + xPX - clad->dotRadius - dirty_hack_ex * 7/5);
 
       alignment = "style='text-anchor:middle;'";
-      alignmentBGx = posX - n->name.size() * dirty_hack_em / 2;
+      alignmentBGx = posX - strlenpx(n->name, clad) / 2;
 
     }
 
     if(clad->labelBGOpacity > 0)
-      f << "  <rect x='" << alignmentBGx << "' y='" << posY - dirty_hack_ex *6/5 << "' width='" << n->name.size() * dirty_hack_em
+      f << "  <rect x='" << alignmentBGx << "' y='" << posY - dirty_hack_ex *6/5 << "' width='" << strlenpx(n->name, clad)
         << "' height='" << dirty_hack_ex *7/5 << "' fill='#" << clad->mainBackground.hex << "' opacity='" << double(clad->labelBGOpacity)/100 
+        //~ << "' height='" << dirty_hack_ex *7/5 << "' fill='#a00' opacity='" << double(clad->labelBGOpacity)/100 
         << "'  rx='5' ry='5' />\n";
 
     f << "  " << href << "<text x='"<< posX <<"' y='"<< posY <<"' " << alignment << " >" << n->name <<"</text>" << hrefend << "\n";
@@ -435,7 +441,7 @@ void GeneratorSVG::writeData(Cladogram * clad, OutputFile & out) {
 
         posX = datePX(n->nameChanges[j].date, clad) + xPX + clad->smallDotRadius;
         if(posX < posXwName) posX = posXwName;
-        if(j != 0) posXwName = posX + n->nameChanges[j-1].newName.size() * (dirty_hack_em + 1);  // + 1 is experimental
+        if(j != 0) posXwName = posX + strlenpx(n->nameChanges[j-1].newName, clad) + dirty_hack_em ;  // + dirty_hack_em is experimental
 
       } else if(clad->nameChangeType == 1) {  // nameChange centered on the dot
 
@@ -456,7 +462,7 @@ void GeneratorSVG::writeData(Cladogram * clad, OutputFile & out) {
 
       } else if(clad->orientation == 2) {
 
-        posX = width - posX - n->nameChanges[j].newName.size() * dirty_hack_em;
+        posX = width - posX - strlenpx(n->nameChanges[j].newName, clad);
 
       } else if(clad->orientation == 3) {
 
@@ -473,8 +479,9 @@ void GeneratorSVG::writeData(Cladogram * clad, OutputFile & out) {
         href = "<a xlink:href='" + n->nameChanges[j].description + "'>";
 
       if(clad->labelBGOpacity > 0 && clad->nameChangeType != 1)
-        f << "    <rect x='" << posX - dirty_hack_em/4 << "' y='" << posY - dirty_hack_ex *6/5 << "' width='" << n->nameChanges[j].newName.size() * dirty_hack_em
+        f << "    <rect x='" << posX - dirty_hack_em/4 << "' y='" << posY - dirty_hack_ex *6/5 << "' width='" << strlenpx(n->nameChanges[j].newName, clad)
           << "' height='" << dirty_hack_ex *7/5 << "' fill='#" << clad->mainBackground.hex << "' opacity='" << double(clad->labelBGOpacity)/100 << "'  rx='5' ry='5' />\n";
+          //~ << "' height='" << dirty_hack_ex *7/5 << "' fill='#a00' opacity='" << double(clad->labelBGOpacity)/100 << "'  rx='5' ry='5' />\n";
 
       f << "    " << href << "<text x='"<< posX <<"' y='"<< posY <<"' " << alignmentNameChange << ">" << n->nameChanges[j].newName <<"</text>" << hrefend << "\n";
 
@@ -567,6 +574,35 @@ void GeneratorSVG::writeData(Cladogram * clad, OutputFile & out) {
 
   f << "\n</svg>\n";
 
+}
+
+
+// Some lame heuristics, works only for variable width ASCII chars
+int GeneratorSVG::strlenpx(std::string str, Cladogram * clad) {
+
+  if(clad->asciiStrings == 0) return str.size() * dirty_hack_em;
+
+  double len = 0;
+  for(int i = 0; i < (int)str.size(); ++i) {
+
+    char c = str[i];  // normalisation on default settings: e = 8px = 1.0 units
+    if     (c == ' ' || c == '-') len += 0.6;
+    else if(c == '.')             len += 0.7;
+    else if(c == 'W' || c == 'M') len += 1.8;
+    else if(c == 'w' || c == 'm') len += 1.6;
+    else if(c == 'O' || c == 'Q') len += 1.5;
+    else if(c == 'o' || c == 'a') len += 1.1;
+    else if(c == 'u' || c == 'n') len += 0.9;
+    else if(c == 't')             len += 0.8;
+    else if(c == 'r')             len += 0.6;
+    else if(c == 'I')             len += 0.6;
+    else if(c == 'i')             len += 0.4;
+    else if(c == 'l')             len += 0.4;
+    else if('A' <= c && c <= 'Z') len += 1.3;
+    else len += 1;
+
+  }
+  return int(len * double(dirty_hack_em));
 }
 
 

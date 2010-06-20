@@ -247,6 +247,7 @@ class Cladogram {
   int labelFontSize;
   Color labelFontColor;
   int labelBGOpacity;
+  int asciiStrings;
   int nameChangeType;
 
   int derivType;
@@ -268,7 +269,7 @@ class Cladogram {
   int daysInMonth;
   int descriptionType;
 
-  int dir_showDotDirs;
+  int dir_showDotFiles;
 
   int debug;
 

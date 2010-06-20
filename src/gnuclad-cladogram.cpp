@@ -74,6 +74,7 @@ Cladogram::Cladogram() {
   labelFontSize = 16;
   labelFontColor = Color("#000");
   labelBGOpacity = 0;
+  asciiStrings = 0;
   nameChangeType = 0;
 
   derivType = 0;
@@ -96,7 +97,7 @@ Cladogram::Cladogram() {
 
   descriptionType = 0;
 
-  dir_showDotDirs = 0;
+  dir_showDotFiles = 0;
 
   debug = 0;
 
@@ -191,7 +192,8 @@ void Cladogram::parseOptions(const string filename) {
       else if(opt == "labelFont") labelFont = val;
       else if(opt == "labelFontSize") labelFontSize = str2int(val);
       else if(opt == "labelFontColor") labelFontColor = Color(val);
-      else if(opt == "labelBGOpacity")labelBGOpacity = str2int(val);
+      else if(opt == "labelBGOpacity") labelBGOpacity = str2int(val);
+      else if(opt == "asciiStrings") asciiStrings = str2int(val);
       else if(opt == "nameChangeType") nameChangeType = str2int(val);
       else if(opt == "derivType") derivType = str2int(val);
       else if(opt == "dotRadius") dotRadius = str2int(val);
@@ -209,7 +211,7 @@ void Cladogram::parseOptions(const string filename) {
       else if(opt == "monthsInYear") monthsInYear = str2int(val);
       else if(opt == "endOfTime") endOfTime = Date(val);
       else if(opt == "descriptionType") descriptionType = str2int(val);
-      else if(opt == "dir_showDotDirs") dir_showDotDirs = str2int(val);
+      else if(opt == "dir_showDotFiles") dir_showDotFiles = str2int(val);
       else if(opt == "debug") debug = str2int(val);
       else cout << "\nIGNORING unrecognised config option: " << opt;
 

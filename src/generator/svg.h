@@ -27,9 +27,14 @@
 class GeneratorSVG: public Generator {
   public:
 
+  int dirty_hack_em;
+  int dirty_hack_ex;
+
   GeneratorSVG();
   ~GeneratorSVG();
   void writeData(Cladogram * clad, OutputFile & out);
+
+  int strlenpx(std::string str, Cladogram * clad);
 };
 
 std::string validxml(std::string str);
