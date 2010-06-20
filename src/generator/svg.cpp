@@ -427,8 +427,8 @@ void GeneratorSVG::writeData(Cladogram * clad, OutputFile & out) {
 
     if(clad->labelBGOpacity > 0)
       f << "  <rect x='" << alignmentBGx << "' y='" << posY - dirty_hack_ex *6/5 << "' width='" << strlenpx(n->name, clad)
-        << "' height='" << dirty_hack_ex *7/5 << "' fill='#" << clad->mainBackground.hex << "' opacity='" << double(clad->labelBGOpacity)/100 
-        //~ << "' height='" << dirty_hack_ex *7/5 << "' fill='#a00' opacity='" << double(clad->labelBGOpacity)/100 
+        //~ << "' height='" << dirty_hack_ex *7/5 << "' fill='#" << clad->mainBackground.hex << "' opacity='" << double(clad->labelBGOpacity)/100 
+    << "' height='" << dirty_hack_ex *7/5 << "' fill='#a00' opacity='" << double(clad->labelBGOpacity)/100 
         << "'  rx='5' ry='5' />\n";
 
     f << "  " << href << "<text x='"<< posX <<"' y='"<< posY <<"' " << alignment << " >" << n->name <<"</text>" << hrefend << "\n";
@@ -480,8 +480,8 @@ void GeneratorSVG::writeData(Cladogram * clad, OutputFile & out) {
 
       if(clad->labelBGOpacity > 0 && clad->nameChangeType != 1)
         f << "    <rect x='" << posX - dirty_hack_em/4 << "' y='" << posY - dirty_hack_ex *6/5 << "' width='" << strlenpx(n->nameChanges[j].newName, clad)
-          << "' height='" << dirty_hack_ex *7/5 << "' fill='#" << clad->mainBackground.hex << "' opacity='" << double(clad->labelBGOpacity)/100 << "'  rx='5' ry='5' />\n";
-          //~ << "' height='" << dirty_hack_ex *7/5 << "' fill='#a00' opacity='" << double(clad->labelBGOpacity)/100 << "'  rx='5' ry='5' />\n";
+          //~ << "' height='" << dirty_hack_ex *7/5 << "' fill='#" << clad->mainBackground.hex << "' opacity='" << double(clad->labelBGOpacity)/100 << "'  rx='5' ry='5' />\n";
+      << "' height='" << dirty_hack_ex *7/5 << "' fill='#a00' opacity='" << double(clad->labelBGOpacity)/100 << "'  rx='5' ry='5' />\n";
 
       f << "    " << href << "<text x='"<< posX <<"' y='"<< posY <<"' " << alignmentNameChange << ">" << n->nameChanges[j].newName <<"</text>" << hrefend << "\n";
 

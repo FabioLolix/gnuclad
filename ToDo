@@ -8,21 +8,22 @@ without any warranty.
 ________________________________________________________________________
 
 
-replace config options with enum? (orientation...)
-
-improve parser/dir
-implement time version of parser/dir
-  (created = deriv, last modified = nameChange)
-
-write manual on optimisation
-
-implement grouping by connectors
-optimise both-subtree at creation time
+implement slice node
 
 implement curved derivType
 implement curved connectors
 
-implement slice node
+implement optimisation for dir input
+
+implement grouping by connectors (faciliate efficient parenting)
+optimise both-subtree at creation time
+
+replace config options with enum? (orientation...)
+
+implement time version of parser/dir  (stat)
+  (created = deriv, last modified = nameChange)
+
+write manual on optimisation
 
 translatable strings (gettext)
 

@@ -19,6 +19,8 @@
 
 #include "dir.h"
 #include <cstring>
+#include <sys/stat.h>
+
                                                                     #include <iostream>
 using namespace std;
 
@@ -33,7 +35,7 @@ cout << "\nWARNING: directory parsing is experimental!";
   clad->beginningOfTime = Date(1);
   clad->endOfTime = Date(1);
   clad->truncateFolder = true;
-  clad->inVitro = true;
+  clad->inVitro = true;  // just surpress warnings
 
   clad->derivType = 1;
   clad->stopFadeOutPX = 0;
@@ -45,7 +47,7 @@ cout << "\nWARNING: directory parsing is experimental!";
   if(dir.substr(dir.size()-1) == folder_delimiter)
     dir = dir.substr(0, dir.size()-1);
 
-  addNode(dir, Color("#00f"), "", 0, clad);
+  addNode(dir, Color("#00f"), "", 0, clad);                              ////// dir_colorDir
   parseDir(dir, clad, 1);
 
 }
@@ -56,12 +58,19 @@ void ParserDIR::parseDir(std::string dirname, Cladogram * clad, int level) {
   if(clad->endOfTime.year <= level) clad->endOfTime.year = level + 1;
 
 
+Color dir_colorFile("#0ff");
+Color dir_colorDir("#00f");
+Color dir_colorLink("#0f0");
+
 // SOLVE OPTIMISATION PROBLEM: opt > x2 -> make pull work
+
+
 
   string name;
   DIR * dir = new_indir(dirname);
   struct dirent * dirElem;
 
+  // Readable directories
   vector<string> dirs;
 
   // Scan all nodes in current folder
@@ -71,23 +80,23 @@ void ParserDIR::parseDir(std::string dirname, Cladogram * clad, int level) {
     if(dirElem->d_name[0] == '.' && clad->dir_showDotFiles == 0)
       continue;
 
-    if(false /*symlink .... make connector?*/) {}
-    else if(readableDir(name)) dirs.push_back(name);
-    else addNode(name, Color("#0ff"), dirname, level, clad);
+    if (islink(dirElem)) addNode(name, dir_colorLink, dirname, level, clad);
+
+    else if(readableDir(name)) {
+      string t = dirElem->d_name;
+      t = t.substr(0,2);
+      if(t != ".." && t != "." && t != "./" && t != ".\\")
+        dirs.push_back(name);
+    }
+
+    else addNode(name, dir_colorFile, dirname, level, clad);
 
   }
 
   // Add readable directories to cladogram
   for(int i = 0; i < (int)dirs.size(); ++i) {
-
-    name = dirs[i];
-    string tuple = name.substr(name.rfind(folder_delimiter) + 1).substr(0,2);
-    if(tuple == ".." || tuple == "." || tuple == "./")
-      continue;
-
-    addNode(name, Color("#00f"), dirname, level, clad);
-    parseDir(name, clad, level + 1);
-
+    addNode(dirs[i], dir_colorDir, dirname, level, clad);
+    parseDir(dirs[i], clad, level + 1);
   }
 
   closedir(dir);
@@ -106,12 +115,27 @@ void ParserDIR::addNode(std::string name, Color color, std::string parent,
 
 }
 
+
 bool readableDir(string dname) {
-  DIR * dp;
-  dp = opendir(dname.c_str());
-  if(dp == NULL) return false;
-  closedir(dp);
+
+  // First part, check if it's a directory
+  struct stat filestat;
+
+  if (stat(dname.c_str(), &filestat) == -1) {
+    cout << "\n" << dname;
+    perror("stat");
+  }
+  if(!S_ISDIR(filestat.st_mode))
+    return false;
+
+  // Second part, makes sure we can actually read it... but slows things down
+  //~ DIR * dp;
+  //~ dp = opendir(dname.c_str());
+  //~ if(dp == NULL) return false;
+  //~ closedir(dp);
+
   return true;
+
 }
 
 DIR * new_indir(string dname) {

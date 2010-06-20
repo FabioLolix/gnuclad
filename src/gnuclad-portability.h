@@ -1,5 +1,5 @@
 /*
-*  gnuclad-portability.h - a few definitions to help gnuclad be more portable
+*  gnuclad-portability.h - portability header
 *
 *  Copyright (C) 2010 Donjan Rodic <donjan@dyx.ch>
 *
@@ -17,6 +17,10 @@
 *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+#ifndef GNUCLADPORTABILITY_H_
+#define GNUCLADPORTABILITY_H_
+
+
 #if defined (WIN32) || defined (_WIN32)
 #define GNUCLAD_WINDOWS
 #else
@@ -24,18 +28,15 @@
 #endif
 
 
-#ifndef GNUCLADPORTABILITY_H_
-#define GNUCLADPORTABILITY_H_
+#include <string>
+#include <dirent.h>
 
-#ifdef GNUCLAD_POSIX
+extern bool islink(dirent * dirElem);
 
-const std::string folder_delimiter = "/";
+extern std::string folder_delimiter;
 
-#elif defined(GNUCLAD_WINDOWS)
 
-const std::string folder_delimiter = "\\";
 
-#endif
 
 
 #endif

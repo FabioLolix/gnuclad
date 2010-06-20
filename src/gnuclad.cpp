@@ -303,7 +303,9 @@ Connector::Connector() {
 
 InputFile::InputFile(std::string tname) {
   name = tname;
-  p = new_infile(name);
+  if(getExt(name) != "")
+    p = new_infile(name);
+  else p = NULL;
 }
 InputFile::~InputFile() {
   safeClose(p);

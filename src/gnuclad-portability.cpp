@@ -1,5 +1,5 @@
 /*
-*  dir.h - directory parser header for gnuclad
+*  gnuclad-portability.h - a few definitions to help gnuclad be more portable
 *
 *  Copyright (C) 2010 Donjan Rodic <donjan@dyx.ch>
 *
@@ -17,29 +17,34 @@
 *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-
-#ifndef PARSERDIR_H_
-#define PARSERDIR_H_
-
-#include "../gnuclad.h"
-#include <dirent.h>
-#include <sys/stat.h>
+#include "gnuclad-portability.h"
 
 
-class ParserDIR: public Parser {
+////////////////////////////////////////////////////////////////////////////////
+///
+// POSIX & GNU/Linux
+//
 
-  public:
+#ifdef GNUCLAD_POSIX
 
-  ParserDIR();
-  ~ParserDIR();
-  void parseData(Cladogram * clad, InputFile & in);
-  void parseDir(std::string dirname, Cladogram * clad, int level);
-  void addNode(std::string name, Color color, std::string parent, int level,
-               Cladogram * clad);
 
-};
+std::string folder_delimiter = "/";
 
-bool readableDir(std::string dname);
-DIR * new_indir(std::string dname);
+bool islink(dirent * dirElem) {
+  if(dirElem->d_type == DT_LNK) return true;
+  return false;
+}
+
+
+////////////////////////////////////////////////////////////////////////////////
+///
+// Windows
+//
+
+#elif defined(GNUCLAD_WINDOWS)
+
+std::string folder_delimiter = "\\";
+
+bool islink(dirent * dirElem) { if(dirElem == 0 || true) return false; }
 
 #endif
