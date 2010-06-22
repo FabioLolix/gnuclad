@@ -85,9 +85,9 @@ void GeneratorSVG::writeData(Cladogram * clad, OutputFile & out) {
     << "  version='1.1'\n"
     << "  width='" << canvasWidth << "'\n"
     << "  height='" << canvasHeight << "'\n"
-    << ">\n\n";
-
-
+    << ">\n\n"
+    << "<title>" << clad->infoBoxTitle << "</title>"
+    << "\n\n";
 
   //////////////////////////////////////////////////////////////////////////////
   // Definitions
@@ -281,8 +281,26 @@ void GeneratorSVG::writeData(Cladogram * clad, OutputFile & out) {
       else sign = -1;
       int posYparent = n->parent->offset * oPX + topOffset - sign * lPX/2;
 
-      if(clad->derivType == 0) f << startX << " " << posYparent << " L ";
-      else if(clad->derivType == 1) f << datePX(n->parent->start, clad) + xPX << " " << posYparent << " L ";
+      if(clad->derivType == 0)
+        f << startX << " " << posYparent << " L ";
+      else if(clad->derivType == 1)
+        f << datePX(n->parent->start, clad) + xPX << " " << posYparent << " L ";
+      else if(clad->derivType == 2) {
+        f << startX - yrPX << " " << posYparent << " C "
+          << startX - 0.2*yrPX << "," << posYparent << " "
+          << startX - 0.8*yrPX << "," << posY << " "
+          << startX << "," << posY
+          << " L ";
+      }
+      else if(clad->derivType == 3) {
+        int startPar = datePX(n->parent->start, clad) + xPX;
+        int xdiff = startX - startPar;
+        f << startPar << " " << posYparent << " C "
+          << startPar + 0.8*xdiff << "," << posYparent << " "
+          << startPar + 0.2*xdiff << "," << posY << " "
+          << startX << "," << posY
+          << " L ";
+      }
 
     }
     f << startX << " " << posY << " L " << stopX << " " << posY
