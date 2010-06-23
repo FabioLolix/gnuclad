@@ -468,7 +468,7 @@ void Cladogram::compute() {
       throw "something went wrong with the subtree calculation";
 
     // Assign offsets according to the tree
-    // Will only have one assignment if it's a single root
+    // Loop will only pass once if it's a single root
     for(int j = 0; j < (int)nodeTree.size(); ++j)
       nodeTree[j]->offset = offset + j;
 
@@ -753,4 +753,28 @@ void Cladogram::optimise_pullTree(int first, int last) {
     else sign = -1;
     while(fitsInto(n->offset + sign, n)) n->offset += sign;
   }
+}
+
+// Change node array sequence to preorder
+// Slow but easy fix for SVG layering (derivType 2 and 3)
+void Cladogram::nodesPreorder() {
+  int dbg_counter = 0, dbg_swaps = 0;
+  for(int i = (int)nodes.size() - 1; i >= 0; --i) {
+    Node * par = nodes[i]->parent;
+    if( par == NULL) continue;
+
+    int j = i-1;//(int)nodes.size();
+    while(--j >= 0) {  // find parent
+      dbg_counter++;
+      if(nodes[j] == par) break;
+    }
+    if(j < i) {  // swap with parent if parent has lower position
+      dbg_swaps++;
+      swap(nodes[j], nodes[i]);
+      //~ i = j;
+    }
+
+  }
+  //~ if(debug > 0)
+    cout << "\nnodesPreorder: comparisons=" << dbg_counter << "  swaps=" << dbg_swaps;
 }

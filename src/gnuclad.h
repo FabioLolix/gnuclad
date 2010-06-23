@@ -287,6 +287,8 @@ class Cladogram {
   Connector * addConnector();
   Image * addImage(std::string tname, std::vector<Image *> &vector);
 
+  void nodesPreorder();
+
 };
 
 
