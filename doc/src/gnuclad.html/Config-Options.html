@@ -55,7 +55,8 @@ config file.
 
 <p>You can always generate a full configuration file by specifying CONF as
 gnuclad's output:
-<pre class="example">     gnuclad input.csv CONF
+<pre class="example">     
+     gnuclad input.csv CONF
      gnuclad input.csv config-file.conf
      gnuclad input.csv conf another.conf
 </pre>
@@ -99,6 +100,9 @@ The 'input.csv' will be ignored. It can be an empty dummy file.
      infoBoxY = 45
      infoBoxWidth = 166
      infoBoxHeight = 60
+     
+     # Slice one node name with children, ignore the rest.
+     slice =
      
      # Correction factor for font pixel width/height.
      # It is normalised for Liberation Sans (= Arial) and will
@@ -169,6 +173,13 @@ The 'input.csv' will be ignored. It can be an empty dummy file.
      # (hoping for v1.2 or CSS3 ...)
      labelBGOpacity = 0
      
+     # This sets the heuristic used for determining label background width
+     # 0 = standard, will sometimes generate suboptimal width values
+     # 1 = improved, but only if the majority of your characters fall into
+     #               the ASCII charset and you use a fairly standard font
+     #               playing around with fontCorrectionFactor might help
+     asciiStrings = 0
+     
      # Useful if you want to use the renames only as version bumps.
      # 0 = rename above the dot to the right, like the first name
      # 1 = rename centered within the dot
@@ -176,6 +187,7 @@ The 'input.csv' will be ignored. It can be an empty dummy file.
      
      # Set the way the lines should derive from the parent.
      # 0 = orthogonal, 1 = from parent's starting point
+     # 2 = curved, 3 = curved from parent's starting point
      derivType = 0
      
      # The size of the node dots
@@ -215,10 +227,11 @@ The 'input.csv' will be ignored. It can be an empty dummy file.
      descriptionType = 0
      
      # When parsing direcories, show dot (hidden) files (0 = off, 1 = on)
-     dir_showDotDirs = 0
+     dir_showDotFiles = 0
      
      # Show debug information when running gnuclad. (0 = off, 1 = on)
      debug = 0
+     
 </pre>
 <!-- Part of the gnuclad texinfo manual -->
    </body></html>

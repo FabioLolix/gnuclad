@@ -50,6 +50,8 @@ Cladogram::Cladogram() {
   infoBoxWidth = 166;
   infoBoxHeight = 60;
 
+  slice = "";
+
   fontCorrectionFactor = 1.0;
   orientation = 0;
   treeMode = 0;
@@ -172,6 +174,7 @@ void Cladogram::parseOptions(const string filename) {
       else if(opt == "infoBoxY") infoBoxY = str2int(val);
       else if(opt == "infoBoxWidth") infoBoxWidth = str2int(val);
       else if(opt == "infoBoxHeight") infoBoxHeight = str2int(val);
+      else if(opt == "slice") slice = val;
       else if(opt == "fontCorrectionFactor")fontCorrectionFactor=str2double(val);
       else if(opt == "orientation") orientation = str2int(val);
       else if(opt == "treeMode") treeMode = str2int(val);
@@ -284,17 +287,18 @@ void Cladogram::compute() {
 
   // Basics
   // Juggle dates, warn for duplicates and assing parent pointers
-  roots.clear();
-  std::vector<int> toErase;
   for(int i = 0; i < nCount; ++i) {
 
     n = nodes[i];
 
     // If "start" is newer than endOfTime, ignore that node
     if(endOfTime < n->start) {
-      cout << "\nIgnoring " << n->name << " (entry " << i+1
-           << "): starts after specified End Of Time";
-      toErase.push_back(i);
+      cout << "\nIgnoring " << n->name
+           << " : starts after specified End Of Time";
+
+      nodes.erase(nodes.begin() + i);
+      --nCount;
+      --i;
       continue;
     }
 
@@ -326,7 +330,6 @@ void Cladogram::compute() {
       throw n->name + " has the same name as it's parent";
 
     // Find pointer to parent and check for duplicates
-    if(parName == "") roots.push_back(n);
     for(int j = 0; j < nCount; ++j) {
 
       if(j > i && n->name == nodes[j]->name)  // might result in bad children
@@ -355,12 +358,33 @@ void Cladogram::compute() {
     }
   }
 
-  // Truncate folder names
+  // Truncate folder names, used in dir parser
   if(truncateFolder == true)
     for(int i = 0; i < nCount; ++i) {
       n = nodes[i];
       n->name = n->name.substr(n->name.rfind(folder_delimiter) + 1);
     }
+
+  // If node is not within slice, erase it
+  if(slice != "") {
+    Node * sliceNode = 0;
+    for(int i = 0; i < nCount; ++i)
+      if(nodes[i]->name == slice) sliceNode = nodes[i];
+    if(sliceNode == NULL) throw "unable to slice node " + slice;
+
+    sliceNode->parent = NULL;
+    sliceNode->parentName = "";
+    beginningOfTime = sliceNode->start;
+
+    for(int i = 0; i < nCount; ++i) {
+      n = nodes[i];
+      if( n->name != slice && !n->derivesFrom(sliceNode) ) {
+        nodes.erase(nodes.begin() + i);
+        --nCount;
+        --i;
+      }
+    }
+  }
 
   // Assign nodes to domains
   for(int i = 0; i < dCount; ++i) {
@@ -368,10 +392,9 @@ void Cladogram::compute() {
     for(int j = 0; j < nCount; ++j)
       if(nodes[j]->name == d->nodeName)
         d->node = nodes[j];
-    if(d->node == NULL)
-      throw "unable to assign domain to " + d->nodeName;
 
-    if(endOfTime < d->node->start) {
+    if(d->node == NULL || endOfTime < d->node->start) {
+      cout << "\nWarning: unable to assign domain to " + d->nodeName;
       domains.erase(domains.begin() + i);
       --dCount;
       --i;
@@ -407,16 +430,16 @@ void Cladogram::compute() {
       if(nodes[j]->name == c->toName)
         c->to = nodes[j];
     }
-    if(c->from == NULL || c->to == NULL)
-      throw "unable to assign connector " + c->fromName + " -> " + c->toName;
 
+    if(c->from == NULL || c->to == NULL) {
+      cout << "\nWarning: unable to assign connector "
+           << c->fromName << " -> " << c->toName;
+      connectors.erase(connectors.begin() + i);
+      --cCount;
+      --i;
+      continue;
+    }
   }
-
-  // Erase ignored nodes
-  nCount -= (int)toErase.size();
-  for(int i = (int)toErase.size() - 1; i >= 0; --i)
-    nodes.erase(nodes.begin() + toErase[i]);
-  int rCount = (int)roots.size();
 
   // Push through size
   // Requires full parent paths, hence a new pass
@@ -429,8 +452,13 @@ void Cladogram::compute() {
   }
 
   // Build the map
-  // Assign offsets to all nodes
+  // Set offsets to all nodes
   // Requires correct size on all nodes, hence a new pass
+  roots.clear();
+  for(int i = 0; i < nCount; ++i)
+    if(nodes[i]->parentName == "") roots.push_back( nodes[i]);
+  cout << nCount;
+  int rCount = (int)roots.size();
   int offset = 0;
   for(int i = 0; i < rCount; ++i) {
 
@@ -438,7 +466,6 @@ void Cladogram::compute() {
     r = roots[i];
     std::deque<Node *> nodeTree;
     nodeTree.push_back(r);
-
     // Expand the tree if the current root size is bigger than 1
     while((int)nodeTree.size() < r->size) {
 
@@ -755,7 +782,7 @@ void Cladogram::optimise_pullTree(int first, int last) {
   }
 }
 
-// Change node array sequence to preorder
+// Change node array sequence to "pseudo-inverse" preorder
 // Slow but easy fix for SVG layering (derivType 2 and 3)
 void Cladogram::nodesPreorder() {
   int dbg_counter = 0, dbg_swaps = 0;
@@ -763,7 +790,7 @@ void Cladogram::nodesPreorder() {
     Node * par = nodes[i]->parent;
     if( par == NULL) continue;
 
-    int j = i-1;//(int)nodes.size();
+    int j = (int)nodes.size();
     while(--j >= 0) {  // find parent
       dbg_counter++;
       if(nodes[j] == par) break;
@@ -771,10 +798,10 @@ void Cladogram::nodesPreorder() {
     if(j < i) {  // swap with parent if parent has lower position
       dbg_swaps++;
       swap(nodes[j], nodes[i]);
-      //~ i = j;
+      ++i;
     }
 
   }
-  //~ if(debug > 0)
+  if(debug > 0)
     cout << "\nnodesPreorder: comparisons=" << dbg_counter << "  swaps=" << dbg_swaps;
 }

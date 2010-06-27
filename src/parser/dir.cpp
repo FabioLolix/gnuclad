@@ -35,7 +35,7 @@ cout << "\nWARNING: directory parsing is experimental!";
   clad->beginningOfTime = Date(1);
   clad->endOfTime = Date(1);
   clad->truncateFolder = true;
-  clad->inVitro = true;  // just surpress warnings
+  clad->inVitro = true;  // just surpressing warnings
 
   clad->derivType = 1;
   clad->stopFadeOutPX = 0;

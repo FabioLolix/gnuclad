@@ -223,6 +223,8 @@ class Cladogram {
   int infoBoxWidth;
   int infoBoxHeight;
 
+  std::string slice;
+
   double fontCorrectionFactor;
   int orientation;
   int treeMode;

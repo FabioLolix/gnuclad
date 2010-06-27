@@ -66,6 +66,9 @@ void GeneratorCONF::writeData(Cladogram * clad, OutputFile & out) {
     << "\ninfoBoxWidth = " << clad->infoBoxWidth
     << "\ninfoBoxHeight = " << clad->infoBoxHeight
     << "\n"
+    << "\n# Slice one node name with children, ignore the rest."
+    << "\nslice = " << clad->slice
+    << "\n"
     << "\n# Correction factor for font pixel width/height."
     << "\n# It is normalised for Liberation Sans (= Arial) and will"
     << "\n# affect the alignment of all text in your output. Since this"
@@ -149,6 +152,7 @@ void GeneratorCONF::writeData(Cladogram * clad, OutputFile & out) {
     << "\n"
     << "\n# Set the way the lines should derive from the parent."
     << "\n# 0 = orthogonal, 1 = from parent's starting point"
+    << "\n# 2 = curved, 3 = curved from parent's starting point"
     << "\nderivType = " << clad->derivType
     << "\n"
     << "\n# The size of the node dots"

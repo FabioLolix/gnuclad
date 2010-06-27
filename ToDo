@@ -10,7 +10,7 @@ ________________________________________________________________________
 
 implement slice node
 
-implement curved derivType
+implement curved derivType [0.8]
 implement curved connectors
 
 implement optimisation for dir input
@@ -22,6 +22,8 @@ replace config options with enum? (orientation...)
 
 implement time version of parser/dir  (stat)
   (created = deriv, last modified = nameChange)
+
+toFix: renames show after endOfTime if node starts before
 
 write manual on optimisation
 

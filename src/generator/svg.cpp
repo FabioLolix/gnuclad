@@ -290,7 +290,9 @@ void GeneratorSVG::writeData(Cladogram * clad, OutputFile & out) {
       else if(clad->derivType == 1)
         f << datePX(n->parent->start, clad) + xPX << " " << posYparent << " L ";
       else if(clad->derivType == 2) {
-        f << startX - yrPX << " " << posYparent << " C "
+        int startPar = datePX(n->parent->start, clad) + xPX;
+        int startpoint = (startX - yrPX > startPar)?(startX-yrPX):(startPar);
+        f << startpoint << " " << posYparent << " C "
           << startX - 0.2*yrPX << "," << posYparent << " "
           << startX - 0.8*yrPX << "," << posY << " "
           << startX << "," << posY
@@ -610,6 +612,7 @@ int GeneratorSVG::strlenpx(std::string str, Cladogram * clad) {
     char c = str[i];  // normalisation on default settings: e = 8px = 1.0 units
     if     (c == ' ' || c == '-') len += 0.6;
     else if(c == '.')             len += 0.7;
+    else if(c == '(' || c == ')') len += 0.7;
     else if(c == 'W' || c == 'M') len += 1.8;
     else if(c == 'w' || c == 'm') len += 1.6;
     else if(c == 'O' || c == 'Q') len += 1.5;
