@@ -8,8 +8,6 @@ without any warranty.
 ________________________________________________________________________
 
 
-implement slice node
-
 implement curved derivType [0.8]
 implement curved connectors
 
@@ -18,15 +16,16 @@ implement optimisation for dir input
 implement grouping by connectors (faciliate efficient parenting)
 optimise both-subtree at creation time
 
-replace config options with enum? (orientation...)
-
 implement time version of parser/dir  (stat)
   (created = deriv, last modified = nameChange)
+
+replace config options with enum? (orientation...)
 
 toFix: renames show after endOfTime if node starts before
 
 write manual on optimisation
 
+translate manual
 translatable strings (gettext)
 
                                                                     v0.2

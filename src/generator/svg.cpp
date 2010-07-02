@@ -37,6 +37,7 @@ void GeneratorSVG::writeData(Cladogram * clad, OutputFile & out) {
   int topOffset = yrlinePX;
 
   int years = clad->endOfTime.year - clad->beginningOfTime.year + 1;
+  years += clad->appendYears;
 
   int width = years * yrPX + 2 * xPX;
   int height = clad->maximumOffset * oPX + 2 * yrlinePX;
@@ -139,7 +140,7 @@ void GeneratorSVG::writeData(Cladogram * clad, OutputFile & out) {
   int fade = clad->stopFadeOutPX / lPX;
 
   f << "<rect id='__fadeout' height='1' width='" << fade << "' y='-0.5' x='0'/>";
-//  f << "\n  <line id='__fadeout' x1='0' y1='0' x2='" << fade << "' y2='0' stroke-width='1' />\n";  // line doesn't render in WebKit
+  //  f << "\n  <line id='__fadeout' x1='0' y1='0' x2='" << fade << "' y2='0' stroke-width='1' />\n";  // line doesn't render in WebKit
   for(int i = 0; i < (int)clad->nodes.size(); ++i) {
 
     if(clad->stopFadeOutPX == 0) break;
@@ -229,7 +230,7 @@ void GeneratorSVG::writeData(Cladogram * clad, OutputFile & out) {
 
     Domain * d = clad->domains[i];
     int xpos = datePX(d->node->start, clad) + xPX;
-    int wval = datePX(clad->endOfTime.year + 1, clad) - xpos + xPX;
+    int wval = datePX(clad->endOfTime.year + 1 + clad->appendYears, clad) - xpos + xPX;
     int yval = (d->offsetA - 1) * oPX + topOffset;
     int hval = (d->offsetB - d->offsetA + 2) * oPX;
     f << "  <rect x='" << xpos << "' y='" << yval << "' width='" << wval << "' height='" << hval
@@ -451,8 +452,8 @@ void GeneratorSVG::writeData(Cladogram * clad, OutputFile & out) {
 
     if(clad->labelBGOpacity > 0)
       f << "  <rect x='" << alignmentBGx << "' y='" << posY - dirty_hack_ex *6/5 << "' width='" << strlenpx(n->name, clad)
-        //~ << "' height='" << dirty_hack_ex *7/5 << "' fill='#" << clad->mainBackground.hex << "' opacity='" << double(clad->labelBGOpacity)/100 
-    << "' height='" << dirty_hack_ex *7/5 << "' fill='#a00' opacity='" << double(clad->labelBGOpacity)/100 
+        << "' height='" << dirty_hack_ex *7/5 << "' fill='#" << clad->mainBackground.hex << "' opacity='" << double(clad->labelBGOpacity)/100 
+//~ << "' height='" << dirty_hack_ex *7/5 << "' fill='#a00' opacity='" << double(clad->labelBGOpacity)/100 
         << "'  rx='5' ry='5' />\n";
 
     f << "  " << href << "<text x='"<< posX <<"' y='"<< posY <<"' " << alignment << " >" << n->name <<"</text>" << hrefend << "\n";
@@ -504,8 +505,8 @@ void GeneratorSVG::writeData(Cladogram * clad, OutputFile & out) {
 
       if(clad->labelBGOpacity > 0 && clad->nameChangeType != 1)
         f << "    <rect x='" << posX - dirty_hack_em/4 << "' y='" << posY - dirty_hack_ex *6/5 << "' width='" << strlenpx(n->nameChanges[j].newName, clad)
-          //~ << "' height='" << dirty_hack_ex *7/5 << "' fill='#" << clad->mainBackground.hex << "' opacity='" << double(clad->labelBGOpacity)/100 << "'  rx='5' ry='5' />\n";
-      << "' height='" << dirty_hack_ex *7/5 << "' fill='#a00' opacity='" << double(clad->labelBGOpacity)/100 << "'  rx='5' ry='5' />\n";
+          << "' height='" << dirty_hack_ex *7/5 << "' fill='#" << clad->mainBackground.hex << "' opacity='" << double(clad->labelBGOpacity)/100 << "'  rx='5' ry='5' />\n";
+//~ << "' height='" << dirty_hack_ex *7/5 << "' fill='#a00' opacity='" << double(clad->labelBGOpacity)/100 << "'  rx='5' ry='5' />\n";
 
       f << "    " << href << "<text x='"<< posX <<"' y='"<< posY <<"' " << alignmentNameChange << ">" << n->nameChanges[j].newName <<"</text>" << hrefend << "\n";
 

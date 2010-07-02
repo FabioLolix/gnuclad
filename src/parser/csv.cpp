@@ -65,7 +65,7 @@ void ParserCSV::parseData(Cladogram * clad, InputFile & in) {
 
     try {
 
-      if(ctl == "" || ctl == "#" || ctl.substr(0,2) == "//") {}
+      if(ctl == "" || ctl[0] == '#' || ctl.substr(0,2) == "//") {}
       else if(ctl == "N") {  // add a node
 
         if((int)entry.size() < fixedFieldsNode) throw 0;

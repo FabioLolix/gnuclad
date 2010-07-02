@@ -93,6 +93,7 @@ Cladogram::Cladogram() {
   yearLineFont = "Liberation Sans, Arial, Helvetica";
   yearLineFontSize = 28;
   yearLineFontColor = Color("#fff");
+  appendYears = 0;
 
   daysInMonth = 30;
   monthsInYear = 12;
@@ -210,6 +211,7 @@ void Cladogram::parseOptions(const string filename) {
       else if(opt == "yearLineFont") yearLineFont = val;
       else if(opt == "yearLineFontSize") yearLineFontSize = str2int(val);
       else if(opt == "yearLineFontColor") yearLineFontColor = Color(val);
+      else if(opt == "appendYears") appendYears = str2int(val);
       else if(opt == "daysInMonth") daysInMonth = str2int(val);
       else if(opt == "monthsInYear") monthsInYear = str2int(val);
       else if(opt == "endOfTime") endOfTime = Date(val);

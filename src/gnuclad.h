@@ -266,6 +266,7 @@ class Cladogram {
   std::string yearLineFont;
   int yearLineFontSize;
   Color yearLineFontColor;
+  int appendYears;
 
   int monthsInYear;
   int daysInMonth;
