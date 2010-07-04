@@ -256,6 +256,7 @@ class Cladogram {
   int dotRadius;
   int smallDotRadius;
   int dotType;
+  double bigParent;
 
   int connectorDots;
   int connectorsDashed;

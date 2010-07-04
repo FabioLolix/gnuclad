@@ -21,6 +21,7 @@
 
 #include <iostream>
 #include <algorithm>
+#include <cmath>
 
 using namespace std;
 
@@ -83,6 +84,7 @@ Cladogram::Cladogram() {
   dotRadius = 10;
   smallDotRadius = 5;
   dotType = 0;
+  bigParent = 0;
 
   connectorDots = 1;
   connectorsDashed = 1;
@@ -203,6 +205,7 @@ void Cladogram::parseOptions(const string filename) {
       else if(opt == "dotRadius") dotRadius = str2int(val);
       else if(opt == "smallDotRadius") smallDotRadius = str2int(val);
       else if(opt == "dotType") dotType = str2int(val);
+      else if(opt == "bigParent") bigParent = str2double(val);
       else if(opt == "connectorDots") connectorDots = str2int(val);
       else if(opt == "connectorsDashed") connectorsDashed = str2int(val);
       else if(opt == "yearLinePX") yearLinePX = str2int(val);
@@ -568,6 +571,19 @@ void Cladogram::compute() {
           moveOffsetsHigherThan(a->offset, treeSpacing);
   }
 
+  // Insert spacing at fat lines (bigParent) 
+  // if the overlap goes more than 60% of the way.
+  if(bigParent > 0) {
+    for(int i = 0; i < nCount - 1; ++i) {
+      n = nodes[i];
+      if( (lineWidth * (sqrt(n->size)-1) * bigParent) / offsetPX  >  0.6 ) {
+        moveOffsetsHigherThan(n->offset-1, 1);
+        moveOffsetsHigherThan(n->offset, 1);
+      }
+
+    }
+  }
+
   // Set domain offsets
   for(int i = 0; i < dCount; ++i) {
     d = domains[i];
@@ -832,7 +848,7 @@ void Cladogram::optimise_pullTree(int first, int last) {
 }
 
 // Change node array sequence to "pseudo-inverse" preorder
-// Slow but easy fix for SVG layering (derivType 2 - 4)
+// Fix for SVG layering (derivType 2 - 4)
 void Cladogram::nodesPreorder() {
   int dbg_counter = 0, dbg_swaps = 0;
   for(int i = (int)nodes.size() - 1; i >= 0; --i) {

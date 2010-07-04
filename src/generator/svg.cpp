@@ -19,7 +19,6 @@
 
 #include <cmath>
 #include "svg.h"
-                                                                              #include <iostream>
 
 using namespace std;
 
@@ -149,15 +148,14 @@ void GeneratorSVG::writeData(Cladogram * clad, OutputFile & out) {
     n = clad->nodes[i];
     if(n->stop < clad->endOfTime) {
       string name = validxml(n->name);
-      f << "  <linearGradient id='__fadeout_" << name << "' x1='0' y1='0' x2='" << fade << "' y2='0' gradientUnits='userSpaceOnUse'>\n"
+      f << "  <linearGradient id='__fadeout_" << name << "' x1='0' y1='0' x2='" << fade / (sqrt(n->size) * clad->bigParent) << "' y2='0' gradientUnits='userSpaceOnUse'>\n"
         << "    <stop stop-color='#" << n->color.hex << "' offset='0' stop-opacity='1' />\n"
         << "    <stop stop-color='#" << n->color.hex << "' offset='1' stop-opacity='0' />\n"
         << "  </linearGradient>\n"
-        << "  <marker id='__stop_" << name << "' markerWidth='" << fade << "' markerHeight='1' style='overflow:visible;'>\n"
+        << "  <marker id='__stop_" << name << "' markerWidth='" << fade / (sqrt(n->size) * clad->bigParent) << "' markerHeight='1' style='overflow:visible;'>\n"
         << "    <use xlink:href='#__fadeout' style='fill:url(#__fadeout_" << name << ")' />\n"
         << "  </marker>\n";
     }
-
   }
 
 
@@ -286,7 +284,7 @@ void GeneratorSVG::writeData(Cladogram * clad, OutputFile & out) {
       else sign = -1;
       int posYparent = n->parent->offset * oPX + topOffset;
       if(clad->derivType != 2 && clad->derivType != 3)
-        posYparent -= sign * lPX/2;
+        posYparent -= sign * (lPX*(1 + (sqrt(n->parent->size)-1) * clad->bigParent))/2;
 
       int dType = clad->derivType;
       if(dType == 0)
@@ -316,7 +314,9 @@ void GeneratorSVG::writeData(Cladogram * clad, OutputFile & out) {
 
     }
     f << startX << " " << posY << " L " << stopX << " " << posY
-      << "' stroke='#"<< n->color.hex <<"'";
+      << "' stroke='#"<< n->color.hex << "'";
+//~ f << " style='stroke-width:" << lPX * (1 + (sqrt(n->size-1)) * clad->bigParent) << ";'";  // is more exact
+    f << " style='stroke-width:" << lPX * (1 + (sqrt(n->size)-1) * clad->bigParent) << ";'";  // looks better
     if(n->stop < clad->endOfTime  && clad->stopFadeOutPX != 0)
       f << " marker-end='url(#__stop_" << validxml(n->name) << ")'";
     f << " />\n";
@@ -341,11 +341,11 @@ void GeneratorSVG::writeData(Cladogram * clad, OutputFile & out) {
     else if(clad->dotType == 1) dotprops = "stroke='#" + n->color.hex + "'";
 
     f << "  <circle id='__dot_" << validxml(n->name) << "' cx='" << posX << "' cy='" << posY
-      << "' r='" << clad->dotRadius << "' " << dotprops << " />\n";
+      << "' r='" << clad->dotRadius * (1 + (sqrt(sqrt(n->size))-1)*clad->bigParent) << "' " << dotprops << " />\n";
 
     for(int j = 0; j < (int)n->nameChanges.size(); ++j) {
       posX = datePX(n->nameChanges[j].date, clad) + xPX;
-      f << "    <circle cx='" << posX << "' cy='" << posY << "' r='" << clad->smallDotRadius << "' " << dotprops << " />\n";
+      f << "    <circle cx='" << posX << "' cy='" << posY << "' r='" << clad->smallDotRadius * (1 + (sqrt(sqrt(n->size))-1)*clad->bigParent) << "' " << dotprops << " />\n";
     }
 
   }

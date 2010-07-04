@@ -18,8 +18,6 @@ optimise both-subtree at creation time
 implement time version of parser/dir  (stat)
   (created = deriv, last modified = nameChange)
 
-implement deriv thickness based on childTree size
-
 replace config options with enum? (orientation...)
 
 toFix: renames show after endOfTime if node starts before
