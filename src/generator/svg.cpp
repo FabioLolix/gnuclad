@@ -17,7 +17,9 @@
 *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+#include <cmath>
 #include "svg.h"
+                                                                              #include <iostream>
 
 using namespace std;
 
@@ -286,28 +288,31 @@ void GeneratorSVG::writeData(Cladogram * clad, OutputFile & out) {
       if(clad->derivType != 2 && clad->derivType != 3)
         posYparent -= sign * lPX/2;
 
-      if(clad->derivType == 0)
+      int dType = clad->derivType;
+      if(dType == 0)
         f << startX << " " << posYparent << " L ";
-      else if(clad->derivType == 1)
+      else if(dType == 1)
         f << datePX(n->parent->start, clad) + xPX << " " << posYparent << " L ";
-      else if(clad->derivType == 2) {
+      else if(dType >= 2 && dType <= 4) {
+
         int startPar = datePX(n->parent->start, clad) + xPX;
-        int startpoint = (startX - yrPX > startPar)?(startX-yrPX):(startPar);
+        int xdiff = yrPX;
+        if(dType == 3) {
+          xdiff *= (n->offset - n->parent->offset);
+          if(xdiff < 0) xdiff = -xdiff;
+          //~ xdiff = log(xdiff) *20;
+          xdiff = sqrt(xdiff) *5;
+        }
+        if(startX - xdiff < startPar || dType == 4) xdiff = startX - startPar;
+        int startpoint = startX - xdiff;
         f << startpoint << " " << posYparent << " C "
-          << startX - 0.2*yrPX << "," << posYparent << " "
-          << startX - 0.8*yrPX << "," << posY << " "
+          << startX - 0.2*xdiff << "," << posYparent << " "
+          << startX - 0.8*xdiff << "," << posY << " "
           << startX << "," << posY
           << " L ";
+
       }
-      else if(clad->derivType == 3) {
-        int startPar = datePX(n->parent->start, clad) + xPX;
-        int xdiff = startX - startPar;
-        f << startPar << " " << posYparent << " C "
-          << startPar + 0.8*xdiff << "," << posYparent << " "
-          << startPar + 0.2*xdiff << "," << posY << " "
-          << startX << "," << posY
-          << " L ";
-      }
+
 
     }
     f << startX << " " << posY << " L " << stopX << " " << posY

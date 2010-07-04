@@ -20,8 +20,8 @@
 #include "dir.h"
 #include <cstring>
 #include <sys/stat.h>
+#include <iostream>
 
-                                                                    #include <iostream>
 using namespace std;
 
 
@@ -37,7 +37,8 @@ cout << "\nWARNING: directory parsing is experimental!";
   clad->truncateFolder = true;
   clad->inVitro = true;  // just surpressing warnings
 
-  clad->derivType = 1;
+  if(clad->derivType != 1 && clad->derivType != 4)
+    cout << "\nWARNING: derivType 1 or 4 recommended";
   clad->stopFadeOutPX = 0;
   clad->rulerMonthWidth = 0;
 

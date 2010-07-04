@@ -152,7 +152,8 @@ void GeneratorCONF::writeData(Cladogram * clad, OutputFile & out) {
     << "\n"
     << "\n# Set the way the lines should derive from the parent."
     << "\n# 0 = orthogonal, 1 = from parent's starting point"
-    << "\n# 2 = curved, 3 = curved from parent's starting point"
+    << "\n# 2 = curved (1 year wide curves), 3 = curved (quadratic scaling)"
+    << "\n# 4 = curved (from parent's starting point)"
     << "\nderivType = " << clad->derivType
     << "\n"
     << "\n# The size of the node dots"
