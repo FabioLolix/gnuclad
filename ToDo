@@ -8,7 +8,6 @@ without any warranty.
 ________________________________________________________________________
 
 
-implement curved derivType [0.8]
 implement curved connectors
 
 implement optimisation for dir input

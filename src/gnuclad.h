@@ -340,7 +340,7 @@ std::string int2str(const int n);
 std::string base64_encode(const char * raw, unsigned int len);
 Date currentDate();
 std::string Date2str(Date date);
-int datePX(Date d, const Cladogram * clad);
+int datePX(Date d, Cladogram * clad);
 Date rOf(Date d, int monthsInYear, int daysInMonth);
 std::string checkHexCol(const std::string color);
 std::string rgb2hexHue(int hue);

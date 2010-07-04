@@ -241,7 +241,7 @@ std::string Date2str(Date d) {
 }
 
 // Returns pixel offset based on Date object
-int datePX(Date d, const Cladogram * clad) {
+int datePX(Date d, Cladogram * clad) {
   int yrPX = clad->yearPX;
   float monPX = yrPX / float(clad->monthsInYear);
   float dayPX = yrPX / float(clad->monthsInYear * clad->daysInMonth);

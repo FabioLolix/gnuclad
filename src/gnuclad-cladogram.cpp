@@ -459,7 +459,6 @@ void Cladogram::compute() {
   roots.clear();
   for(int i = 0; i < nCount; ++i)
     if(nodes[i]->parentName == "") roots.push_back( nodes[i]);
-  cout << nCount;
   int rCount = (int)roots.size();
   int offset = 0;
   for(int i = 0; i < rCount; ++i) {
@@ -780,12 +779,60 @@ void Cladogram::optimise_pullTree(int first, int last) {
     if(n->parent == NULL) continue;
     if(n->offset < n->parent->offset) sign = 1;
     else sign = -1;
-    while(fitsInto(n->offset + sign, n)) n->offset += sign;
+
+    int oldOffset = n->offset;
+
+    while(fitsInto(n->offset + sign, n)) {
+
+      // Special hax in order to prevent node lines overlapping deriv lines
+      bool pass = true;
+      if(1 <= derivType && derivType <= 4) {
+
+        pass = false;
+        double slope = double((n->offset - n->parent->offset)*offsetPX) * -sign
+                       / double(datePX(n->stop + stopSpacing, this)
+                              - datePX(n->parent->start, this));
+        int addPX = offsetPX/slope * (n->offset - oldOffset        +1);
+        int stopPX = datePX(n->stop, this) + addPX;
+        int startPX = datePX(n->start, this);
+
+        /////////////////////////
+        // The following is an additional implementation of fitsInto(), based
+        // on PX rather than Date. When moving into a function, use and modify
+        // fitsInto() instead of this one (many checks removed)!
+        vector<Node *> tmp;
+        for(int i = 0; i < (int)nodes.size(); ++i)
+          if(nodes[i]->offset == n->offset)
+            tmp.push_back(nodes[i]);
+
+        sort(tmp.begin(), tmp.end(), compareDate());
+
+        if( stopPX < datePX(tmp[0]->start, this) ||
+            startPX > datePX(n->stop + stopSpacing, this) )
+          pass = true;
+        for(int i = 0; i < (int)tmp.size() - 2; ++i)
+          if( datePX(tmp[i]->stop + stopSpacing, this) < startPX &&
+              stopPX < datePX(tmp[i+1]->start, this))
+            pass = true;
+        /////////////////////////
+      }
+
+      if(pass == true)
+        n->offset += sign;  // pull by one offset
+      else break;
+    }
+
+    // Remove empty offsets
+    Node dummy;
+    dummy.offset = -1;
+    dummy.start = beginningOfTime;
+    dummy.stop = endOfTime;
+    if(fitsInto(oldOffset, &dummy)) moveOffsetsHigherThan(oldOffset, -1);
   }
 }
 
 // Change node array sequence to "pseudo-inverse" preorder
-// Slow but easy fix for SVG layering (derivType 2 and 3)
+// Slow but easy fix for SVG layering (derivType 2 - 4)
 void Cladogram::nodesPreorder() {
   int dbg_counter = 0, dbg_swaps = 0;
   for(int i = (int)nodes.size() - 1; i >= 0; --i) {
