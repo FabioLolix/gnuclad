@@ -206,6 +206,11 @@ void GeneratorCONF::writeData(Cladogram * clad, OutputFile & out) {
     << "\n# When parsing direcories, show dot (hidden) files (0 = off, 1 = on)"
     << "\ndir_showDotFiles = " << clad->dir_showDotFiles
     << "\n"
+    << "\n# Color of files, directories and links"
+    << "\ndir_colorFile = " << clad->dir_colorFile.hex
+    << "\ndir_colorDir = " << clad->dir_colorDir.hex
+    << "\ndir_colorLink = " << clad->dir_colorLink.hex
+    << "\n"
     << "\n# Show debug information when running gnuclad. (0 = off, 1 = on)"
     << "\ndebug = " << clad->debug
     << "\n";

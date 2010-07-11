@@ -48,20 +48,20 @@ cout << "\nWARNING: directory parsing is experimental!";
   if(dir.substr(dir.size()-1) == folder_delimiter)
     dir = dir.substr(0, dir.size()-1);
 
-  addNode(dir, Color("#00f"), "", 0, clad);                              ////// dir_colorDir
+  addNode(dir, clad->dir_colorDir, "", 0, clad);
   parseDir(dir, clad, 1);
 
+  // Fix trailing year
+  clad->endOfTime.year--;
+  clad->endOfTime.month = clad->monthsInYear;
+  clad->endOfTime.day = clad->daysInMonth;
 }
 
 
 void ParserDIR::parseDir(std::string dirname, Cladogram * clad, int level) {
 
-  if(clad->endOfTime.year <= level) clad->endOfTime.year = level + 1;
+  if(clad->endOfTime.year < level) clad->endOfTime.year = level + 1;
 
-
-Color dir_colorFile("#0ff");
-Color dir_colorDir("#00f");
-Color dir_colorLink("#0f0");
 
 // SOLVE OPTIMISATION PROBLEM: opt > x2 -> make pull work
 
@@ -81,7 +81,8 @@ Color dir_colorLink("#0f0");
     if(dirElem->d_name[0] == '.' && clad->dir_showDotFiles == 0)
       continue;
 
-    if (islink(dirElem)) addNode(name, dir_colorLink, dirname, level, clad);
+    if (islink(dirElem))
+      addNode(name, clad->dir_colorLink, dirname, level, clad);
 
     else if(readableDir(name)) {
       string t = dirElem->d_name;
@@ -90,13 +91,13 @@ Color dir_colorLink("#0f0");
         dirs.push_back(name);
     }
 
-    else addNode(name, dir_colorFile, dirname, level, clad);
+    else addNode(name, clad->dir_colorFile, dirname, level, clad);
 
   }
 
   // Add readable directories to cladogram
   for(int i = 0; i < (int)dirs.size(); ++i) {
-    addNode(dirs[i], dir_colorDir, dirname, level, clad);
+    addNode(dirs[i], clad->dir_colorDir, dirname, level, clad);
     parseDir(dirs[i], clad, level + 1);
   }
 

@@ -268,7 +268,7 @@ void GeneratorSVG::writeData(Cladogram * clad, OutputFile & out) {
   // Node Lines
   f << "\n<g inkscape:label='Lines' inkscape:groupmode='layer' id='layer_lines'\n"
     << " style='fill:none;stroke-width:" << lPX << ";' >\n";
-  if(clad->derivType == 2 || clad->derivType == 3) clad->nodesPreorder();
+  if(2 <= clad->derivType && clad->derivType <= 4) clad->nodesPreorder();
 
   for(int i = 0; i < (int)clad->nodes.size(); ++i) {
 
@@ -283,7 +283,7 @@ void GeneratorSVG::writeData(Cladogram * clad, OutputFile & out) {
       if(n->offset < n->parent->offset) sign = 1;
       else sign = -1;
       int posYparent = n->parent->offset * oPX + topOffset;
-      if(clad->derivType != 2 && clad->derivType != 3)
+      if(clad->derivType < 1 && 4 < clad->derivType)
         posYparent -= sign * (lPX*(1 + (sqrt(n->parent->size)-1) * clad->bigParent))/2;
 
       int dType = clad->derivType;

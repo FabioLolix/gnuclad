@@ -274,6 +274,9 @@ class Cladogram {
   int descriptionType;
 
   int dir_showDotFiles;
+  Color dir_colorFile;
+  Color dir_colorDir;
+  Color dir_colorLink;
 
   int debug;
 

@@ -103,6 +103,9 @@ Cladogram::Cladogram() {
   descriptionType = 0;
 
   dir_showDotFiles = 0;
+  dir_colorFile = Color("#0ff");
+  dir_colorDir = Color("#00f");
+  dir_colorLink = Color("#0f0");
 
   debug = 0;
 
@@ -143,8 +146,8 @@ void Cladogram::parseOptions(const string filename) {
 
     getline(fp, line);
 
-    if(line == "") continue;
-    if(line[0] == '#') continue;
+    if(line == "" || line[0] == '#')
+      continue;
 
     p = line.find("=");
     opt = line.substr(0, p);
@@ -163,6 +166,7 @@ void Cladogram::parseOptions(const string filename) {
         val = val.substr(0, val.size()-1);
     }
 
+    // assign options
     try {
 
       if     (opt == "infoBoxTitle") infoBoxTitle = val;
@@ -220,6 +224,9 @@ void Cladogram::parseOptions(const string filename) {
       else if(opt == "endOfTime") endOfTime = Date(val);
       else if(opt == "descriptionType") descriptionType = str2int(val);
       else if(opt == "dir_showDotFiles") dir_showDotFiles = str2int(val);
+      else if(opt == "dir_colorFile") dir_colorFile = Color(val);
+      else if(opt == "dir_colorDir") dir_colorDir = Color(val);
+      else if(opt == "dir_colorLink") dir_colorLink = Color(val);
       else if(opt == "debug") debug = str2int(val);
       else cout << "\nIGNORING unrecognised config option: " << opt;
 
@@ -800,8 +807,11 @@ void Cladogram::optimise_pullTree(int first, int last) {
 
     while(fitsInto(n->offset + sign, n)) {
 
-      // Special hax in order to prevent node lines overlapping deriv lines
       bool pass = true;
+
+      /* SHFI START */
+      // Special hax in order to prevent node lines overlapping deriv lines
+      // Apart from that, this block could be removed
       if(1 <= derivType && derivType <= 4) {
 
         pass = false;
@@ -832,6 +842,7 @@ void Cladogram::optimise_pullTree(int first, int last) {
             pass = true;
         /////////////////////////
       }
+      /* SHFI END */
 
       if(pass == true)
         n->offset += sign;  // pull by one offset
