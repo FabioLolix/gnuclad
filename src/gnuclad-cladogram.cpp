@@ -58,6 +58,7 @@ Cladogram::Cladogram() {
   treeMode = 0;
   sortKey = 0;
   optimise = 99;
+  strictOverlaps = 0;
   treeSpacing = 1;
   treeSpacingBiggerThan = 5;
 
@@ -187,6 +188,7 @@ void Cladogram::parseOptions(const string filename) {
       else if(opt == "treeMode") treeMode = str2int(val);
       else if(opt == "sortKey") sortKey = str2int(val);
       else if(opt == "optimise") optimise = str2int(val);
+      else if(opt == "strictOverlaps") strictOverlaps = str2int(val);
       else if(opt == "treeSpacing") treeSpacing = str2int(val);
       else if(opt == "treeSpacingBiggerThan")treeSpacingBiggerThan=str2int(val);
       else if(opt == "mainBackground") mainBackground = Color(val);
@@ -554,15 +556,16 @@ void Cladogram::compute() {
 
       optimise_nextTree(first, last);
 
-      //~ if(opt >= 5) {                                                        <= pseudocode
+      //~ if(opt >= 6) {                                                        <= pseudocode
         //~ optimise_interleaveTree(first, last);
         //~ if(opt >= 8)
           //~ optimise_interleaveAllRoots(first, last);
       //~ }
 
-      if(opt >= 3)
-        optimise_pullTree(first, last);
-
+      if(3 <= opt && opt <= 5)
+        optimise_weakPullTree(first, last);
+      if(opt >= 6)
+        optimise_strongPullTree(r);
     }
   }
 
@@ -688,23 +691,19 @@ void Cladogram::compute_subtreeBoth(std::deque<Node *> &tree,
 }
 
 // Generates a treeMap with the children only below the parent
+// Insert all child nodes after current node in reverse order
 void Cladogram::compute_subtreeLower(std::deque<Node *> &tree,
                                     int pos, Node * n) {
-
-  // Insert all child nodes after current node in reverse order
   for(int i = 0; i < (int)n->children.size(); ++i)
     tree.insert(tree.begin() + pos + 1, n->children[i]);
-
 }
 
 // Generates a treeMap with the children only below the parent - inverse order
+// Insert all child nodes after current node
 void Cladogram::compute_subtreeLowerInverse(std::deque<Node *> &tree,
                                     int pos, Node * n) {
-
-  // Insert all child nodes after current node
   for(int i = 0; i < (int)n->children.size(); ++i)
     tree.insert(tree.begin() + pos + 1 + i, n->children[i]);
-
 }
 
 // Returns true if specified node fits into given offset
@@ -725,11 +724,10 @@ bool Cladogram::fitsInto(const int offset, Node * node) {
   int DinM = daysInMonth;
   int MinY = monthsInYear;
 
-  // Compare node to first and last in tmp
+  // Compare node to first and last in tmp, then to all others
   if( rOf(node->stop + stopSpacing, MinY, DinM) < tmp[0]->start ||
       rOf(tmp[tmp.size()-1]->stop + stopSpacing, MinY, DinM) < node->start )
     return true;
-  // Compare node to all others in tmp
   for(int i = 0; i < (int)tmp.size() - 2; ++i)
     if( rOf(tmp[i]->stop + stopSpacing, MinY, DinM) < node->start &&
         rOf(node->stop + stopSpacing, MinY, DinM) < tmp[i+1]->start )
@@ -793,10 +791,44 @@ void Cladogram::optimise_nextTree(int first, int last) {
   }
 }
 
-// Pull nodes as near as possible to their parents.
-void Cladogram::optimise_pullTree(int first, int last) {
+// Pull nodes to their parents.
+void Cladogram::optimise_weakPullTree(int first, int last) {
   Node * n;
   int sign = 0;
+
+  // Rearrange subtree into useful order (nodes nearer to parent come first)
+  //~ for(int i = last-1; i >= first; --i) {
+//~ 
+//~ 
+//~ cout << "AAA ";cout.flush();
+//~ cout<< "\n" << i << " " <<nodes[i]->name;cout.flush();
+    //~ Node * par = nodes[i]->parent;
+//~ cout << " DDD ";cout.flush();
+    //~ if( par == NULL) continue;
+//~ 
+//~ // prioritise nodes nearer to parent
+    //~ int j = last-1;
+    //~ while(--j >= first)  // find parent
+      //~ if(nodes[j] == par) break;
+//~ 
+    //~ if(j < i) {  // swap with parent if parent has lower position
+      //~ swap(nodes[j], nodes[i]);
+      //~ ++i;
+    //~ }
+//~ cout << "BBB ";cout.flush();
+//~ 
+  //~ }
+
+
+
+// FIND BEST COMBINATION OF WEAK/STRONG
+
+  stable_sort(nodes.begin()+first, nodes.begin()+last, compareParDist());
+
+
+
+
+
   for(int i = first; i < last; ++i) {
     n = nodes[i];
     if(n->parent == NULL) continue;
@@ -807,45 +839,10 @@ void Cladogram::optimise_pullTree(int first, int last) {
 
     while(fitsInto(n->offset + sign, n)) {
 
-      bool pass = true;
+      if(n->offset <= 0)break;
+      bool overlaps = optimise_strictOverlaps(n, oldOffset, sign, first, last);
 
-      /* SHFI START */
-      // Special hax in order to prevent node lines overlapping deriv lines
-      // Apart from that, this block could be removed
-      if(1 <= derivType && derivType <= 4) {
-
-        pass = false;
-        double slope = double((n->offset - n->parent->offset)*offsetPX) * -sign
-                       / double(datePX(n->stop + stopSpacing, this)
-                              - datePX(n->parent->start, this));
-        int addPX = offsetPX/slope * (n->offset - oldOffset        +1);
-        int stopPX = datePX(n->stop, this) + addPX;
-        int startPX = datePX(n->start, this);
-
-        /////////////////////////
-        // The following is an additional implementation of fitsInto(), based
-        // on PX rather than Date. When moving into a function, use and modify
-        // fitsInto() instead of this one (many checks removed)!
-        vector<Node *> tmp;
-        for(int i = 0; i < (int)nodes.size(); ++i)
-          if(nodes[i]->offset == n->offset)
-            tmp.push_back(nodes[i]);
-
-        sort(tmp.begin(), tmp.end(), compareDate());
-
-        if( stopPX < datePX(tmp[0]->start, this) ||
-            startPX > datePX(n->stop + stopSpacing, this) )
-          pass = true;
-        for(int i = 0; i < (int)tmp.size() - 2; ++i)
-          if( datePX(tmp[i]->stop + stopSpacing, this) < startPX &&
-              stopPX < datePX(tmp[i+1]->start, this))
-            pass = true;
-        /////////////////////////
-      }
-      /* SHFI END */
-
-      if(pass == true)
-        n->offset += sign;  // pull by one offset
+      if(overlaps == false) n->offset += sign;  // pull by one offset
       else break;
     }
 
@@ -856,7 +853,92 @@ void Cladogram::optimise_pullTree(int first, int last) {
     dummy.stop = endOfTime;
     if(fitsInto(oldOffset, &dummy)) moveOffsetsHigherThan(oldOffset, -1);
   }
+
+
+  stable_sort(nodes.begin()+first, nodes.begin()+last, compareOffset());
 }
+
+// Strongly pull nodes to their parents.
+void Cladogram::optimise_strongPullTree(Node * r) {
+
+  if(r->size == 1) return;
+
+  Node * n;
+  int sign = 0;
+
+  // Get first and last child
+  stable_sort(r->children.begin(), r->children.end(), compareOffset());
+  int first = r->children[0]->offset;
+  int last = r->children[r->children.size()-1]->offset;
+
+  // Sort by distance to parent
+  stable_sort(r->children.begin(), r->children.end(), compareParDist());
+
+  for(int i = 0; i < (int)r->children.size(); ++i) {
+    n = r->children[i];
+    if(n->offset < n->parent->offset) sign = 1;
+    else sign = -1;
+    int oldOffset = n->offset;
+
+    while(fitsInto(n->offset + sign, n)) {
+      bool overlaps = optimise_strictOverlaps(n, oldOffset, sign, first, last);
+      if(overlaps == false) n->offset += sign;
+      else break;
+    }
+
+    // Remove empty offsets
+    Node dummy;
+    dummy.offset = -1;
+    dummy.start = beginningOfTime;
+    dummy.stop = endOfTime;
+    if(fitsInto(oldOffset, &dummy)) moveOffsetsHigherThan(oldOffset, -1);
+
+  }
+
+  for(int i = 0; i < (int)r->children.size(); ++i)
+    optimise_strongPullTree(r->children[i]);
+
+  // Get children back into offset order
+  stable_sort(r->children.begin(), r->children.end(), compareOffset());
+}
+
+// Aesthetical hack to prevent node lines overlapping deriv lines
+bool Cladogram::optimise_strictOverlaps(Node * n, int oldOffset, int sign,
+                                        int first, int last) {
+  if(strictOverlaps == 0) return false;
+  if(derivType < 1 || 4 < derivType) return false;
+
+  double slope = double((n->offset - n->parent->offset)*offsetPX) * -sign
+                 / double(datePX(n->stop + stopSpacing, this)
+                        - datePX(n->parent->start, this));
+  int addPX = offsetPX/slope * (n->offset - oldOffset        +1);
+  int stopPX = datePX(n->stop, this) + addPX;
+  int startPX = datePX(n->start, this);
+
+  /////////////////////////
+  // The following is an additional implementation of fitsInto(), based
+  // on PX rather than Date. When moving into a function, use and modify
+  // fitsInto() instead of this one (many checks removed)!
+  vector<Node *> tmp;
+  for(int i = first; i < last; ++i)
+    if(nodes[i]->offset == n->offset)
+      tmp.push_back(nodes[i]);
+
+  if(tmp.size() == 0) return false;
+
+  sort(tmp.begin(), tmp.end(), compareDate());
+
+  if( stopPX < datePX(tmp[0]->start, this) ||
+      startPX > datePX(n->stop + stopSpacing, this) )
+    return false;
+  for(int i = 0; i < (int)tmp.size() - 2; ++i)
+    if( datePX(tmp[i]->stop + stopSpacing, this) < startPX &&
+        stopPX < datePX(tmp[i+1]->start, this))
+      return false;
+  /////////////////////////
+  return true;
+}
+
 
 // Change node array sequence to "pseudo-inverse" preorder
 // Fix for SVG layering (derivType 2 - 4)

@@ -184,7 +184,10 @@ class Cladogram {
 
   void optimise_injectSingleRootAt(int i, int upTo);
   void optimise_nextTree(int first, int last);
-  void optimise_pullTree(int first, int last);
+  void optimise_weakPullTree(int first, int last);
+  void optimise_strongPullTree(Node * root);
+  bool optimise_strictOverlaps(Node * n, int oldOffset, int sign,
+                               int first, int last);
 
   public:
   std::vector<Node *> nodes;
@@ -230,6 +233,7 @@ class Cladogram {
   int treeMode;
   int sortKey;
   int optimise;
+  bool strictOverlaps;
   int treeSpacing;
   int treeSpacingBiggerThan;
 
@@ -389,7 +393,22 @@ struct compareName : public std::binary_function<Node *,Node *,bool> {
     return false;
 	}
 };
+struct compareParDist : public std::binary_function<Node *,Node *,bool> {
+  // Returns true if n1 has a lower offset distance to parent than n2, otherwise
+  // false
 
+	inline bool operator()(const Node * n1, const Node * n2) {
+    if(n1->parent == NULL) return true;
+    if(n2->parent == NULL) return false;
+    int offset1 = n1->offset - n1->parent->offset;
+    if(offset1 < 0) offset1 = -offset1;
+    int offset2 = n2->offset - n2->parent->offset;
+    if(offset2 < 0) offset2 = -offset2;
+		if(offset1 < offset2)
+      return true;
+    return false;
+	}
+};
 
 
 #endif

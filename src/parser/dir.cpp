@@ -60,8 +60,7 @@ cout << "\nWARNING: directory parsing is experimental!";
 
 void ParserDIR::parseDir(std::string dirname, Cladogram * clad, int level) {
 
-  if(clad->endOfTime.year < level) clad->endOfTime.year = level + 1;
-
+  if(clad->endOfTime.year <= level) clad->endOfTime.year = level + 1;
 
 // SOLVE OPTIMISATION PROBLEM: opt > x2 -> make pull work
 

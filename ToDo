@@ -8,9 +8,10 @@ without any warranty.
 ________________________________________________________________________
 
 
-implement curved connectors
-
-implement optimisation for dir input
+make strictOverlaps work with strongPullTree
+make strongPullTree work across branches
+improve weakPullTree (and maybe exchange with strongPullTree if latter
+doesn't work across branches?)
 
 implement grouping by connectors (faciliate efficient parenting)
 optimise both-subtree at creation time
@@ -22,10 +23,14 @@ replace config options with enum? (orientation...)
 
 toFix: renames show after endOfTime if node starts before
 
+add symlink connectors in dir parser
+
 write manual on optimisation
 
 translate manual
 translatable strings (gettext)
+
+implement curved connectors
 
                                                                     v0.2
 ________________________________________________________________________

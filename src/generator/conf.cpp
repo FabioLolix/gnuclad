@@ -94,6 +94,10 @@ void GeneratorCONF::writeData(Cladogram * clad, OutputFile & out) {
     << "\n# First digit: isolated nodes. Second digit: trees."
     << "\noptimise = " << clad->optimise
     << "\n"
+    << "\n# This determines if optimisation should allow overlaps in rare cases"
+    << "\n# 1 = forbid overlaps, 0 = allow overlaps (better optimisation)"
+    << "\nstrictOverlaps = "
+    << "\n"
     << "\n# How much space (in offsets) to add before/after trees"
     << "\ntreeSpacing = " << clad->treeSpacing
     << "\n"
