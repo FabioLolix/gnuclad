@@ -43,15 +43,21 @@ void GeneratorSVG::writeData(Cladogram * clad, OutputFile & out) {
   int width = years * yrPX + 2 * xPX;
   int height = clad->maximumOffset * oPX + 2 * yrlinePX;
 
+  // enum orientation left-to-right, top-to-bottom, right-to-left, bottom-to-top
+  enum { oLR, oTB, oRL, oBT };
+
+  // enum name change type
+  enum { nc_outside, nc_inside};
+
   if(clad->infoBoxX < 0) {
-    if(clad->orientation != 0)
+    if(clad->orientation != oLR)
       throw "out of boundary infoBox only supported with orientation == 0";
     xPX -= clad->infoBoxX + 10;
     width -= clad->infoBoxX + 10;
     clad->infoBoxX = 10;
   }
   if(clad->infoBoxY < 0) {
-    if(clad->orientation != 0)
+    if(clad->orientation != oLR)
       throw "out of boundary infoBox only supported with orientation == 0";
     topOffset -= clad->infoBoxY + 10;
     height -= clad->infoBoxY + 10;
@@ -60,11 +66,11 @@ void GeneratorSVG::writeData(Cladogram * clad, OutputFile & out) {
 
   int canvasWidth = width;
   int canvasHeight = height;
-  if(clad->orientation == 1 || clad->orientation == 3)
+  if(clad->orientation == oTB || clad->orientation == oBT)
     swap(canvasWidth, canvasHeight);
 
   // Small helpers
-  dirty_hack_em = int(clad->labelFontSize / 1.675 * clad->fontCorrectionFactor);
+  dirty_hack_em = int(clad->labelFontSize / 1.625 * clad->fontCorrectionFactor);
   dirty_hack_ex = int(clad->labelFontSize / 1.375 * clad->fontCorrectionFactor);
 
 
@@ -181,22 +187,22 @@ void GeneratorSVG::writeData(Cladogram * clad, OutputFile & out) {
 
   // Orientation START
   string transform = "", retransformLabels = "", retransformYearlines = "";
-  if     (clad->orientation == 0) {}
-  else if(clad->orientation == 1) {
+  if     (clad->orientation == oLR) {}
+  else if(clad->orientation == oTB) {
     transform = "transform='matrix(0,1,1,0,0,1)'";
     retransformLabels = "transform='matrix(0,1,1,0,0,1)'";
     retransformYearlines = "transform='matrix(0,1,1,0,0,1) rotate(90,0,0) translate(0,-" + int2str(canvasWidth) + ")'";
   }
-  else if(clad->orientation == 2) {
+  else if(clad->orientation == oRL) {
     transform = "transform='matrix(-1,0,0,1,0,1) translate(-" + int2str(canvasWidth) + ",0)'";
     retransformLabels  = "transform='matrix(-1,0,0,1,0,1) translate(-" + int2str(canvasWidth) + ",0)'";
     retransformYearlines  = "transform='matrix(-1,0,0,1,0,1) translate(-" + int2str(canvasWidth) + ",0)'";
   }
-  else if(clad->orientation == 3) {
+  else if(clad->orientation == oBT) {
     transform = "transform='rotate(-90,0,0) translate(-" + int2str(canvasHeight) + ",0)'";
     retransformLabels  = "transform='translate(" + int2str(canvasHeight) + ",0) rotate(90,0,0)'";
   }
-  if(clad->orientation != 0)
+  if(clad->orientation != oLR)
     f << "\n<g id='orientation' " << transform << "><!-- BEGIN orientation transform -->\n";
 
 
@@ -294,8 +300,8 @@ void GeneratorSVG::writeData(Cladogram * clad, OutputFile & out) {
       else if(dType >= 2 && dType <= 4) {
 
         int startPar = datePX(n->parent->start, clad) + xPX;
-        int xdiff = yrPX;
-        if(dType == 3) {
+        int xdiff = yrPX;   // one year scaling
+        if(dType == 3) {    // quadratic root scaling
           xdiff *= (n->offset - n->parent->offset);
           if(xdiff < 0) xdiff = -xdiff;
           //~ xdiff = log(xdiff) *20;
@@ -304,8 +310,8 @@ void GeneratorSVG::writeData(Cladogram * clad, OutputFile & out) {
         if(startX - xdiff < startPar || dType == 4) xdiff = startX - startPar;
         int startpoint = startX - xdiff;
         f << startpoint << " " << posYparent << " C "
-          << startX - 0.2*xdiff << "," << posYparent << " "
-          << startX - 0.8*xdiff << "," << posY << " "
+          << startX - 0.25*xdiff << "," << posYparent << " "
+          << startX - 0.75*xdiff << "," << posY << " "
           << startX << "," << posY
           << " L ";
 
@@ -315,7 +321,7 @@ void GeneratorSVG::writeData(Cladogram * clad, OutputFile & out) {
     }
     f << startX << " " << posY << " L " << stopX << " " << posY
       << "' stroke='#"<< n->color.hex << "'";
-//~ f << " style='stroke-width:" << lPX * (1 + (sqrt(n->size-1)) * clad->bigParent) << ";'";  // is more exact
+//~ f << " style='stroke-width:" << lPX * (1 + (sqrt(n->size-1)) * clad->bigParent) << ";'";  // is more "exact"
     f << " style='stroke-width:" << lPX * (1 + (sqrt(n->size)-1) * clad->bigParent) << ";'";  // looks better
     if(n->stop < clad->endOfTime && clad->stopFadeOutPX != 0)
       f << " marker-end='url(#__stop_" << validxml(n->name) << ")'";
@@ -373,11 +379,11 @@ void GeneratorSVG::writeData(Cladogram * clad, OutputFile & out) {
       int posX = datePX(n->start, clad) + xPX - iconWidth/2;
       int posY = n->offset * oPX + yrlinePX - iconHeight/2;
 
-      if(clad->orientation == 1)
+      if(clad->orientation == oTB)
         rotate = "rotate(-90," + int2str(posX + iconWidth/2) + "," + int2str(posY + iconWidth/2) + ")";
-      if(clad->orientation == 2)
+      if(clad->orientation == oRL)
         rotate = "matrix(-1,0,0,1,0,1) translate(-" + int2str(2 * posX + iconWidth) + ",0)";
-      if(clad->orientation == 3)
+      if(clad->orientation == oBT)
         rotate = "rotate(90," + int2str(posX + iconWidth/2) + "," + int2str(posY + iconWidth/2) + ")";
 
       f << "  <g transform='" << rotate << " translate(" << posX << "," << posY <<")' >\n"
@@ -394,11 +400,11 @@ void GeneratorSVG::writeData(Cladogram * clad, OutputFile & out) {
       int posX = datePX(n->start, clad) + xPX - iconWidth/2;
       int posY = n->offset * oPX + topOffset - iconHeight/2;
 
-      if(clad->orientation == 1)
+      if(clad->orientation == oTB)
         rotate = "rotate(-90," + int2str(posX + iconWidth/2) + "," + int2str(posY + iconWidth/2) + ")";
-      if(clad->orientation == 2)
+      if(clad->orientation == oRL)
         rotate = "matrix(-1,0,0,1,0,1) translate(-" + int2str(2 * posX + iconWidth) + ",0)";
-      if(clad->orientation == 3)
+      if(clad->orientation == oBT)
         rotate = "rotate(90," + int2str(posX + iconWidth/2) + "," + int2str(posY + iconWidth/2) + ")";
 
       f << "  <image id='__icon_" << validxml(n->name) << "'" << " transform='" << rotate << "'"
@@ -432,7 +438,7 @@ void GeneratorSVG::writeData(Cladogram * clad, OutputFile & out) {
     int alignmentBGx = posX - dirty_hack_em/4;
     string alignment = "";
 
-    if(clad->orientation == 1) {
+    if(clad->orientation == oTB) {
 
       posX = n->offset * oPX + topOffset;
       posY = datePX(n->start, clad) + xPX - clad->dotRadius - dirty_hack_ex/5;
@@ -440,12 +446,12 @@ void GeneratorSVG::writeData(Cladogram * clad, OutputFile & out) {
       alignment = "style='text-anchor:middle;'";
       alignmentBGx = posX - strlenpx(n->name, clad) / 2;
 
-    } else if(clad->orientation == 2) {
+    } else if(clad->orientation == oRL) {
 
       posX = width - posX - strlenpx(n->name, clad);
       alignmentBGx = width - alignmentBGx - strlenpx(n->name, clad);
 
-    } else if(clad->orientation == 3) {
+    } else if(clad->orientation == oBT) {
 
       posX = n->offset * oPX + topOffset;
       posY = canvasHeight - (datePX(n->start, clad) + xPX - clad->dotRadius - dirty_hack_ex * 7/5);
@@ -457,8 +463,8 @@ void GeneratorSVG::writeData(Cladogram * clad, OutputFile & out) {
 
     if(clad->labelBGOpacity > 0)
       f << "  <rect x='" << alignmentBGx << "' y='" << posY - dirty_hack_ex *6/5 << "' width='" << strlenpx(n->name, clad)
-        << "' height='" << dirty_hack_ex *7/5 << "' fill='#" << clad->mainBackground.hex << "' opacity='" << double(clad->labelBGOpacity)/100 
-//~ << "' height='" << dirty_hack_ex *7/5 << "' fill='#a00' opacity='" << double(clad->labelBGOpacity)/100 
+        //~ << "' height='" << dirty_hack_ex *7/5 << "' fill='#" << clad->mainBackground.hex << "' opacity='" << double(clad->labelBGOpacity)/100 
+<< "' height='" << dirty_hack_ex *7/5 << "' fill='#a00' opacity='" << double(clad->labelBGOpacity)/100 
         << "'  rx='5' ry='5' />\n";
 
     f << "  " << href << "<text x='"<< posX <<"' y='"<< posY <<"' " << alignment << " >" << n->name <<"</text>" << hrefend << "\n";
@@ -467,13 +473,13 @@ void GeneratorSVG::writeData(Cladogram * clad, OutputFile & out) {
     string alignmentNameChange = "";
     for(int j = 0; j < (int)n->nameChanges.size(); ++j) {
 
-      if(clad->nameChangeType == 0) {  // nameChange outside the dot
+      if(clad->nameChangeType == nc_outside) {  // nameChange outside the dot
 
         posX = datePX(n->nameChanges[j].date, clad) + xPX + clad->smallDotRadius;
         if(posX < posXwName) posX = posXwName;
         if(j != 0) posXwName = posX + strlenpx(n->nameChanges[j-1].newName, clad) + dirty_hack_em ;  // + dirty_hack_em is experimental
 
-      } else if(clad->nameChangeType == 1) {  // nameChange centered on the dot
+      } else if(clad->nameChangeType == nc_inside) {  // nameChange centered on the dot
 
         posX = datePX(n->nameChanges[j].date, clad) + xPX;
         posY = n->offset * oPX + topOffset + dirty_hack_ex/2;
@@ -481,24 +487,24 @@ void GeneratorSVG::writeData(Cladogram * clad, OutputFile & out) {
 
       }
 
-      if(clad->orientation == 1) {  // left to right
+      if(clad->orientation == oTB) {
 
         posX = n->offset * oPX + topOffset + clad->smallDotRadius;
         posY = datePX(n->nameChanges[j].date, clad) + xPX - clad->smallDotRadius;
-        if(clad->nameChangeType == 1) {
+        if(clad->nameChangeType == nc_inside) {
           posX -= clad->smallDotRadius;
           posY += clad->smallDotRadius + dirty_hack_ex/2;
         }
 
-      } else if(clad->orientation == 2) {
+      } else if(clad->orientation == oRL) {
 
         posX = width - posX - strlenpx(n->nameChanges[j].newName, clad);
 
-      } else if(clad->orientation == 3) {
+      } else if(clad->orientation == oBT) {
 
         posX = n->offset * oPX + topOffset + clad->smallDotRadius;
         posY = canvasHeight - (datePX(n->nameChanges[j].date, clad) + xPX + clad->smallDotRadius/2);
-        if(clad->nameChangeType == 1) {
+        if(clad->nameChangeType == nc_inside) {
           posX -= clad->smallDotRadius;
           posY += clad->smallDotRadius/2 + dirty_hack_ex/2;
         }
@@ -508,7 +514,7 @@ void GeneratorSVG::writeData(Cladogram * clad, OutputFile & out) {
       if(clad->descriptionType == 1)
         href = "<a xlink:href='" + n->nameChanges[j].description + "'>";
 
-      if(clad->labelBGOpacity > 0 && clad->nameChangeType != 1)
+      if(clad->labelBGOpacity > 0 && clad->nameChangeType != nc_inside)
         f << "    <rect x='" << posX - dirty_hack_em/4 << "' y='" << posY - dirty_hack_ex *6/5 << "' width='" << strlenpx(n->nameChanges[j].newName, clad)
           << "' height='" << dirty_hack_ex *7/5 << "' fill='#" << clad->mainBackground.hex << "' opacity='" << double(clad->labelBGOpacity)/100 << "'  rx='5' ry='5' />\n";
 //~ << "' height='" << dirty_hack_ex *7/5 << "' fill='#a00' opacity='" << double(clad->labelBGOpacity)/100 << "'  rx='5' ry='5' />\n";
@@ -535,7 +541,7 @@ void GeneratorSVG::writeData(Cladogram * clad, OutputFile & out) {
       int posX = yrPX * i + yrPX / 2 + xPX;
       int posY = topOffset - 3*oPX/2 - yrlinePX/2 + dirty_hack_ex / 2;
       int yeartext = clad->beginningOfTime.year + i;
-      if(clad->orientation == 2) yeartext = clad->endOfTime.year -i;
+      if(clad->orientation == oRL) yeartext = clad->endOfTime.year -i;
       f << "    <text x='" << posX << "' y='" << posY << "'><tspan>" << yeartext << "</tspan></text>\n"
         << "    <text x='" << posX << "' y='" << height - yrlinePX/2 + dirty_hack_ex/2 << "'><tspan>" << yeartext << "</tspan></text>\n";
     }
@@ -546,7 +552,7 @@ void GeneratorSVG::writeData(Cladogram * clad, OutputFile & out) {
 
 
   // Orientation STOP
-  if(clad->orientation != 0)
+  if(clad->orientation != oLR)
     f << "</g><!-- END orientation transform -->\n";
 
 
@@ -607,30 +613,55 @@ void GeneratorSVG::writeData(Cladogram * clad, OutputFile & out) {
 }
 
 
-// Some lame heuristics, works only for variable width ASCII chars
+// Some lame heuristics, only for variable width ASCII chars
 int GeneratorSVG::strlenpx(std::string str, Cladogram * clad) {
 
   if(clad->asciiStrings == 0) return str.size() * dirty_hack_em;
 
   double len = 0;
+  char c;
   for(int i = 0; i < (int)str.size(); ++i) {
 
-    char c = str[i];  // normalisation on default settings: e = 8px = 1.0 units
-    if     (c == ' ' || c == '-') len += 0.6;
-    else if(c == '.')             len += 0.7;
-    else if(c == '(' || c == ')') len += 0.7;
-    else if(c == 'W' || c == 'M') len += 1.8;
-    else if(c == 'w' || c == 'm') len += 1.6;
-    else if(c == 'O' || c == 'Q') len += 1.5;
-    else if(c == 'o' || c == 'a') len += 1.1;
-    else if(c == 'u' || c == 'n') len += 0.9;
-    else if(c == 't')             len += 0.8;
-    else if(c == 'r')             len += 0.6;
-    else if(c == 'I')             len += 0.6;
-    else if(c == 'i')             len += 0.4;
-    else if(c == 'l')             len += 0.4;
-    else if('A' <= c && c <= 'Z') len += 1.3;
-    else len += 1;
+    static const double digit[] =
+       { 1.05, 0.9, 1.05, 1.05, 1.05, 1.05, 1.05, 1.05, 1.05, 1.05};  // 0 - 9
+
+    static const double alpha[] = { 1.05,  // a
+           1.05, 0.9, 1.05, 1.05, 0.475,   // b c d e f
+           1.05, 1.05, 0.46, 0.46, 0.9,    // g h i j k
+           0.46, 1.475, 1.05, 1.05, 1.05,  // l m n o p
+           1.05, 0.65, 0.9, 0.475, 1.05,   // q r s t u
+           0.9, 1.35, 0.9, 0.9, 0.9 };     // v w x y z
+
+    static const double ALPHA[] = { 1.225,  // A
+       1.225, 1.325, 1.325, 1.225, 1.05,    // B C D E F
+       1.325, 1.325, 0.475, 0.9, 1.225,     // G H I J K
+       1.05, 1.475, 1.325, 1.325, 1.225,    // L M N O P
+       1.325, 1.325, 1.225, 1.05, 1.325,    // Q R S T U
+       1.225, 1.625, 1.225, 1.225, 1.05 };  // V W X Y Z
+
+    static const double misc1[] = { 0.6,  // space
+        0.475, 0.65, 1.05, 1.05, 1.65,    // ! " # $ %
+        1.05, 0.5, 0.65, 0.65, 0.75,      // & ' ( ) *
+        1.05, 0.475, 0.65, 0.475, 0.9 };  // + , - . /
+
+    static const double misc2[] =
+       { 0.5, 0.5, 1, 1.05, 1, 1.05, 1.75 };  // : ; < = > ? @
+
+    static const double misc3[] =
+       { 0.5, 0.5, 1, 0.9, 1.05, 0.65 };  // [ \ ] ^ _ `
+
+    static const double misc4[] =
+       { 0.625, 0.5, 0.625, 1.05 };  // { | } ~
+
+    c = str[i];                                                                 // SVG/DIR TROUBLE CHARS:  < > / & '
+    if     ('0' <= c && c <= '9') len += digit[int(c - '0')];
+    else if('a' <= c && c <= 'z') len += alpha[int(c - 'a')];
+    else if('A' <= c && c <= 'Z') len += ALPHA[int(c - 'A')];
+    else if(' ' <= c && c <= '/') len += misc1[int(c - ' ')];
+    else if(':' <= c && c <= '@') len += misc2[int(c - ':')];
+    else if('[' <= c && c <= '`') len += misc3[int(c - '[')];
+    else if('{' <= c && c <= '~') len += misc4[int(c - '{')];
+    else len += 1.0;  // everything else
 
   }
   return int(len * double(dirty_hack_em));
@@ -646,7 +677,7 @@ string validxml(string str) {
     if(  c >= 127 || c >= 123 ||              // stuff is redundant here, but
        ((c <= 32 || c <= 47) && c != '-') ||  // leave it to highlight the ideas
        ( c >= 58 && c <= 64 ) ||
-       ( c >= 91 && c <= 96 && c == '_' ) ) {
+       ( c >= 91 && c <= 96 && c == '_' ) ) {  // == '_' is on purpose!
 
       string rep = "_" + int2str((int)c);
       if(rep.size() == 2) rep.insert(1, "0");

@@ -554,7 +554,7 @@ void Cladogram::compute() {
       int last = first;
       while(last < nCount && nodes[last]->root() == r) ++last;
 
-      optimise_nextTree(first, last);
+      if(opt >= 1) optimise_nextTree(first, last);
 
       //~ if(opt >= 6) {                                                        <= pseudocode
         //~ optimise_interleaveTree(first, last);
@@ -562,10 +562,11 @@ void Cladogram::compute() {
           //~ optimise_interleaveAllRoots(first, last);
       //~ }
 
-      if(3 <= opt && opt <= 5)
-        optimise_weakPullTree(first, last);
       if(opt >= 6)
-        optimise_strongPullTree(r);
+        optimise_pullToRoot(first, last, (opt>=8)?(true):(false) );
+      if(opt >= 3 && opt < 8)
+        optimise_pullToParent(r);
+                                                                                                                     //FIX STRICT OVERLAPS
     }
   }
 
@@ -791,57 +792,30 @@ void Cladogram::optimise_nextTree(int first, int last) {
   }
 }
 
-// Pull nodes to their parents.
-void Cladogram::optimise_weakPullTree(int first, int last) {
+// Pull nodes to towards the root.
+void Cladogram::optimise_pullToRoot(int first, int last, bool stronger) {
   Node * n;
   int sign = 0;
 
-  // Rearrange subtree into useful order (nodes nearer to parent come first)
-  //~ for(int i = last-1; i >= first; --i) {
-//~ 
-//~ 
-//~ cout << "AAA ";cout.flush();
-//~ cout<< "\n" << i << " " <<nodes[i]->name;cout.flush();
-    //~ Node * par = nodes[i]->parent;
-//~ cout << " DDD ";cout.flush();
-    //~ if( par == NULL) continue;
-//~ 
-//~ // prioritise nodes nearer to parent
-    //~ int j = last-1;
-    //~ while(--j >= first)  // find parent
-      //~ if(nodes[j] == par) break;
-//~ 
-    //~ if(j < i) {  // swap with parent if parent has lower position
-      //~ swap(nodes[j], nodes[i]);
-      //~ ++i;
-    //~ }
-//~ cout << "BBB ";cout.flush();
-//~ 
-  //~ }
+  // Sort by distance to root
+  stable_sort(nodes.begin()+first, nodes.begin()+last, compareRootDist());
 
-
-
-// FIND BEST COMBINATION OF WEAK/STRONG
-
-  stable_sort(nodes.begin()+first, nodes.begin()+last, compareParDist());
-
-
-
-
-
+  int rootoffset = nodes[first]->root()->offset;
   for(int i = first; i < last; ++i) {
     n = nodes[i];
     if(n->parent == NULL) continue;
-    if(n->offset < n->parent->offset) sign = 1;
+    if(n->offset < rootoffset) sign = 1;
     else sign = -1;
 
     int oldOffset = n->offset;
 
     while(fitsInto(n->offset + sign, n)) {
+      if(n->offset == rootoffset) break;
+      if(n->offset < 0)break;
+      if(n->offset > nodes[last-1]->offset) break;
+      if(stronger == false && n->offset == n->parent->offset) break;
 
-      if(n->offset <= 0)break;
       bool overlaps = optimise_strictOverlaps(n, oldOffset, sign, first, last);
-
       if(overlaps == false) n->offset += sign;  // pull by one offset
       else break;
     }
@@ -854,12 +828,12 @@ void Cladogram::optimise_weakPullTree(int first, int last) {
     if(fitsInto(oldOffset, &dummy)) moveOffsetsHigherThan(oldOffset, -1);
   }
 
-
+  // Get nodes back into offset order
   stable_sort(nodes.begin()+first, nodes.begin()+last, compareOffset());
 }
 
-// Strongly pull nodes to their parents.
-void Cladogram::optimise_strongPullTree(Node * r) {
+// Pull nodes to their parents.
+void Cladogram::optimise_pullToParent(Node * r) {
 
   if(r->size == 1) return;
 
@@ -881,6 +855,10 @@ void Cladogram::optimise_strongPullTree(Node * r) {
     int oldOffset = n->offset;
 
     while(fitsInto(n->offset + sign, n)) {
+      if(n->offset < 0)break;
+      if(sign == -1 && n->offset <= r->offset - r->size) break;
+      if(sign ==  1 && n->offset >= r->offset + r->size) break;
+
       bool overlaps = optimise_strictOverlaps(n, oldOffset, sign, first, last);
       if(overlaps == false) n->offset += sign;
       else break;
@@ -896,7 +874,7 @@ void Cladogram::optimise_strongPullTree(Node * r) {
   }
 
   for(int i = 0; i < (int)r->children.size(); ++i)
-    optimise_strongPullTree(r->children[i]);
+    optimise_pullToParent(r->children[i]);
 
   // Get children back into offset order
   stable_sort(r->children.begin(), r->children.end(), compareOffset());
@@ -961,5 +939,6 @@ void Cladogram::nodesPreorder() {
 
   }
   if(debug > 0)
-    cout << "\nnodesPreorder: comparisons=" << dbg_counter << "  swaps=" << dbg_swaps;
+    cout << "\nnodesPreorder: comparisons=" << dbg_counter
+         << "  swaps=" << dbg_swaps;
 }

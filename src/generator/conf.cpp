@@ -169,8 +169,8 @@ void GeneratorCONF::writeData(Cladogram * clad, OutputFile & out) {
     << "\n# Circles might be useful together with nameChangeType = 1"
     << "\ndotType = " << clad->dotType
     << "\n"
-    << "\n# Specifies the amount a node's line thickness should increase for"
-    << "\n# relative to the number of it's children. (recommended 0.0 - 1.0)"
+    << "\n# Specifies the amount a node's line thickness should increase"
+    << "\n# relative to the count of it's children. (recommended 0.0 - 1.0)"
     << "\nbigParent = " << clad->bigParent
     << "\n"
     << "\n# Adds small half-circles to connector starting points"

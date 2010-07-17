@@ -8,41 +8,38 @@ without any warranty.
 ________________________________________________________________________
 
 
-make strictOverlaps work with strongPullTree
-make strongPullTree work across branches
-improve weakPullTree (and maybe exchange with strongPullTree if latter
-doesn't work across branches?)
+FIX: strictOverlaps with tree optimisation
+FIX: Icon rotation on nondefault orientation
 
-implement grouping by connectors (faciliate efficient parenting)
-optimise both-subtree at creation time
+FIX: renames show after endOfTime if node starts before
 
-implement time version of parser/dir  (stat)
-  (created = deriv, last modified = nameChange)
+parser/dir: option: if a folder has > x elements, give it a domain
 
-replace config options with enum? (orientation...)
+gnuclad-cladogram: grouping by connectors ("real parenting")
+gnuclad-cladogram: optimise both-subtree at creation time ?? (no)
 
-toFix: renames show after endOfTime if node starts before
+parser/dir: time based version (stat)
+    (created = deriv, last modified = nameChange)
 
-add symlink connectors in dir parser
+parser/dir: symlink connectors
 
 write manual on optimisation
 
 translate manual
 translatable strings (gettext)
 
-implement curved connectors
-
+generator/svg: curved connectors
                                                                     v0.2
 ________________________________________________________________________
+
+parser/html
+generator/html
 
 parser/gramps
 parser/gedcom
 
 parser/sqlite
 parser/gv (graphviz)
-
-parser/html
-generator/html
                                                                     v0.3
 ________________________________________________________________________
 
