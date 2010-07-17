@@ -527,6 +527,8 @@ void Cladogram::compute() {
   }
   for(int i = 0; i < rCount; ++i) {
 
+    // KEEP USAGE OF THE OPTIMISE VARIABLE WITHIN THIS LOOP
+
     if(optimise == 0) break;
     r = roots[i];
 
@@ -565,8 +567,8 @@ void Cladogram::compute() {
       if(opt >= 6)
         optimise_pullToRoot(first, last, (opt>=8)?(true):(false) );
       if(opt >= 3 && opt < 8)
-        optimise_pullToParent(r);
-                                                                                                                     //FIX STRICT OVERLAPS
+        optimise_pullToParent(r, first, last);
+
     }
   }
 
@@ -833,17 +835,12 @@ void Cladogram::optimise_pullToRoot(int first, int last, bool stronger) {
 }
 
 // Pull nodes to their parents.
-void Cladogram::optimise_pullToParent(Node * r) {
+void Cladogram::optimise_pullToParent(Node * r, int first, int last) {
 
   if(r->size == 1) return;
 
   Node * n;
   int sign = 0;
-
-  // Get first and last child
-  stable_sort(r->children.begin(), r->children.end(), compareOffset());
-  int first = r->children[0]->offset;
-  int last = r->children[r->children.size()-1]->offset;
 
   // Sort by distance to parent
   stable_sort(r->children.begin(), r->children.end(), compareParDist());
@@ -874,7 +871,7 @@ void Cladogram::optimise_pullToParent(Node * r) {
   }
 
   for(int i = 0; i < (int)r->children.size(); ++i)
-    optimise_pullToParent(r->children[i]);
+    optimise_pullToParent(r->children[i], first, last);
 
   // Get children back into offset order
   stable_sort(r->children.begin(), r->children.end(), compareOffset());

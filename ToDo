@@ -8,7 +8,6 @@ without any warranty.
 ________________________________________________________________________
 
 
-FIX: strictOverlaps with tree optimisation
 FIX: Icon rotation on nondefault orientation
 
 FIX: renames show after endOfTime if node starts before
@@ -28,7 +27,7 @@ write manual on optimisation
 translate manual
 translatable strings (gettext)
 
-generator/svg: curved connectors
+generator/svg: curved connectors  ??
                                                                     v0.2
 ________________________________________________________________________
 

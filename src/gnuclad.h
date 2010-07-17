@@ -185,7 +185,7 @@ class Cladogram {
   void optimise_injectSingleRootAt(int i, int upTo);
   void optimise_nextTree(int first, int last);
   void optimise_pullToRoot(int first, int last, bool stronger);
-  void optimise_pullToParent(Node * root);
+  void optimise_pullToParent(Node * root, int first, int last);
   bool optimise_strictOverlaps(Node * n, int oldOffset, int sign,
                                int first, int last);
 
