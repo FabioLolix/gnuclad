@@ -97,6 +97,7 @@ Cladogram::Cladogram() {
   yearLineFontSize = 28;
   yearLineFontColor = Color("#fff");
   appendYears = 0;
+  prependYears = 0;
 
   daysInMonth = 30;
   monthsInYear = 12;
@@ -221,6 +222,7 @@ void Cladogram::parseOptions(const string filename) {
       else if(opt == "yearLineFontSize") yearLineFontSize = str2int(val);
       else if(opt == "yearLineFontColor") yearLineFontColor = Color(val);
       else if(opt == "appendYears") appendYears = str2int(val);
+      else if(opt == "prependYears") prependYears = str2int(val);
       else if(opt == "daysInMonth") daysInMonth = str2int(val);
       else if(opt == "monthsInYear") monthsInYear = str2int(val);
       else if(opt == "endOfTime") endOfTime = Date(val);
@@ -479,6 +481,7 @@ void Cladogram::compute() {
     r = roots[i];
     std::deque<Node *> nodeTree;
     nodeTree.push_back(r);
+
     // Expand the tree if the current root size is bigger than 1
     while((int)nodeTree.size() < r->size) {
 
@@ -499,8 +502,6 @@ void Cladogram::compute() {
         compute_subtreeLower(nodeTree, treeOffset, n);
       else if(treeMode == 2)
         compute_subtreeLowerInverse(nodeTree, treeOffset, n);
-
-      //TODO: maybe optimise here with both-rest-subtree swapping
 
     }
 
@@ -545,6 +546,7 @@ void Cladogram::compute() {
       if(upTo > rCount) upTo = rCount;
 
       optimise_injectSingleRootAt(i, upTo);
+      // ToDO: if optimise == 99 inject roots into trees processed so far
 
     } else {  // Tree root
 
@@ -558,7 +560,9 @@ void Cladogram::compute() {
 
       if(opt >= 1) optimise_nextTree(first, last);
 
-      //~ if(opt >= 6) {                                                        <= pseudocode
+      // optimise: if node i (has no children and) ends before i+1 starts, put them on same side
+
+      //~ if(opt >= 6) {                                                        <= pseudocode ToDo
         //~ optimise_interleaveTree(first, last);
         //~ if(opt >= 8)
           //~ optimise_interleaveAllRoots(first, last);
@@ -679,9 +683,6 @@ void Cladogram::compute_subtreeBoth(std::deque<Node *> &tree,
                                     int pos, Node * n) {
 
   int childCount = (int)n->children.size();
-                                                                                //TODO: OPTIMISE HERE??
-  // optimise: if node i (has no children and) ends before i+1 starts, put them on same side
-
 
   // Insert the upper subtree before current node
   for(int i = 1; i < childCount; i += 2)

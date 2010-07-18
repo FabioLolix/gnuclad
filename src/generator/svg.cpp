@@ -39,9 +39,11 @@ void GeneratorSVG::writeData(Cladogram * clad, OutputFile & out) {
 
   int years = clad->endOfTime.year - clad->beginningOfTime.year + 1;
   years += clad->appendYears;
+  years += clad->prependYears;
 
   int width = years * yrPX + 2 * xPX;
   int height = clad->maximumOffset * oPX + 2 * yrlinePX;
+  xPX += clad->prependYears * yrPX;
 
   // enum orientation left-to-right, top-to-bottom, right-to-left, bottom-to-top
   enum { oLR, oTB, oRL, oBT };
@@ -217,7 +219,7 @@ void GeneratorSVG::writeData(Cladogram * clad, OutputFile & out) {
   f << "\n<g inkscape:label='Year Rulers' inkscape:groupmode='layer' id='layer_yearrulers'"
     << " stroke-width='" << clad->rulerMonthWidth << "' stroke='#" <<  clad->rulerMonthColor.hex  << "'>\n";
   for(int i = 0; i <= years; ++i) {
-    int x = i * yrPX + xPX;
+    int x = i * yrPX + xPX - clad->prependYears*yrPX;
     int xm;
     f << "  <line x1='" << x << "' y1='" << topOffset - yrlinePX << "' x2='" << x << "' y2='" << height << "'"
       << " stroke-width='" << clad->rulerWidth << "' stroke='#" <<  clad->rulerColor.hex  << "' />\n";
@@ -366,53 +368,38 @@ void GeneratorSVG::writeData(Cladogram * clad, OutputFile & out) {
     n = clad->nodes[i];
     iconfile = n->iconfile;
     format = getExt(iconfile);
-    string rotate;
-
     if(format == "") continue;
-    else if(format == "svg") {
 
-      int iconWidth = 0;
-      int iconHeight = 0;
+    string rotate;
+    string icon;
+    int iconWidth = 0;
+    int iconHeight = 0;
 
-      string icon = SVG_body(iconfile, iconWidth, iconHeight);
+    if(format == "svg") icon = SVG_body(iconfile, iconWidth, iconHeight);
+    else if(format == "png") icon = base64_png(iconfile, iconWidth, iconHeight);
 
-      int posX = datePX(n->start, clad) + xPX - iconWidth/2;
-      int posY = n->offset * oPX + yrlinePX - iconHeight/2;
+    int posX = datePX(n->start, clad) + xPX - iconWidth/2;
+    int posY = n->offset * oPX + topOffset - iconHeight/2;
 
-      if(clad->orientation == oTB)
-        rotate = "rotate(-90," + int2str(posX + iconWidth/2) + "," + int2str(posY + iconWidth/2) + ")";
-      if(clad->orientation == oRL)
-        rotate = "matrix(-1,0,0,1,0,1) translate(-" + int2str(2 * posX + iconWidth) + ",0)";
-      if(clad->orientation == oBT)
-        rotate = "rotate(90," + int2str(posX + iconWidth/2) + "," + int2str(posY + iconWidth/2) + ")";
+    if(clad->orientation == oTB)
+      rotate = "matrix(0,1,1,0,0,1) translate(" + int2str( -posX + posY +(-iconWidth+iconHeight)/2 ) + "," + int2str( posX - posY + (iconWidth-iconHeight)/2 ) + ")";
+    if(clad->orientation == oRL)
+      rotate = "matrix(-1,0,0,1,0,1) translate(-" + int2str(2 * posX + iconWidth) + ",0)";
+    if(clad->orientation == oBT)
+      rotate = "rotate(90," + int2str(posX + iconWidth/2) + "," + int2str(posY + iconWidth/2) + ")";
+
+    if(format == "svg") {
 
       f << "  <g transform='" << rotate << " translate(" << posX << "," << posY <<")' >\n"
         << icon
         << "  </g>\n";
 
     } else if(format == "png") {
-
-      int iconWidth = 0;
-      int iconHeight = 0;
-
-      string icon = base64_png(iconfile, iconWidth, iconHeight);
-
-      int posX = datePX(n->start, clad) + xPX - iconWidth/2;
-      int posY = n->offset * oPX + topOffset - iconHeight/2;
-
-      if(clad->orientation == oTB)
-        rotate = "rotate(-90," + int2str(posX + iconWidth/2) + "," + int2str(posY + iconWidth/2) + ")";
-      if(clad->orientation == oRL)
-        rotate = "matrix(-1,0,0,1,0,1) translate(-" + int2str(2 * posX + iconWidth) + ",0)";
-      if(clad->orientation == oBT)
-        rotate = "rotate(90," + int2str(posX + iconWidth/2) + "," + int2str(posY + iconWidth/2) + ")";
-
       f << "  <image id='__icon_" << validxml(n->name) << "'" << " transform='" << rotate << "'"
         << " x='" << posX << "' y='" << posY << "' width='" << iconWidth << "' height='" << iconHeight << "'\n"
         << "    xlink:href='data:image/" << format << ";base64," << icon << "' />\n";
 
-    } else throw "unknown icon file format: " + format +
-                 "\n       accepted formats: svg, png";
+    } else throw "unknown icon file format: " + format + "\n       accepted formats: svg, png";
 
   }
   f << "</g>\n";
@@ -463,8 +450,8 @@ void GeneratorSVG::writeData(Cladogram * clad, OutputFile & out) {
 
     if(clad->labelBGOpacity > 0)
       f << "  <rect x='" << alignmentBGx << "' y='" << posY - dirty_hack_ex *6/5 << "' width='" << strlenpx(n->name, clad)
-        //~ << "' height='" << dirty_hack_ex *7/5 << "' fill='#" << clad->mainBackground.hex << "' opacity='" << double(clad->labelBGOpacity)/100 
-<< "' height='" << dirty_hack_ex *7/5 << "' fill='#a00' opacity='" << double(clad->labelBGOpacity)/100 
+        << "' height='" << dirty_hack_ex *7/5 << "' fill='#" << clad->mainBackground.hex << "' opacity='" << double(clad->labelBGOpacity)/100 
+//~ << "' height='" << dirty_hack_ex *7/5 << "' fill='#a00' opacity='" << double(clad->labelBGOpacity)/100 
         << "'  rx='5' ry='5' />\n";
 
     f << "  " << href << "<text x='"<< posX <<"' y='"<< posY <<"' " << alignment << " >" << n->name <<"</text>" << hrefend << "\n";
@@ -534,19 +521,22 @@ void GeneratorSVG::writeData(Cladogram * clad, OutputFile & out) {
   dirty_hack_ex = int(clad->yearLineFontSize / 1.375 * clad->fontCorrectionFactor);  // CSS ex unit
   if(yrlinePX > 0) {
 
+  xPX -= clad->prependYears *yrPX;  // add prepended years
+
     f << "  <rect x='" << xPX - 10 << "' y='" << topOffset - yrlinePX - 3*oPX/2 << "' rx='5' ry='5' width='" << width - xPX + 10<< "' height='" << yrlinePX << "' />\n"
       << "  <rect x='" << xPX - 10 << "' y='" << height - yrlinePX << "' rx='5' ry='5' width='" << width - xPX + 10 << "' height='" << yrlinePX << "' />\n"
       << "  <g style='font-size:" << clad->yearLineFontSize << "px;stroke:none;fill:#" << clad->yearLineFontColor.hex << ";font-family:" << clad->yearLineFont << ";-inkscape-font-specification:" << clad->yearLineFont << ";text-anchor:middle;' >\n";
-    for(int i = 0; i < years; ++i) {
+    for(int i = 0; i <= clad->endOfTime.year - clad->beginningOfTime.year + clad->prependYears + clad->appendYears; ++i) {
       int posX = yrPX * i + yrPX / 2 + xPX;
       int posY = topOffset - 3*oPX/2 - yrlinePX/2 + dirty_hack_ex / 2;
-      int yeartext = clad->beginningOfTime.year + i;
+      int yeartext = clad->beginningOfTime.year + i - clad->prependYears;
       if(clad->orientation == oRL) yeartext = clad->endOfTime.year -i;
       f << "    <text x='" << posX << "' y='" << posY << "'><tspan>" << yeartext << "</tspan></text>\n"
         << "    <text x='" << posX << "' y='" << height - yrlinePX/2 + dirty_hack_ex/2 << "'><tspan>" << yeartext << "</tspan></text>\n";
     }
     f << "  </g>\n";
 
+  xPX += clad->prependYears *yrPX;  // remove prepended years
   }
   f << "</g>\n";
 
@@ -585,7 +575,7 @@ void GeneratorSVG::writeData(Cladogram * clad, OutputFile & out) {
     int imgHeight = 0;
     string data = base64_png(image->filename, imgWidth, imgHeight);
 
-    f << "  <image id='__png_" << int2str(i) << "' x='" << image->x + xPX << "' y='" << image->y + topOffset << "' width='" << imgWidth << "' height='" << imgHeight << "'\n"
+    f << "  <image id='__png_" << int2str(i) << "' x='" << image->x + xPX - clad->prependYears*yrPX << "' y='" << image->y + topOffset << "' width='" << imgWidth << "' height='" << imgHeight << "'\n"
       << "    xlink:href='data:image/png;base64," << data << "' />\n";
   }
   f << "</g>\n";
@@ -598,7 +588,7 @@ void GeneratorSVG::writeData(Cladogram * clad, OutputFile & out) {
     int void1, void2;
     image = clad->includeSVG[i];
     string data = SVG_body(image->filename, void1, void2);
-    f << "  <g transform='translate(" << image->x + xPX << "," << image->y + topOffset << ")' >\n"
+    f << "  <g transform='translate(" << image->x + xPX - clad->prependYears*yrPX << "," << image->y + topOffset << ")' >\n"
       << data
       << "  </g>\n";
 

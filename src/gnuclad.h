@@ -272,6 +272,7 @@ class Cladogram {
   int yearLineFontSize;
   Color yearLineFontColor;
   int appendYears;
+  int prependYears;
 
   int monthsInYear;
   int daysInMonth;

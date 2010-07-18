@@ -7,32 +7,31 @@ without any warranty.
 
 ________________________________________________________________________
 
-
-FIX: Icon rotation on nondefault orientation
-
 FIX: renames show after endOfTime if node starts before
+
+generator/svg: inject derivType 2: 45° lines from parent
 
 parser/dir: option: if a folder has > x elements, give it a domain
 
 gnuclad-cladogram: grouping by connectors ("real parenting")
 gnuclad-cladogram: optimise both-subtree at creation time ?? (no)
 
+write manual on optimisation
+
+generator/svg: curved connectors  ??
+
 parser/dir: time based version (stat)
     (created = deriv, last modified = nameChange)
 
 parser/dir: symlink connectors
-
-write manual on optimisation
-
-translate manual
-translatable strings (gettext)
-
-generator/svg: curved connectors  ??
                                                                     v0.2
 ________________________________________________________________________
 
 parser/html
 generator/html
+
+translate manual
+translatable strings (gettext)
 
 parser/gramps
 parser/gedcom

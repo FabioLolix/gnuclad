@@ -188,8 +188,11 @@ void GeneratorCONF::writeData(Cladogram * clad, OutputFile & out) {
     << "\nyearLineFontSize = " << clad->yearLineFontSize
     << "\nyearLineFontColor = #" << clad->yearLineFontColor.hex
     << "\n"
-    << "\nHow many (empty) years to append after the endOfTime"
+    << "\nHow many (empty) years to append at the end"
     << "\nappendYears = " << clad->appendYears
+    << "\n"
+    << "\nHow many (empty) years to prepend at the beginning"
+    << "\nprependYears = " << clad->prependYears
     << "\n"
     << "\n# Remember to adjust your input data after changing these averages."
     << "\ndaysInMonth = " << clad->daysInMonth
