@@ -545,7 +545,8 @@ void Cladogram::compute() {
         if(roots[upTo]->size >= treeBarrierSize[opt]) break;
       if(upTo > rCount) upTo = rCount;
 
-      optimise_injectSingleRootAt(i, upTo);
+      if(opt >= 1) optimise_injectSingleRootAt(i, upTo);
+
       // ToDO: if optimise == 99 inject roots into trees processed so far
 
     } else {  // Tree root
@@ -878,15 +879,20 @@ void Cladogram::optimise_pullToParent(Node * r, int first, int last) {
   stable_sort(r->children.begin(), r->children.end(), compareOffset());
 }
 
-// Aesthetical hack to prevent node lines overlapping deriv lines
+// Aesthetical hack to prevent node lines overlapping deriv lines.
+// Returns false if specified node probably doesn't overlap other lines.
 bool Cladogram::optimise_strictOverlaps(Node * n, int oldOffset, int sign,
                                         int first, int last) {
   if(strictOverlaps == 0) return false;
-  if(derivType < 1 || 4 < derivType) return false;
+  if(derivType < 1 || 5 < derivType) return false;
 
-  double slope = double((n->offset - n->parent->offset)*offsetPX) * -sign
-                 / double(datePX(n->stop + stopSpacing, this)
-                        - datePX(n->parent->start, this));
+  double slope;
+  if(derivType == 1 || derivType == 5)
+    slope = double((n->offset - n->parent->offset)*offsetPX) * -sign /
+            datePX(n->stop + stopSpacing, this) - datePX(n->parent->start,this);
+  else
+    slope = 0.618;
+
   int addPX = offsetPX/slope * (n->offset - oldOffset        +1);
   int stopPX = datePX(n->stop, this) + addPX;
   int startPX = datePX(n->start, this);
@@ -897,7 +903,7 @@ bool Cladogram::optimise_strictOverlaps(Node * n, int oldOffset, int sign,
   // fitsInto() instead of this one (many checks removed)!
   vector<Node *> tmp;
   for(int i = first; i < last; ++i)
-    if(nodes[i]->offset == n->offset)
+    if(nodes[i]->offset == n->offset && nodes[i] != n)
       tmp.push_back(nodes[i]);
 
   if(tmp.size() == 0) return false;
@@ -907,17 +913,19 @@ bool Cladogram::optimise_strictOverlaps(Node * n, int oldOffset, int sign,
   if( stopPX < datePX(tmp[0]->start, this) ||
       startPX > datePX(n->stop + stopSpacing, this) )
     return false;
+
   for(int i = 0; i < (int)tmp.size() - 2; ++i)
     if( datePX(tmp[i]->stop + stopSpacing, this) < startPX &&
         stopPX < datePX(tmp[i+1]->start, this))
       return false;
+
   /////////////////////////
   return true;
 }
 
 
 // Change node array sequence to "pseudo-inverse" preorder
-// Fix for SVG layering (derivType 2 - 4)
+// Fix for SVG layering (derivType 2 - 5)
 void Cladogram::nodesPreorder() {
   int dbg_counter = 0, dbg_swaps = 0;
   for(int i = (int)nodes.size() - 1; i >= 0; --i) {

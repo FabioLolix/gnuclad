@@ -7,16 +7,21 @@ without any warranty.
 
 ________________________________________________________________________
 
-FIX: renames show after endOfTime if node starts before
 
-generator/svg: inject derivType 2: 45° lines from parent
+gnuclad-cladogram.cpp: make another slope for derivType 2, 3 and 4
+
+--- rev
+
+FIX: renames show after endOfTime if node starts before
 
 parser/dir: option: if a folder has > x elements, give it a domain
 
+write manual on optimisation
+
+
+
 gnuclad-cladogram: grouping by connectors ("real parenting")
 gnuclad-cladogram: optimise both-subtree at creation time ?? (no)
-
-write manual on optimisation
 
 generator/svg: curved connectors  ??
 

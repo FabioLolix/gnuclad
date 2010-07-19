@@ -276,7 +276,7 @@ void GeneratorSVG::writeData(Cladogram * clad, OutputFile & out) {
   // Node Lines
   f << "\n<g inkscape:label='Lines' inkscape:groupmode='layer' id='layer_lines'\n"
     << " style='fill:none;stroke-width:" << lPX << ";' >\n";
-  if(2 <= clad->derivType && clad->derivType <= 4) clad->nodesPreorder();
+  if(2 <= clad->derivType && clad->derivType <= 5) clad->nodesPreorder();
 
   for(int i = 0; i < (int)clad->nodes.size(); ++i) {
 
@@ -288,28 +288,35 @@ void GeneratorSVG::writeData(Cladogram * clad, OutputFile & out) {
     f << "  <path id='__line_"<< validxml(n->name) <<"' d='M ";
     if(n->parent != NULL) {
 
+      int dType = clad->derivType;
+
       if(n->offset < n->parent->offset) sign = 1;
       else sign = -1;
       int posYparent = n->parent->offset * oPX + topOffset;
-      if(clad->derivType < 1 && 4 < clad->derivType)
+      if(dType < 1 && 5 < dType)
         posYparent -= sign * (lPX*(1 + (sqrt(n->parent->size)-1) * clad->bigParent))/2;
 
-      int dType = clad->derivType;
       if(dType == 0)
         f << startX << " " << posYparent << " L ";
       else if(dType == 1)
         f << datePX(n->parent->start, clad) + xPX << " " << posYparent << " L ";
-      else if(dType >= 2 && dType <= 4) {
+      else if(dType == 2) {
+        int startPar = datePX(n->parent->start, clad) + xPX;
+        int xdiff = sign*(posYparent-posY);
+        if(startX - xdiff < startPar) xdiff = startX - startPar;
+        f << startX - xdiff << " " << posYparent << " L ";
+      }
+      else if(3 <= dType && dType <= 5) {
 
         int startPar = datePX(n->parent->start, clad) + xPX;
         int xdiff = yrPX;   // one year scaling
-        if(dType == 3) {    // quadratic root scaling
+        if(dType == 4) {    // quadratic root scaling
           xdiff *= (n->offset - n->parent->offset);
           if(xdiff < 0) xdiff = -xdiff;
           //~ xdiff = log(xdiff) *20;
           xdiff = sqrt(xdiff) *5;
         }
-        if(startX - xdiff < startPar || dType == 4) xdiff = startX - startPar;
+        if(startX - xdiff < startPar || dType == 5) xdiff = startX - startPar;
         int startpoint = startX - xdiff;
         f << startpoint << " " << posYparent << " C "
           << startX - 0.25*xdiff << "," << posYparent << " "

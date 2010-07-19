@@ -94,9 +94,9 @@ void GeneratorCONF::writeData(Cladogram * clad, OutputFile & out) {
     << "\n# First digit: isolated nodes. Second digit: trees."
     << "\noptimise = " << clad->optimise
     << "\n"
-    << "\n# This determines if optimisation should allow overlaps in rare cases"
+    << "\n# This guesses if optimisation should overlap in some rare cases"
     << "\n# 1 = forbid overlaps, 0 = allow overlaps (better optimisation)"
-    << "\nstrictOverlaps = "
+    << "\nstrictOverlaps = " << clad->strictOverlaps
     << "\n"
     << "\n# How much space (in offsets) to add before/after trees"
     << "\ntreeSpacing = " << clad->treeSpacing
@@ -136,7 +136,7 @@ void GeneratorCONF::writeData(Cladogram * clad, OutputFile & out) {
     << "\nlabelFontSize = " << clad->labelFontSize
     << "\nlabelFontColor = #" << clad->labelFontColor.hex
     << "\n"
-    << "\n# An experimental feature you might want to use with derivType = 1"
+    << "\n# An experimental feature you might want to use with derivType > 1"
     << "\n# Opacity takes values between 0 (transparent) and 100 (opaque)."
     << "\n# It DOES NOT work flawlessly with SVG 1.1 output."
     << "\n# (hoping for v1.2 or CSS3 ...)"
@@ -156,8 +156,9 @@ void GeneratorCONF::writeData(Cladogram * clad, OutputFile & out) {
     << "\n"
     << "\n# Set the way the lines should derive from the parent."
     << "\n# 0 = orthogonal, 1 = from parent's starting point"
-    << "\n# 2 = curved (1 year wide curves), 3 = curved (quadratic scaling)"
-    << "\n# 4 = curved (from parent's starting point)"
+    << "\n# 2 = diagonal (45 degrees)"
+    << "\n# 3 = curved (1 year wide curves), 4 = curved (quadratic scaling)"
+    << "\n# 5 = curved (from parent's starting point)"
     << "\nderivType = " << clad->derivType
     << "\n"
     << "\n# The size of the node dots"

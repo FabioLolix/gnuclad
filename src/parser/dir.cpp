@@ -37,8 +37,8 @@ cout << "\nWARNING: directory parsing is experimental!";
   clad->truncateFolder = true;
   clad->inVitro = true;  // just surpressing warnings
 
-  if(clad->derivType != 1 && clad->derivType != 4)
-    cout << "\nWARNING: derivType 1 or 4 recommended";
+  if(clad->derivType != 1 && clad->derivType != 5)
+    cout << "\nWARNING: derivType 1 or 5 recommended";
   clad->stopFadeOutPX = 0;
   clad->rulerMonthWidth = 0;
 
