@@ -8,13 +8,8 @@ without any warranty.
 ________________________________________________________________________
 
 
-gnuclad-cladogram.cpp: make another slope for derivType 2, 3 and 4
-
---- rev
-
 FIX: renames show after endOfTime if node starts before
-
-parser/dir: option: if a folder has > x elements, give it a domain
+FIX: bigParent name alignment
 
 write manual on optimisation
 

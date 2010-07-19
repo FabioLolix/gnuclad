@@ -282,6 +282,8 @@ class Cladogram {
   Color dir_colorFile;
   Color dir_colorDir;
   Color dir_colorLink;
+  int dir_domainSize;
+  int dir_domainIntensity;
 
   int debug;
 

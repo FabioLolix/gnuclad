@@ -108,6 +108,8 @@ Cladogram::Cladogram() {
   dir_colorFile = Color("#0ff");
   dir_colorDir = Color("#00f");
   dir_colorLink = Color("#0f0");
+  dir_domainSize = 0;
+  dir_domainIntensity = 3;
 
   debug = 0;
 
@@ -231,6 +233,8 @@ void Cladogram::parseOptions(const string filename) {
       else if(opt == "dir_colorFile") dir_colorFile = Color(val);
       else if(opt == "dir_colorDir") dir_colorDir = Color(val);
       else if(opt == "dir_colorLink") dir_colorLink = Color(val);
+      else if(opt == "dir_domainSize") dir_domainSize = str2int(val);
+      else if(opt == "dir_domainIntensity") dir_domainIntensity = str2int(val);
       else if(opt == "debug") debug = str2int(val);
       else cout << "\nIGNORING unrecognised config option: " << opt;
 
@@ -374,13 +378,6 @@ void Cladogram::compute() {
     }
   }
 
-  // Truncate folder names, used in dir parser
-  if(truncateFolder == true)
-    for(int i = 0; i < nCount; ++i) {
-      n = nodes[i];
-      n->name = n->name.substr(n->name.rfind(folder_delimiter) + 1);
-    }
-
   // If node is not within slice, erase it
   if(slice != "") {
     Node * sliceNode = 0;
@@ -456,6 +453,13 @@ void Cladogram::compute() {
       continue;
     }
   }
+
+  // Truncate folder names, used in dir parser
+  if(truncateFolder == true)
+    for(int i = 0; i < nCount; ++i) {
+      n = nodes[i];
+      n->name = n->name.substr(n->name.rfind(folder_delimiter) + 1);
+    }
 
   // Push through size
   // Requires full parent paths, hence a new pass

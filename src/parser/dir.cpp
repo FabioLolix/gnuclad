@@ -30,12 +30,11 @@ ParserDIR::~ParserDIR() {}
 
 void ParserDIR::parseData(Cladogram * clad, InputFile & in) {
 
-cout << "\nWARNING: directory parsing is experimental!";
-
   clad->beginningOfTime = Date(1);
   clad->endOfTime = Date(1);
   clad->truncateFolder = true;
   clad->inVitro = true;  // just surpressing warnings
+  clad->treeSpacingBiggerThan = 0;
 
   if(clad->derivType != 1 && clad->derivType != 5)
     cout << "\nWARNING: derivType 1 or 5 recommended";
@@ -62,13 +61,10 @@ void ParserDIR::parseDir(std::string dirname, Cladogram * clad, int level) {
 
   if(clad->endOfTime.year <= level) clad->endOfTime.year = level + 1;
 
-// SOLVE OPTIMISATION PROBLEM: opt > x2 -> make pull work
-
-
-
   string name;
   DIR * dir = new_indir(dirname);
   struct dirent * dirElem;
+  int domcount = 0;  // domain counter
 
   // Readable directories
   vector<string> dirs;
@@ -92,6 +88,15 @@ void ParserDIR::parseDir(std::string dirname, Cladogram * clad, int level) {
 
     else addNode(name, clad->dir_colorFile, dirname, level, clad);
 
+    // Add domains
+    string t = dirElem->d_name;
+    t = t.substr(0,2);
+    if(t != ".." && t != "." && t != "./" && t != ".\\") ++domcount;
+    if(level > 1 && clad->dir_domainSize>0 && domcount == clad->dir_domainSize){
+      Domain * d = clad->addDomain(dirname);
+      d->color = clad->dir_colorDir;
+      d->intensity = clad->dir_domainIntensity;
+    }
   }
 
   // Add readable directories to cladogram
