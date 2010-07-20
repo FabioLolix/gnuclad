@@ -323,6 +323,13 @@ void Cladogram::compute() {
       continue;
     }
 
+    // Ignore nameChanges occuring after endOfTime
+    for(int j = 0; j < (int)n->nameChanges.size(); ++j)
+      if(endOfTime < n->nameChanges[j].date) {
+        n->nameChanges.erase(n->nameChanges.begin() + j);
+        --j;
+      }
+
     // If "stop" is newer than endOfTime, set "stop" to endOfTime
     if(endOfTime < n->stop)
       n->stop = endOfTime;
