@@ -9,14 +9,18 @@ ________________________________________________________________________
 
 
 FIX: renames show after endOfTime if node starts before
-FIX: bigParent name alignment
 
 write manual on optimisation
+add undocumented vars to manual (inVitro etc), nodesPreorder()
 
 
+
+parser/dir: domain spacing
 
 gnuclad-cladogram: grouping by connectors ("real parenting")
 gnuclad-cladogram: optimise both-subtree at creation time ?? (no)
+
+generator/svg: domains along deriv lines (domainType 1)
 
 generator/svg: curved connectors  ??
 

@@ -31,6 +31,7 @@ Cladogram::Cladogram() {
   inputFolder = "";
   truncateFolder = false;
   inVitro = false;
+  tighterDomains = false;
 
   endOfTime = currentDate();
   beginningOfTime = endOfTime;
@@ -612,8 +613,8 @@ void Cladogram::compute() {
 
     if(d->node->size < treeSpacingBiggerThan)
       cout << "\nWARNING: domain of node " << d->node->name << " will not get"
-           << " spaced and will possibly overlap with others because it's tree"
-           << " is too small. Reduce the treeSpacingBiggerThan config option.";
+           << " spaced and may overlap with other lines (it's tree is"
+           << " too small). Reduce the treeSpacingBiggerThan config option.";
 
     // Get minimum and maximum offsets of children this domain's node has
     int min = nCount-1, max = 0;

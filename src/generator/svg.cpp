@@ -241,6 +241,10 @@ void GeneratorSVG::writeData(Cladogram * clad, OutputFile & out) {
     int wval = datePX(clad->endOfTime.year + 1 + clad->appendYears, clad) - xpos + xPX;
     int yval = (d->offsetA - 1) * oPX + topOffset;
     int hval = (d->offsetB - d->offsetA + 2) * oPX;
+    if(clad->tighterDomains == true) {
+      yval += oPX/2;
+      hval -= oPX;
+    }
     f << "  <rect x='" << xpos << "' y='" << yval << "' width='" << wval << "' height='" << hval
       << "' rx='" << oPX / 2 << "' ry='" << oPX / 2 << "' fill='url(#__domain_" << validxml(d->nodeName) << ")' />\n";
 
@@ -427,7 +431,7 @@ void GeneratorSVG::writeData(Cladogram * clad, OutputFile & out) {
     }
 
     int posX = datePX(n->start, clad) + xPX + clad->dotRadius;
-    int posY = n->offset * oPX + topOffset - dirty_hack_ex/2;
+    int posY = n->offset * oPX + topOffset - dirty_hack_ex/2 - lPX*((sqrt(n->size)-1) * clad->bigParent)/2;
     int posXwName = posX + strlenpx(n->name, clad) + dirty_hack_em;  // + dirty_hack_em is experimental
     int alignmentBGx = posX - dirty_hack_em/4;
     string alignment = "";

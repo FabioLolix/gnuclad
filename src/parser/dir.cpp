@@ -34,6 +34,7 @@ void ParserDIR::parseData(Cladogram * clad, InputFile & in) {
   clad->endOfTime = Date(1);
   clad->truncateFolder = true;
   clad->inVitro = true;  // just surpressing warnings
+  clad->tighterDomains = true;
   clad->treeSpacingBiggerThan = 0;
 
   if(clad->derivType != 1 && clad->derivType != 5)
