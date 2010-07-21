@@ -7,8 +7,27 @@ without any warranty.
 
 ________________________________________________________________________
 
+2010.07.xx - version 0.2
 
-2010.2.14 - version 0.1
+* Parse directories
+* Slice out single nodes
+* Additional derivation line types
+* Properly working SVG icons and images
+* Inclusion of PNG icons and images
+* Improved size optimisation
+* Improved infoBox positioning
+* Fixed SVG output for WebKit
+* New configuration options: slice, strictOverlaps, asciiStrings,
+      bigParent, appendYears, prependYears
+      dir_showDotFiles, dir_colorFile, dir_colorDir, dir_colorLink,
+      dir_domainSize, dir_domainIntensity
+* Builds on GNU/Linux, OSX, Windows (MinGW)
+* Has complete manual
+
+
+
+2010.02.14 - version 0.1
+
 * First milepoint
 * Can parse CSV
 * Can generate CSV

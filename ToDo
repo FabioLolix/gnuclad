@@ -8,16 +8,17 @@ without any warranty.
 ________________________________________________________________________
 
 
+clean up file structure
 test on OSX and Windows
-gobble up changes for NEWS
 
------
+                                                                    v0.2
+________________________________________________________________________
 
-parser/dir: domain spacing
 
 gnuclad-cladogram: grouping by connectors ("real parenting")
 gnuclad-cladogram: optimise both-subtree at creation time ?? (no)
 
+parser/dir: domain spacing
 generator/svg: domains along deriv lines (domainType 1)
 
 generator/svg: curved connectors ???
@@ -27,8 +28,7 @@ parser/dir: time based version (stat)
     (created = deriv, last modified = nameChange)
 
 parser/dir: symlink connectors
-                                                                    v0.2
-________________________________________________________________________
+
 
 parser/html
 generator/html

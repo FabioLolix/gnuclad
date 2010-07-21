@@ -10,6 +10,218 @@ ________________________________________________________________________
 created with: bzr log --gnu-changelog
 
 
+2010-07-22  bryonak  <bryonak@freenet.de>
+
+	gnuclad-cladogram.cpp:
+	fix: exact domain offset assignment (+honor tighterDomains)
+	fix: optimise_pullToRoot() must fetch new rootOffset within loop
+	fix: optimise_pullToRoot() now has proper maxOffset checking
+	generator/svg.cpp:
+	fix: posYparent in line calculation with dType < 1
+
+2010-07-21  bryonak  <bryonak@freenet.de>
+
+	generator/conf.cpp:
+	added missing equals sign
+	manual:
+	split programming-classes and programming-helpers
+	improved optimisation chapter
+	general updates and improvements
+
+2010-07-20  bryonak  <bryonak@freenet.de>
+
+	gnuclad-cladogram.cpp:
+	fix: ignore nameChanges occuring after endOfTime
+
+2010-07-20  bryonak  <bryonak@freenet.de>
+
+	gnuclad.h:
+	declared tighterDomains
+	generator/svg.cpp:
+	fix: label alignment with bigParent > 0
+	implemented tighterDomains
+
+2010-07-19  bryonak  <bryonak@freenet.de>
+
+	gnuclad-cladogram.cpp:
+	fix: moved truncateFolder block after domain and connector assignment
+	parser/dir.cpp:
+	implemented folder domains
+	overriding treeSpacingBiggerThan to 0
+	generator/conf.cpp:
+	added dir_domainSize and dir_domainIntensity
+
+2010-07-19  bryonak  <bryonak@freenet.de>
+
+	gnuclad-cladogram.cpp:
+	fixed injectSingleRootAt call condition
+	fixed strictOverlaps tmp vector (self overlapping)
+	implemented another slope for derivType 2, 3 and 4
+	generator/svg.cpp:
+	implemented derivType 2, moved the others up (2-4 -> 3-5)
+	generator/conf.cpp:
+	added missing clad->strictOverlaps
+	improved comments
+
+2010-07-18  bryonak  <bryonak@freenet.de>
+
+	gnuclad-cladogram.cpp:
+	implemented prependYears
+	cleaned up some comments
+	generator/svg.cpp:
+	using prependYears all over the file (9 instances)
+	fixed icon rotation on orientation = 1  (TopBottom)
+	fixed vertical icon spacing (yrlinePX -> topOffset)
+	improved icon processing (more general, less code)
+	generator/conf.cpp:
+	added prependYears
+	improved comments
+
+2010-07-17  bryonak  <bryonak@freenet.de>
+
+	gnuclad.h:
+	modified declaration of optimise_pullToParent
+	gnuclad-cladogram.cpp:
+	fixed optimise_pullToParent pass correct
+	parameters to optimise_strictOverlaps
+
+2010-07-17  bryonak  <bryonak@freenet.de>
+
+	improved comments
+	gnuclad.h:
+	implemented compareRootDist()
+	removed optimise_weakPullTree() and optimise_strongPullTree()
+	added optimise_pullToParent() and optimise_pullToRoot()
+	gnuclad-cladogram.cpp:
+	removed optimise_weakPullTree() and optimise_strongPullTree()
+	implemented optimise_pullToParent() and optimise_pullToRoot()
+	fixed optimise_nextTree() calling condition
+	generator/svg.cpp:
+	rewritten strlenpx()
+	added enum for orientation and nameChangeType
+	reduced dirty_hack_em from 1.675 to 1.625
+	changed constants for derivType (2-4) curvature
+
+2010-07-12  bryonak  <bryonak@freenet.de>
+
+	gnuclad.h:
+	implemented compareParDist
+	added optimise_weakPullTree, optimise_strongPullTree
+	added optimise_strictOverlaps
+	gnuclad-cladogram.cpp:
+	implemented optimise_weakPullTree and optimise_strongPullTree
+	implemented optimise_strictOverlaps
+	improved comments
+	parser/dir.cpp:
+	fixed trailing endOfTime bug for real
+	generator/svg.cpp:
+	fixed bigParent fadeout for real
+	generator/conf.cpp:
+	added strictOverlaps
+
+2010-07-11  bryonak  <bryonak@freenet.de>
+
+	small code cleanup and improved comments
+	parser/dir.cpp:
+	fixed trailing endOfTime year count
+	implement configured colors
+	generator/conf.cpp:
+	added dir_colorFile, dir_colorDir and dir_colorLink
+
+2010-07-05  bryonak  <bryonak@freenet.de>
+
+	generator/svg.cpp:
+	implemented line width proportional to node size
+	implemented dot radious proportional to node size
+	fixed fadeout and posYparent in respect to bigParent
+	gnuclad-cladogram.cpp:
+	implemented spacing for fat lines (bigParent)
+	generator/conf.cpp:
+	added bigParent
+
+2010-07-04  bryonak  <bryonak@freenet.de>
+
+	gnuclad.h:
+	removed cons requirement from datePX()
+	gnuclad-cladogram.cpp:
+	greatly improved optimise_pullTree()
+	PX based collision detection
+	fixed deriv lines overlapping with stopping node lines
+	removal of lines that have been pulled empty
+
+2010-07-04  bryonak  <bryonak@freenet.de>
+
+	generator/conf.cpp:
+	derivType 3 -> 4, added derivType 3
+	generator/svg.cpp:
+	improved derivType 2-4 to scale correctly
+	parser/dir.cpp:
+	Warn if derivType is not 1 or 4
+
+2010-07-03  bryonak  <bryonak@freenet.de>
+
+	generator/svg.cpp:
+	implemented appendYears
+	toggle debug label backgrounds
+	generator/conf.cpp:
+	added appendYears
+	parser/csv.cpp:
+	improved check: ignore lines starting with #
+
+2010-06-28  bryonak  <bryonak@freenet.de>
+
+	gnuclad-cladogram.cpp:
+	implemented slice
+	improved node erasing (in-place instead of scheduled)
+	postponed roots selection
+	fixed nodesPreorder (faster when starting from behind)
+	warn "unable to assign domain" instead of throw
+	warn "unable to assign connector" instead of throw
+	removed entry hint for "node starts after EOT"
+	generator/svg.cpp:
+	fixed start point with derivType 2
+	added ( and ) to strlenpx heuristic
+	generator/conf.cpp:
+	added slice and derivType 2, 3
+
+2010-06-23  bryonak  <bryonak@freenet.de>
+
+	gnuclad-cladogram.cpp: implemented nodesPreorder()
+	generator/svg.cpp: using nodesPreorder for derivType 2 and 3
+
+2010-06-22  bryonak  <bryonak@freenet.de>
+
+	generator/svg.cpp: alpha stage curved deriv lines (derivType 2, 3)
+	implemented image title
+
+2010-06-21  bryonak  <bryonak@freenet.de>
+
+	gnuclad-portability.cpp: improved implementation
+	gnuclad.cpp: fixed InputFile on input without extension
+	parser/dir.cpp: using islink()
+	implemented stat-ing
+	improved readableDir()
+	dummy color vars
+	general improvement
+
+2010-06-20  bryonak  <bryonak@freenet.de>
+
+	generator/conf.cpp: added asciiStrings
+	dir_showDotDirs -> dir_showDotFiles
+	generator/svg.cpp: implemented strlenpx (asciiStrings)
+	fixed stop gradients for WebKit (stroke -> style fill)
+	less local dirty_hack_ex/em
+	add breaks if stopFadeOutPX is 0
+	parser/dir.cpp: general improvement, working alpha
+
+2010-03-13  bryonak  <bryonak@freenet.de>
+
+	code cleanup across the project
+	src/generator/svg.cpp: improved "Don't reach behind trees" block
+	src/generator/csv.cpp: added PNG inclusions
+	Domains: distribution -> node
+	src/parser/dir.cpp: more wip
+
 2010-03-08  bryonak  <bryonak@freenet.de>
 
 	src/generator/conf.cpp: fixed endOfTime check (bug 534301)
