@@ -9,13 +9,15 @@ Here's a small documentation if you wish to hack gnuclad.
 Patches are always welcome. New parsers/generators even more so!
 
 @menu
-* Classes and utilities::
+* Classes::
+* Helpers and Utilities::
 * Configuration Options::
 * Writing a parser::
 * Writing a generator::
 @end menu
 
 @include gnuclad-programming-classes.texi
+@include gnuclad-programming-helpers.texi
 @include gnuclad-programming-config.texi
 @include gnuclad-programming-parser.texi
 @include gnuclad-programming-generator.texi

@@ -1,12 +1,12 @@
 <html lang="en">
 <head>
-<title>Classes and utilities - gnuclad manual</title>
+<title>Classes - gnuclad manual</title>
 <meta http-equiv="Content-Type" content="text/html">
 <meta name="description" content="gnuclad manual">
 <meta name="generator" content="makeinfo 4.13">
 <link title="Top" rel="start" href="index.html#Top">
 <link rel="up" href="Programming.html#Programming" title="Programming">
-<link rel="next" href="Configuration-Options.html#Configuration-Options" title="Configuration Options">
+<link rel="next" href="Helpers-and-Utilities.html#Helpers-and-Utilities" title="Helpers and Utilities">
 <link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
 <!--
 This is a manual for gnuclad
@@ -34,9 +34,9 @@ Copyright (C) 2010 Donjan Rodic <donjan (at) dyx (dot) ch>
 </head>
 <body>
 <div class="node">
-<a name="Classes-and-utilities"></a>
+<a name="Classes"></a>
 <p>
-Next:&nbsp;<a rel="next" accesskey="n" href="Configuration-Options.html#Configuration-Options">Configuration Options</a>,
+Next:&nbsp;<a rel="next" accesskey="n" href="Helpers-and-Utilities.html#Helpers-and-Utilities">Helpers and Utilities</a>,
 Up:&nbsp;<a rel="up" accesskey="u" href="Programming.html#Programming">Programming</a>
 <hr>
 </div>
@@ -50,9 +50,51 @@ Up:&nbsp;<a rel="up" accesskey="u" href="Programming.html#Programming">Programmi
 
 <p>A breakdown of the classes used in gnuclad. 
 Only the relevant public parts are shown, first the members and then the
-constructors &amp; methods. 
-We start with the simple classes, building up gradually.
+constructors &amp; methods.
 
+   <p><br>
+The most important class is the <strong>Cladogram</strong>. It is instantiated by a
+single object which describes the whole timeline and will be passed to the
+parser/generator. 
+The Cladogram usually doesn't need to be accessed by the
+<a href="Writing-a-parser.html#Writing-a-parser">parser</a>, except for the add*** functions. 
+The <a href="Writing-a-generator.html#Writing-a-generator">generator</a> is meant to make use of the data
+vectors.
+
+<pre class="example">     class Cladogram
+       std::vector&lt;Node *&gt; nodes;
+       std::vector&lt;Connector *&gt; connectors;
+       std::vector&lt;Domain *&gt; domains;
+       std::vector&lt;Image *&gt; includeSVG;
+       std::vector&lt;Image *&gt; includePNG;
+     
+       Node * addNode(std::string tname);
+       Domain * addDomain(std::string tname);
+       Connector * addConnector();
+       Image * addImage(std::string tname, std::vector&lt;Image *&gt; &amp;vector);
+</pre>
+   <p>The cladogram also holds all <a href="Configuration-Options.html#Configuration-Options">configuration options</a>,
+as well as <a href="Helpers-and-Utilities.html#Helpers-and-Utilities">additional functions</a>.
+
+   <p><br>
+The second most important class, a single <strong>Node</strong>. 
+It should be initialised only with the addNode() method:
+<pre class="example">       Node * Cladogram::addNode(std::string tname);
+</pre>
+   <p>The 'offset' is meant for the generator (it can be ignored by the parser).
+<pre class="example">     class Node
+       std::string name
+       std::string parentName
+       std::vector&lt;NameChange&gt; nameChanges;
+       Date start;
+       Date stop;
+       Color color;
+       std::string iconfile;
+       std::string description;
+       int offset;
+     
+       void addNameChange(std::string newName, Date date, std::string description);
+</pre>
    <p><br>
 A  <strong>Color</strong> object can be initialised either with RGB (1-255)
 or a hex color value (#abc or #abcdef). 
@@ -116,25 +158,6 @@ three members.
        std::string description;
 </pre>
    <p><br>
-The second most important class, a single <strong>Node</strong>. 
-It should be initialised only with the addNode() method:
-<pre class="example">       Node * Cladogram::addNode(std::string tname);
-</pre>
-   <p>The 'offset' is meant for the generator (it can be ignored by the parser).
-<pre class="example">     class Node
-       std::string name
-       std::string parentName
-       std::vector&lt;NameChange&gt; nameChanges;
-       Date start;
-       Date stop;
-       Color color;
-       std::string iconfile;
-       std::string description;
-       int offset;
-     
-       void addNameChange(std::string newName, Date date, std::string description);
-</pre>
-   <p><br>
 The <strong>Domain</strong> is to be initialised only with addDomain() in the parser:
 <pre class="example">       Domain * Cladogram::addDomain(std::string tname);
 </pre>
@@ -165,29 +188,6 @@ by the parser).
        int offsetB;
 </pre>
    <p><br>
-The most important class is the <strong>Cladogram</strong>. It is instantiated by a
-single object which describes the whole timeline and will be passed to the
-parser/generator. 
-The Cladogram usually doesn't need to be accessed by the parser, except for the
-add*** functions. 
-The generator is meant to make use of the data vectors.
-<pre class="example">     class Cladogram
-       std::vector&lt;Node *&gt; nodes;
-       std::vector&lt;Connector *&gt; connectors;
-       std::vector&lt;Domain *&gt; domains;
-       std::vector&lt;Image *&gt; includeSVG;
-       std::vector&lt;Image *&gt; includePNG;
-     
-       Node * addNode(std::string tname);
-       Domain * addDomain(std::string tname);
-       Connector * addConnector();
-       Image * addImage(std::string tname, std::vector&lt;Image *&gt; &amp;vector);
-     
-       std::string gnuclad_version;
-</pre>
-   <p>The cladogram also holds all <a href="Configuration-Options.html#Configuration-Options">Configuration Options</a>.
-
-   <p><br>
 The <strong>InputFile</strong> serves as a container to pass data to the parser.
 <pre class="example">     class InputFile:
        std::ifstream * p;
@@ -196,53 +196,6 @@ The <strong>InputFile</strong> serves as a container to pass data to the parser.
        InputFile(std::string tname);
        ~InputFile();
 </pre>
-   <!-- ___________________________________________________________ UTILITY FUNCTIONS -->
-   <p><a name="index-Utility-functions-5"></a>
-
-<h3 class="section">6.2 Utility functions</h3>
-
-<p>Here's a list of small helpers you can get when including 'gnuclad.h'. 
-This is meant as a quick overview. For descriptions, take a look at
-the 'gnuclad-helpers.cpp' source file.
-
-   <p>void pressEnter();
-
-   <p>std::string strToLower(std::string str);
-
-   <p>std::string getBaseName(std::string fname);
-
-   <p>std::string getExt(std::string fname);
-
-   <p>std::ifstream * new_infile(const std::string fname);
-
-   <p>std::ofstream * new_outfile(const std::string fname);
-
-   <p>void safeClose(std::ifstream * fp);
-
-   <p>void safeClose(std::ofstream * fp);
-
-   <p>void explode(const std::string str, const char delimiter,
-             std::vector&lt;std::string&gt; * v);
-
-   <p>void explodeSafely(const std::string str, const char delimiter,
-                   const char toggle, std::vector&lt;std::string&gt; * v);
-
-   <p>std::string findReplace(std::string str, std::string find, std::string replace);
-
-   <p>double str2double(const std::string str);
-
-   <p>int str2int(const std::string s);
-
-   <p>std::string int2str(const int n);
-
-   <p>std::string base64_encode(const char * raw, unsigned int len);
-
-   <p>Date currentDate();
-
-   <p>std::string Date2str(Date date);
-
-   <p>int datePX(Date d, const Cladogram * clad);
-
-<!-- Part of the gnuclad texinfo manual -->
+   <!-- Part of the gnuclad texinfo manual -->
    </body></html>
 

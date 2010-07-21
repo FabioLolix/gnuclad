@@ -63,7 +63,7 @@ will be ignored.
 All nodes with a stopping date newer or the same as endOfTime will have
 their stopping date removed (unset == "still alive").
 
-   <p>For best results, the recommended optimisation is 0 and
+   <p>For best results with CSV output, the recommended optimisation is 0 and
 treeMode conf setting is "lower inverse":
 <pre class="example">       optimise = 0
        treeMode = 2
@@ -83,7 +83,25 @@ will be appended to each other.
 The second digit sets the tree optimisation. Higher values will try to cramp the
 tree together more than lower ones.
 
-<h3 class="section">3.4 Optimisation - additional info</h3>
+   <p>The current mapping looks as follows (although the exact parametrisation is
+subject to change).
+<pre class="example">     0   - off
+     
+     x1  - queue consecutive node lines in a "bubble fashion"; fast
+     x3  - pull nodes to parent
+     x6  - pull nodes towards root
+     x8  - pull nodes towards root strongly
+     
+     1x  - inject single nodes among other single nodes in a greedy manner
+     2x  - don't pass over trees of size &gt;= 2
+     5x  - don't pass over trees of size &gt;= 5
+     6x  - don't pass over trees of size &gt;= 10
+     7x  - don't pass over trees of size &gt;= 20
+     8x  - don't pass over trees of size &gt;= 50
+     9x  - don't pass over trees
+     
+</pre>
+   <h3 class="section">3.4 Optimisation - additional info</h3>
 
 <p>The current optimisation is greedy and therefore not exactly stellar.
 

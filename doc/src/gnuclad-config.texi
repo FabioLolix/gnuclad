@@ -90,6 +90,10 @@ sortKey = 0
 # First digit: isolated nodes. Second digit: trees.
 optimise = 99
 
+# This guesses if optimisation should overlap in some rare cases
+# 1 = forbid overlaps, 0 = allow overlaps (better optimisation)
+strictOverlaps = 0
+
 # How much space (in offsets) to add before/after trees
 treeSpacing = 1
 
@@ -128,7 +132,7 @@ labelFont = Liberation Sans, Arial, Helvetica
 labelFontSize = 16
 labelFontColor = #000
 
-# An experimental feature you might want to use with derivType = 1
+# An experimental feature you might want to use with derivType > 1
 # Opacity takes values between 0 (transparent) and 100 (opaque).
 # It DOES NOT work flawlessly with SVG 1.1 output.
 # (hoping for v1.2 or CSS3 ...)
@@ -148,7 +152,9 @@ nameChangeType = 0
 
 # Set the way the lines should derive from the parent.
 # 0 = orthogonal, 1 = from parent's starting point
-# 2 = curved, 3 = curved from parent's starting point
+# 2 = diagonal (45 degrees)
+# 3 = curved (1 year wide curves), 4 = curved (quadratic scaling)
+# 5 = curved (from parent's starting point)
 derivType = 0
 
 # The size of the node dots
@@ -159,6 +165,10 @@ smallDotRadius = 5
 # 0 = full dots, 1 = circles
 # Circles might be useful together with nameChangeType = 1
 dotType = 0
+
+# Specifies the amount a node's line thickness should increase
+# relative to the count of it's children. (recommended 0.0 - 1.0)
+bigParent = 0
 
 # Adds small half-circles to connector starting points
 connectorDots = 1
@@ -175,6 +185,12 @@ yearLineFont = Liberation Sans, Arial, Helvetica
 yearLineFontSize = 28
 yearLineFontColor = #fff
 
+How many (empty) years to append at the end
+appendYears = 0
+
+How many (empty) years to prepend at the beginning
+prependYears = 0
+
 # Remember to adjust your input data after changing these averages.
 daysInMonth = 30
 monthsInYear = 12
@@ -189,6 +205,16 @@ descriptionType = 0
 
 # When parsing direcories, show dot (hidden) files (0 = off, 1 = on)
 dir_showDotFiles = 0
+
+# Color of files, directories and links
+dir_colorFile = 0ff
+dir_colorDir = 00f
+dir_colorLink = 0f0
+
+# Directories with greater than specified size will get a domain of
+# the given intensity. Set size = 0 to turn off.
+dir_domainSize = 0
+dir_domainIntensity = 3
 
 # Show debug information when running gnuclad. (0 = off, 1 = on)
 debug = 0

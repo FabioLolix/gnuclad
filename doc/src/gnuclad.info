@@ -17,7 +17,7 @@ File: gnuclad.info,  Node: Top,  Next: About,  Up: (dir)
 gnuclad cladogram generator
 ***************************
 
-This is the Texinfo manual for gnuclad 0.1.x (6 March 2010)
+This is the Texinfo manual for gnuclad 0.1.x (21 July 2010)
 
 * Menu:
 
@@ -79,9 +79,9 @@ File: gnuclad.info,  Node: Usage,  Next: Usage Tips,  Prev: About,  Up: Top
 2.1 Formats
 ===========
 
-Supported input formats are: CSV spreadsheets, directories
+Supported input formats are: *CSV* spreadsheets, *directories*
 
-   Supported output formats are: CSV, SVG and CONF
+   Supported output formats are: *CSV*, *SVG* and *CONF*
 
    A sample CSV file is distributed together with gnuclad.  It can be
 openend with any spreadsheet program; the field separator is comma (,)
@@ -157,8 +157,8 @@ current date) will be ignored.  All nodes with a stopping date newer or
 the same as endOfTime will have their stopping date removed (unset ==
 "still alive").
 
-   For best results, the recommended optimisation is 0 and treeMode
-conf setting is "lower inverse":
+   For best results with CSV output, the recommended optimisation is 0
+and treeMode conf setting is "lower inverse":
        optimise = 0
        treeMode = 2
    This way the trees will be grouped by children and sorted by date,
@@ -176,6 +176,23 @@ nodes, those which are not part of the tree. The higher it is, the more
 aggressively they will be appended to each other.  The second digit
 sets the tree optimisation. Higher values will try to cramp the tree
 together more than lower ones.
+
+   The current mapping looks as follows (although the exact
+parametrisation is subject to change).
+     0   - off
+
+     x1  - queue consecutive node lines in a "bubble fashion"; fast
+     x3  - pull nodes to parent
+     x6  - pull nodes towards root
+     x8  - pull nodes towards root strongly
+
+     1x  - inject single nodes among other single nodes in a greedy manner
+     2x  - don't pass over trees of size >= 2
+     5x  - don't pass over trees of size >= 5
+     6x  - don't pass over trees of size >= 10
+     7x  - don't pass over trees of size >= 20
+     8x  - don't pass over trees of size >= 50
+     9x  - don't pass over trees
 
 3.4 Optimisation - additional info
 ==================================
@@ -287,6 +304,10 @@ be ignored. It can be an empty dummy file.
      # First digit: isolated nodes. Second digit: trees.
      optimise = 99
 
+     # This guesses if optimisation should overlap in some rare cases
+     # 1 = forbid overlaps, 0 = allow overlaps (better optimisation)
+     strictOverlaps = 0
+
      # How much space (in offsets) to add before/after trees
      treeSpacing = 1
 
@@ -325,7 +346,7 @@ be ignored. It can be an empty dummy file.
      labelFontSize = 16
      labelFontColor = #000
 
-     # An experimental feature you might want to use with derivType = 1
+     # An experimental feature you might want to use with derivType > 1
      # Opacity takes values between 0 (transparent) and 100 (opaque).
      # It DOES NOT work flawlessly with SVG 1.1 output.
      # (hoping for v1.2 or CSS3 ...)
@@ -345,7 +366,9 @@ be ignored. It can be an empty dummy file.
 
      # Set the way the lines should derive from the parent.
      # 0 = orthogonal, 1 = from parent's starting point
-     # 2 = curved, 3 = curved from parent's starting point
+     # 2 = diagonal (45 degrees)
+     # 3 = curved (1 year wide curves), 4 = curved (quadratic scaling)
+     # 5 = curved (from parent's starting point)
      derivType = 0
 
      # The size of the node dots
@@ -356,6 +379,10 @@ be ignored. It can be an empty dummy file.
      # 0 = full dots, 1 = circles
      # Circles might be useful together with nameChangeType = 1
      dotType = 0
+
+     # Specifies the amount a node's line thickness should increase
+     # relative to the count of it's children. (recommended 0.0 - 1.0)
+     bigParent = 0
 
      # Adds small half-circles to connector starting points
      connectorDots = 1
@@ -372,6 +399,12 @@ be ignored. It can be an empty dummy file.
      yearLineFontSize = 28
      yearLineFontColor = #fff
 
+     How many (empty) years to append at the end
+     appendYears = 0
+
+     How many (empty) years to prepend at the beginning
+     prependYears = 0
+
      # Remember to adjust your input data after changing these averages.
      daysInMonth = 30
      monthsInYear = 12
@@ -386,6 +419,16 @@ be ignored. It can be an empty dummy file.
 
      # When parsing direcories, show dot (hidden) files (0 = off, 1 = on)
      dir_showDotFiles = 0
+
+     # Color of files, directories and links
+     dir_colorFile = 0ff
+     dir_colorDir = 00f
+     dir_colorLink = 0f0
+
+     # Directories with greater than specified size will get a domain of
+     # the given intensity. Set size = 0 to turn off.
+     dir_domainSize = 0
+     dir_domainIntensity = 3
 
      # Show debug information when running gnuclad. (0 = off, 1 = on)
      debug = 0
@@ -417,13 +460,14 @@ always welcome. New parsers/generators even more so!
 
 * Menu:
 
-* Classes and utilities::
+* Classes::
+* Helpers and Utilities::
 * Configuration Options::
 * Writing a parser::
 * Writing a generator::
 
 
-File: gnuclad.info,  Node: Classes and utilities,  Next: Configuration Options,  Up: Programming
+File: gnuclad.info,  Node: Classes,  Next: Helpers and Utilities,  Up: Programming
 
 
 
@@ -432,7 +476,47 @@ File: gnuclad.info,  Node: Classes and utilities,  Next: Configuration Options, 
 
 A breakdown of the classes used in gnuclad.  Only the relevant public
 parts are shown, first the members and then the constructors & methods.
-We start with the simple classes, building up gradually.
+
+The most important class is the *Cladogram*. It is instantiated by a
+single object which describes the whole timeline and will be passed to
+the parser/generator.  The Cladogram usually doesn't need to be
+accessed by the *note parser: Writing a parser, except for the add***
+functions.  The *note generator: Writing a generator. is meant to make
+use of the data vectors.
+
+     class Cladogram
+       std::vector<Node *> nodes;
+       std::vector<Connector *> connectors;
+       std::vector<Domain *> domains;
+       std::vector<Image *> includeSVG;
+       std::vector<Image *> includePNG;
+
+       Node * addNode(std::string tname);
+       Domain * addDomain(std::string tname);
+       Connector * addConnector();
+       Image * addImage(std::string tname, std::vector<Image *> &vector);
+
+   The cladogram also holds all *note configuration options:
+Configuration Options, as well as *note additional functions: Helpers
+and Utilities.
+
+The second most important class, a single *Node*.  It should be
+initialised only with the addNode() method:
+       Node * Cladogram::addNode(std::string tname);
+   The 'offset' is meant for the generator (it can be ignored by the
+parser).
+     class Node
+       std::string name
+       std::string parentName
+       std::vector<NameChange> nameChanges;
+       Date start;
+       Date stop;
+       Color color;
+       std::string iconfile;
+       std::string description;
+       int offset;
+
+       void addNameChange(std::string newName, Date date, std::string description);
 
 A  *Color* object can be initialised either with RGB (1-255) or a hex
 color value (#abc or #abcdef).  It will automatically convert and hold
@@ -491,24 +575,6 @@ use of the three members.
        Date date;
        std::string description;
 
-The second most important class, a single *Node*.  It should be
-initialised only with the addNode() method:
-       Node * Cladogram::addNode(std::string tname);
-   The 'offset' is meant for the generator (it can be ignored by the
-parser).
-     class Node
-       std::string name
-       std::string parentName
-       std::vector<NameChange> nameChanges;
-       Date start;
-       Date stop;
-       Color color;
-       std::string iconfile;
-       std::string description;
-       int offset;
-
-       void addNameChange(std::string newName, Date date, std::string description);
-
 The *Domain* is to be initialised only with addDomain() in the parser:
        Domain * Cladogram::addDomain(std::string tname);
    The 'offsetA' and 'offsetB' are meant for the generator (they can be
@@ -535,28 +601,6 @@ ignored by the parser).
        int offsetA;
        int offsetB;
 
-The most important class is the *Cladogram*. It is instantiated by a
-single object which describes the whole timeline and will be passed to
-the parser/generator.  The Cladogram usually doesn't need to be
-accessed by the parser, except for the add*** functions.  The generator
-is meant to make use of the data vectors.
-     class Cladogram
-       std::vector<Node *> nodes;
-       std::vector<Connector *> connectors;
-       std::vector<Domain *> domains;
-       std::vector<Image *> includeSVG;
-       std::vector<Image *> includePNG;
-
-       Node * addNode(std::string tname);
-       Domain * addDomain(std::string tname);
-       Connector * addConnector();
-       Image * addImage(std::string tname, std::vector<Image *> &vector);
-
-       std::string gnuclad_version;
-
-   The cladogram also holds all *note Configuration Options:
-Configuration Options.
-
 The *InputFile* serves as a container to pass data to the parser.
      class InputFile:
        std::ifstream * p;
@@ -565,12 +609,42 @@ The *InputFile* serves as a container to pass data to the parser.
        InputFile(std::string tname);
        ~InputFile();
 
-6.2 Utility functions
-=====================
+
+File: gnuclad.info,  Node: Helpers and Utilities,  Next: Configuration Options,  Prev: Classes,  Up: Programming
 
-Here's a list of small helpers you can get when including 'gnuclad.h'.
-This is meant as a quick overview. For descriptions, take a look at the
-'gnuclad-helpers.cpp' source file.
+
+
+6.2 Additional Cladogram functions
+==================================
+
+The *note Cladogram class: Classes. holds all the data and configuration
+settings, but also a few additional resources.
+
+   The following can be directly accessed for general information.
+     std::string gnuclad_version;
+     std::string inputFolder;
+
+     int maximumOffset;
+     Date beginningOfTime;
+
+   These are meant to be set by the *note parser: Writing a parser. if
+needed:
+     bool truncateFolder;    // Use only base name of child after parent assignment
+     bool inVitro;           // Don't warn if child starts after parent stops
+     bool tighterDomains;    // Tighten domains to expand just half as far
+
+   The following method (usually executed with clad->nodesPreorder())
+will change the order of the nodes vector such that every parent will
+occur after all it's children, topologically sorted. This is useful for
+preventing line overlaps in SVG output.
+     void nodesPreorder();
+
+6.3 Helper functions
+====================
+
+Here's an additional list of small helpers you can get when including
+'gnuclad.h'.  This is meant as a quick overview. For descriptions, take
+a look at the 'gnuclad-helpers.cpp' source file.
 
    void pressEnter();
 
@@ -612,11 +686,11 @@ std::string replace);
    int datePX(Date d, const Cladogram * clad);
 
 
-File: gnuclad.info,  Node: Configuration Options,  Next: Writing a parser,  Prev: Classes and utilities,  Up: Programming
+File: gnuclad.info,  Node: Configuration Options,  Next: Writing a parser,  Prev: Helpers and Utilities,  Up: Programming
 
 
 
-6.3 Adding configuration options
+6.4 Adding configuration options
 ================================
 
 When adding a configuration option, be sure to implement it at least in
@@ -637,7 +711,7 @@ the following places:
 
    * third party gnuclad configuration files you have access to
 
-6.4 Using configuration options
+6.5 Using configuration options
 ===============================
 
 The options are usually read by a separate configuration parser, but
@@ -648,19 +722,18 @@ accessed via the cladogram pointer:
      int myTextSize = clad->labelFontSize;
      clad->monthsInYear = 10;
 
-   In order to work with the most current options, open the 'gnuclad.h'
-header file and search for CONFIG OPTIONS. This will take you straight
-to the declarations.
+   For a detailed overview and explanations, consult the *note Config
+Options: Config Options. chapter.
 
-   You can also look at the *note Config Options: Config Options.
-chapter for a more detailed explanation.
+   Also opening the 'gnuclad.h' header file and searching for CONFIG
+OPTIONS will take you straight to the declarations.
 
 
 File: gnuclad.info,  Node: Writing a parser,  Next: Writing a generator,  Prev: Configuration Options,  Up: Programming
 
 
 
-6.5 Adding a parser
+6.6 Adding a parser
 ===================
 
 Steps neccessary to add a parser.  XXX refers to the input format you
@@ -688,7 +761,7 @@ want to implement.
    src/Makefile.am:
      add to SOURCES: parser/XXX.h parser/XXX.cpp
 
-6.6 How to write a parser
+6.7 How to write a parser
 =========================
 
 Your parser is called only by this function:
@@ -761,7 +834,7 @@ File: gnuclad.info,  Node: Writing a generator,  Prev: Writing a parser,  Up: Pr
 
 
 
-6.7 Adding a generator
+6.8 Adding a generator
 ======================
 
 Steps neccessary to add a generator.  XXX refers to the output format
@@ -789,7 +862,7 @@ you want to implement.
    src/Makefile.am:
      add to SOURCES: generator/XXX.h generator/XXX.cpp
 
-6.8 How to write a generator
+6.9 How to write a generator
 ============================
 
 Your generator is called only by this function:
@@ -1339,10 +1412,11 @@ Index
  [index ]
 * Menu:
 
-* Classes:                               Classes and utilities.
-                                                              (line   5)
-* Utility functions:                     Classes and utilities.
-                                                              (line 143)
+* Additional Cladogram functions:        Helpers and Utilities.
+                                                               (line  5)
+* Classes:                               Classes.              (line  5)
+* Helper functions:                      Helpers and Utilities.
+                                                               (line 30)
 
 
 
@@ -1350,15 +1424,16 @@ Tag Table:
 Node: Top471
 Node: About910
 Node: Usage1782
-Node: Usage Tips3477
-Node: Config Options5781
-Node: FAQ11857
-Node: Programming12477
-Node: Classes and utilities12841
-Node: Configuration Options18635
-Node: Writing a parser20222
-Node: Writing a generator23630
-Node: GNU Free Documentation License26069
-Node: Index51235
+Node: Usage Tips3487
+Node: Config Options6444
+Node: FAQ13388
+Node: Programming14008
+Node: Classes14384
+Node: Helpers and Utilities18999
+Node: Configuration Options21287
+Node: Writing a parser22828
+Node: Writing a generator26236
+Node: GNU Free Documentation License28675
+Node: Index53841
 
 End Tag Table

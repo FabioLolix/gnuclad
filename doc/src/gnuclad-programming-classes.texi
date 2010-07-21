@@ -1,7 +1,7 @@
 @c Part of the gnuclad texinfo manual
 
 
-@node Classes and utilities
+@node Classes
 @unnumberedsec
 
 
@@ -15,7 +15,56 @@
 A breakdown of the classes used in gnuclad.
 Only the relevant public parts are shown, first the members and then the
 constructors & methods.
-We start with the simple classes, building up gradually.
+
+
+@*
+The most important class is the @strong{Cladogram}. It is instantiated by a
+single object which describes the whole timeline and will be passed to the
+parser/generator.
+The Cladogram usually doesn't need to be accessed by the
+@ref{Writing a parser,,parser}, except for the add*** functions.
+The @ref{Writing a generator,,generator} is meant to make use of the data
+vectors.
+
+@example
+class Cladogram
+  std::vector<Node *> nodes;
+  std::vector<Connector *> connectors;
+  std::vector<Domain *> domains;
+  std::vector<Image *> includeSVG;
+  std::vector<Image *> includePNG;
+
+  Node * addNode(std::string tname);
+  Domain * addDomain(std::string tname);
+  Connector * addConnector();
+  Image * addImage(std::string tname, std::vector<Image *> &vector);
+@end example
+
+The cladogram also holds all @ref{Configuration Options,,configuration options},
+as well as @ref{Helpers and Utilities,,additional functions}.
+
+
+@*
+The second most important class, a single @strong{Node}.
+It should be initialised only with the addNode() method:
+@example
+  Node * Cladogram::addNode(std::string tname);
+@end example
+The 'offset' is meant for the generator (it can be ignored by the parser).
+@example
+class Node
+  std::string name
+  std::string parentName
+  std::vector<NameChange> nameChanges;
+  Date start;
+  Date stop;
+  Color color;
+  std::string iconfile;
+  std::string description;
+  int offset;
+
+  void addNameChange(std::string newName, Date date, std::string description);
+@end example
 
 
 @*
@@ -95,29 +144,6 @@ class NameChange
 
 
 @*
-The second most important class, a single @strong{Node}.
-It should be initialised only with the addNode() method:
-@example
-  Node * Cladogram::addNode(std::string tname);
-@end example
-The 'offset' is meant for the generator (it can be ignored by the parser).
-@example
-class Node
-  std::string name
-  std::string parentName
-  std::vector<NameChange> nameChanges;
-  Date start;
-  Date stop;
-  Color color;
-  std::string iconfile;
-  std::string description;
-  int offset;
-
-  void addNameChange(std::string newName, Date date, std::string description);
-@end example
-
-
-@*
 The @strong{Domain} is to be initialised only with addDomain() in the parser:
 @example
   Domain * Cladogram::addDomain(std::string tname);
@@ -156,31 +182,6 @@ class Connector
 
 
 @*
-The most important class is the @strong{Cladogram}. It is instantiated by a
-single object which describes the whole timeline and will be passed to the
-parser/generator.
-The Cladogram usually doesn't need to be accessed by the parser, except for the
-add*** functions.
-The generator is meant to make use of the data vectors.
-@example
-class Cladogram
-  std::vector<Node *> nodes;
-  std::vector<Connector *> connectors;
-  std::vector<Domain *> domains;
-  std::vector<Image *> includeSVG;
-  std::vector<Image *> includePNG;
-
-  Node * addNode(std::string tname);
-  Domain * addDomain(std::string tname);
-  Connector * addConnector();
-  Image * addImage(std::string tname, std::vector<Image *> &vector);
-
-  std::string gnuclad_version;
-@end example
-
-The cladogram also holds all @ref{Configuration Options,,Configuration Options}.
-
-@*
 The @strong{InputFile} serves as a container to pass data to the parser.
 @example
 class InputFile:
@@ -190,55 +191,3 @@ class InputFile:
   InputFile(std::string tname);
   ~InputFile();
 @end example
-
-
-
-
-@c ___________________________________________________________ UTILITY FUNCTIONS
-
-
-@gcindex Utility functions
-@section Utility functions
-
-
-Here's a list of small helpers you can get when including 'gnuclad.h'.
-This is meant as a quick overview. For descriptions, take a look at
-the 'gnuclad-helpers.cpp' source file.
-
-void pressEnter();
-
-std::string strToLower(std::string str);
-
-std::string getBaseName(std::string fname);
-
-std::string getExt(std::string fname);
-
-std::ifstream * new_infile(const std::string fname);
-
-std::ofstream * new_outfile(const std::string fname);
-
-void safeClose(std::ifstream * fp);
-
-void safeClose(std::ofstream * fp);
-
-void explode(const std::string str, const char delimiter,
-             std::vector<std::string> * v);
-
-void explodeSafely(const std::string str, const char delimiter,
-                   const char toggle, std::vector<std::string> * v);
-
-std::string findReplace(std::string str, std::string find, std::string replace);
-
-double str2double(const std::string str);
-
-int str2int(const std::string s);
-
-std::string int2str(const int n);
-
-std::string base64_encode(const char * raw, unsigned int len);
-
-Date currentDate();
-
-std::string Date2str(Date date);
-
-int datePX(Date d, const Cladogram * clad);

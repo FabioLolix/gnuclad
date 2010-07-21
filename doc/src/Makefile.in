@@ -183,6 +183,7 @@ gnuclad_TEXINFOS = gnuclad-about.texi\
 	gnuclad-faq.texi\
 	gnuclad-programming.texi\
 	gnuclad-programming-classes.texi\
+	gnuclad-programming-helpers.texi\
 	gnuclad-programming-config.texi\
 	gnuclad-programming-parser.texi\
 	gnuclad-programming-generator.texi\

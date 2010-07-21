@@ -205,9 +205,9 @@ class Cladogram {
   int maximumOffset;
   Date beginningOfTime;
 
-  bool truncateFolder;  // use only base name of child after parent assignment
-  bool inVitro;  // don't warn if child starts after parent stops
-  bool tighterDomains;  // Tighten domains to expand just half as far
+  bool truncateFolder;    // Use only base name of child after parent assignment
+  bool inVitro;           // Don't warn if child starts after parent stops
+  bool tighterDomains;    // Tighten domains to expand just half as far
 
 
   // The options below can be overridden by the config file

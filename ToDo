@@ -8,13 +8,11 @@ without any warranty.
 ________________________________________________________________________
 
 
-FIX: renames show after endOfTime if node starts before
+derivType == 0 triggers strictOverlaps??
+generator/svg: improve tight domains....
+generator/svg: transparent infobox
 
-write manual on optimisation
-add undocumented vars to manual (inVitro etc), nodesPreorder()
-
-
-
+-----
 parser/dir: domain spacing
 
 gnuclad-cladogram: grouping by connectors ("real parenting")

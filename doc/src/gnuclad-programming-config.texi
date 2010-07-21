@@ -35,9 +35,8 @@ int myTextSize = clad->labelFontSize;
 clad->monthsInYear = 10;
 @end example
 
-In order to work with the most current options, open the 'gnuclad.h' header file
-and search for CONFIG OPTIONS. This will take you straight to the declarations.
+For a detailed overview and explanations, consult the
+@ref{Config Options,,Config Options} chapter.
 
-You can also look at the @ref{Config Options,,Config Options} chapter
-for a more detailed explanation.
-
+Also opening the 'gnuclad.h' header file and searching for CONFIG OPTIONS will
+take you straight to the declarations.

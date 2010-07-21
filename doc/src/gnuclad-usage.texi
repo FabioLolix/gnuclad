@@ -6,9 +6,9 @@
 
 @section Formats
 
-Supported input formats are: CSV spreadsheets, directories
+Supported input formats are: @strong{CSV} spreadsheets, @strong{directories}
 
-Supported output formats are: CSV, SVG and CONF
+Supported output formats are: @strong{CSV}, @strong{SVG} and @strong{CONF}
 
 A sample CSV file is distributed together with gnuclad.
 It can be openend with any spreadsheet program; the field separator is

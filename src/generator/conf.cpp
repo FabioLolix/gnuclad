@@ -221,8 +221,8 @@ void GeneratorCONF::writeData(Cladogram * clad, OutputFile & out) {
     << "\n"
     << "\n# Directories with greater than specified size will get a domain of"
     << "\n# the given intensity. Set size = 0 to turn off."
-    << "\ndir_domainSize" << clad->dir_domainSize
-    << "\ndir_domainIntensity" << clad->dir_domainIntensity
+    << "\ndir_domainSize = " << clad->dir_domainSize
+    << "\ndir_domainIntensity = " << clad->dir_domainIntensity
     << "\n"
     << "\n# Show debug information when running gnuclad. (0 = off, 1 = on)"
     << "\ndebug = " << clad->debug

@@ -1,0 +1,91 @@
+@c Part of the gnuclad texinfo manual
+
+
+@node Helpers and Utilities
+@unnumberedsec
+
+
+@c ________________________________________________________ ADDITIONAL FUNCTIONS
+
+
+@gcindex Additional Cladogram functions
+@section Additional Cladogram functions
+
+The @ref{Classes,,Cladogram class} holds all the data and configuration
+settings, but also a few additional resources.
+
+The following can be directly accessed for general information.
+@example
+std::string gnuclad_version;
+std::string inputFolder;
+
+int maximumOffset;
+Date beginningOfTime;
+@end example
+
+These are meant to be set by the @ref{Writing a parser,,parser} if needed:
+@example
+bool truncateFolder;    // Use only base name of child after parent assignment
+bool inVitro;           // Don't warn if child starts after parent stops
+bool tighterDomains;    // Tighten domains to expand just half as far
+@end example
+
+The following method (usually executed with clad->nodesPreorder()) will change
+the order of the nodes vector such that every parent will occur after all it's
+children, topologically sorted. This is useful for preventing line overlaps in
+SVG output.
+@example
+void nodesPreorder();
+@end example
+
+
+
+@c ____________________________________________________________ HELPER FUNCTIONS
+
+
+@gcindex Helper functions
+@section Helper functions
+
+
+Here's an additional list of small helpers you can get when including
+'gnuclad.h'.
+This is meant as a quick overview. For descriptions, take a look at
+the 'gnuclad-helpers.cpp' source file.
+
+void pressEnter();
+
+std::string strToLower(std::string str);
+
+std::string getBaseName(std::string fname);
+
+std::string getExt(std::string fname);
+
+std::ifstream * new_infile(const std::string fname);
+
+std::ofstream * new_outfile(const std::string fname);
+
+void safeClose(std::ifstream * fp);
+
+void safeClose(std::ofstream * fp);
+
+void explode(const std::string str, const char delimiter,
+             std::vector<std::string> * v);
+
+void explodeSafely(const std::string str, const char delimiter,
+                   const char toggle, std::vector<std::string> * v);
+
+std::string findReplace(std::string str, std::string find, std::string replace);
+
+double str2double(const std::string str);
+
+int str2int(const std::string s);
+
+std::string int2str(const int n);
+
+std::string base64_encode(const char * raw, unsigned int len);
+
+Date currentDate();
+
+std::string Date2str(Date date);
+
+int datePX(Date d, const Cladogram * clad);
