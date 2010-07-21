@@ -297,8 +297,8 @@ void GeneratorSVG::writeData(Cladogram * clad, OutputFile & out) {
       if(n->offset < n->parent->offset) sign = 1;
       else sign = -1;
       int posYparent = n->parent->offset * oPX + topOffset;
-      if(dType < 1 && 5 < dType)
-        posYparent -= sign * (lPX*(1 + (sqrt(n->parent->size)-1) * clad->bigParent))/2;
+      if(dType < 1 || 5 < dType)
+        posYparent -= sign * (lPX * (1 + (sqrt(n->parent->size)-1) * clad->bigParent))/2;
 
       if(dType == 0)
         f << startX << " " << posYparent << " L ";

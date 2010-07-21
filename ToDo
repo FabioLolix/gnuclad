@@ -8,11 +8,11 @@ without any warranty.
 ________________________________________________________________________
 
 
-derivType == 0 triggers strictOverlaps??
-generator/svg: improve tight domains....
-generator/svg: transparent infobox
+test on OSX and Windows
+gobble up changes for NEWS
 
 -----
+
 parser/dir: domain spacing
 
 gnuclad-cladogram: grouping by connectors ("real parenting")
@@ -20,7 +20,8 @@ gnuclad-cladogram: optimise both-subtree at creation time ?? (no)
 
 generator/svg: domains along deriv lines (domainType 1)
 
-generator/svg: curved connectors  ??
+generator/svg: curved connectors ???
+generator/svg: transparent infobox ?
 
 parser/dir: time based version (stat)
     (created = deriv, last modified = nameChange)

@@ -628,17 +628,19 @@ void Cladogram::compute() {
     for(int j = 0; j < nCount; ++j) {
       n = nodes[j];
       if(n->derivesFrom(d->node)) {
-        if(n->offset < nodes[min]->offset)
-          min = j;
-        if(n->offset > nodes[max]->offset)
-          max = j;
+        if(n->offset < min)
+          min = n->offset;
+        if(n->offset > max)
+          max = n->offset;
       }
     }
 
-    d->offsetA = nodes[min]->offset;
-    d->offsetB = nodes[max]->offset;
-    if(d->offsetA > d->node->offset) d->offsetA = d->node->offset;
-    if(d->offsetB < d->node->offset) d->offsetB = d->node->offset;
+    d->offsetA = min;
+    d->offsetB = max;
+    if(tighterDomains == false) {
+      if(d->offsetA > d->node->offset) d->offsetA = d->node->offset;
+      if(d->offsetB < d->node->offset) d->offsetB = d->node->offset;
+    }
   }
 
   // Set connector offsets
@@ -816,19 +818,22 @@ void Cladogram::optimise_pullToRoot(int first, int last, bool stronger) {
   // Sort by distance to root
   stable_sort(nodes.begin()+first, nodes.begin()+last, compareRootDist());
 
-  int rootoffset = nodes[first]->root()->offset;
   for(int i = first; i < last; ++i) {
     n = nodes[i];
+    int rootOffset = n->root()->offset;
     if(n->parent == NULL) continue;
-    if(n->offset < rootoffset) sign = 1;
+    if(n->offset < rootOffset) sign = 1;
     else sign = -1;
 
     int oldOffset = n->offset;
+    int maxOffset = 0;
+    for(int j = first; j < last; ++j)
+      if(nodes[j]->offset > maxOffset) maxOffset = nodes[j]->offset;
 
     while(fitsInto(n->offset + sign, n)) {
-      if(n->offset == rootoffset) break;
-      if(n->offset < 0)break;
-      if(n->offset > nodes[last-1]->offset) break;
+      if(n->offset == rootOffset) break;
+      if(n->offset < 0) break;
+      if(n->offset > maxOffset) break;
       if(stronger == false && n->offset == n->parent->offset) break;
 
       bool overlaps = optimise_strictOverlaps(n, oldOffset, sign, first, last);
