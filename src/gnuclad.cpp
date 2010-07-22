@@ -86,6 +86,8 @@ int main(int argc, char ** argv) {
     outputExt = strToLower(dest);
     dest = filename + "." + outputExt;
   }
+  if(getBaseName(dest) == "")
+    dest = "out" + dest;
   if(argc == 4) conffile = argv[3];
 
   // Chose parser

@@ -910,7 +910,7 @@ bool Cladogram::optimise_strictOverlaps(Node * n, int oldOffset, int sign,
   else
     slope = 0.6;
 
-  int addPX = offsetPX/slope * (n->offset - oldOffset        +1);
+  int addPX = int(offsetPX/slope * (n->offset - oldOffset        +1));
   int stopPX = datePX(n->stop, this) + addPX;
   int startPX = datePX(n->start, this);
 

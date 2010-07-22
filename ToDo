@@ -8,13 +8,6 @@ without any warranty.
 ________________________________________________________________________
 
 
-clean up file structure
-test on OSX and Windows
-
-                                                                    v0.2
-________________________________________________________________________
-
-
 gnuclad-cladogram: grouping by connectors ("real parenting")
 gnuclad-cladogram: optimise both-subtree at creation time ?? (no)
 

@@ -298,7 +298,7 @@ void GeneratorSVG::writeData(Cladogram * clad, OutputFile & out) {
       else sign = -1;
       int posYparent = n->parent->offset * oPX + topOffset;
       if(dType < 1 || 5 < dType)
-        posYparent -= sign * (lPX * (1 + (sqrt(n->parent->size)-1) * clad->bigParent))/2;
+        posYparent -= sign * int((lPX * (1 + (sqrt(n->parent->size)-1) * clad->bigParent))/2);
 
       if(dType == 0)
         f << startX << " " << posYparent << " L ";
@@ -318,7 +318,7 @@ void GeneratorSVG::writeData(Cladogram * clad, OutputFile & out) {
           xdiff *= (n->offset - n->parent->offset);
           if(xdiff < 0) xdiff = -xdiff;
           //~ xdiff = log(xdiff) *20;
-          xdiff = sqrt(xdiff) *5;
+          xdiff = int(sqrt(xdiff) *5);
         }
         if(startX - xdiff < startPar || dType == 5) xdiff = startX - startPar;
         int startpoint = startX - xdiff;
@@ -431,7 +431,7 @@ void GeneratorSVG::writeData(Cladogram * clad, OutputFile & out) {
     }
 
     int posX = datePX(n->start, clad) + xPX + clad->dotRadius;
-    int posY = n->offset * oPX + topOffset - dirty_hack_ex/2 - lPX*((sqrt(n->size)-1) * clad->bigParent)/2;
+    int posY = n->offset * oPX + topOffset - dirty_hack_ex/2 - int(lPX*((sqrt(n->size)-1) * clad->bigParent)/2);
     int posXwName = posX + strlenpx(n->name, clad) + dirty_hack_em;  // + dirty_hack_em is experimental
     int alignmentBGx = posX - dirty_hack_em/4;
     string alignment = "";
@@ -678,11 +678,11 @@ string validxml(string str) {
     if(  c >= 127 || c >= 123 ||              // stuff is redundant here, but
        ((c <= 32 || c <= 47) && c != '-') ||  // leave it to highlight the ideas
        ( c >= 58 && c <= 64 ) ||
-       ( c >= 91 && c <= 96 && c == '_' ) ) {  // == '_' is on purpose!
+       ( c >= 91 && c <= 96 ) ) {
 
       string rep = "_" + int2str((int)c);
       if(rep.size() == 2) rep.insert(1, "0");
-      if(rep.size() == 3) rep.insert(1, "0");
+      if(rep.size() == 3) rep.insert(1, "0");  // push to 4
       if(c == ' ') rep = "__";
       str.replace(i, 1, rep);
       i += rep.size()-1;
