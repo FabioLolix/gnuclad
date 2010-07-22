@@ -7,7 +7,7 @@ without any warranty.
 
 ________________________________________________________________________
 
-2010.07.xx - version 0.2
+2010.07.23 - version 0.2
 
 * Parse directories
 * Slice out single nodes
@@ -22,7 +22,7 @@ ________________________________________________________________________
       dir_showDotFiles, dir_colorFile, dir_colorDir, dir_colorLink,
       dir_domainSize, dir_domainIntensity
 * Builds on GNU/Linux, OSX, Windows (MinGW)
-* Has complete manual
+* Complete manual
 
 
 

@@ -71,7 +71,7 @@ int main(int argc, char ** argv) {
          << " Example: " << self << " Data.csv result.csv alternative.conf\n\n"
          << "Supported input formats: " << inFormats << '\n'
          << "Supported output formats: " << outFormats << "\n"
-         << "Please consult the texinfo manual for in-depth explanations.\n\n";
+         << "Please consult the Texinfo manual for in-depth explanations.\n\n";
     return EXIT_SUCCESS;
 
   }

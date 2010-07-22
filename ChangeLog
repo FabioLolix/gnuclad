@@ -10,6 +10,24 @@ ________________________________________________________________________
 created with: bzr log --gnu-changelog
 
 
+2010-07-23  bryonak  <bryonak@freenet.de>
+
+	gnuclad.cpp:
+	fix: empty basename with directory parser
+	gnuclad-cladogram.cpp:
+	fix: double to int assignment in optimise_strictOverlaps()
+	src/generator/svg.cpp:
+	fix: validxml() chars 91-96
+	fix: three double to int assignments
+	src/generator/png.cpp:
+	added inkscape instructions
+
+2010-07-22  bryonak  <bryonak@freenet.de>
+
+	updated NEWS
+	updated ChangeLog
+	updated Texinfo manual
+
 2010-07-22  bryonak  <bryonak@freenet.de>
 
 	gnuclad-cladogram.cpp:

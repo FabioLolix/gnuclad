@@ -69,7 +69,7 @@ string getExt(string fname) {
   return ext;
 }
 
-// Returns a new input file, which you have to delete!
+// Returns a new input file
 ifstream * new_infile(const string fname) {
   ifstream * fp = new ifstream;
   fp->open(fname.c_str());
@@ -77,7 +77,7 @@ ifstream * new_infile(const string fname) {
   throw "failed to open file " + fname;
 }
 
-// Returns a new output file, which you have to delete!
+// Returns a new output file
 ofstream * new_outfile(const string fname) {
   ofstream * fp = new ofstream;
   fp->open(fname.c_str());
