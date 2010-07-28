@@ -586,15 +586,17 @@ void Cladogram::compute() {
   }
 
   // Insert spacing at tree edges
+  Node * a, * b, * ar, * br;
   for(int i = 0; i < nCount - 1; ++i) {
-    Node * a = nodes[i];
-    Node * b = nodes[i+1];
-    if( a->root() != b->root() )  // if not in same tree
-      if(a->parent != NULL || b->parent != NULL ||  // if not root nodes
-         a->children.size() > 0 || b->children.size() > 0)  // or have children
-        if(a->root()->size > treeSpacingBiggerThan ||  // honor option
-           b->root()->size > treeSpacingBiggerThan)
-          moveOffsetsHigherThan(a->offset, treeSpacing);
+    a = nodes[i];
+    b = nodes[i+1];
+    ar = a->root();
+    br = b->root();
+    // if not in same tree and at least one has children
+    if( ar != br && (ar->children.size() > 0 || br->children.size() > 0) )
+      if(ar->size > treeSpacingBiggerThan ||  // honor option
+         br->size > treeSpacingBiggerThan)
+        moveOffsetsHigherThan(a->offset, treeSpacing);
   }
 
   // Insert spacing at fat lines (bigParent) 
@@ -620,7 +622,7 @@ void Cladogram::compute() {
            << " too small). Reduce the treeSpacingBiggerThan config option.";
 
     // Get minimum and maximum offsets of children this domain's node has
-    int min = nCount-1, max = 0;
+    int min = nodes[nCount-1]->offset, max = 0;
     for(int j = 0; j < nCount; ++j) {
       n = nodes[j];
       if(n->derivesFrom(d->node)) {

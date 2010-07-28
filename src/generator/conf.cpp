@@ -44,7 +44,10 @@ void GeneratorCONF::writeData(Cladogram * clad, OutputFile & out) {
     << "#   option = \"three word value\"\n"
     << "#   ...\n\n";
 
-  f << "\n# Modify the appearance of your info box"
+  f << "\n# Show debug information when running gnuclad. (0 = off, 1 = on)"
+    << "\ndebug = " << clad->debug
+    << "\n"
+    << "\n# Modify the appearance of your info box"
     << "\n# To disable the box:"
     << "\n# Set both font size parameters to 0, set the width and height to 0"
     << "\ninfoBoxTitle = " << clad->infoBoxTitle
@@ -223,9 +226,6 @@ void GeneratorCONF::writeData(Cladogram * clad, OutputFile & out) {
     << "\n# the given intensity (0-100). Set size = 0 to turn off."
     << "\ndir_domainSize = " << clad->dir_domainSize
     << "\ndir_domainIntensity = " << clad->dir_domainIntensity
-    << "\n"
-    << "\n# Show debug information when running gnuclad. (0 = off, 1 = on)"
-    << "\ndebug = " << clad->debug
     << "\n";
 
 }
