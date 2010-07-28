@@ -532,12 +532,8 @@ void Cladogram::compute() {
   // Optimisation: queue single nodes and squash trees
   // Optmisation will fail (moveTo() and tree optimisations) if the vectors are
   // not sorted by offset.
-  // Sorting shouldn't be needed if the building pass did everything correctly,
-  // but we might alter the way we build the map in the future.
-  if(optimise > 0) {
-    stable_sort(nodes.begin(), nodes.end(), compareOffset());
-    stable_sort(roots.begin(), roots.end(), compareOffset());
-  }
+  stable_sort(nodes.begin(), nodes.end(), compareOffset());
+  stable_sort(roots.begin(), roots.end(), compareOffset());
   for(int i = 0; i < rCount; ++i) {
 
     // KEEP USAGE OF THE OPTIMISE VARIABLE WITHIN THIS LOOP

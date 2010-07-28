@@ -12,6 +12,10 @@ created with: bzr log --gnu-changelog
 
 2010-07-23  bryonak  <bryonak@freenet.de>
 
+	gnuclad 0.2 RELEASE
+
+2010-07-23  bryonak  <bryonak@freenet.de>
+
 	gnuclad.cpp:
 	fix: empty basename with directory parser
 	gnuclad-cladogram.cpp:

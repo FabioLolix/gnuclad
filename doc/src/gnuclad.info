@@ -17,7 +17,7 @@ File: gnuclad.info,  Node: Top,  Next: About,  Up: (dir)
 gnuclad cladogram generator
 ***************************
 
-This is the Texinfo manual for gnuclad 0.2 (23 July 2010)
+This is the Texinfo manual for gnuclad 0.2.x_testing-84 (23 July 2010)
 
 * Menu:
 
@@ -1422,18 +1422,18 @@ Index
 
 Tag Table:
 Node: Top471
-Node: About908
-Node: Usage1780
-Node: Usage Tips3485
-Node: Config Options6442
-Node: FAQ13384
-Node: Programming14004
-Node: Classes14380
-Node: Helpers and Utilities18995
-Node: Configuration Options21283
-Node: Writing a parser22824
-Node: Writing a generator26232
-Node: GNU Free Documentation License28671
-Node: Index53837
+Node: About921
+Node: Usage1793
+Node: Usage Tips3498
+Node: Config Options6455
+Node: FAQ13397
+Node: Programming14017
+Node: Classes14393
+Node: Helpers and Utilities19008
+Node: Configuration Options21296
+Node: Writing a parser22837
+Node: Writing a generator26245
+Node: GNU Free Documentation License28684
+Node: Index53850
 
 End Tag Table

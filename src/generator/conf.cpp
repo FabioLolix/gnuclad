@@ -220,7 +220,7 @@ void GeneratorCONF::writeData(Cladogram * clad, OutputFile & out) {
     << "\ndir_colorLink = " << clad->dir_colorLink.hex
     << "\n"
     << "\n# Directories with greater than specified size will get a domain of"
-    << "\n# the given intensity. Set size = 0 to turn off."
+    << "\n# the given intensity (0-100). Set size = 0 to turn off."
     << "\ndir_domainSize = " << clad->dir_domainSize
     << "\ndir_domainIntensity = " << clad->dir_domainIntensity
     << "\n"
