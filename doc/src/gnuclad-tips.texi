@@ -17,7 +17,7 @@ CSV spreadsheets can also include PNG images, but keep in mind that raster image
 are encoded in base64 and may result in a really huge output file.
 
 
-@section Output: CSV
+@section Input: any => Output: CSV
 
 All nodes with a starting date newer than endOfTime (usually the current date)
 will be ignored.
@@ -46,23 +46,28 @@ will be appended to each other.
 The second digit sets the tree optimisation. Higher values will try to cramp the
 tree together more than lower ones.
 
-The current mapping looks as follows (although the exact parametrisation is
-subject to change).
+The current mapping looks as follows (the exact parametrisation may be subject
+to change).
+Each higher scoring optimisation includes all the lines above it in the same
+group.
 @example
 0   - off
 
-x1  - queue consecutive node lines in a "bubble fashion"; fast
+x1  - queue pairwise consecutive node lines; fast
 x3  - pull nodes to parent
 x6  - pull nodes towards root
 x8  - pull nodes towards root strongly
 
+
 1x  - inject single nodes among other single nodes in a greedy manner
-2x  - don't pass over trees of size >= 2
-5x  - don't pass over trees of size >= 5
-6x  - don't pass over trees of size >= 10
-7x  - don't pass over trees of size >= 20
-8x  - don't pass over trees of size >= 50
-9x  - don't pass over trees
+    - don't pass over trees
+2x  - pass over trees of size <= 2
+3x  - pass over trees of size <= 3
+4x  - pass over trees of size <= 5
+5x  - pass over trees of size <= 10
+6x  - pass over trees of size <= 20
+7x  - pass over trees of size <= 50
+8x  - pass over any tree
 
 @end example
 

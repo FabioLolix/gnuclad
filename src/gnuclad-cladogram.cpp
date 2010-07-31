@@ -544,18 +544,16 @@ void Cladogram::compute() {
     if(r->size == 1) {  // Single root
 
       int opt = optimise/10;
+      if(opt > 9) opt = 9;
 
       // Don't reach behind trees of certain size, depending on opt
-      int treeBarrierSize[] = { 1, 1, 2, 2 ,2, 5, 10, 20, 50, 999999};  // 0 - 9
-      if(opt > 9) opt = 9;
-      int upTo = i+1;
+      int treeBarrierSize[] = { 0, 1, 2, 3 ,5, 10, 20, 50, 99999999, 99999999};
+      int upTo = i;
       while(++upTo < rCount)
-        if(roots[upTo]->size >= treeBarrierSize[opt]) break;
+        if(roots[upTo]->size > treeBarrierSize[opt]) break;
       if(upTo > rCount) upTo = rCount;
 
       if(opt >= 1) optimise_injectSingleRootAt(i, upTo);
-
-      // ToDO: if optimise == 99 inject roots into trees processed so far
 
     } else {  // Tree root
 
@@ -584,6 +582,33 @@ void Cladogram::compute() {
 
     }
   }
+// ToDo: mix single nodes and trees
+  //~ // Inject single roots into everything processed so far, after the main
+  //~ // optimisation as to preserve the tight trees
+  //~ if(optimise >= 99) {
+//~ 
+    //~ for(int i = 0; i < nCount; ++i)
+     //~ if(maximumOffset < nodes[i]->offset)
+       //~ maximumOffset = nodes[i]->offset;
+//~ 
+    //~ for(int i = 0; i < maximumOffset; ++i) {  // go through all offsets
+//~ 
+      //~ Node * n;
+      //~ for(int j = 0; j < nCount; ++j) {
+//~ 
+        //~ n = nodes[j];
+        //~ if(n->offset <= i || n->size > 1 || n->parent != NULL) continue;
+        //~ if(fitsInto(i, n)) {
+          //~ moveOffsetsHigherThan(n->offset, -1);
+          //~ n->offset = i;
+          //~ moveTo(i, n, nodes);  // update order of nodes in vector
+          //~ moveTo(i, n, roots);
+//~ 
+        //~ }
+      //~ }
+    //~ }
+//~ 
+  //~ }
 
   // Insert spacing at tree edges
   Node * a, * b, * ar, * br;
