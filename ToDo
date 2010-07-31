@@ -7,18 +7,6 @@ without any warranty.
 
 ________________________________________________________________________
 
-generator/svg: replace reserved XML chars in label and description
-	# &amp; → 	& (ampersand, U+0026)
-	# &lt; → 	< (less-than sign, U+003C)
-	# &gt; → 	> (greater-than sign, U+003E)
-	# &quot; → 	" (quotation mark, U+0022)
-	# &apos; → 	' (apostrophe, U+0027)
-
-                                                                  v0.2.1
-________________________________________________________________________
-
-
-
 
 gnuclad-cladogram: grouping by connectors ("real parenting")
 gnuclad-cladogram: optimise both-subtree at creation time ?? (no)

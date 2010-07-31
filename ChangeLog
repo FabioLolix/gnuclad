@@ -10,6 +10,34 @@ ________________________________________________________________________
 created with: bzr log --gnu-changelog
 
 
+2010-07-31  bryonak  <bryonak@freenet.de>
+
+	generator/svg.cpp:
+	reimplemented validxml()
+	fix: using validixml for labels and descriptions
+
+2010-07-31  bryonak  <bryonak@freenet.de>
+
+	gnuclad-cladogram.cpp:
+	improved single node injection parameters
+	improved injectSingleRootAt calling setup
+	manual:
+	updated according to changes above
+
+2010-07-28  bryonak  <bryonak@freenet.de>
+
+	gnuclad-cladogram.cpp:
+	refractured insertion of spacing at tree edges to be more efficient
+	fix: initial value of minimal domain offset was too low
+	generator/conf.cpp:
+	moved debug option to top, as to get it activated before opts parsing
+
+2010-07-28  bryonak  <bryonak@freenet.de>
+
+	gnuclad-cladogram.cpp:
+	fix: always sort nodes before optimisation (bug 610762)
+	removed example.svg
+
 2010-07-23  bryonak  <bryonak@freenet.de>
 
 	gnuclad 0.2 RELEASE
