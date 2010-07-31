@@ -128,7 +128,7 @@ void GeneratorSVG::writeData(Cladogram * clad, OutputFile & out) {
   // Domain gradients
   for(int i = 0; i < (int)clad->domains.size(); ++i) {
     Domain * d = clad->domains[i];
-    f << "  <linearGradient id='__domain_" << validxml(d->nodeName) << "' x1='0' y1='0' x2='1' y2='0'>\n"
+    f << "  <linearGradient id='__domain_" << validxml(d->nodeName, true) << "' x1='0' y1='0' x2='1' y2='0'>\n"
       << "    <stop stop-color='#" << d->color.hex << "' offset='0' stop-opacity='0' />\n"
       << "    <stop stop-color='#" << d->color.hex << "' offset='1' stop-opacity='" << float(d->intensity) / 100 << "' />\n"
       << "  </linearGradient>\n";
@@ -155,7 +155,7 @@ void GeneratorSVG::writeData(Cladogram * clad, OutputFile & out) {
     if(clad->stopFadeOutPX == 0) break;
     n = clad->nodes[i];
     if(n->stop < clad->endOfTime) {
-      string name = validxml(n->name);
+      string name = validxml(n->name, true);
       f << "  <linearGradient id='__fadeout_" << name << "' x1='0' y1='0' x2='" << fade / (1 + (sqrt(n->size)-1) * clad->bigParent) << "' y2='0' gradientUnits='userSpaceOnUse'>\n"
         << "    <stop stop-color='#" << n->color.hex << "' offset='0' stop-opacity='1' />\n"
         << "    <stop stop-color='#" << n->color.hex << "' offset='1' stop-opacity='0' />\n"
@@ -246,7 +246,7 @@ void GeneratorSVG::writeData(Cladogram * clad, OutputFile & out) {
       hval -= oPX;
     }
     f << "  <rect x='" << xpos << "' y='" << yval << "' width='" << wval << "' height='" << hval
-      << "' rx='" << oPX / 2 << "' ry='" << oPX / 2 << "' fill='url(#__domain_" << validxml(d->nodeName) << ")' />\n";
+      << "' rx='" << oPX / 2 << "' ry='" << oPX / 2 << "' fill='url(#__domain_" << validxml(d->nodeName, true) << ")' />\n";
 
   }
 
@@ -289,7 +289,7 @@ void GeneratorSVG::writeData(Cladogram * clad, OutputFile & out) {
     int startX = datePX(n->start, clad) + xPX;
     int stopX = datePX(n->stop, clad) + xPX;
     int posY = n->offset * oPX + topOffset;
-    f << "  <path id='__line_"<< validxml(n->name) <<"' d='M ";
+    f << "  <path id='__line_"<< validxml(n->name, true) <<"' d='M ";
     if(n->parent != NULL) {
 
       int dType = clad->derivType;
@@ -337,7 +337,7 @@ void GeneratorSVG::writeData(Cladogram * clad, OutputFile & out) {
 //~ f << " style='stroke-width:" << lPX * (1 + (sqrt(n->size-1)) * clad->bigParent) << ";'";  // is more "exact"
     f << " style='stroke-width:" << lPX * (1 + (sqrt(n->size)-1) * clad->bigParent) << ";'";  // looks better
     if(n->stop < clad->endOfTime && clad->stopFadeOutPX != 0)
-      f << " marker-end='url(#__stop_" << validxml(n->name) << ")'";
+      f << " marker-end='url(#__stop_" << validxml(n->name, true) << ")'";
     f << " />\n";
 
   }
@@ -359,7 +359,7 @@ void GeneratorSVG::writeData(Cladogram * clad, OutputFile & out) {
     if     (clad->dotType == 0) dotprops = "fill='#" + n->color.hex + "' stroke='none'";
     else if(clad->dotType == 1) dotprops = "stroke='#" + n->color.hex + "'";
 
-    f << "  <circle id='__dot_" << validxml(n->name) << "' cx='" << posX << "' cy='" << posY
+    f << "  <circle id='__dot_" << validxml(n->name, true) << "' cx='" << posX << "' cy='" << posY
       << "' r='" << clad->dotRadius * (1 + (sqrt(sqrt(n->size))-1)*clad->bigParent) << "' " << dotprops << " />\n";
 
     for(int j = 0; j < (int)n->nameChanges.size(); ++j) {
@@ -406,7 +406,7 @@ void GeneratorSVG::writeData(Cladogram * clad, OutputFile & out) {
         << "  </g>\n";
 
     } else if(format == "png") {
-      f << "  <image id='__icon_" << validxml(n->name) << "'" << " transform='" << rotate << "'"
+      f << "  <image id='__icon_" << validxml(n->name, true) << "'" << " transform='" << rotate << "'"
         << " x='" << posX << "' y='" << posY << "' width='" << iconWidth << "' height='" << iconHeight << "'\n"
         << "    xlink:href='data:image/" << format << ";base64," << icon << "' />\n";
 
@@ -426,7 +426,7 @@ void GeneratorSVG::writeData(Cladogram * clad, OutputFile & out) {
     string href = "", hrefend = "";
 
     if(clad->descriptionType == 1) {
-      href = "<a xlink:href='" + validxml(n->description) + "'>";
+      href = "<a xlink:href='" + validxml(n->description, false) + "'>";
       hrefend = "</a>";
     }
 
@@ -465,7 +465,7 @@ void GeneratorSVG::writeData(Cladogram * clad, OutputFile & out) {
 //~ << "' height='" << dirty_hack_ex *7/5 << "' fill='#a00' opacity='" << double(clad->labelBGOpacity)/100 
         << "'  rx='5' ry='5' />\n";
 
-    f << "  " << href << "<text x='"<< posX <<"' y='"<< posY <<"' " << alignment << " >" << validxml(n->name) <<"</text>" << hrefend << "\n";
+    f << "  " << href << "<text x='"<< posX <<"' y='"<< posY <<"' " << alignment << " >" << validxml(n->name, false) <<"</text>" << hrefend << "\n";
 
 
     string alignmentNameChange = "";
@@ -517,7 +517,7 @@ void GeneratorSVG::writeData(Cladogram * clad, OutputFile & out) {
           << "' height='" << dirty_hack_ex *7/5 << "' fill='#" << clad->mainBackground.hex << "' opacity='" << double(clad->labelBGOpacity)/100 << "'  rx='5' ry='5' />\n";
 //~ << "' height='" << dirty_hack_ex *7/5 << "' fill='#a00' opacity='" << double(clad->labelBGOpacity)/100 << "'  rx='5' ry='5' />\n";
 
-      f << "    " << href << "<text x='"<< posX <<"' y='"<< posY <<"' " << alignmentNameChange << ">" << validxml(n->nameChanges[j].newName) <<"</text>" << hrefend << "\n";
+      f << "    " << href << "<text x='"<< posX <<"' y='"<< posY <<"' " << alignmentNameChange << ">" << validxml(n->nameChanges[j].newName, false) <<"</text>" << hrefend << "\n";
 
     }
 
@@ -668,8 +668,8 @@ int GeneratorSVG::strlenpx(std::string str, Cladogram * clad) {
   return int(len * double(dirty_hack_em));
 }
 
-
-string validxml(string str) {
+// Escape reserved XML entities. Whitespace breaks refs, but is OK in content.
+string validxml(string str, bool ws) {
   unsigned char c;
   string rep;
   for(int i = 0; i < (int)str.size(); ++i) {
@@ -679,7 +679,7 @@ string validxml(string str) {
     else if(c == '>')  rep = "&gt;";
     else if(c == '"')  rep = "\"";
     else if(c == '\'') rep = "'";
-    else if(c == ' ') rep = "__";
+    else if(c == ' ' && ws == true) rep = "__";
     else continue;
     str.replace(i, 1, rep);
     i += rep.size() - 1;

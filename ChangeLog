@@ -12,6 +12,12 @@ created with: bzr log --gnu-changelog
 
 2010-07-31  bryonak  <bryonak@freenet.de>
 
+	gnuclad 0.2.2 RELEASE
+	generator/svg.cpp:
+	fix: added whitespace encoding to validxml()
+
+2010-07-31  bryonak  <bryonak@freenet.de>
+
 	gnuclad 0.2.1 RELEASE
 
 2010-07-31  bryonak  <bryonak@freenet.de>

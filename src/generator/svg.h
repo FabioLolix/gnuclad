@@ -37,7 +37,7 @@ class GeneratorSVG: public Generator {
   int strlenpx(std::string str, Cladogram * clad);
 };
 
-std::string validxml(std::string str);
+std::string validxml(std::string str, bool ws);
 std::string SVG_defs(std::string filename);
 std::string SVG_body(std::string filename, int &width, int &height);
 std::string base64_png(std::string filename, int &width, int &height);
