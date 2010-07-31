@@ -679,6 +679,7 @@ string validxml(string str) {
     else if(c == '>')  rep = "&gt;";
     else if(c == '"')  rep = "\"";
     else if(c == '\'') rep = "'";
+    else if(c == ' ') rep = "__";
     else continue;
     str.replace(i, 1, rep);
     i += rep.size() - 1;

@@ -8,6 +8,12 @@ without any warranty.
 ________________________________________________________________________
 
 
+2010.07.31 - version 0.2.2
+
+* Fixed bug with whitespaces in XML references
+
+
+
 2010.07.31 - version 0.2.1
 
 * Fixed four minor bugs
