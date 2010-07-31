@@ -7,9 +7,6 @@ without any warranty.
 
 ________________________________________________________________________
 
-
-invert pass-over-tree optimisation (low should get blocked more)
-
 generator/svg: replace reserved XML chars in label and description
 	# &amp; → 	& (ampersand, U+0026)
 	# &lt; → 	< (less-than sign, U+003C)

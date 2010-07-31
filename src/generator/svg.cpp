@@ -426,7 +426,7 @@ void GeneratorSVG::writeData(Cladogram * clad, OutputFile & out) {
     string href = "", hrefend = "";
 
     if(clad->descriptionType == 1) {
-      href = "<a xlink:href='" + n->description + "'>";
+      href = "<a xlink:href='" + validxml(n->description) + "'>";
       hrefend = "</a>";
     }
 
@@ -465,7 +465,7 @@ void GeneratorSVG::writeData(Cladogram * clad, OutputFile & out) {
 //~ << "' height='" << dirty_hack_ex *7/5 << "' fill='#a00' opacity='" << double(clad->labelBGOpacity)/100 
         << "'  rx='5' ry='5' />\n";
 
-    f << "  " << href << "<text x='"<< posX <<"' y='"<< posY <<"' " << alignment << " >" << n->name <<"</text>" << hrefend << "\n";
+    f << "  " << href << "<text x='"<< posX <<"' y='"<< posY <<"' " << alignment << " >" << validxml(n->name) <<"</text>" << hrefend << "\n";
 
 
     string alignmentNameChange = "";
@@ -517,7 +517,7 @@ void GeneratorSVG::writeData(Cladogram * clad, OutputFile & out) {
           << "' height='" << dirty_hack_ex *7/5 << "' fill='#" << clad->mainBackground.hex << "' opacity='" << double(clad->labelBGOpacity)/100 << "'  rx='5' ry='5' />\n";
 //~ << "' height='" << dirty_hack_ex *7/5 << "' fill='#a00' opacity='" << double(clad->labelBGOpacity)/100 << "'  rx='5' ry='5' />\n";
 
-      f << "    " << href << "<text x='"<< posX <<"' y='"<< posY <<"' " << alignmentNameChange << ">" << n->nameChanges[j].newName <<"</text>" << hrefend << "\n";
+      f << "    " << href << "<text x='"<< posX <<"' y='"<< posY <<"' " << alignmentNameChange << ">" << validxml(n->nameChanges[j].newName) <<"</text>" << hrefend << "\n";
 
     }
 
@@ -654,7 +654,7 @@ int GeneratorSVG::strlenpx(std::string str, Cladogram * clad) {
     static const double misc4[] =
        { 0.625, 0.5, 0.625, 1.05 };  // { | } ~
 
-    c = str[i];                                                                 // SVG/DIR TROUBLE CHARS:  < > / & '
+    c = str[i];
     if     ('0' <= c && c <= '9') len += digit[int(c - '0')];
     else if('a' <= c && c <= 'z') len += alpha[int(c - 'a')];
     else if('A' <= c && c <= 'Z') len += ALPHA[int(c - 'A')];
@@ -669,6 +669,24 @@ int GeneratorSVG::strlenpx(std::string str, Cladogram * clad) {
 }
 
 
+string validxml(string str) {
+  unsigned char c;
+  string rep;
+  for(int i = 0; i < (int)str.size(); ++i) {
+    c = (unsigned char)str[i];
+    if     (c == '&')  rep = "&amp;";
+    else if(c == '<')  rep = "&lt;";
+    else if(c == '>')  rep = "&gt;";
+    else if(c == '"')  rep = "\"";
+    else if(c == '\'') rep = "'";
+    else continue;
+    str.replace(i, 1, rep);
+    i += rep.size() - 1;
+  }
+  return str;
+}
+
+/*
 string validxml(string str) {
   // We could simply encode the whole string in base64, but then the output
   // file would be much less human readable, which is bad.
@@ -691,7 +709,7 @@ string validxml(string str) {
   }
   return str;
 }
-
+*/
 
 // Returns the definitions of the specified SVG image (within <defs></defs)
 std::string SVG_defs(std::string filename) {
