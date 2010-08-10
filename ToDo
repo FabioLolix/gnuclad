@@ -9,25 +9,33 @@ ________________________________________________________________________
 
 
 gnuclad-cladogram: grouping by connectors ("real parenting")
-gnuclad-cladogram: optimise both-subtree at creation time ?? (no)
+gnuclad-cladogram: optimise both-subtree at creation time?
+  -> no, keep all optimisations in one bock 
 
-parser/dir: domain spacing
+gnuclad: implement ARGB in Color constructors
+generator/svg: implement matching transparency settings
+
+generator/svg: fix: yearline is?? slighty off (down) with orientation=1
+generator/svg: fix: move many coordinate calculations to functions
 generator/svg: domains along deriv lines (domainType 1)
 generator/svg: different fadeouts (fadeType)
-
+generator/svg: bigParent based only on direct children count (not size)
 generator/svg: curved connectors ???
-generator/svg: transparent infobox ?
+generator/svg: derivType like 2 but fill rect between line and parent
 
+parser/dir: domain spacing
+parser/dir: symlink connectors
 parser/dir: time based version (stat)
     (created = deriv, last modified = nameChange)
-
-parser/dir: symlink connectors
 
 
 parser/html
 generator/html
 
 translate manual
+
+---
+
 translatable strings (gettext)
 
 parser/gramps
