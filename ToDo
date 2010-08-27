@@ -10,12 +10,12 @@ ________________________________________________________________________
 
 gnuclad-cladogram: grouping by connectors ("real parenting")
 gnuclad-cladogram: optimise both-subtree at creation time?
-  -> no, keep all optimisations in one bock 
+  -> no, keep all optimisations in one block 
 
 gnuclad: implement ARGB in Color constructors
 generator/svg: implement matching transparency settings
 
-generator/svg: fix: yearline is?? slighty off (down) with orientation=1
+generator/svg: fix: yearline is(is it?) slighty off (down) with orientation=1
 generator/svg: fix: move many coordinate calculations to functions
 generator/svg: domains along deriv lines (domainType 1)
 generator/svg: different fadeouts (fadeType)
@@ -28,6 +28,10 @@ parser/dir: symlink connectors
 parser/dir: time based version (stat)
     (created = deriv, last modified = nameChange)
 
+
+generator/png: check for installed programs
+               inkscape, libbatik(/usr/bin/rasterizer) resp Fedora equivalent, ...
+generator/png: split checks by platform, use std::thread
 
 parser/html
 generator/html

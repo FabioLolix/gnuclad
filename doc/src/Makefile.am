@@ -20,4 +20,4 @@ gnuclad_TEXINFOS = gnuclad-about.texi\
 	gnuclad-programming-generator.texi\
 	fdl.texi
 
-EXTRA_DIST = ../index.html gnuclad.html
+EXTRA_DIST = ../index.html gnuclad.html ../man

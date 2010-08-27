@@ -1,0 +1,65 @@
+.\" Process this file with
+.\" groff -man -Tascii foo.1
+.\"
+.TH gnuclad 1 "AUGUST 2010" "gnuclad 0.2 and higher" "gnuclad man page"
+.SH NAME
+gnuclad \- a cladogram generator
+.SH SYNOPSIS
+.B gnuclad
+.I input-file output-file
+.B [-c
+.I config-file
+.B ]
+.br
+.B gnuclad
+.I input-file output-format
+.B [-c
+.I config-file
+.B ]
+.SH DESCRIPTION
+.B gnuclad
+reads the input file and computes a cladogram which
+is written into the output file.
+The output format is guessed from the file name
+extension if an output file is specified instead
+of an output format.
+For a list of supported input/output formats, please
+consult the gnuclad TeXinfo manual.
+.SH OPTIONS
+.IP "-c config-file"
+Use an alternate
+.I config-file
+instead of the built-in defaults.
+.SH DIAGNOSTICS
+The exit status is 0 if execution was successful
+(even with warnings) and 1 if an error has occured.
+
+The following diagnostics may be issued:
+ 
+Error:
+.RS
+A description of the error
+.RE
+Warning:
+.RS
+A description of the warning
+
+.SH BUGS
+Please report bugs to
+https://bugs.launchpad.net/gnuclad
+.SH AUTHOR
+Donjan Rodic <donjan at dyx dot ch>
+.SH "SEE ALSO"
+The full documentation for
+.B gnuclad
+is maintained as TeXinfo manual. If the
+.B info
+and
+.B gnuclad
+programs are properly installed at your site, the
+command
+.IP
+.B info gnuclad
+.PP
+should give you access to the complete manual
+
