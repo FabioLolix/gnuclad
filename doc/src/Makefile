@@ -123,15 +123,15 @@ OBJEXT = o
 PACKAGE = gnuclad
 PACKAGE_BUGREPORT = bryonak at dyx dot ch
 PACKAGE_NAME = gnuclad
-PACKAGE_STRING = gnuclad 0.2.2
+PACKAGE_STRING = gnuclad 0.3-preview-91
 PACKAGE_TARNAME = gnuclad
 PACKAGE_URL = 
-PACKAGE_VERSION = 0.2.2
+PACKAGE_VERSION = 0.3-preview-91
 PATH_SEPARATOR = :
 SET_MAKE = 
 SHELL = /bin/bash
 STRIP = 
-VERSION = 0.2.2
+VERSION = 0.3-preview-91
 abs_builddir = /home/bryonak/c/gnuclad/bryonak/doc/src
 abs_srcdir = /home/bryonak/c/gnuclad/bryonak/doc/src
 abs_top_builddir = /home/bryonak/c/gnuclad/bryonak
@@ -189,7 +189,7 @@ gnuclad_TEXINFOS = gnuclad-about.texi\
 	gnuclad-programming-generator.texi\
 	fdl.texi
 
-EXTRA_DIST = ../index.html gnuclad.html
+EXTRA_DIST = ../index.html gnuclad.html ../man
 all: all-am
 
 .SUFFIXES:

@@ -4,6 +4,11 @@
 @settitle gnuclad manual
 @c %**end of header
 
+
+@c required by lintian for deb packages:
+@dircategory Development
+
+
 @include version.texi
 
 @c _____________________________________________________ DESCRIPTION & COPYRIGHT

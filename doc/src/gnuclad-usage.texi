@@ -30,8 +30,8 @@ gnuclad INPUTFILE OUTPUT[FORMAT|FILE] [CONFIGFILE]
 @section Getting started
 
 gnuclad is built with the GNU toolchain.
-These tools are included in most GNU/Linux distributions and can be
-obtained from the Xcode developer package on OSX.
+These tools are included in most GNU/Linux and BSD distributions and can
+be obtained from the Xcode developer package on OSX.
 On Windows, compilation works flawlessly with MinGW & MSYS.
 Other build systems may work but have not been tested.
 

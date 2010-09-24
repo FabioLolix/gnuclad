@@ -9,7 +9,7 @@ AC_PREREQ(2.54)
 
 AC_CONFIG_AUX_DIR([build-aux])
 
-AC_INIT([gnuclad],[0.3-preview-90],[bryonak at dyx dot ch])
+AC_INIT([gnuclad],[0.3-preview-91],[bryonak at dyx dot ch])
 AM_INIT_AUTOMAKE([-Wall subdir-objects])
 
 AC_CONFIG_SRCDIR([src/gnuclad.cpp])
