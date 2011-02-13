@@ -10,3 +10,5 @@ Makefile
 config.h
 config.log
 config.status
+
+AAA_USEFUL
