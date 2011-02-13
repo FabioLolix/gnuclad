@@ -1,4 +1,4 @@
-# Copyright (C) 2010 Donjan Rodic <donjan@dyx.ch>
+# Copyright (C) 2010-2011 Donjan Rodic <donjan@dyx.ch>
 #
 # Copying and distribution of this file, with or without modification,
 # are permitted in any medium without royalty provided the copyright
@@ -9,7 +9,7 @@ AC_PREREQ(2.54)
 
 AC_CONFIG_AUX_DIR([build-aux])
 
-AC_INIT([gnuclad],[0.3-preview-91],[bryonak at dyx dot ch])
+AC_INIT([gnuclad],[0.2.3],[donjan at dyx dot ch])
 AM_INIT_AUTOMAKE([-Wall subdir-objects])
 
 AC_CONFIG_SRCDIR([src/gnuclad.cpp])

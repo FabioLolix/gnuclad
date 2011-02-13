@@ -10,6 +10,22 @@ ________________________________________________________________________
 created with: bzr log --gnu-changelog
 
 
+2010-09-24  bryonak  <bryonak@freenet.de>
+
+	cosmetic changes
+	updated ToDo
+
+2010-08-27  bryonak  <bryonak@freenet.de>
+
+	added man page
+	doc/man/gnuclad.1
+
+2010-08-10  bryonak  <bryonak@freenet.de>
+
+	updated ToDo
+	preparation for 0.3 development
+	cosmetic changes
+
 2010-07-31  bryonak  <bryonak@freenet.de>
 
 	gnuclad 0.2.2 hotfix RELEASE

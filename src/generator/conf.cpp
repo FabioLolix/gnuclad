@@ -1,7 +1,7 @@
 /*
 *  conf.cpp - implements a configuration file generator for gnuclad
 *
-*  Copyright (C) 2010 Donjan Rodic <donjan@dyx.ch>
+*  Copyright (C) 2010-2011 Donjan Rodic <donjan@dyx.ch>
 *
 *  This program is free software: you can redistribute it and/or modify
 *  it under the terms of the GNU General Public License as published by
@@ -192,10 +192,10 @@ void GeneratorCONF::writeData(Cladogram * clad, OutputFile & out) {
     << "\nyearLineFontSize = " << clad->yearLineFontSize
     << "\nyearLineFontColor = #" << clad->yearLineFontColor.hex
     << "\n"
-    << "\nHow many (empty) years to append at the end"
+    << "\n# How many (empty) years to append at the end"
     << "\nappendYears = " << clad->appendYears
     << "\n"
-    << "\nHow many (empty) years to prepend at the beginning"
+    << "\n# How many (empty) years to prepend at the beginning"
     << "\nprependYears = " << clad->prependYears
     << "\n"
     << "\n# Remember to adjust your input data after changing these averages."
@@ -218,9 +218,9 @@ void GeneratorCONF::writeData(Cladogram * clad, OutputFile & out) {
     << "\ndir_showDotFiles = " << clad->dir_showDotFiles
     << "\n"
     << "\n# Color of files, directories and links"
-    << "\ndir_colorFile = " << clad->dir_colorFile.hex
-    << "\ndir_colorDir = " << clad->dir_colorDir.hex
-    << "\ndir_colorLink = " << clad->dir_colorLink.hex
+    << "\ndir_colorFile = #" << clad->dir_colorFile.hex
+    << "\ndir_colorDir = #" << clad->dir_colorDir.hex
+    << "\ndir_colorLink = #" << clad->dir_colorLink.hex
     << "\n"
     << "\n# Directories with greater than specified size will get a domain of"
     << "\n# the given intensity (0-100). Set size = 0 to turn off."

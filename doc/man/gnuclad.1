@@ -1,32 +1,31 @@
 .\" Process this file with
 .\" groff -man -Tascii foo.1
 .\"
-.TH gnuclad 1 "AUGUST 2010" "gnuclad 0.2 and higher" "gnuclad man page"
+.TH gnuclad 1 "FEBRUARY 2011" "gnuclad 0.2" "gnuclad man page"
 .SH NAME
 gnuclad \- a cladogram generator
 .SH SYNOPSIS
 .B gnuclad
 .I input-file output-file
-.B [-c
+.B [
 .I config-file
 .B ]
 .br
 .B gnuclad
 .I input-file output-format
-.B [-c
+.B [
 .I config-file
 .B ]
 .SH DESCRIPTION
 .B gnuclad
-reads the input file and computes a cladogram which
-is written into the output file.
-The output format is guessed from the file name
-extension if an output file is specified instead
-of an output format.
+reads the input file, computes a cladogram and writes
+the results into the output file. If an output file is
+specified instead of a format, the output format
+is guessed from the file name extension.
 For a list of supported input/output formats, please
 consult the gnuclad TeXinfo manual.
 .SH OPTIONS
-.IP "-c config-file"
+.IP "config-file"
 Use an alternate
 .I config-file
 instead of the built-in defaults.
@@ -52,7 +51,7 @@ Donjan Rodic <donjan at dyx dot ch>
 .SH "SEE ALSO"
 The full documentation for
 .B gnuclad
-is maintained as TeXinfo manual. If the
+is maintained as a TeXinfo manual. If the
 .B info
 and
 .B gnuclad
@@ -61,5 +60,4 @@ command
 .IP
 .B info gnuclad
 .PP
-should give you access to the complete manual
-
+should give you access to the complete manual.

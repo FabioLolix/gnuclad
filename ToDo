@@ -1,4 +1,4 @@
-Copyright (C) 2010 Donjan Rodic <donjan@dyx.ch>
+Copyright (C) 2010-2011 Donjan Rodic <donjan@dyx.ch>
 
 Copying and distribution of this file, with or without modification,
 are permitted in any medium without royalty provided the copyright
@@ -7,17 +7,30 @@ without any warranty.
 
 ________________________________________________________________________
 
-Change documentation license from GFDL to Debian compatible
+Change documentation license from GFDL to Debian compatible ??
+
+backward compatibility breaks: ARGB, description column, rebasing
 
 gnuclad-cladogram: grouping by connectors ("real parenting")
 gnuclad-cladogram: optimise both-subtree at creation time?
-  -> no, keep all optimisations in one block 
+  -> no, keep all optimisations in one block
+gnuclad-cladogram: add switching optimisation (see mepis-antix-swift in gldt)
+
+gnuclad-cladogram: implement rebasing (reflow as new fork of other node)
+parser/csv: add description column, add rebasing (R|newparent, N|newname)
+
+gnuclad-cladogram: add sortkey by name reverse and by date reverse? (treemode 2? -> check)
 
 gnuclad: implement ARGB in Color constructors
 generator/svg: implement matching transparency settings
 
+conf: add option to ignore connectors
+conf: use std::map and Option objects for conf options
+conf: multi line syntax in conf file with \
+
 generator/svg: !fix: refractor/move many coordinate calculations to functions
 generator/svg: fix: yearline is(is it?) slighty off (down) with orientation=1
+generator/svg: fix: connector thickness 1 should be thinner
 generator/svg: use CSS for styles (and check if it works in viewers like eog)
 generator/svg: domains along deriv lines (domainType 1)
 generator/svg: different fadeouts (fadeType)
@@ -35,7 +48,7 @@ parser/dir: time based version (stat)
 
 generator/png: check for installed programs
                inkscape, libbatik(/usr/bin/rasterizer) resp Fedora equivalent, ...
-generator/png: split checks by platform, use std::thread
+generator/png: split checks by platform, use std::thread or pthreads
 
 parser/html
 generator/html

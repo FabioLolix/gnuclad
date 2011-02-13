@@ -18,7 +18,7 @@ File: gnuclad.info,  Node: Top,  Next: About,  Up: (dir)
 gnuclad cladogram generator
 ***************************
 
-This is the Texinfo manual for gnuclad 0.3-preview-91 (27 August 2010)
+This is the Texinfo manual for gnuclad 0.2.3 (27 August 2010)
 
 * Menu:
 
@@ -103,7 +103,7 @@ it that way.
 ===================
 
 gnuclad is built with the GNU toolchain.  These tools are included in
-most GNU/Linux distributions and can be obtained from the Xcode
+most GNU/Linux and BSD distributions and can be obtained from the Xcode
 developer package on OSX.  On Windows, compilation works flawlessly
 with MinGW & MSYS.  Other build systems may work but have not been
 tested.
@@ -1427,18 +1427,18 @@ Index
 
 Tag Table:
 Node: Top503
-Node: About953
-Node: Usage1825
-Node: Usage Tips3530
-Node: Config Options6623
-Node: FAQ13575
-Node: Programming14195
-Node: Classes14571
-Node: Helpers and Utilities19186
-Node: Configuration Options21474
-Node: Writing a parser23015
-Node: Writing a generator26423
-Node: GNU Free Documentation License28862
-Node: Index54028
+Node: About944
+Node: Usage1816
+Node: Usage Tips3529
+Node: Config Options6622
+Node: FAQ13574
+Node: Programming14194
+Node: Classes14570
+Node: Helpers and Utilities19185
+Node: Configuration Options21473
+Node: Writing a parser23014
+Node: Writing a generator26422
+Node: GNU Free Documentation License28861
+Node: Index54027
 
 End Tag Table
