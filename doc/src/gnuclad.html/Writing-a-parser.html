@@ -12,7 +12,7 @@
 <!--
 This is a manual for gnuclad
 
-Copyright (C) 2010 Donjan Rodic <donjan (at) dyx (dot) ch>
+Copyright (C) 2010-2011 Donjan Rodic <donjan (at) dyx (dot) ch>
 
      Permission is granted to copy, distribute and/or modify this
      document under the terms of the GNU Free Documentation License,
@@ -106,7 +106,11 @@ generator.
 
    <p><br>
 Adding a Node:
-<pre class="example">       Node * n = clad-&gt;addNode("MyFirstNode");
+<pre class="example">     #include "../gnuclad.h"
+     #include "parserXXX.h"
+     void ParserXXX::parseData(Cladogram * clad, InputFile &amp; in) {
+     
+       Node * n = clad-&gt;addNode("MyFirstNode");
        n-&gt;color = Color("#a2b3c4");
        n-&gt;parentName = "";
        n-&gt;start =  Date(1993,8,1);
@@ -114,6 +118,8 @@ Adding a Node:
        n-&gt;iconfile = "";
        n-&gt;description = "it rocks!";
        n-&gt;addNameChange("NewName", Date(1999,2,0), "it still rocks!")
+     
+     }
 </pre>
    <p><br>
 Adding a Connector (note that fromName and toName are expected to be existing

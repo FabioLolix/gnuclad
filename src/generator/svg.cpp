@@ -510,7 +510,7 @@ void GeneratorSVG::writeData(Cladogram * clad, OutputFile & out) {
       }
 
       if(clad->descriptionType == 1)
-        href = "<a xlink:href='" + n->nameChanges[j].description + "'>";
+        href = "<a xlink:href='" + validxml(n->nameChanges[j].description, false) + "'>";
 
       if(clad->labelBGOpacity > 0 && clad->nameChangeType != nc_inside)
         f << "    <rect x='" << posX - dirty_hack_em/4 << "' y='" << posY - dirty_hack_ex *6/5 << "' width='" << strlenpx(n->nameChanges[j].newName, clad)

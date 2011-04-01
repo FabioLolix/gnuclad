@@ -6,7 +6,11 @@
 
 
 @c required by lintian for deb packages:
-@dircategory Development
+@dircategory Graphics
+@direntry
+* gnuclad: (gnuclad).                cladogram generators
+@end direntry
+
 
 
 @include version.texi
@@ -16,7 +20,7 @@
 @copying
 This is a manual for gnuclad
 
-Copyright @copyright{} 2010 Donjan Rodic <donjan (at) dyx (dot) ch>
+Copyright @copyright{} 2010-2011 Donjan Rodic <donjan (at) dyx (dot) ch>
 
 @quotation
 Permission is granted to copy, distribute and/or modify this document

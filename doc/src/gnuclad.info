@@ -1,10 +1,14 @@
 This is gnuclad.info, produced by makeinfo version 4.13 from
 gnuclad.texi.
 
-INFO-DIR-SECTION Development
+INFO-DIR-SECTION Graphics
+START-INFO-DIR-ENTRY
+* gnuclad: (gnuclad).                cladogram generators
+END-INFO-DIR-ENTRY
+
    This is a manual for gnuclad
 
-   Copyright (C) 2010 Donjan Rodic <donjan (at) dyx (dot) ch>
+   Copyright (C) 2010-2011 Donjan Rodic <donjan (at) dyx (dot) ch>
 
      Permission is granted to copy, distribute and/or modify this
      document under the terms of the GNU Free Documentation License,
@@ -18,7 +22,7 @@ File: gnuclad.info,  Node: Top,  Next: About,  Up: (dir)
 gnuclad cladogram generator
 ***************************
 
-This is the Texinfo manual for gnuclad 0.3-preview-95 (27 August 2010)
+This is the Texinfo manual for gnuclad 0.2.4 (1 April 2011)
 
 * Menu:
 
@@ -798,6 +802,10 @@ later deleted automatically.  It is important to use those functions
 for objects you wish to pass on to the generator.
 
 Adding a Node:
+     #include "../gnuclad.h"
+     #include "parserXXX.h"
+     void ParserXXX::parseData(Cladogram * clad, InputFile & in) {
+
        Node * n = clad->addNode("MyFirstNode");
        n->color = Color("#a2b3c4");
        n->parentName = "";
@@ -806,6 +814,8 @@ Adding a Node:
        n->iconfile = "";
        n->description = "it rocks!";
        n->addNameChange("NewName", Date(1999,2,0), "it still rocks!")
+
+     }
 
 Adding a Connector (note that fromName and toName are expected to be
 existing Node names at the end of the parser routine - you'll get an
@@ -900,20 +910,27 @@ configuration options: Configuration Options. the Cladogram contains.
 All measures (height, thickness, ...) are "generic units".
 
    Example:
+     #include "../gnuclad.h"
+     #include "generatorXXX.h"
+     #include <iostream>
+     void generatorXXX::writeData(Cladogram * clad, OutputFile & out) {
+
        Node * n;
        for(int i = 0; i < (int)clad->nodes.size(); ++i) {
 
          n = clad->nodes[i];
-         cout << "\nWe have " << n->name
-              << " at offset " << n->offset;
+         std::cout << "\nWe have " << n->name
+                   << " at offset " << n->offset;
 
        }
 
-       cout << "\n\nOur end of time is "
-            << Date2str(clad->endOfTime) << "\n";
+       std::cout << "\n\nOur end of time is "
+                 << Date2str(clad->endOfTime) << "\n";
 
-       cout << "\n\nOur background color (in hex) is "
-            << clad->mainBackground.hex << "\n";
+       std::cout << "\n\nOur background color (in hex) is "
+                 << clad->mainBackground.hex << "\n";
+
+     }
 
 
 File: gnuclad.info,  Node: GNU Free Documentation License,  Next: Index,  Prev: Programming,  Up: Top
@@ -1426,19 +1443,19 @@ Index
 
 
 Tag Table:
-Node: Top503
-Node: About953
-Node: Usage1825
-Node: Usage Tips3538
-Node: Config Options6631
-Node: FAQ13583
-Node: Programming14203
-Node: Classes14579
-Node: Helpers and Utilities19194
-Node: Configuration Options21482
-Node: Writing a parser23023
-Node: Writing a generator26431
-Node: GNU Free Documentation License28870
-Node: Index54036
+Node: Top604
+Node: About1043
+Node: Usage1915
+Node: Usage Tips3628
+Node: Config Options6721
+Node: FAQ13673
+Node: Programming14293
+Node: Classes14669
+Node: Helpers and Utilities19284
+Node: Configuration Options21572
+Node: Writing a parser23113
+Node: Writing a generator26654
+Node: GNU Free Documentation License29289
+Node: Index54455
 
 End Tag Table

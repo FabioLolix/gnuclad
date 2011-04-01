@@ -86,6 +86,10 @@ generator.
 @*
 Adding a Node:
 @example
+#include "../gnuclad.h"
+#include "parserXXX.h"
+void ParserXXX::parseData(Cladogram * clad, InputFile & in) @{
+
   Node * n = clad->addNode("MyFirstNode");
   n->color = Color("#a2b3c4");
   n->parentName = "";
@@ -94,6 +98,8 @@ Adding a Node:
   n->iconfile = "";
   n->description = "it rocks!";
   n->addNameChange("NewName", Date(1999,2,0), "it still rocks!")
+
+@}
 @end example
 
 @*

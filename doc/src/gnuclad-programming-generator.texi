@@ -85,18 +85,25 @@ All measures (height, thickness, ...) are "generic units".
 
 Example:
 @example
+#include "../gnuclad.h"
+#include "generatorXXX.h"
+#include <iostream>
+void generatorXXX::writeData(Cladogram * clad, OutputFile & out) @{
+
   Node * n;
   for(int i = 0; i < (int)clad->nodes.size(); ++i) @{
 
     n = clad->nodes[i];
-    cout << "\nWe have " << n->name
-         << " at offset " << n->offset;
+    std::cout << "\nWe have " << n->name
+              << " at offset " << n->offset;
 
   @}
 
-  cout << "\n\nOur end of time is "
-       << Date2str(clad->endOfTime) << "\n";
+  std::cout << "\n\nOur end of time is "
+            << Date2str(clad->endOfTime) << "\n";
 
-  cout << "\n\nOur background color (in hex) is "
-       << clad->mainBackground.hex << "\n";
+  std::cout << "\n\nOur background color (in hex) is "
+            << clad->mainBackground.hex << "\n";
+
+@}
 @end example
