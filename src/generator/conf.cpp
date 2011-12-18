@@ -111,6 +111,9 @@ void GeneratorCONF::writeData(Cladogram * clad, OutputFile & out) {
     << "\nmainBackground = #" << clad->mainBackground.hex
     << "\n"
     << "\n# Customise the background lines separating the years and months"
+    << "\n# rulerYearlabelWidth is the width of a year line when a year label is present,"
+    << "\n# rulerWidth is the width of a year line when no year label is present (see yearLabelInterval below)"
+    << "\nrulerYearlabelWidth = " << clad->rulerYearlabelWidth
     << "\nrulerWidth = " << clad->rulerWidth
     << "\nrulerColor = #" << clad->rulerColor.hex
     << "\nrulerMonthWidth = " << clad->rulerMonthWidth
@@ -197,6 +200,9 @@ void GeneratorCONF::writeData(Cladogram * clad, OutputFile & out) {
     << "\n"
     << "\n# How many (empty) years to prepend at the beginning"
     << "\nprependYears = " << clad->prependYears
+    << "\n"
+    << "\n# How many years between year labels"
+    << "\nyearLabelInterval = " << clad->yearLabelInterval
     << "\n"
     << "\n# Remember to adjust your input data after changing these averages."
     << "\ndaysInMonth = " << clad->daysInMonth

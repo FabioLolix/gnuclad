@@ -221,8 +221,13 @@ void GeneratorSVG::writeData(Cladogram * clad, OutputFile & out) {
   for(int i = 0; i <= years; ++i) {
     int x = i * yrPX + xPX - clad->prependYears*yrPX;
     int xm;
-    f << "  <line x1='" << x << "' y1='" << topOffset - yrlinePX << "' x2='" << x << "' y2='" << height << "'"
-      << " stroke-width='" << clad->rulerWidth << "' stroke='#" <<  clad->rulerColor.hex  << "' />\n";
+        if(i % clad->yearLabelInterval == 0) {
+            f << "  <line x1='" << x << "' y1='" << topOffset - yrlinePX << "' x2='" << x << "' y2='" << height << "'"
+              << " stroke-width='" << clad->rulerYearlabelWidth << "' stroke='#" <<  clad->rulerColor.hex  << "' />\n";
+        }else{
+            f << "  <line x1='" << x << "' y1='" << topOffset - yrlinePX << "' x2='" << x << "' y2='" << height << "'"
+              << " stroke-width='" << clad->rulerWidth << "' stroke='#" <<  clad->rulerColor.hex  << "' />\n";
+        }
     for(int j = 1; j < clad->monthsInYear && i < years; ++j) {
       xm = x + j * yrPX / clad->monthsInYear;
       f << "    <line x1='" << xm << "' y1='" << topOffset - yrlinePX << "' x2='" << xm << "' y2='" << height << "' />\n";
@@ -537,11 +542,11 @@ void GeneratorSVG::writeData(Cladogram * clad, OutputFile & out) {
     f << "  <rect x='" << xPX - 10 << "' y='" << topOffset - yrlinePX - 3*oPX/2 << "' rx='5' ry='5' width='" << width - xPX + 10<< "' height='" << yrlinePX << "' />\n"
       << "  <rect x='" << xPX - 10 << "' y='" << height - yrlinePX << "' rx='5' ry='5' width='" << width - xPX + 10 << "' height='" << yrlinePX << "' />\n"
       << "  <g style='font-size:" << clad->yearLineFontSize << "px;stroke:none;fill:#" << clad->yearLineFontColor.hex << ";font-family:" << clad->yearLineFont << ";-inkscape-font-specification:" << clad->yearLineFont << ";text-anchor:middle;' >\n";
-    for(int i = 0; i <= clad->endOfTime.year - clad->beginningOfTime.year + clad->prependYears + clad->appendYears; ++i) {
+    for(int i = 0; i <= clad->endOfTime.year - clad->beginningOfTime.year + clad->prependYears + clad->appendYears; i += clad->yearLabelInterval) { //++i) {
       int posX = yrPX * i + yrPX / 2 + xPX;
       int posY = topOffset - 3*oPX/2 - yrlinePX/2 + dirty_hack_ex / 2;
       int yeartext = clad->beginningOfTime.year + i - clad->prependYears;
-      if(clad->orientation == oRL) yeartext = clad->endOfTime.year -i;
+      if(clad->orientation == oRL) yeartext = clad->endOfTime.year - i;
       f << "    <text x='" << posX << "' y='" << posY << "'><tspan>" << yeartext << "</tspan></text>\n"
         << "    <text x='" << posX << "' y='" << height - yrlinePX/2 + dirty_hack_ex/2 << "'><tspan>" << yeartext << "</tspan></text>\n";
     }
