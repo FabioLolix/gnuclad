@@ -221,12 +221,12 @@ void GeneratorSVG::writeData(Cladogram * clad, OutputFile & out) {
   for(int i = 0; i <= years; ++i) {
     int x = i * yrPX + xPX - clad->prependYears*yrPX;
     int xm;
-        if(i % clad->yearLabelInterval == 0) {
-            f << "  <line x1='" << x << "' y1='" << topOffset - yrlinePX << "' x2='" << x << "' y2='" << height << "'"
-              << " stroke-width='" << clad->rulerYearlabelWidth << "' stroke='#" <<  clad->rulerColor.hex  << "' />\n";
-        }else{
+        if(i % clad->yearLabelInterval == 0) { //This is a labeled year
             f << "  <line x1='" << x << "' y1='" << topOffset - yrlinePX << "' x2='" << x << "' y2='" << height << "'"
               << " stroke-width='" << clad->rulerWidth << "' stroke='#" <<  clad->rulerColor.hex  << "' />\n";
+        }else{ // This is an unlabeled year
+            f << "  <line x1='" << x << "' y1='" << topOffset - yrlinePX << "' x2='" << x << "' y2='" << height << "'"
+              << " stroke-width='" << clad->rulerUnlabeledYearWidth << "' stroke='#" <<  clad->rulerColor.hex  << "' />\n";
         }
     for(int j = 1; j < clad->monthsInYear && i < years; ++j) {
       xm = x + j * yrPX / clad->monthsInYear;

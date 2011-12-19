@@ -64,8 +64,8 @@ Cladogram::Cladogram() {
   treeSpacingBiggerThan = 5;
 
   mainBackground = Color("#fff");
-  rulerYearlabelWidth = 2;
   rulerWidth = 2;
+  rulerUnlabeledYearWidth = 2;
   rulerColor = Color("#ddd");
   rulerMonthWidth = 1;
   rulerMonthColor = Color("#eee");
@@ -198,8 +198,8 @@ void Cladogram::parseOptions(const string filename) {
       else if(opt == "treeSpacing") treeSpacing = str2int(val);
       else if(opt == "treeSpacingBiggerThan")treeSpacingBiggerThan=str2int(val);
       else if(opt == "mainBackground") mainBackground = Color(val);
-      else if(opt == "rulerYearlabelWidth") rulerYearlabelWidth = str2int(val);
       else if(opt == "rulerWidth") rulerWidth = str2int(val);
+      else if(opt == "rulerUnlabeledYearWidth") rulerUnlabeledYearWidth = str2int(val);
       else if(opt == "rulerColor") rulerColor = Color(val);
       else if(opt == "rulerMonthWidth") rulerMonthWidth = str2int(val);
       else if(opt == "rulerMonthColor") rulerMonthColor = Color(val);

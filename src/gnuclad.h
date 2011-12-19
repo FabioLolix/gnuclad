@@ -239,8 +239,8 @@ class Cladogram {
   int treeSpacingBiggerThan;
 
   Color mainBackground;
-  int rulerYearlabelWidth;
   int rulerWidth;
+  int rulerUnlabeledYearWidth;
   Color rulerColor;
   int rulerMonthWidth;
   Color rulerMonthColor;
