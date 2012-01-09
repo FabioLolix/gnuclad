@@ -8,7 +8,7 @@ END-INFO-DIR-ENTRY
 
    This is a manual for gnuclad
 
-   Copyright (C) 2010-2011 Donjan Rodic <donjan (at) dyx (dot) ch>
+   Copyright (C) 2010-2012 Donjan Rodic <donjan (at) dyx (dot) ch>
 
      Permission is granted to copy, distribute and/or modify this
      document under the terms of the GNU Free Documentation License,
@@ -22,7 +22,7 @@ File: gnuclad.info,  Node: Top,  Next: About,  Up: (dir)
 gnuclad cladogram generator
 ***************************
 
-This is the Texinfo manual for gnuclad HEAD (9 January 2012)
+This is the Texinfo manual for gnuclad HEAD (10 January 2012)
 
 * Menu:
 
@@ -330,7 +330,8 @@ be ignored. It can be an empty dummy file.
      mainBackground = #fff
 
      # Customise the background lines separating the years and months
-     # rulerWidth is the width of a year line when a year label is present (see yearLabelInterval below)
+     # rulerWidth is the width of a year line when a year label is present (see
+     # yearLabelInterval below)
      # rulerUnlabeledYearWidth is the width of a year line without a year label.
      rulerWidth = 2
      rulerUnlabeledYearWidth = 2
@@ -1450,18 +1451,18 @@ Index
 
 Tag Table:
 Node: Top604
-Node: About1044
-Node: Usage1916
-Node: Usage Tips3629
-Node: Config Options6722
-Node: FAQ13970
-Node: Programming14590
-Node: Classes14966
-Node: Helpers and Utilities19581
-Node: Configuration Options21869
-Node: Writing a parser23410
-Node: Writing a generator26951
-Node: GNU Free Documentation License29586
-Node: Index54752
+Node: About1045
+Node: Usage1917
+Node: Usage Tips3630
+Node: Config Options6723
+Node: FAQ13978
+Node: Programming14598
+Node: Classes14974
+Node: Helpers and Utilities19589
+Node: Configuration Options21877
+Node: Writing a parser23418
+Node: Writing a generator26959
+Node: GNU Free Documentation License29594
+Node: Index54760
 
 End Tag Table

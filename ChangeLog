@@ -1,4 +1,4 @@
-Copyright (C) 2010 Donjan Rodic <donjan@dyx.ch>
+Copyright (C) 2010-2012 Donjan Rodic <donjan@dyx.ch>
 
 Copying and distribution of this file, with or without modification,
 are permitted in any medium without royalty provided the copyright
@@ -9,6 +9,27 @@ ________________________________________________________________________
 
 created with: bzr log --gnu-changelog
 
+
+2012-01-09  Donjan Rodic  <donjan@dyx.ch>
+
+	Merged year label interval branch from Ben Moss.
+	Merged conf file fixes from Ben Moss.
+
+2011-12-18  Ben Moss  <benm@mit.edu>
+
+	updated documentation with yearLabelInterval and rulerUnlabeledYearWidth fields (done manually because I could not get the texinfo makefile to work)
+
+2011-12-18  Ben Moss  <benm@mit.edu>
+
+	removed rulerYearlabelWidth and introduced rulerUnlabeledYearWidth to avoid breaking existing .conf files
+
+2011-12-18  Ben Moss  <benm@mit.edu>
+
+	Added year interval code, showed implementation in example.conf
+
+2012-01-09  Donjan Rodic  <donjan@dyx.ch>
+
+	update ToDo
 
 2011-04-01  bryonak  <bryonak@freenet.de>
 
