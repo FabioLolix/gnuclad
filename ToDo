@@ -45,6 +45,11 @@ parser/dir: symlink connectors
 parser/dir: time based version (stat)
     (created = deriv, last modified = nameChange)
 
+parser/csv: merge at end date "nodename" instead of date
+parser/csv: merge in the middle with "MM when from to"  ??
+parser/csv: rebase with "R when to"
+		OR... nodename, if already taken -> rebase
+
 
 generator/png: check for installed programs
                inkscape, libbatik(/usr/bin/rasterizer) resp Fedora equivalent, ...

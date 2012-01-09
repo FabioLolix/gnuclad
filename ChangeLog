@@ -10,6 +10,18 @@ ________________________________________________________________________
 created with: bzr log --gnu-changelog
 
 
+2011-04-01  bryonak  <bryonak@freenet.de>
+
+	gnuclad 0.2.4 RELEASE
+	generator/svg.cpp:
+	fix: validate XML in namechange description (thanks to Daniel Dobert)
+	doc/src:
+	improved programming examples
+
+2011-02-13  bryonak  <bryonak@freenet.de>
+
+	passing on fixes from gnuclad 0.2.3
+
 2011-02-13  bryonak  <bryonak@freenet.de>
 
 	gnuclad 0.2.3 RELEASE
