@@ -240,6 +240,7 @@ class Cladogram {
 
   Color mainBackground;
   int rulerWidth;
+  int rulerUnlabeledYearWidth;
   Color rulerColor;
   int rulerMonthWidth;
   Color rulerMonthColor;
@@ -274,6 +275,7 @@ class Cladogram {
   Color yearLineFontColor;
   int appendYears;
   int prependYears;
+  int yearLabelInterval;
 
   int monthsInYear;
   int daysInMonth;

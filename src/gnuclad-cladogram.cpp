@@ -65,6 +65,7 @@ Cladogram::Cladogram() {
 
   mainBackground = Color("#fff");
   rulerWidth = 2;
+  rulerUnlabeledYearWidth = 2;
   rulerColor = Color("#ddd");
   rulerMonthWidth = 1;
   rulerMonthColor = Color("#eee");
@@ -99,6 +100,7 @@ Cladogram::Cladogram() {
   yearLineFontColor = Color("#fff");
   appendYears = 0;
   prependYears = 0;
+  yearLabelInterval = 1;
 
   daysInMonth = 30;
   monthsInYear = 12;
@@ -197,6 +199,7 @@ void Cladogram::parseOptions(const string filename) {
       else if(opt == "treeSpacingBiggerThan")treeSpacingBiggerThan=str2int(val);
       else if(opt == "mainBackground") mainBackground = Color(val);
       else if(opt == "rulerWidth") rulerWidth = str2int(val);
+      else if(opt == "rulerUnlabeledYearWidth") rulerUnlabeledYearWidth = str2int(val);
       else if(opt == "rulerColor") rulerColor = Color(val);
       else if(opt == "rulerMonthWidth") rulerMonthWidth = str2int(val);
       else if(opt == "rulerMonthColor") rulerMonthColor = Color(val);
@@ -226,6 +229,7 @@ void Cladogram::parseOptions(const string filename) {
       else if(opt == "yearLineFontColor") yearLineFontColor = Color(val);
       else if(opt == "appendYears") appendYears = str2int(val);
       else if(opt == "prependYears") prependYears = str2int(val);
+      else if(opt == "yearLabelInterval") yearLabelInterval = str2int(val);
       else if(opt == "daysInMonth") daysInMonth = str2int(val);
       else if(opt == "monthsInYear") monthsInYear = str2int(val);
       else if(opt == "endOfTime") endOfTime = Date(val);
