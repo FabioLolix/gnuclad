@@ -24,6 +24,11 @@ gnuclad-cladogram: add sortkey by name reverse and by date reverse? (treemode 2?
 gnuclad: implement ARGB in Color constructors
 generator/svg: implement matching transparency settings
 
+gnuclad: reimplement parser/generator inclusion in modules.hpp (or Makefile.am)
+	 preprocessor array (headerfile, cli trigger, file extension)
+
+gnuclad: reimplement config options using ArgumentParser
+
 conf: add option to ignore connectors
 conf: use std::map and Option objects for conf options
 conf: multi line syntax in conf file with \
