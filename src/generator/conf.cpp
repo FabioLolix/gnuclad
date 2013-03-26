@@ -1,7 +1,7 @@
 /*
 *  conf.cpp - implements a configuration file generator for gnuclad
 *
-*  Copyright (C) 2010-2012 Donjan Rodic <donjan@dyx.ch>
+*  Copyright (C) 2010-2013 Donjan Rodic <donjan@dyx.ch>
 *
 *  This program is free software: you can redistribute it and/or modify
 *  it under the terms of the GNU General Public License as published by
@@ -210,7 +210,7 @@ void GeneratorCONF::writeData(Cladogram * clad, OutputFile & out) {
     << "\n"
     << "\n# Not setting endOfTime will use the current date.";
   if(clad->endOfTime == currentDate())
-    f << "\n#endOfTime = 2012.12";
+    f << "\n#endOfTime = 2013.12";
   else
     f << "\nendOfTime = " << Date2str(clad->endOfTime);
 

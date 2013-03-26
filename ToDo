@@ -1,4 +1,4 @@
-Copyright (C) 2010-2012 Donjan Rodic <donjan@dyx.ch>
+Copyright (C) 2010-2013 Donjan Rodic <donjan@dyx.ch>
 
 Copying and distribution of this file, with or without modification,
 are permitted in any medium without royalty provided the copyright
@@ -20,6 +20,8 @@ gnuclad-cladogram: implement rebasing (reflow as new fork of other node)
 parser/csv: add description column, add rebasing (R|newparent, N|newname)
 
 gnuclad-cladogram: add sortkey by name reverse and by date reverse? (treemode 2? -> check)
+
+gnuclad-cladogram: add option for logarithmic time scale (also negative ...)
 
 gnuclad: implement ARGB in Color constructors
 generator/svg: implement matching transparency settings
@@ -44,6 +46,7 @@ generator/svg: curved connectors ???
 generator/svg: derivType like 2 but fill rect between line and parent
 generator/svg: add CSS3 text shadow option alternative to label background
                (http://www.w3.org/Style/Examples/007/text-shadow)
+generator/svg: add option for year labels above year lines (instead of centered between)
 
 parser/dir: domain spacing
 parser/dir: symlink connectors
