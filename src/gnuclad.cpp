@@ -142,7 +142,7 @@ int main(int argc, char ** argv) {
     cout << "\nError: " << err;
   } catch(string err) {
     cout << "\nError: " << err;
-  } catch(exception e) {
+  } catch(exception& e) {
     cout << "\nError: " << e.what();
   } catch(...) {
     cout << "\nError: unknown reason";
