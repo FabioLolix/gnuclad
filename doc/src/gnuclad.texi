@@ -36,7 +36,7 @@ Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.
 @titlepage
 @title gnuclad cladogram generator
 @subtitle version @value{VERSION}
-@author Donjan Rodic (@email{donjan@dyx.ch})
+@author Donjan Rodic (@email{donjan@@dyx.ch})
 @page
 @vskip 0pt plus 1filll
 @insertcopying
