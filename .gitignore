@@ -1,0 +1,15 @@
+#
+# Compiled files
+#
+*.o
+#
+# / (root)
+#
+/autom4te.cache
+/config.h
+/config.log
+/config.status
+#
+# Executable
+#
+/src/gnuclad
