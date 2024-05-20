@@ -32,3 +32,12 @@ You should now be able to call gnuclad from any folder.
 If you wish to uninstall gnuclad, simply open a terminal in that same
 main folder and execute:
   make uninstall
+  
+To create the html,with starting point doc/src/gnuclad.html/index.html, do:
+  make html
+
+To create a PDF, located at doc/src/gnuclad.pdf, do:
+  make pdf
+  
+To clean up:
+  make clean

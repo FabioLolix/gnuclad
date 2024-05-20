@@ -2,13 +2,40 @@
 # Compiled files
 #
 *.o
+Makefile
+configure~
+#
+# Directories
+#
+.deps
 #
 # / (root)
 #
 /autom4te.cache
+/stamp-h1
 /config.h
 /config.log
 /config.status
+#
+# Generated documentation
+#
+doc/src/gnuclad.aux
+doc/src/gnuclad.cp
+doc/src/gnuclad.cps
+doc/src/gnuclad.fn
+doc/src/gnuclad.gc
+doc/src/gnuclad.gcs
+doc/src/gnuclad.html/
+doc/src/gnuclad.info
+doc/src/gnuclad.ky
+doc/src/gnuclad.log
+doc/src/gnuclad.pdf
+doc/src/gnuclad.pg
+doc/src/gnuclad.toc
+doc/src/gnuclad.tp
+doc/src/gnuclad.vr
+doc/src/stamp-vti
+doc/src/version.texi
 #
 # Executable
 #
